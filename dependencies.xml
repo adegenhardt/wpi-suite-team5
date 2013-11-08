@@ -10,7 +10,7 @@
 
 	<!-- This target should have dependencies such that all projects are depended upon -->
 	<target name="depend.all"
-		depends="depend.Janeway, depend.WPISuite, depend.DefectTracker, depend.PostBoard, depend.RequirementManager">
+		depends="depend.Janeway, depend.WPISuite, depend.DefectTracker, depend.PostBoard, depend.RequirementManager, depend.Calendar">
 	</target>
 
 	<!--
@@ -39,7 +39,7 @@
 
 	<!-- Note that WPISuite depends on DefectTracker because of the lack of dynamic loading -->
 	<target name="depend.WPISuite"
-		depends="depend.WPISuite-Interfaces, depend.DefectTracker, depend.PostBoard, depend.RequirementManager">
+		depends="depend.WPISuite-Interfaces, depend.DefectTracker, depend.PostBoard, depend.RequirementManager, depend.Calendar">
 		<ant dir="${dependencies.basedir}/Core/WPISuite"
 			target="${dependency.target}"
 			inheritAll="false"/>
@@ -65,5 +65,12 @@
 			target="${dependency.target}"
 			inheritAll="false"/>
 	</target>
+
+	<target name="depend.Calendar"
+	depends="depend.Janeway">
+	<ant dir="${dependencies.basedir}/Calendar"
+		target="${dependency.target}"
+		inheritAll="false"/>
+</target>
 
 </project>
