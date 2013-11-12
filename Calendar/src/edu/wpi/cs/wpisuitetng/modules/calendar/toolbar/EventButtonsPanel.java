@@ -24,6 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
@@ -33,8 +34,8 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 public class EventButtonsPanel extends ToolbarGroupView{
 	
 	private final JPanel contentPanel = new JPanel();
-	JButton createEventButton = new JButton("<html>Add <br/>Event</html>");
-	JButton createCommitButton = new JButton("<html>Add <br/>Commitment</html>");
+	JButton createEventButton = new JButton("<html>Create <br/>Event</html>");
+	JButton createCommitButton = new JButton("<html>Create <br/>Commitment</html>");
 	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
 	private ImageIcon editImg = null;
 	private ImageIcon saveImg = null;
@@ -60,60 +61,63 @@ public class EventButtonsPanel extends ToolbarGroupView{
 		super("");
 		
 		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
-		this.setPreferredWidth(390);
+		this.setPreferredWidth(350);
 		
-		createEventButton.setPreferredSize(new Dimension(150,50));
-		createCommitButton.setPreferredSize(new Dimension(150,50));	
-		createCancelButton.setVisible(false);
-		/*
+		this.createEventButton.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		try {
-		    Image img = ImageIO.read(getClass().getResource("cancel.png"));
-		    createCancelButton.setIcon(new ImageIcon(img));
+			Image imgE = ImageIO.read(getClass().getResource("new_event.png"));
+		    this.createEventButton.setIcon(new ImageIcon(imgE));
 		    
-		    editImg = new ImageIcon(ImageIO.read(getClass().getResource("edit.png")));
-		    createEventButton.setIcon(editImg);
-		    saveImg = new ImageIcon(ImageIO.read(getClass().getResource("save.png")));
+		    Image imgC = ImageIO.read(getClass().getResource("new_commit.png"));
+		    this.createCommitButton.setIcon(new ImageIcon(imgC));
 		    
-		} catch (IOException ex) {}*/
+		} catch (IOException ex) {}
 		
 		createEventButton.setVisible(true);
 		createCommitButton.setVisible(true);
-		/*
-		// the action listener for the Edit Estimates button
+		
+		// the action listener for the Create Event Button
 		createEventButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// check to see if any other tab is currently open
-				// if (ViewEventController.getInstance().getMainView().getTabCount() == 1) {
+				// bring up a create requirement pane if not in Multiple Requirement Editing Mode
+				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+					//ViewEventController.getInstance().createRequirement();
+				//}
+			}
+		});		
 				
-					// toggle the editing overview table mode
-					ViewEventController.getInstance().toggleEditingTable(false);
-					// edits the Edit Button text based on whether in editing overview table mode or not
-					if (ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
-						ViewEventController.getInstance().getOverviewTable().repaint();
-						setButtonToSave();
-					}	
-					else {
-						setButtonToEdit();
-					}
-				}
-			//}
-		});*/
-		
-		createCancelButton.addActionListener(new ActionListener() {
+		//action listener for the Create Commit Button
+		createCommitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// toggle the editing overview table mode
-				//ViewEventController.getInstance().toggleEditingTable(true);			
-				//setButtonToEdit();
-				createEventButton.setEnabled(true);
-
-			}
+				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
+					//ViewEventController.getInstance().createIteration();
+				}
+			//}
 		});
-		contentPanel.add(createEventButton);
+		
 		contentPanel.add(createCommitButton);
+		contentPanel.add(createEventButton);
 		contentPanel.setOpaque(false);
 		
 		this.add(contentPanel);
+	}
+	
+	/**
+	 * Method getCreateButton.
+	
+	 * @return JButton */
+	public JButton getCreateEventButton() {
+		return createEventButton;
+	}
+
+	/**
+	 * Method getCreateIterationButton.
+	
+	 * @return JButton */
+	public JButton getCreateCommitButton() {
+		return createCommitButton;
 	}
 }
