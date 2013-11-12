@@ -17,6 +17,8 @@ import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JTabbedPane;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.tabs.*;
+
 /**
  * This class is a JPanel. 
  * 
@@ -25,13 +27,16 @@ import javax.swing.JTabbedPane;
  */
 @SuppressWarnings({"serial", "rawtypes", "unchecked" })
 public class CalendarPanel extends JPanel {
-	private MonthView aCal; 
+	//private MonthView aCal; 
+	private CalendarTabs tabs;
 
 	public CalendarPanel() {
 		setLayout(new BorderLayout(0, 0));
 		
-		aCal = new MonthView(); 
+		/*aCal = new MonthView(); 
 		this.add(aCal, BorderLayout.CENTER); 
-		
+		*/
+		tabs = new CalendarTabs();
+		this.add(tabs, BorderLayout.CENTER);
 	}
 }
