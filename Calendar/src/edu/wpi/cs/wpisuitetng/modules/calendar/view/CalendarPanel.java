@@ -13,6 +13,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import java.awt.BorderLayout;
+import javax.swing.SwingConstants;
+import javax.swing.JTabbedPane;
 
 /**
  * This class is a JPanel. 
@@ -22,8 +25,13 @@ import javax.swing.JTextField;
  */
 @SuppressWarnings({"serial", "rawtypes", "unchecked" })
 public class CalendarPanel extends JPanel {
+	private MonthView aCal; 
 
 	public CalendarPanel() {
+		setLayout(new BorderLayout(0, 0));
+		
+		aCal = new MonthView(); 
+		this.add(aCal, BorderLayout.CENTER); 
 		
 	}
 }

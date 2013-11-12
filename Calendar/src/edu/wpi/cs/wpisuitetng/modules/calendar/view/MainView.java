@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 /**
  * This panel fills the main content area of the tab for this module.
@@ -18,6 +19,7 @@ public class MainView extends JPanel {
 	 * Construct the panel.
 	 */
 	public MainView() {
+		setLayout(new BorderLayout(0, 0));
 		// Add the calendar panel to this view
 		calendarPanel = new CalendarPanel();
 		add(calendarPanel);
