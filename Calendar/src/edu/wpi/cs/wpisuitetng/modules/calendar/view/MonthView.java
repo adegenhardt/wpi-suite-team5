@@ -21,7 +21,9 @@ public class MonthView extends JPanel {
     public MonthView() {
 
 	setLayout(null);
-	setLookAndFeel();
+	// Set look and feel will make the look of the Janeway different on all fronts
+	// Leave the look and feel default for now, make it prettier later
+	// setLookAndFeel();
 	createControls();
 	setBorder();
 	registerActionListeners();
@@ -36,6 +38,7 @@ public class MonthView extends JPanel {
 
     }
 
+    /*
     // Sets the look and feel based on operating system, if supported by Java, if not just get the defaults
     private void setLookAndFeel() {
 	try {
@@ -46,7 +49,7 @@ public class MonthView extends JPanel {
 	} catch (UnsupportedLookAndFeelException e) {
 	}
     }
-
+	*/
     // Create the UI controls for the Calendar and surrounding components
     // Buttons to change month
     // Dropdown to change year 
