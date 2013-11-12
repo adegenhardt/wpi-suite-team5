@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.tabs.*;
 @SuppressWarnings({"serial", "rawtypes", "unchecked" })
 public class CalendarPanel extends JPanel {
 	//private MonthView aCal; 
-	private CalendarTabs tabs;
+	private CalendarTab tabs;
 
 	public CalendarPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -36,7 +36,7 @@ public class CalendarPanel extends JPanel {
 		/*aCal = new MonthView(); 
 		this.add(aCal, BorderLayout.CENTER); 
 		*/
-		tabs = new CalendarTabs();
+		tabs = new CalendarTab();
 		this.add(tabs, BorderLayout.CENTER);
 	}
 }
