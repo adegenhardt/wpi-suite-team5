@@ -12,6 +12,14 @@
 		<fileset dir="${core-lib}">
 			<include name="gson-*.jar"/>
 		</fileset>
+		<fileset dir="${janeway-lib}">
+		<include name="jfreechart-1.0.14.jar"/>
+		<include name="jcommon-1.0.17.jar"/>
+		<include name="gnujaxp.jar"/>
+		<include name="iText-2.1.5.jar"/>
+		<include name="miglayout-4.0-swing.jar"/>
+		<include name="swingx-all-1.6.4.jar"/>
+	</fileset>
 		<pathelement path="build"/>
 	</path>
 
