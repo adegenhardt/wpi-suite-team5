@@ -22,6 +22,7 @@ Janeway/modules/*.jar
 # Janeway configuration file (user specific) #
 Janeway/janeway.conf
 
+/Core/WPISuite/.classpath
 /Core/Servers3/.project
 /Core/Servers3/.settings/org.eclipse.wst.server.core.prefs
 /Core/Servers3/Tomcat v7.0 Server at localhost-config/catalina.policy
