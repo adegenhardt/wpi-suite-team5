@@ -28,8 +28,6 @@ import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.tabs.*;
-
 /**
  * This class is a JPanel. 
  * 
