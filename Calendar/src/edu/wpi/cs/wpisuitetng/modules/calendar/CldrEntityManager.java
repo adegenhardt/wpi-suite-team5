@@ -26,12 +26,30 @@ public class CldrEntityManager implements EntityManager<EventCldr>{
 	
 	//Methods for saving, updating, etc, will be called via IO ********
 	
+	public void makeSampleCldr() throws WPISuiteException{
+		EventCldr ourCldr = new EventCldr("Demo", null, null);
+		this.save(null, ourCldr);
+		System.out.println("Created a demo Calendar.");
+	}
+	
+	public void getSampleCldr() throws WPISuiteException{
+		EventCldr ourCldr = new EventCldr("Demo", null, null);
+		EventCldr retCldr = this.retrieveCldr(null, ourCldr);
+		System.out.println("Retrieved the Calendar named "+ retCldr.name);
+	}
+	
 	@Override
 	public void save(Session s, EventCldr model) throws WPISuiteException {
 		db.save(model);
 		System.out.println("Events saved.");
 	}
-	
+		
+	public EventCldr retrieveCldr(Session s, EventCldr content) throws WPISuiteException{
+		List<Model> cldrData = db.retrieve(Calendar.class, null, 0);
+		EventCldr cldr = (EventCldr) cldrData.get(0);
+		System.out.println("Retrieved the Calendar.");
+		return cldr;
+	}
 	//Updates a Calendar using the content input.
 	//Because of the occasional quirkiness of db4o, we delete the old Calendar and save the updated one as a new Cldr.
 	public EventCldr updateCldr(Session s, EventCldr content) throws WPISuiteException{
@@ -51,12 +69,7 @@ public class CldrEntityManager implements EntityManager<EventCldr>{
 		System.out.println("Events saved.");
 		return content;
 	}
-	
-	public EventCldr retrieveCldr(Session s, EventCldr content) throws WPISuiteException{
-		List<Model> cldrData = db.retrieve(Calendar.class, null, 0);
-		EventCldr cldr = (EventCldr) cldrData.get(0);
-		return cldr;
-	}
+
 	
 	public void deleteCldr(Session s, EventCldr content) throws WPISuiteException{
 		db.delete(content);
