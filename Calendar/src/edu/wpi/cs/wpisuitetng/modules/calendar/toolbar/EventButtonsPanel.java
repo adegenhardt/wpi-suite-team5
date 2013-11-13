@@ -28,7 +28,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-//import edu.wpi.cs.wpisuitetng.modules.calendar.toolbar.ViewEventController;
 
 
 public class EventButtonsPanel extends ToolbarGroupView{
