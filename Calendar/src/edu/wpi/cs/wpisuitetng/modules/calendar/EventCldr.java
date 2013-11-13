@@ -7,11 +7,14 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class EventCldr implements Model{
+	String name;
 	List<Event> e;
 	Commitment c;
 	
-	public EventCldr(){
-		
+	public EventCldr(String name, List<Event> e, Commitment c){
+		this.name = name;
+		this.e = e;
+		this.c = c;
 	}
 
 	@Override
