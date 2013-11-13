@@ -45,7 +45,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 	private final JButton prevYear;
 	private final JButton nextMonth;
 	private final JButton prevMonth;
-	private final JLabel year; 
+	private final JButton year; 
 	
 	/**
 	 * Constructor for IterationCalendarPanel.
@@ -70,7 +70,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 				nextMonth = new JButton(">");
 				nextMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 				
-				year = new JLabel("");
+				year = new JButton("THIS YEAR");
 				year.setBounds(0, 0, 400, 400);
 				
 						prevMonth = new JButton("<");
@@ -121,14 +121,12 @@ public class YearViewCalendarPanel extends JScrollPane {
 				previousYear();
 			}
 		});
-		/*
-		today.addActionListener(new ActionListener(){
+		year.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				today();
 			}
 		});
-		*/
 		prevMonth.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -163,6 +161,15 @@ public class YearViewCalendarPanel extends JScrollPane {
 		final Calendar cal = calendarView.getCalendar();
 		cal.add(Calendar.MONTH, 1);
 		calendarView.setFirstDisplayedDay(cal.getTime());
+	}
+	/**
+	 * Changed the calendar view to the current year and back to
+	 * a regular single year calendar view
+	 */
+	private void today() {
+		final Calendar tempCal = Calendar.getInstance();
+		tempCal.set(Calendar.DAY_OF_YEAR, 1);
+		calendarView.setFirstDisplayedDay(tempCal.getTime());
 	}
 	
 	/**
