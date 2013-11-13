@@ -27,18 +27,19 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
+import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.*;
 
 
 public class EventButtonsPanel extends ToolbarGroupView{
 	
 	private final JPanel contentPanel = new JPanel();
-	JButton createEventButton = new JButton("<html>Create <br/>Event</html>");
-	JButton createCommitButton = new JButton("<html>Create <br/>Commitment</html>");
 	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
+	JButton createEventButton;
+	JButton createCommitButton;
 	private ImageIcon editImg = null;
 	private ImageIcon saveImg = null;
-	
 
 	public void disableCreateEventButton() {
 		createEventButton.setEnabled(false);
@@ -58,6 +59,9 @@ public class EventButtonsPanel extends ToolbarGroupView{
 
 	public EventButtonsPanel(){
 		super("");
+		
+		createEventButton = new JButton("<html>Create <br/>Event</html>");
+		createCommitButton = new JButton("<html>Create <br/>Commitment</html>");
 		
 		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		this.setPreferredWidth(350);
@@ -80,10 +84,7 @@ public class EventButtonsPanel extends ToolbarGroupView{
 		createEventButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// bring up a create requirement pane if not in Multiple Requirement Editing Mode
-				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
-					//ViewEventController.getInstance().createRequirement();
-				//}
+				System.out.println("Event Created!");
 			}
 		});		
 				
