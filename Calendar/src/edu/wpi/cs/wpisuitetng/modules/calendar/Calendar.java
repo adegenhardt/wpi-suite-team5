@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.ToolbarView;
 
 public class Calendar implements IJanewayModule {
 
@@ -27,17 +29,13 @@ public class Calendar implements IJanewayModule {
 		tabs = new ArrayList<JanewayTabModel>();
 		
 		// Create a JPanel to hold the toolbar for the tab
-		JPanel toolbarPanel = new JPanel();
-		toolbarPanel.add(new JLabel("Calendar toolbar placeholder")); // add a label with some placeholder text
-		toolbarPanel.setBorder(BorderFactory.createLineBorder(Color.blue, 2)); // add a border so you can see the panel
-
-		// Create a JPanel to hold the main contents of the tab
-		JPanel mainPanel = new JPanel();
-		mainPanel.add(new JLabel("Calendar placeholder"));
-		mainPanel.setBorder(BorderFactory.createLineBorder(Color.green, 2));
+		ToolbarView toolbarView = new ToolbarView();
+		
+		// Constructs and adds the MainPanel	
+		MainView mainPanel = new MainView();
 
 		// Create a tab model that contains the toolbar panel and the main content panel
-		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolbarPanel, mainPanel);
+		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolbarView, mainPanel);
 
 		// Add the tab to the list of tabs owned by this module
 		tabs.add(tab1);
