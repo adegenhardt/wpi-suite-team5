@@ -19,23 +19,22 @@ public class MonthView extends JPanel {
 	static JComboBox cmbYear;
 
     public MonthView() {
-
-	setLayout(null);
-	// Set look and feel will make the look of the Janeway different on all fronts
-	// Leave the look and feel default for now, make it prettier later
-	// setLookAndFeel();
-	createControls();
-	setBorder();
-	registerActionListeners();
-	addControls();
-	setBounds();
-	setDate();
-	addHeaders();
-	setBackground();
-	setTableProperties();
-	populateTable();
-	refreshCalendar(realMonth, realYear);
-
+    	
+		setLayout(null);
+		// Set look and feel will make the look of the Janeway different on all fronts
+		// Leave the look and feel default for now, make it prettier later
+		// setLookAndFeel();
+		createControls();
+		setBorder();
+		registerActionListeners();
+		addControls();
+		setBounds();
+		setDate();
+		addHeaders();
+		setBackground();
+		setTableProperties();
+		populateTable();
+		refreshCalendar(realMonth, realYear);
     }
 
     /*
@@ -55,17 +54,17 @@ public class MonthView extends JPanel {
     // Dropdown to change year 
     // Label for current selected month
     private void createControls() {
-	lblMonth = new JLabel("January");
-	lblYear = new JLabel("Change year:");
-	cmbYear = new JComboBox();
-	btnPrev = new JButton("<");
-	btnNext = new JButton(">");
-	mtblCalendar = new DefaultTableModel() {
+		lblMonth = new JLabel("January");
+		lblYear = new JLabel("Change year:");
+		cmbYear = new JComboBox();
+		btnPrev = new JButton("<");
+		btnNext = new JButton(">");
+		mtblCalendar = new DefaultTableModel() {
 
 	    private static final long serialVersionUID = 1L;
 
 	    public boolean isCellEditable(int rowIndex, int mColIndex) {
-		return false;
+	    	return false;
 	    }
 	};
 	tblCalendar = new JTable(mtblCalendar);
@@ -86,31 +85,31 @@ public class MonthView extends JPanel {
     }
 
     private void addControls() {
-	this.add(lblMonth);
-	this.add(lblYear);
-	this.add(cmbYear);
-	this.add(btnPrev);
-	this.add(btnNext);
-	this.add(stblCalendar);
+		this.add(lblMonth);
+		this.add(lblYear);
+		this.add(cmbYear);
+		this.add(btnPrev);
+		this.add(btnNext);
+		this.add(stblCalendar);
     }
 
     private void setBounds() {
-	this.setBounds(0, 0, 626, 600);
-	lblMonth.setBounds(88, 25, 100, 25);
-	lblYear.setBounds(520, 230, 80, 20);
-	cmbYear.setBounds(520, 261, 80, 20);
-	btnPrev.setBounds(10, 25, 50, 25);
-	btnNext.setBounds(260, 25, 50, 25);
-	stblCalendar.setBounds(10, 50, 500, 420);
+		this.setBounds(0, 0, 626, 600);
+		lblMonth.setBounds(88, 25, 100, 25);
+		lblYear.setBounds(520, 230, 80, 20);
+		cmbYear.setBounds(520, 261, 80, 20);
+		btnPrev.setBounds(10, 25, 50, 25);
+		btnNext.setBounds(260, 25, 50, 25);
+		stblCalendar.setBounds(10, 50, 500, 420);
     }
 
     private void setDate() {
-	GregorianCalendar cal = new GregorianCalendar(); // Create calendar
-	realDay = cal.get(GregorianCalendar.DAY_OF_MONTH); // Get day
-	realMonth = cal.get(GregorianCalendar.MONTH); // Get month
-	realYear = cal.get(GregorianCalendar.YEAR); // Get year
-	currentMonth = realMonth; // Match month and year
-	currentYear = realYear;
+		GregorianCalendar cal = new GregorianCalendar(); // Create calendar
+		realDay = cal.get(GregorianCalendar.DAY_OF_MONTH); // Get day
+		realMonth = cal.get(GregorianCalendar.MONTH); // Get month
+		realYear = cal.get(GregorianCalendar.YEAR); // Get year
+		currentMonth = realMonth; // Match month and year
+		currentYear = realYear;
     }
 
     private void addHeaders() {
