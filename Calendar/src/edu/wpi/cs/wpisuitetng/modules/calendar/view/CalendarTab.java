@@ -20,17 +20,18 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.*;
 public class CalendarTab extends JTabbedPane {
 	private final MonthView monthPanel;
 	private final YearViewCalendarPanel yearPanel;
+	private final DayViewPanel dayPanel;
 	
 	
 	
 	public CalendarTab() {
 		monthPanel = new MonthView();
-		yearPanel= new YearViewCalendarPanel();
+		yearPanel = new YearViewCalendarPanel();
+		dayPanel = new DayViewPanel();
 		
 		this.addTab("Year", yearPanel);
 		this.addTab("Month", monthPanel);
-		
-		
+		this.addTab("Day", dayPanel);
 		
 	}
 }
