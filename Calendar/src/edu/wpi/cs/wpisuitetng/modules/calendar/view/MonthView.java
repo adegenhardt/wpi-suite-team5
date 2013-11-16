@@ -197,12 +197,12 @@ public class MonthView extends JPanel {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean selected,
 				boolean focused, int row, int column) {
 			super.getTableCellRendererComponent(table, value, selected, focused, row, column);
-
+			lblYear.setBackground(new Color(138,173,209));
 			// Adding this code allows for selection to be used on this component
 			// For now I think this should work in place of event listeners
 			// an if statement checking if selected should work in theory
 			if (column == 0 || column == 6) { // Highlight the week-end
-				setBackground(Color.blue);
+				setBackground(Color.white);
 			}
 			else { // Week
 				setBackground(Color.white);
@@ -210,7 +210,7 @@ public class MonthView extends JPanel {
 			if (value != null) {
 				if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth 
 						&& currentYear == realYear) { // Today
-					setBackground(Color.red);
+					setBackground(new Color(138,173,209));
 				}
 			}
 			setBorder(null);
