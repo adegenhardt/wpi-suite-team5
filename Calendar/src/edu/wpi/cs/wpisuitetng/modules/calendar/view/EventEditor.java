@@ -2,16 +2,22 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
+
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+import org.jdesktop.swingx.JXDatePicker;
 
 public class EventEditor extends JPanel {
 	private JTextField textField_1;
@@ -47,14 +53,11 @@ public class EventEditor extends JPanel {
 		JLabel lblDate = new JLabel("Date:");
 		add(lblDate, "cell 0 3,alignx trailing");
 		
-		JComboBox comboBoxMonth = new JComboBox();
-		add(comboBoxMonth, "cell 1 3,growx");
-		
-		JComboBox comboBoxDate = new JComboBox();
-		add(comboBoxDate, "cell 2 3,growx");
-		
-		JComboBox comboBoxYear = new JComboBox();
-		add(comboBoxYear, "cell 3 3,growx");
+		// JTextField comboBoxMonth = new JTextField();
+		// I think this is better for date picking
+		// Easier for user, please don't kill me
+		JXDatePicker comboBoxMonth = new JXDatePicker();
+		add(comboBoxMonth, "cell 1 3,growx, span 2");
 		
 		// Set the Start and End time fields
 		JLabel lblTime = new JLabel("Start Time:");
