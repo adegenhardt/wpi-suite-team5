@@ -23,6 +23,7 @@ public class CalendarTab extends JTabbedPane {
 	private final MonthView monthPanel;
 	private final YearViewCalendarPanel yearPanel;
 	private final DayViewPanel dayPanel;
+	private final WeekViewPanel weekPanel;
 	
 	
 	
@@ -30,9 +31,11 @@ public class CalendarTab extends JTabbedPane {
 		monthPanel = new MonthView();
 		yearPanel = new YearViewCalendarPanel();
 		dayPanel = new DayViewPanel();
+		weekPanel = new WeekViewPanel();
 		
 		this.addTab("Year", yearPanel);
 		this.addTab("Month", monthPanel);
+		this.addTab("Week", weekPanel);
 		this.addTab("Day", dayPanel);
 		
 	}
