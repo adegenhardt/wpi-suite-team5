@@ -20,7 +20,7 @@ public class CalendarTab extends JTabbedPane {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final MonthView monthPanel;
+	private final TestMonthView monthPanel;
 	private final YearViewCalendarPanel yearPanel;
 	private final DayViewPanel dayPanel;
 	private final WeekViewPanel weekPanel;
@@ -28,7 +28,7 @@ public class CalendarTab extends JTabbedPane {
 	
 	
 	public CalendarTab() {
-		monthPanel = new MonthView();
+		monthPanel = new TestMonthView();
 		yearPanel = new YearViewCalendarPanel();
 		dayPanel = new DayViewPanel();
 		weekPanel = new WeekViewPanel();

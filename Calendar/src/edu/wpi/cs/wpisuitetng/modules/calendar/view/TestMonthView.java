@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
 
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -18,17 +17,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.MonthView.btnNext_Action;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.MonthView.btnPrev_Action;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.MonthView.cmbYear_Action;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.MonthView.tblCalendarRenderer;
-
 public class TestMonthView extends JPanel {
+	private static final long serialVersionUID = 1L;
 	JTable tblCalendar;
 	JButton btnPrev, btnNext;
 	JLabel lblMonth, lblYear;
 	DefaultTableModel mtblCalendar;
-	JComboBox cmbYear;
+	JComboBox<String> cmbYear;
 	int realYear, realMonth, realDay, currentYear, currentMonth;
 
 
@@ -36,11 +31,10 @@ public class TestMonthView extends JPanel {
 	 * Create the panel.
 	 */
 	public TestMonthView() {
-		setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout());
 		createControls();
-		//createAndSetBorder();
 		registerActionListeners();
-		//addControls();
+		addControls();
 		//createBounds();
 		createDate();
 		addHeaders();
@@ -48,28 +42,14 @@ public class TestMonthView extends JPanel {
 		createTableProperties();
 		populateTable();
 		refreshCalendar(realMonth, realYear);
-		
-	}
 
-	private void registerActionListeners() {
-		btnPrev.addActionListener(new btnPrev_Action());
-		btnNext.addActionListener(new btnNext_Action());
-		cmbYear.addActionListener(new cmbYear_Action());
 	}
+	
 	private void createControls(){
-
-
-		JButton btnNext = new JButton("Next");
-		add(btnNext, BorderLayout.EAST);
-
-		JButton btnPrev = new JButton("Previous");
-		add(btnPrev, BorderLayout.WEST);
-
-		JLabel lblMonth = new JLabel("January");
-		add(lblMonth, BorderLayout.NORTH);
-
-		JComboBox cmbYear = new JComboBox();
-		add(cmbYear, BorderLayout.SOUTH);
+		btnNext = new JButton("Next");
+		btnPrev = new JButton("Previous");
+		lblMonth = new JLabel("January");
+		cmbYear = new JComboBox<String>();
 		lblYear = new JLabel("Change year:");
 		mtblCalendar = new DefaultTableModel() {
 
@@ -80,11 +60,24 @@ public class TestMonthView extends JPanel {
 			}
 		};
 		tblCalendar = new JTable(mtblCalendar);
+	}
+	
+	private void registerActionListeners() {
+		btnPrev.addActionListener(new btnPrev_Action());
+		btnNext.addActionListener(new btnNext_Action());
+		cmbYear.addActionListener(new cmbYear_Action());
+	}
+	
+	private void addControls() {
+		add(btnNext, BorderLayout.EAST);
+		add(btnPrev, BorderLayout.WEST);
+		add(lblMonth, BorderLayout.NORTH);
+		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
 		tblCalendar.setCellSelectionEnabled(true);
 		add(tblCalendar, BorderLayout.CENTER);
 	}
-
+	
 	private void createDate() {
 		final GregorianCalendar cal = new GregorianCalendar(); // Create calendar
 		realDay = cal.get(GregorianCalendar.DAY_OF_MONTH); // Get day
@@ -106,7 +99,7 @@ public class TestMonthView extends JPanel {
 
 	private void createTableProperties() {
 		// No resize/reorder
-		tblCalendar.getTableHeader().setResizingAllowed(false);
+		tblCalendar.getTableHeader().setResizingAllowed(true);
 		tblCalendar.getTableHeader().setReorderingAllowed(false);
 
 		// Single cell selection
@@ -126,7 +119,7 @@ public class TestMonthView extends JPanel {
 		}
 	}
 
-	private   void refreshCalendar(int month, int year) {
+	private void refreshCalendar(int month, int year) {
 		// Variables
 		final String[] months = { "January", "February", "March", "April", "May", "June", "July",
 				"August", "September", "October", "November", "December" };
@@ -175,7 +168,7 @@ public class TestMonthView extends JPanel {
 	}
 
 	class tblCalendarRenderer extends DefaultTableCellRenderer {
-		private   final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 1L;
 
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean selected,
 				boolean focused, int row, int column) {
