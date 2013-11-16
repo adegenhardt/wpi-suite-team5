@@ -32,6 +32,7 @@ import javax.swing.JTabbedPane;
  * This class is a JPanel. 
  * 
  * @author Team 5 (B13)
+ * @version 1.0
  *
  */
 @SuppressWarnings({"serial", "rawtypes", "unchecked" })

@@ -15,9 +15,11 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.*;
-
 public class CalendarTab extends JTabbedPane {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final MonthView monthPanel;
 	private final YearViewCalendarPanel yearPanel;
 	private final DayViewPanel dayPanel;

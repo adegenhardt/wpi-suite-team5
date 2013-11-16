@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2012 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Team Underscore 
+ *    
+ *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.toolbar;
 /**
  *  * Copyright (c) 2013 -- WPI Suite
@@ -10,26 +21,18 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.toolbar;
  * Contributors:
  */
 
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
-import javax.swing.border.EtchedBorder;
-
-import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.*;
 
 
 public class EventButtonsPanel extends ToolbarGroupView{
@@ -38,8 +41,8 @@ public class EventButtonsPanel extends ToolbarGroupView{
 	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
 	JButton createEventButton;
 	JButton createCommitButton;
-	private ImageIcon editImg = null;
-	private ImageIcon saveImg = null;
+	final private ImageIcon editImg = null;
+	final private ImageIcon saveImg = null;
 
 	public void disableCreateEventButton() {
 		createEventButton.setEnabled(false);
@@ -69,10 +72,10 @@ public class EventButtonsPanel extends ToolbarGroupView{
 		this.createEventButton.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		try {
-			Image imgE = ImageIO.read(getClass().getResource("new_event.png"));
+			final Image imgE = ImageIO.read(getClass().getResource("new_event.png"));
 		    this.createEventButton.setIcon(new ImageIcon(imgE));
 		    
-		    Image imgC = ImageIO.read(getClass().getResource("new_commit.png"));
+		    final Image imgC = ImageIO.read(getClass().getResource("new_commit.png"));
 		    this.createCommitButton.setIcon(new ImageIcon(imgC));
 		    
 		} catch (IOException ex) {}
@@ -86,14 +89,14 @@ public class EventButtonsPanel extends ToolbarGroupView{
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Event Created!");
 			}
-		});		
+		});	
 				
-		//action listener for the Create Commit Button
+		// action listener for the Create Commit Button
 		createCommitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
-					//ViewEventController.getInstance().createIteration();
+					// ViewEventController.getInstance().createIteration();
 				}
 			//}
 		});

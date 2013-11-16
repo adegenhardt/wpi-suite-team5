@@ -7,14 +7,14 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class EventCldr implements Model{
-	String name;
-	List<Event> e;
-	Commitment c;
+	private String name;
+	private List<Event> events;
+	private Commitment commitments;
 	
 	public EventCldr(String name, List<Event> e, Commitment c){
 		this.name = name;
-		this.e = e;
-		this.c = c;
+		this.events = e;
+		this.commitments = c;
 	}
 
 	@Override
@@ -64,6 +64,29 @@ public class EventCldr implements Model{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+
+	public Commitment getCommitments() {
+		return commitments;
+	}
+
+	public void setCommitments(Commitment commitments) {
+		this.commitments = commitments;
+	}
 	
 }

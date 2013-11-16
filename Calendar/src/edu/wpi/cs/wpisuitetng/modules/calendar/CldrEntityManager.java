@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2012 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Team Underscore 
+ *    
+ *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar;
 
 import java.util.List;
@@ -15,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 /** The entity mananger for Calendar events.
  * 
  * @author cporell
- * 
+ * @version 1.0
  *
  */
 public class CldrEntityManager implements EntityManager<EventCldr>{
@@ -24,18 +35,18 @@ public class CldrEntityManager implements EntityManager<EventCldr>{
 		this.db = db;
 	}
 	
-	//Methods for saving, updating, etc, will be called via IO ********
+	// Methods for saving, updating, etc, will be called via IO ********
 	
 	public void makeSampleCldr() throws WPISuiteException{
-		EventCldr ourCldr = new EventCldr("Demo", null, null);
+		final EventCldr ourCldr = new EventCldr("Demo", null, null);
 		this.save(null, ourCldr);
 		System.out.println("Created a demo Calendar.");
 	}
 	
 	public void getSampleCldr() throws WPISuiteException{
-		EventCldr ourCldr = new EventCldr("Demo", null, null);
-		EventCldr retCldr = this.retrieveCldr(null, ourCldr);
-		System.out.println("Retrieved the Calendar named "+ retCldr.name);
+		final EventCldr ourCldr = new EventCldr("Demo", null, null);
+		final EventCldr retCldr = this.retrieveCldr(null, ourCldr);
+		System.out.println("Retrieved the Calendar named " + retCldr.getName());
 	}
 	
 	@Override
@@ -45,21 +56,22 @@ public class CldrEntityManager implements EntityManager<EventCldr>{
 	}
 		
 	public EventCldr retrieveCldr(Session s, EventCldr content) throws WPISuiteException{
-		List<Model> cldrData = db.retrieve(Calendar.class, null, 0);
-		EventCldr cldr = (EventCldr) cldrData.get(0);
+		final List<Model> cldrData = db.retrieve(Calendar.class, null, 0);
+		final EventCldr cldr = (EventCldr) cldrData.get(0);
 		System.out.println("Retrieved the Calendar.");
 		return cldr;
 	}
-	//Updates a Calendar using the content input.
-	//Because of the occasional quirkiness of db4o, we delete the old Calendar and save the updated one as a new Cldr.
+	// Updates a Calendar using the content input.
+	// Because of the occasional quirkiness of db4o 
+	// We delete the old Calendar and save the updated one as a new Cldr.
 	public EventCldr updateCldr(Session s, EventCldr content) throws WPISuiteException{
-		List<Model> oldEventData = db.retrieve(Calendar.class, null, 0);
+		final List<Model> oldEventData = db.retrieve(Calendar.class, null, 0);
 		if(oldEventData.size() < 1){
 			//Calendar existingCalendar = (Calendar)oldEventData.get(0);
 			// ^^ We probably don't need this.
 			db.save(content);
 		}
-		if((oldEventData.size() >= 1) && (content!=null)){
+		if((oldEventData.size() >= 1) && (content != null)){
 			db.delete(oldEventData);
 			db.save(content);
 		}
@@ -73,7 +85,6 @@ public class CldrEntityManager implements EntityManager<EventCldr>{
 	
 	public void deleteCldr(Session s, EventCldr content) throws WPISuiteException{
 		db.delete(content);
-		return;
 	}
 	
 	@Override
