@@ -23,6 +23,11 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
+import java.awt.Component;
+import java.awt.Rectangle;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Dimension;
 
 public class DayViewPanel extends JPanel {
 	
@@ -44,17 +49,15 @@ public class DayViewPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public DayViewPanel() {
-		final GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{555, 0};
-		gridBagLayout.rowHeights = new int[]{37, 657, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
 		
 		buttonsPanel = new JPanel(); 
 		buttonsPanel.setLayout(new MigLayout());
 		
 		dayView = new DayView();
+		dayView.setMaximumSize(new Dimension(1000, 1000));
+		dayView.setRequestFocusEnabled(false);
+		dayView.setMinimumSize(new Dimension(5, 5));
+		dayView.setBounds(new Rectangle(0, 0, 1000, 1000));
 		currentDate = new JLabel(dayView.getStringDay());
 		prevDay = new JButton("<");
 		prevDay.addMouseListener(new MouseAdapter() {
@@ -76,22 +79,14 @@ public class DayViewPanel extends JPanel {
 				currentDate.setText(dayView.getStringDay());
 			}
 		});
+		setLayout(new MigLayout("", "[600px,grow 1000,center]", "[100px][600px,grow 1000,fill]"));
 
 		
 		buttonsPanel.add(prevDay, "span 2");
 		buttonsPanel.add(currentDate, "span 2");
 		buttonsPanel.add(nextDay, "span 2");
-		final GridBagConstraints gbc_buttonsPanel = new GridBagConstraints();
-		gbc_buttonsPanel.anchor = GridBagConstraints.SOUTH;
-		gbc_buttonsPanel.insets = new Insets(0, 0, 5, 0);
-		gbc_buttonsPanel.gridx = 0;
-		gbc_buttonsPanel.gridy = 0;
-		this.add(buttonsPanel, gbc_buttonsPanel);
-		final GridBagConstraints gbc_dayView = new GridBagConstraints();
-		gbc_dayView.fill = GridBagConstraints.BOTH;
-		gbc_dayView.gridx = 0;
-		gbc_dayView.gridy = 1;
-		this.add(dayView, gbc_dayView);
+		this.add(buttonsPanel, "cell 0 0,alignx center,aligny bottom");
+		this.add(dayView, "cell 0 1,grow");
+		dayView.setLayout(new GridLayout(1, 0, 0, 0));
 	}
-
 }
