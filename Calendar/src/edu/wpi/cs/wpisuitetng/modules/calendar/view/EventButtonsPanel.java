@@ -9,7 +9,7 @@
  * Contributors: Team Underscore 
  *    
  *******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.calendar.toolbar;
+package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 /**
  *  * Copyright (c) 2013 -- WPI Suite
  *
@@ -87,7 +87,6 @@ public class EventButtonsPanel extends ToolbarGroupView{
 		createEventButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Event Created!");
 			}
 		});	
 				

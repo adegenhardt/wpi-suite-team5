@@ -15,13 +15,13 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.toolbar.EventButtonsPanel;
 
 
 
 
 
 import javax.swing.JDialog;
+
 
 
 
@@ -45,8 +45,8 @@ public class ToolbarView extends DefaultToolbarView {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				final JDialog eventWindow  = new JDialog();
-				final EventEditor eventWindowContent = new EventEditor(); 
-				eventWindow.setContentPane(eventWindowContent);
+				final EventEditor eventTab = new EventEditor(); 
+				eventWindow.setContentPane(eventTab);
 				eventWindow.setBounds(0, 0, 680, 480);
 				eventWindow.setLocationRelativeTo(null);
 				eventWindow.setTitle("Create Event");

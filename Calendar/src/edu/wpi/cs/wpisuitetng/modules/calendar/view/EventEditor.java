@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -30,6 +30,8 @@ import javax.swing.ScrollPaneConstants;
 
 import org.jdesktop.swingx.JXDatePicker;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class EventEditor extends JPanel {
 	private JTextField textField_1;
@@ -39,7 +41,7 @@ public class EventEditor extends JPanel {
 	 */
 	public EventEditor() {
 		// Set the layout
-		setLayout(new MigLayout("", "[114px][85px:125.00:85px][85px:60.00:85px][60px:75.00px:60px][150.00]", "[50.00px][125px:125:150px][160.00][][][][][][][][100px:100:100px][][]"));
+		setLayout(new MigLayout("", "[114px][85px:125.00:85px][85px:60.00:85px][60px:75.00px:60px][150.00]", "[50.00px][125px:125:150px][25.00][][][][][][][100px:100:100px][]"));
 		
 		// Set the Event label and text editor (single line)
 		JLabel lblEventName = new JLabel("Event Name:");
@@ -107,17 +109,24 @@ public class EventEditor extends JPanel {
 		// TODO: This is a bit unintuitive; we should come up with a
 		// better way to do this
 		JLabel lblParticipants = new JLabel("Participants:");
-		add(lblParticipants, "cell 0 10,alignx trailing");
+		add(lblParticipants, "cell 0 9,alignx trailing");
 		
 		JScrollPane scrollPaneParticipants = new JScrollPane();
 		scrollPaneParticipants.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		add(scrollPaneParticipants, "cell 1 10 2 1,grow");
+		add(scrollPaneParticipants, "cell 1 9 2 1,grow");
 		
 		JEditorPane editorPane_1 = new JEditorPane();
 		scrollPaneParticipants.setViewportView(editorPane_1);
 		
 		JButton btnSubmit = new JButton("Submit");
-		add(btnSubmit, "cell 1 11 2 1,growx");
+		add(btnSubmit, "cell 1 10,growx");
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		add(btnCancel, "cell 2 10");
 
 	}
 	// Set listeners
