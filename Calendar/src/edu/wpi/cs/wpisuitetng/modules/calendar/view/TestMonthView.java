@@ -1,104 +1,88 @@
-/*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors: Team Underscore 
- *  DreamInCode user: Alpha02
- *    
- *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
-import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.JPanel;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
-public class MonthView extends JPanel {
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
-	private final long serialVersionUID = 1L;
-	JLabel lblMonth, lblYear;
-	JButton btnPrev, btnNext;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.MonthView.btnNext_Action;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.MonthView.btnPrev_Action;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.MonthView.cmbYear_Action;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.MonthView.tblCalendarRenderer;
+
+public class TestMonthView extends JPanel {
 	JTable tblCalendar;
+	JButton btnPrev, btnNext;
+	JLabel lblMonth, lblYear;
 	DefaultTableModel mtblCalendar;
-	JScrollPane stblCalendar;
-	int realYear, realMonth, realDay, currentYear, currentMonth;
 	JComboBox cmbYear;
+	int realYear, realMonth, realDay, currentYear, currentMonth;
 
-	public MonthView() {
 
-		setLayout(null);
-		// Set look and feel will make the look of the Janeway different on all fronts
-		// Leave the look and feel default for now, make it prettier later
+	/**
+	 * Create the panel.
+	 */
+	public TestMonthView() {
+		setLayout(new BorderLayout(0, 0));
 		createControls();
-		createAndSetBorder();
+		//createAndSetBorder();
 		registerActionListeners();
-		addControls();
-		createBounds();
+		//addControls();
+		//createBounds();
 		createDate();
 		addHeaders();
 		createBackground();
 		createTableProperties();
 		populateTable();
 		refreshCalendar(realMonth, realYear);
+		
 	}
 
-	// Create the UI controls for the Calendar and surrounding components
-	// Buttons to change month
-	// Dropdown to change year 
-	// Label for current selected month
-	private void createControls() {
-		lblMonth = new JLabel("January");
+	private void registerActionListeners() {
+		btnPrev.addActionListener(new btnPrev_Action());
+		btnNext.addActionListener(new btnNext_Action());
+		cmbYear.addActionListener(new cmbYear_Action());
+	}
+	private void createControls(){
+
+
+		JButton btnNext = new JButton("Next");
+		add(btnNext, BorderLayout.EAST);
+
+		JButton btnPrev = new JButton("Previous");
+		add(btnPrev, BorderLayout.WEST);
+
+		JLabel lblMonth = new JLabel("January");
+		add(lblMonth, BorderLayout.NORTH);
+
+		JComboBox cmbYear = new JComboBox();
+		add(cmbYear, BorderLayout.SOUTH);
 		lblYear = new JLabel("Change year:");
-		cmbYear = new JComboBox();
-		btnPrev = new JButton("<");
-		btnNext = new JButton(">");
 		mtblCalendar = new DefaultTableModel() {
 
-			private  final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
 			public boolean isCellEditable(int rowIndex, int mColIndex) {
 				return false;
 			}
 		};
 		tblCalendar = new JTable(mtblCalendar);
-		//I can not for the life of me make the cells selectable, setSelectable(true) does not work
-		stblCalendar = new JScrollPane(tblCalendar);
-	}
-
-	private void createAndSetBorder() {
-		this.setBorder(BorderFactory.createTitledBorder("Calendar"));
-	}
-
-	// Set the action listenrer for the button components 
-	private void registerActionListeners() {
-		btnPrev.addActionListener(new btnPrev_Action());
-		btnNext.addActionListener(new btnNext_Action());
-		cmbYear.addActionListener(new cmbYear_Action());
-	}
-
-	private void addControls() {
-		this.add(lblMonth);
-		this.add(lblYear);
-		this.add(cmbYear);
-		this.add(btnPrev);
-		this.add(btnNext);
-		this.add(stblCalendar);
-	}
-
-	private void createBounds() {
-		this.setBounds(0, 0, 626, 600);
-		lblMonth.setBounds(88, 25, 100, 25);
-		lblYear.setBounds(520, 230, 80, 20);
-		cmbYear.setBounds(520, 261, 80, 20);
-		btnPrev.setBounds(10, 25, 50, 25);
-		btnNext.setBounds(260, 25, 50, 25);
-		stblCalendar.setBounds(10, 50, 500, 420);
+		tblCalendar.setBackground(Color.WHITE);
+		tblCalendar.setCellSelectionEnabled(true);
+		add(tblCalendar, BorderLayout.CENTER);
 	}
 
 	private void createDate() {
@@ -116,7 +100,6 @@ public class MonthView extends JPanel {
 			mtblCalendar.addColumn(headers[i]);
 		}
 	}
-
 	private void createBackground() {
 		tblCalendar.getParent().setBackground(tblCalendar.getBackground());
 	}
@@ -143,7 +126,7 @@ public class MonthView extends JPanel {
 		}
 	}
 
-	private  void refreshCalendar(int month, int year) {
+	private   void refreshCalendar(int month, int year) {
 		// Variables
 		final String[] months = { "January", "February", "March", "April", "May", "June", "July",
 				"August", "September", "October", "November", "December" };
@@ -170,7 +153,7 @@ public class MonthView extends JPanel {
 		// MAKE CHANGES HERE TO REMOVE BUTTONS 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
-				mtblCalendar.setValueAt(null, i, j);
+				tblCalendar.setValueAt(null, i, j);
 			}
 		}
 
@@ -184,7 +167,7 @@ public class MonthView extends JPanel {
 		for (int i = 1; i <= nod; i++) {
 			int row = new Integer((i + som - 2) / 7);
 			int column = (i + som - 2) % 7;
-			mtblCalendar.setValueAt(i, row, column);
+			tblCalendar.setValueAt(i, row, column);
 		}
 
 		// Apply renderers
@@ -192,7 +175,7 @@ public class MonthView extends JPanel {
 	}
 
 	class tblCalendarRenderer extends DefaultTableCellRenderer {
-		private  final long serialVersionUID = 1L;
+		private   final long serialVersionUID = 1L;
 
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean selected,
 				boolean focused, int row, int column) {
@@ -202,7 +185,7 @@ public class MonthView extends JPanel {
 			// For now I think this should work in place of event listeners
 			// an if statement checking if selected should work in theory
 			if (column == 0 || column == 6) { // Highlight the week-end
-				setBackground(Color.blue);
+				setBackground(new Color(255, 220, 220));
 			}
 			else { // Week
 				setBackground(Color.white);
@@ -210,7 +193,7 @@ public class MonthView extends JPanel {
 			if (value != null) {
 				if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth 
 						&& currentYear == realYear) { // Today
-					setBackground(Color.red);
+					setBackground(new Color(220, 220, 255));
 				}
 			}
 			setBorder(null);
