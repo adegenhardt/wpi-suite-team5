@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import org.jdesktop.swingx.JXDatePicker;
+import javax.swing.JButton;
 
 public class EventEditor extends JPanel {
 	private JTextField textField_1;
@@ -38,7 +39,7 @@ public class EventEditor extends JPanel {
 	 */
 	public EventEditor() {
 		// Set the layout
-		setLayout(new MigLayout("", "[114px][125.00][60.00][75.00px][150.00]", "[50.00px][114.00,grow][][][][][][][][92.00,grow]"));
+		setLayout(new MigLayout("", "[114px][85px:125.00:85px][85px:60.00:85px][60px:75.00px:60px][150.00]", "[50.00px][125px:125:150px][160.00][][][][][][][][100px:100:100px][][]"));
 		
 		// Set the Event label and text editor (single line)
 		JLabel lblEventName = new JLabel("Event Name:");
@@ -106,14 +107,17 @@ public class EventEditor extends JPanel {
 		// TODO: This is a bit unintuitive; we should come up with a
 		// better way to do this
 		JLabel lblParticipants = new JLabel("Participants:");
-		add(lblParticipants, "cell 0 9,alignx trailing");
+		add(lblParticipants, "cell 0 10,alignx trailing");
 		
 		JScrollPane scrollPaneParticipants = new JScrollPane();
 		scrollPaneParticipants.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		add(scrollPaneParticipants, "cell 1 9 2 1,grow");
+		add(scrollPaneParticipants, "cell 1 10 2 1,grow");
 		
 		JEditorPane editorPane_1 = new JEditorPane();
 		scrollPaneParticipants.setViewportView(editorPane_1);
+		
+		JButton btnSubmit = new JButton("Submit");
+		add(btnSubmit, "cell 1 11 2 1,growx");
 
 	}
 	// Set listeners
