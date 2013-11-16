@@ -178,7 +178,7 @@ public class TestMonthView extends JPanel {
 			// For now I think this should work in place of event listeners
 			// an if statement checking if selected should work in theory
 			if (column == 0 || column == 6) { // Highlight the week-end
-				setBackground(new Color(255, 220, 220));
+				setBackground(Color.white);
 			}
 			else { // Week
 				setBackground(Color.white);
@@ -186,7 +186,7 @@ public class TestMonthView extends JPanel {
 			if (value != null) {
 				if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth 
 						&& currentYear == realYear) { // Today
-					setBackground(new Color(220, 220, 255));
+					setBackground(new Color(138,173,209));
 				}
 			}
 			setBorder(null);
