@@ -24,6 +24,7 @@ import java.awt.Color;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.BorderLayout;
 
 /**
  * @author Johnny
@@ -129,74 +130,19 @@ public class DayView extends JPanel {
 					new String[] {
 						"", this.getStringDay()
 					}
-				));
+				) {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+					boolean[] columnEditables = new boolean[] {
+						false, false
+					};
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				});
 		dayTable.setAutoCreateColumnsFromModel(false);
-		dayTable.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"Midnight", null},
-				{"12:30", null},
-				{"1:00", null},
-				{"1:30", null},
-				{"2:00", null},
-				{"2:30", null},
-				{"3:00", null},
-				{"3:30", null},
-				{"4:00", null},
-				{"4:30", null},
-				{"5:00", null},
-				{"5:30", null},
-				{"6:00", null},
-				{"6:30", null},
-				{"7:00", null},
-				{"7:30", null},
-				{"8:00", null},
-				{"8:30", null},
-				{"9:00", null},
-				{"9:30", null},
-				{"10:00", null},
-				{"10:30", null},
-				{"11:00", null},
-				{"11:30", null},
-				{"12:00", null},
-				{"12:30", null},
-				{"1:00", null},
-				{"1:30", null},
-				{"2:00", null},
-				{"2:30", null},
-				{"3:00", null},
-				{"3:30", null},
-				{"4:00", null},
-				{"4:30", null},
-				{"5:00", null},
-				{"5:30", null},
-				{"6:00", null},
-				{"6:30", null},
-				{"7:00", null},
-				{"7:30", null},
-				{"8:00", null},
-				{"8:30", null},
-				{"9:00", null},
-				{"9:30", null},
-				{"10:00", null},
-				{"10:30", null},
-				{"11:00", null},
-				{"11:30", null},
-			},
-			new String[] {
-				"", ""
-			}
-		) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] {
-				false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
 		dayTable.getColumnModel().getColumn(0).setResizable(false);
 		dayTable.getColumnModel().getColumn(0).setPreferredWidth(43);
 		dayTable.getColumnModel().getColumn(0).setMinWidth(30);
@@ -205,12 +151,12 @@ public class DayView extends JPanel {
 		dayTable.getColumnModel().getColumn(1).setPreferredWidth(100);
 		dayTable.setSelectionBackground(Color.GREEN);
 		dayScroll = new JScrollPane(dayTable);
-		dayScroll.setBounds(0, 0, 554, 569);
+		// dayScroll.setBounds(0, 0, 554, 569);
 		
 	}
 	
 	private void addElements() {
-		setLayout(null);
+		setLayout(new BorderLayout(0, 0));
 		this.add(dayScroll);
 	}
 	
@@ -264,7 +210,7 @@ public class DayView extends JPanel {
 	public void refreshDay(Calendar newDay) {
 		realDay = newDay;
 		dayTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(this.getStringDay());  
-		repaint(); 
+		repaint();
 	}
 	
 	public String getStringDay() {

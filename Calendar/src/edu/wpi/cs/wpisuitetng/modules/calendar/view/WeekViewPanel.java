@@ -10,8 +10,14 @@ import net.miginfocom.swing.MigLayout;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class WeekViewPanel extends JPanel {
+	
+	// Millis for day in Calendar class
+	// Going to use this to calculate first day of week
+	private final static long ONE_DAY = 86400000; 
 	
 	private DayView dayOne;
 	private DayView dayTwo;
@@ -30,6 +36,15 @@ public class WeekViewPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public WeekViewPanel() {
+		
+		shiftWeek = Calendar.getInstance();
+		shiftWeek.add(Calendar.DATE, -1); 
+	    int day = shiftWeek.get(Calendar.DAY_OF_YEAR); 
+	     // While loop through the week to obtain the first day of the week
+	     // Why is this a thiiiiiiiiiiiiingggggggg
+	    while(shiftWeek.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+	         shiftWeek.setTimeInMillis(shiftWeek.getTimeInMillis()-ONE_DAY);  
+	    }  
 		
 		JPanel weekContainer = new JPanel();
 		JPanel buttonContainer = new JPanel();
@@ -65,7 +80,19 @@ public class WeekViewPanel extends JPanel {
 		daySeven.refreshDay(shiftWeek);
 		
 		nextWeek = new JButton(">");
+		nextWeek.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				changeWeek(1);
+			}
+		});
 		prevWeek = new JButton("<");
+		prevWeek.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				changeWeek(-1); 
+			}
+		});
 		
 		buttonContainer.add(prevWeek);
 		buttonContainer.add(nextWeek);
@@ -86,12 +113,28 @@ public class WeekViewPanel extends JPanel {
 
 	}
 	
-	private void nextWeek() {
-		
-	}
-	
-	private void prevWeek() {
-		
+	private void changeWeek(int x) {
+		int dayWeight;
+		if (x > 0) {
+			dayWeight = 1;
+		}
+		else {
+			dayWeight = -13; 
+		}
+		shiftWeek.add(Calendar.DATE, dayWeight);
+		dayOne.refreshDay(shiftWeek);
+		shiftWeek.add(Calendar.DATE, 1);
+		dayTwo.refreshDay(shiftWeek);
+		shiftWeek.add(Calendar.DATE, 1);
+		dayThree.refreshDay(shiftWeek);
+		shiftWeek.add(Calendar.DATE, 1);
+		dayFour.refreshDay(shiftWeek);
+		shiftWeek.add(Calendar.DATE, 1);
+		dayFive.refreshDay(shiftWeek);
+		shiftWeek.add(Calendar.DATE, 1);
+		daySix.refreshDay(shiftWeek);
+		shiftWeek.add(Calendar.DATE, 1);
+		daySeven.refreshDay(shiftWeek);
 	}
 
 }
