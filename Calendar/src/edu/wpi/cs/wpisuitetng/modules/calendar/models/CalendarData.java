@@ -21,11 +21,13 @@ public class CalendarData extends AbstractModel {
 	private HashMap<Integer, YearData> dataMap = new HashMap<Integer, YearData>();
 	private String name;
 	private String type;
+	private int id;
 
 	// class constructor
-	public CalendarData(String name, String type) {
+	public CalendarData(String name, String type, int id) {
 		this.name = name;
 		this.type = type;
+		this.id = id;
 
 	}
 
@@ -148,7 +150,7 @@ public class CalendarData extends AbstractModel {
 	 * 
 	 * @return dataMap parameter of this CalendarData
 	 */
-	private HashMap<Integer, YearData> getDataMap() {
+	public HashMap<Integer, YearData> getDataMap() {
 		return this.dataMap;
 	}
 
@@ -156,7 +158,7 @@ public class CalendarData extends AbstractModel {
 	 * 
 	 * @return name parameter of this CalendarData
 	 */
-	private String getName() {
+	public String getName() {
 		return this.name;
 	}
 
@@ -164,8 +166,16 @@ public class CalendarData extends AbstractModel {
 	 * 
 	 * @return type parameter of this CalendarData
 	 */
-	private String getType() {
+	public String getType() {
 		return this.type;
+	}
+	
+	/**
+	 * 
+	 * @return the ID of this calendar data
+	 */
+	public int getID(){
+		return this.id;
 	}
 
 	// End Get Functions Database Interaction

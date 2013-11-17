@@ -2,19 +2,20 @@ package edu.wpi.cs.wpisuitetng.modules.calendar;
 
 import edu.wpi.cs.wpisuitetng.Permission;
 import java.util.List;
-import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-public class EventCldr implements Model{
+public class EventCldr extends AbstractModel{
 	private String name;
 	private List<Event> events;
-	private Commitment commitments;
+	//Make this a List<Commitment> later on
+	private Commitment commits;
 	
-	public EventCldr(String name, List<Event> e, Commitment c){
+	public EventCldr(String name, List<Event> events, Commitment commits){
 		this.name = name;
-		this.events = e;
-		this.commitments = c;
+		this.events = events;
+		this.commits = commits;
 	}
 
 	@Override
@@ -82,11 +83,11 @@ public class EventCldr implements Model{
 	}
 
 	public Commitment getCommitments() {
-		return commitments;
+		return commits;
 	}
 
 	public void setCommitments(Commitment commitments) {
-		this.commitments = commitments;
+		this.commits = commitments;
 	}
 	
 }

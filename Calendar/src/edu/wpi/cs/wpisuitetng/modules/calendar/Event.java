@@ -22,27 +22,34 @@ import java.util.Date;
 
 
 public class Event {
+	private int id;
 	private String eventName;
 	private String eventDescr;
-	private Date startDate;
-	private Date endDate;
+	private Date date;
 	// String category;
 	// Repeat repeat;
 	// List<String> participants;
 	// boolean committed;
 	
-	public Event(String eventName, String eventDescr, Date startDate, Date endDate, 
-			boolean committed, List<String> participants, String category, Repeat repeat){
+	public Event(int id, String eventName, String eventDescr, Date date){
+		this.id = id;
 		this.eventName = eventName;
 		this.eventDescr = eventDescr;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.date = date;
 		// this.category = category;
 		// this.repeat = repeat;
 		// this.committed = committed;
 		// this.participants = participants;
 	}
 
+	public int getEventID(){
+		return id;
+	}
+	
+	public void setEventID(int eventID){
+		this.id = eventID;
+	}
+	
 	public String getEventName() {
 		return eventName;
 	}
@@ -59,20 +66,12 @@ public class Event {
 		this.eventDescr = eventDescr;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	// It seems that these are all kept in EventCldr 
