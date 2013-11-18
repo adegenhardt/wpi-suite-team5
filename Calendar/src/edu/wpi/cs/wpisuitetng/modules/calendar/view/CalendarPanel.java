@@ -38,9 +38,15 @@ import javax.swing.JTabbedPane;
 @SuppressWarnings({"serial", "rawtypes", "unchecked" })
 public class CalendarPanel extends JPanel {
 	private CalendarTab tabs;
+	private CalendarSidebar sidebar; 
 
 	public CalendarPanel() {
 		setLayout(new BorderLayout(0, 0));
+		
+		// Adding the in progress sidebar
+		// Should look into the JSplitPane for this 
+		sidebar = new CalendarSidebar();
+		this.add(sidebar, BorderLayout.WEST);
 		
 		tabs = new CalendarTab();
 		this.add(tabs, BorderLayout.CENTER);
