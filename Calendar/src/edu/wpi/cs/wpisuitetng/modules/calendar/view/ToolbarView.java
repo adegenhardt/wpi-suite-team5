@@ -51,6 +51,8 @@ public class ToolbarView extends DefaultToolbarView {
 				eventWindow.setLocationRelativeTo(null);
 				eventWindow.setTitle("Create Event");
 				eventWindow.setVisible(true);
+				/*pane.setTabComponentAt(i,
+                 new ButtonTabComponent(pane)); */
 			}
 		});
 		
