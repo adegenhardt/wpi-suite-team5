@@ -34,9 +34,13 @@ public class DayViewPanel extends JPanel {
 	/**
 	 * 
 	 */
+	// Millis for day in Calendar class
+	// Going to use this to calculate first day of week
+	private final static long ONE_DAY = 86400000; 
+	
 	private static final long serialVersionUID = 1L;
 
-	final private DayView dayView;
+	private DayView dayView;
 	
 	private final JPanel buttonsPanel;
 	
@@ -44,16 +48,23 @@ public class DayViewPanel extends JPanel {
 	private final JButton prevDay;
 	
 	private final JLabel currentDate;
+	
+	private Calendar currentDateCal; 
 
 	/**
 	 * Create the panel.
 	 */
 	public DayViewPanel() {
 		
+		// This makes the blue highlighting work for some reason
+		// Thanks Calendar class, your the best
+		currentDateCal = Calendar.getInstance(); 
+		
 		buttonsPanel = new JPanel(); 
 		buttonsPanel.setLayout(new MigLayout());
 		
 		dayView = new DayView();
+		dayView.refreshDay(currentDateCal);
 		dayView.setMaximumSize(new Dimension(1000, 1000));
 		dayView.setRequestFocusEnabled(false);
 		dayView.setMinimumSize(new Dimension(5, 5));
@@ -64,7 +75,7 @@ public class DayViewPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				final Calendar currentDisplay = dayView.getRealDay();
-				currentDisplay.add(Calendar.DATE, -1);
+				currentDisplay.setTimeInMillis(currentDisplay.getTimeInMillis() - ONE_DAY);
 				dayView.refreshDay(currentDisplay);
 				currentDate.setText(dayView.getStringDay());
 			}
@@ -74,7 +85,7 @@ public class DayViewPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				final Calendar currentDisplay = dayView.getRealDay();
-				currentDisplay.add(Calendar.DATE, 1);
+				currentDisplay.setTimeInMillis(currentDisplay.getTimeInMillis() + ONE_DAY);
 				dayView.refreshDay(currentDisplay);
 				currentDate.setText(dayView.getStringDay());
 			}

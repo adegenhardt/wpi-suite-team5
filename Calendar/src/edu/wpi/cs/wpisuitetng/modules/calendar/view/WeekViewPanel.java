@@ -43,7 +43,7 @@ public class WeekViewPanel extends JPanel {
 	     // While loop through the week to obtain the first day of the week
 	     // Why is this a thiiiiiiiiiiiiingggggggg
 	    while(shiftWeek.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-	         shiftWeek.setTimeInMillis(shiftWeek.getTimeInMillis()-ONE_DAY);  
+	         shiftWeek.setTimeInMillis(shiftWeek.getTimeInMillis() - ONE_DAY);  
 	    }  
 		
 		JPanel weekContainer = new JPanel();

@@ -216,9 +216,11 @@ public class DayView extends JPanel {
 		int displayDay = realDay.get(Calendar.DAY_OF_MONTH); 
 		if (thisDay == displayDay) {
 			header.setBackground(new Color(138,173,209));
+			System.out.println("Changed to blue");
 		}
 		else {
 			header.setBackground(UIManager.getColor(JTableHeader.class));
+			System.out.println("Chnaged to default");
 		}
 	}
 	
