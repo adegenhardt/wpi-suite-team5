@@ -14,16 +14,20 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import java.awt.BorderLayout;
 
 /**
@@ -50,6 +54,7 @@ public class DayView extends JPanel {
 	
 	// Perhaps the use of the Date class would be better
 	// Nevermind, Date is deprecated Calendar is better
+	// WHY DID I EVER THINK CALENDAR WAS BETTER JODA-TIME PLEASE
 	private Calendar currentDay;
 	private Calendar realDay;
 
@@ -72,6 +77,7 @@ public class DayView extends JPanel {
 		createBackground();
 		createTableProperties();
 		createUnselectableCol();
+		colorCurrentDate();
 		
 	}
 	
@@ -197,6 +203,25 @@ public class DayView extends JPanel {
         });
     }
 	
+	// Method to color in today's date if the view
+	// Is currently on today's date
+	// For some reason this doesn't work with the
+	// Day view panel, I'll look into this when it
+	// Isn't 2:00AM
+	private void colorCurrentDate() {
+		JTableHeader header = dayTable.getTableHeader();
+		// thisDay and displayDay get the respective integer day values
+		// So they can be compared because Calendar.equals is garbage
+		int thisDay = currentDay.get(Calendar.DAY_OF_MONTH); 
+		int displayDay = realDay.get(Calendar.DAY_OF_MONTH); 
+		if (thisDay == displayDay) {
+			header.setBackground(new Color(138,173,209));
+		}
+		else {
+			header.setBackground(UIManager.getColor(JTableHeader.class));
+		}
+	}
+	
 	private void initDay() {
 		currentDay = Calendar.getInstance();
 		realDay = currentDay;
@@ -209,10 +234,13 @@ public class DayView extends JPanel {
 	 */
 	public void refreshDay(Calendar newDay) {
 		realDay = newDay;
-		dayTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(this.getStringDay());  
+		dayTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(this.getStringDay());
 		repaint();
+		colorCurrentDate();
 	}
 	
+	// Get the day in a nice string format declared
+	// At the top of this file
 	public String getStringDay() {
 		return dayFormat.format(realDay.getTime());
 	}

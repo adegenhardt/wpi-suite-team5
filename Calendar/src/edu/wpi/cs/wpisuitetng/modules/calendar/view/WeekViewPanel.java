@@ -38,7 +38,7 @@ public class WeekViewPanel extends JPanel {
 	public WeekViewPanel() {
 		
 		shiftWeek = Calendar.getInstance();
-		shiftWeek.add(Calendar.DATE, -1); 
+		
 	    int day = shiftWeek.get(Calendar.DAY_OF_YEAR); 
 	     // While loop through the week to obtain the first day of the week
 	     // Why is this a thiiiiiiiiiiiiingggggggg
@@ -52,8 +52,12 @@ public class WeekViewPanel extends JPanel {
 		weekContainer.setLayout(new GridLayout(0, 7, 0, 0));
 		buttonContainer.setLayout(new GridLayout(0, 2, 0, 0));
 		
+		// Just set the days to the calculated week above
+		// Maybe I should have kept an array?
+		
 		dayOne = new DayView();
-		shiftWeek = dayOne.getRealDay();
+		dayOne.refreshDay(shiftWeek);
+		
 		dayTwo = new DayView();
 		
 		shiftWeek.add(Calendar.DATE, 1);
@@ -113,6 +117,11 @@ public class WeekViewPanel extends JPanel {
 
 	}
 	
+	
+	// Given an integer x, if the x is negative
+	// All collected day views will be updated 
+	// To display the previous week, and a positive
+	// Will display the next week
 	private void changeWeek(int x) {
 		int dayWeight;
 		if (x > 0) {
