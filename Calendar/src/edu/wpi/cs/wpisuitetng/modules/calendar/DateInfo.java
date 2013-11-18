@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.calendar.models;
+package edu.wpi.cs.wpisuitetng.modules.calendar;
 
 
 //this class is a suggested data structure that contains a date (in numerical information).  It would be used in areas to signify the date

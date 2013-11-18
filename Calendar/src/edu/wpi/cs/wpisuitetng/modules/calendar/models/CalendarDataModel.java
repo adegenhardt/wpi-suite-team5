@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.calendar;
+package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,11 +9,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarData;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.AddCalendarDataController;
 
 /**List of Calendars pulled from the server
  * 
@@ -67,8 +63,8 @@ public class CalendarDataModel extends AbstractListModel{
 		calendarData.add(newCldrData);
 		try{
 			AddCalendarDataController.getInstance().addCalendarData(newCldrData);
-			ViewEventController.getInstance().refreshTable();
-			ViewEventController.getInstance().refreshTree();
+//			ViewEventController.getInstance().refreshTable();
+//			ViewEventController.getInstance().refreshTree();
 		}
 		catch(Exception e){}
 	}
@@ -85,7 +81,7 @@ public class CalendarDataModel extends AbstractListModel{
 		CalendarData temp = null;
 		for(int i = 0; i < this.calendarData.size(); i++){
 			temp = calendarData.get(i);
-			if(temp.getID() == id){
+			if(temp.getId() == id){
 				break;
 			}
 		}
@@ -99,14 +95,14 @@ public class CalendarDataModel extends AbstractListModel{
 	 */
 	public void removeCalendarData(int removeID){
 		for(int i = 0; i < this.calendarData.size(); i++){
-			if(calendarData.get(i).getID() == removeID){
+			if(calendarData.get(i).getId() == removeID){
 				calendarData.remove(i);
 				break;
 			}
 		}
 		try{
-			ViewEventController.getInstance().refreshTable();
-			ViewEventController.getInstance().refreshTree();
+//			ViewEventController.getInstance().refreshTable();
+//			ViewEventController.getInstance().refreshTree();
 		}
 		catch(Exception e){}
 	}
@@ -124,8 +120,8 @@ public class CalendarDataModel extends AbstractListModel{
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
 		try{
-			ViewEventController.getInstance().refreshTable();
-			ViewEventController.getInstance().refreshTree();
+//			ViewEventController.getInstance().refreshTable();
+//			ViewEventController.getInstance().refreshTree();
 		}
 		catch (Exception e) {}
 	}
@@ -137,13 +133,13 @@ public class CalendarDataModel extends AbstractListModel{
 	public void addCalendarData(CalendarData[] calendarData){
 		for (int i = 0; i < calendarData.length; i++) {
 			this.calendarData.add(calendarData[i]);
-			if(calendarData[i].getID() >= nextID){ 
-				nextID = calendarData[i].getID() + 1;
+			if(calendarData[i].getId() >= nextID){ 
+				nextID = calendarData[i].getId() + 1;
 			}
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-		ViewEventController.getInstance().refreshTable();
-		ViewEventController.getInstance().refreshTree();
+//		ViewEventController.getInstance().refreshTable();
+//		ViewEventController.getInstance().refreshTree();
 	}
 	
 	// ******************************************************************

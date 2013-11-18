@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
 import edu.wpi.cs.wpisuitetng.Permission;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 //import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -20,15 +21,26 @@ public class CalendarData extends AbstractModel {
 	// Storage Structure for calendars and their events/commitments
 	private HashMap<Integer, YearData> dataMap = new HashMap<Integer, YearData>();
 	private String name;
+	
+
 	private String type;
 	private int id;
+
+	/**
+	 * Default constructor (required for EntityManager
+	 */
+	public CalendarData() {
+		name = "";
+		type = "";
+		dataMap = new HashMap<Integer, YearData>();
+	}
 
 	// class constructor
 	public CalendarData(String name, String type, int id) {
 		this.name = name;
 		this.type = type;
 		this.id = id;
-
+		dataMap = new HashMap<Integer, YearData>();
 	}
 
 	// Required Functions Database Interaction
@@ -169,15 +181,23 @@ public class CalendarData extends AbstractModel {
 	public String getType() {
 		return this.type;
 	}
-	
+
 	/**
 	 * 
-	 * @return the ID of this calendar data
+	 * @return the id of the CalendarData
 	 */
-	public int getID(){
-		return this.id;
+	public int getId() {
+		return id;
 	}
 
+	/**
+	 * 
+	 * @param id the CalendarData's new ID
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	// End Get Functions Database Interaction
 	// --------------------------------------------------------------------------------------------------------------------------
 
@@ -185,34 +205,76 @@ public class CalendarData extends AbstractModel {
 	
 	// Additional Functions Database Interaction
 	// --------------------------------------------------------------------------------------------------------------------------
-	// checks dataMap for YearData for given year
-	private boolean containsYearData(int year) {
-		return false;
+
+	/**
+	 * Checks if the CalendarData contains an instance of YearData
+	 * for a given year
+	 * @param year the index of the YearData being checked
+	 * @return true if the YearData exists, false if not
+	 */
+	public boolean containsYear(int year) {
+		return dataMap.containsKey( year );
 	}
 
-	// returns YearData for given year returns exception if YearData for given
-	// year does not exist
-	private YearData getYearData(int year) {
-		return null;
-	}
-
-	// makes and returns YearData for given year
-	private YearData buildYearData(int year) {
-		// build year with gregorian for given int year
-		return null;
-
-	}
-
-	// add YearData object to dataMap
-	private void addYearData(int year) {
-		if (!(containsYearData(year))) {
-			YearData yearData = buildYearData(year);
-		} else {
-			YearData yearData = getYearData(year);
+	/**
+	 * Gets a YearData object using a year as index if it exists
+	 * Otherwise, returns null
+	 * @param year The index of the year being checked
+	 * @return A YearData object at the given index, or null if it doesn't exist
+	 */
+	public YearData getYear( int year ) {
+		if ( !(containsYear(year)) ) {
+			//TODO: throw exception
+			return null;
 		}
-
+		
+			return dataMap.get( year );
 	}
 
+	/**
+	 * Creates a new YearData object given an integer value for a year
+	 * @param year The integer value of the year
+	 * @return the new YearData object
+	 */
+	private YearData buildYearData( int year ) {
+		return new YearData( year );
+	}
+
+	/**
+	 * Add a YearData object to the CalendarData object,
+	 * unless one already exists
+	 * @param year the index of the YearData object to be added
+	 */
+	public void addYear( int year ) {
+		if ( !(containsYear(year)) ) {
+			dataMap.put( year, buildYearData( year ) );
+		}
+	}
+	
+	/**
+	 * Removes a given year from the Calendar using its year index
+	 * @param year the Year to remove
+	 */
+	public void removeYear( int year ) {
+		if ( containsYear( year ) ) {
+			dataMap.remove( year );
+		}
+	}
+
+	/**
+	 * Add an event to the Calendar
+	 * @param event the Event to be added
+	 */
+	public void addEvent( Event event ) {
+		int eventYear = event.getStartTime().getYear();
+		
+		if ( !containsYear( eventYear ) ) {
+			addYear( eventYear );
+		}
+		
+		getYear( eventYear ).addEvent( event );
+	}
+	
 	/*
 	 * 
 	 * TODO requires event implementation

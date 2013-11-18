@@ -25,17 +25,20 @@ public class Event {
 	private int id;
 	private String eventName;
 	private String eventDescr;
-	private Date date;
+	private Date startTime;
+	private Date endTime;
 	// String category;
 	// Repeat repeat;
 	// List<String> participants;
 	// boolean committed;
 	
-	public Event(int id, String eventName, String eventDescr, Date date){
+	public Event(int id, String eventName, String eventDescr,
+			Date startTime, Date endTime){
 		this.id = id;
 		this.eventName = eventName;
 		this.eventDescr = eventDescr;
-		this.date = date;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		// this.category = category;
 		// this.repeat = repeat;
 		// this.committed = committed;
@@ -66,12 +69,20 @@ public class Event {
 		this.eventDescr = eventDescr;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getStartTime() {
+		return startTime;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 	// It seems that these are all kept in EventCldr 
