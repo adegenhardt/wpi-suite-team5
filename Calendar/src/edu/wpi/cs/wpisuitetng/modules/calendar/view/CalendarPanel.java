@@ -23,8 +23,11 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+
 import java.awt.BorderLayout;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTabbedPane;
 
@@ -39,16 +42,39 @@ import javax.swing.JTabbedPane;
 public class CalendarPanel extends JPanel {
 	private CalendarTab tabs;
 	private CalendarSidebar sidebar; 
+	private JSplitPane splitPane;
+	private JPanel panel1, panel2;
+	
 
 	public CalendarPanel() {
-		setLayout(new BorderLayout(0, 0));
+		
+		panel1 = new JPanel();
+		panel1.setLayout( new BorderLayout());
+		panel2 = new JPanel();
+		panel2.setLayout(new BorderLayout());
+		
 		
 		// Adding the in progress sidebar
 		// Should look into the JSplitPane for this 
 		sidebar = new CalendarSidebar();
-		this.add(sidebar, BorderLayout.WEST);
-		
+		panel1.add(sidebar);
+				
 		tabs = new CalendarTab();
-		this.add(tabs, BorderLayout.CENTER);
-	}
+		panel2.add(tabs);
+		
+		
+		//Create a split pane with the two scroll panes in it.
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+		                           panel1, panel2);
+		splitPane.setOneTouchExpandable(true);
+		splitPane.setDividerLocation(150);
+
+		//Provide minimum sizes for the two components in the split pane
+		Dimension minimumSize = new Dimension(10, 5);
+		sidebar.setMinimumSize(minimumSize);
+		tabs.setMinimumSize(minimumSize);
+		
+		this.add(splitPane);
+		
+		}
 }
