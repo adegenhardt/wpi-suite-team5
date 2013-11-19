@@ -24,16 +24,19 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
-
+//Creates a panel in the toolbar with buttons 
+//to switch between Team and Personal calendars
 public class TeamPersButtonsPanel extends ToolbarGroupView{
 	
 	private final JPanel contentPanel = new JPanel();
 	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
+	// Create the buttons
 	JButton createTeamButton;
 	JButton createPersonalButton;
 	final private ImageIcon editImg = null;
 	final private ImageIcon saveImg = null;
 
+	// Methods to enable and disable these buttons
 	public void disableCreateTeamButton() {
 		createTeamButton.setEnabled(false);
 	}
@@ -50,17 +53,20 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		createTeamButton.setEnabled(true);
 	}
 
+	// Create the panel
 	public TeamPersButtonsPanel(){
 		super("");
 		
+		// Set the text
 		createTeamButton = new JButton("<html>Team <br/>Calendar</html>");
 		createPersonalButton = new JButton("<html>Personal <br/>Calendar</html>");
-		
+		// Set the size and layout
 		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		this.setPreferredWidth(350);
 		
 		this.createTeamButton.setHorizontalAlignment(SwingConstants.CENTER);
-		
+		// Set the icons
+		// TODO: New icons
 		try {
 			final Image imgE = ImageIO.read(getClass().getResource("new_event.png"));
 		    this.createTeamButton.setIcon(new ImageIcon(imgE));
@@ -73,14 +79,14 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		createTeamButton.setVisible(true);
 		createPersonalButton.setVisible(true);
 		
-		// the action listener for the Create Event Button
+		// the action listener for the Team Calendar Button
 		createTeamButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			}
 		});	
 				
-		// action listener for the Create Commit Button
+		// action listener for the Personal Calendar Button
 		createPersonalButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -89,7 +95,7 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 				}
 			//}
 		});
-		
+		// Add the buttons to the panel
 		contentPanel.add(createPersonalButton);
 		contentPanel.add(createTeamButton);
 		contentPanel.setOpaque(false);
