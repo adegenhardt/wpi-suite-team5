@@ -343,7 +343,7 @@ public class DayView extends JPanel {
 		return realDay;
 	}
 	
-	public void setCurrent() {
+	public void resetCurrent() {
 		refreshDay(currentDay); 
 	}
 }
