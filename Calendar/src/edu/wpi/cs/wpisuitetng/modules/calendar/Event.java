@@ -13,87 +13,84 @@ package edu.wpi.cs.wpisuitetng.modules.calendar;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
-// I'm not sure if we need this, but
-// import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage; 
-// I'll just comment it out to be safe.
-// import edu.wpi.cs.wpisuitetng.database.data;
 import java.util.List;
 import java.util.Date;
-
 
 public class Event {
 	private int id;
 	private String eventName;
 	private String eventDescr;
 	private Date date;
-	// String category;
+	//List<Category> category;
 	// Repeat repeat;
 	// List<String> participants;
 	// boolean committed;
 	
+	/**
+	 * Constructs an event with the following fields. An event has a name,
+	 * description, date on which it occurs, a series of categories under which
+	 * the event falls, and an ID by which the program recognizes a
+	 * particular event.
+	 *  
+	 * @param id A unique ID for this event.
+	 * @param eventName The name of this event.
+	 * @param eventDescr A description of this event.
+	 * @param date The date of the event.
+	 * @param category A series of categories that filters can use to recognize
+	 * 				   this event.
+	 */
 	public Event(int id, String eventName, String eventDescr, Date date){
+			//List<Category> category){
 		this.id = id;
 		this.eventName = eventName;
 		this.eventDescr = eventDescr;
 		this.date = date;
-		// this.category = category;
+		//this.category = category;
 		// this.repeat = repeat;
 		// this.committed = committed;
 		// this.participants = participants;
 	}
 
+	// ----------------------------------------------------------------------------
+	// Getters for the fields of Event
+	
 	public int getEventID(){
 		return id;
-	}
-	
-	public void setEventID(int eventID){
-		this.id = eventID;
 	}
 	
 	public String getEventName() {
 		return eventName;
 	}
-
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
-	}
-
+	
 	public String getEventDescr() {
 		return eventDescr;
-	}
-
-	public void setEventDescr(String eventDescr) {
-		this.eventDescr = eventDescr;
 	}
 
 	public Date getDate() {
 		return date;
 	}
 
+	//public List<Category>(){
+	//	return categories;
+	//}
+	
+	// -----------------------------------------------------------------------------
+	// Setters for the fields of Event
+	
+	public void setEventID(int eventID){
+		this.id = eventID;
+	}
+	
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
+	public void setEventDescr(String eventDescr) {
+		this.eventDescr = eventDescr;
+	}
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
-	// It seems that these are all kept in EventCldr 
-	// But I will keep these here for safekeeping
-	
-	// Stores a new event in the database
-	// public void storeEvent(){
-	//	 save(this);
-	//	 System.out.println("Stored "+this.eventName);
-	// }
-	
-	// Uses input from the GUI to update the event
-	// Find the event, delete it, then create the updated ver. of it
-	// public void updateEvent(){
-	//	 save(this);	
-	// }
-	
-	// Deletes an event from the database
-	// public void deleteEvent(){
-	//	 delete(this);
-	// }
-	
-	
 
 }
