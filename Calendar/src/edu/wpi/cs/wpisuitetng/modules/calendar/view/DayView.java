@@ -31,7 +31,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.BorderLayout;
 
 /**
- * @author Johnny
+ * @author Team Underscore
  * @version $Revision: 1.0 $
  */
 public class DayView extends JPanel {

@@ -11,25 +11,11 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
-
-import javax.swing.SwingConstants;
-import javax.swing.JTabbedPane;
 
 /**
  * This class is a JPanel. 
@@ -38,13 +24,13 @@ import javax.swing.JTabbedPane;
  * @version 1.0
  *
  */
-@SuppressWarnings({"serial", "rawtypes", "unchecked" })
+@SuppressWarnings({"serial"})
 public class CalendarPanel extends JPanel {
-	private CalendarTab tabs;
-	private CalendarSidebar sidebar; 
-	private JSplitPane splitPane;
-	private JPanel panel1, panel2;
-	private JPanel mainPanel;
+	private final CalendarTab tabs;
+	private final CalendarSidebar sidebar; 
+	private final JSplitPane splitPane;
+	private final JPanel panel1, panel2;
+	private final JPanel mainPanel;
 	
 
 	public CalendarPanel() {
