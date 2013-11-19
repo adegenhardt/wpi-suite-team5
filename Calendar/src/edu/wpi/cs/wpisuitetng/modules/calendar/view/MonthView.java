@@ -77,9 +77,9 @@ public class MonthView extends JPanel {
 	
 	private void addControls() {
 		add(topPanel, BorderLayout.NORTH);
-		topPanel.add(btnPrev, BorderLayout.WEST);
-		topPanel.add(lblMonth, BorderLayout.CENTER);
-		topPanel.add(btnNext, BorderLayout.EAST);
+		topPanel.add(btnPrev);
+		topPanel.add(lblMonth);
+		topPanel.add(btnNext);
 		btnNext.setPreferredSize(btnPrev.getPreferredSize());
 		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
