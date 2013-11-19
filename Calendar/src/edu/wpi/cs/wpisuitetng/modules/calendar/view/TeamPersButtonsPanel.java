@@ -68,11 +68,11 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		// Set the icons
 		// TODO: New icons
 		try {
-			final Image imgE = ImageIO.read(getClass().getResource("new_event.png"));
-		    this.createTeamButton.setIcon(new ImageIcon(imgE));
+			final Image imgT = ImageIO.read(getClass().getResource("team_calendar.png"));
+		    this.createTeamButton.setIcon(new ImageIcon(imgT));
 		    
-		    final Image imgC = ImageIO.read(getClass().getResource("new_commit.png"));
-		    this.createPersonalButton.setIcon(new ImageIcon(imgC));
+		    final Image imgP = ImageIO.read(getClass().getResource("pers_calendar.png"));
+		    this.createPersonalButton.setIcon(new ImageIcon(imgP));
 		    
 		} catch (IOException ex) {}
 		
