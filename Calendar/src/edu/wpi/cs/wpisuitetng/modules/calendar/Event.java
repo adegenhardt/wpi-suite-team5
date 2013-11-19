@@ -36,8 +36,6 @@ public class Event {
 
 	private Date startDate;
 	private Date endDate;
-	private int startHalfHour;
-	private int endHalfHour;
 	private Date date;
 
 	/*
@@ -48,43 +46,6 @@ public class Event {
 	// Repeat repeat;
 	// List<String> participants;
 	// boolean committed;
-
-	/**
-	 * Constructs an event with the following fields. An event has a name,
-	 * description, date on which it occurs, a series of categories under which
-	 * the event falls, and an ID by which the program recognizes a
-	 * particular event.
-	 *  
-	 * @param id A unique ID for this event.
-	 * @param eventName The name of this event.
-	 * @param eventDescr A description of this event.
-	 * @param date The date of the event.
-	 * @param category A series of categories that filters can use to recognize
-	 * 				   this event.
-	 *
-	 * @param startHalfHour int
-	 * @param endHalfHour int
-	 */
-	public Event(int id, String eventName, String eventDescr, Date startDate,
-			Date endDate, /*
-						 * boolean committed, List<String> participants, String
-						 * category, Repeat repeat,
-						 */
-			int startHalfHour, int endHalfHour, Date date) {
-		this.id = id;
-		this.eventName = eventName;
-		this.eventDescr = eventDescr;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.startHalfHour = startHalfHour;
-		this.endHalfHour = endHalfHour;
-		/*
-		 * this.startTime = startTime; this.endTime = endTime;
-		 */
-		// this.category = category;
-
-	
-	}
 	
 //secondary constructor, for samson's tests
 	//not using start and end HalfHour
@@ -171,26 +132,20 @@ public class Event {
 		return this.endDate.getYear();
 	}
 
-	public int getStartHalfHour() {
-		return this.startHalfHour;
-	}
-
-	public int getEndHalfHour() {
-		return this.endHalfHour;
-	}
-
 	/**
 	 * Method convertParametersToDateInfo.
 	
 	 * @return DateInfo */
-	public DateInfo convertParametersToDateInfo() {
+	@Deprecated
+	public DateInfo getStartDateAsDateInfo() {
 		Date eventStoreDate = this.getStartDate();
 		int eventStoreYear = eventStoreDate.getYear();
 		int eventStoreMonth = eventStoreDate.getMonth();
 		int eventStoreDay = eventStoreDate.getDay();
-		int eventStoreHalfHour = this.getStartHalfHour();
+		int eventStoreHalfHour = ( eventStoreDate.getHours() * 2 ) +
+				                 ( eventStoreDate.getMinutes() / 30 );
 		DateInfo eventStoreDateInfo = new DateInfo(eventStoreYear,
-				eventStoreMonth, eventStoreDay, eventStoreHalfHour);
+				eventStoreMonth, eventStoreDay, eventStoreHalfHour );
 		return eventStoreDateInfo;
 	}
 
@@ -200,6 +155,16 @@ public class Event {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	
+	/**
+	 * 
+	 * @return the calculated starting half hour from 0-47
+	 */
+	public int getStartHalfHour() {
+		return 	( startDate.getHours() * 2 ) +
+                ( startDate.getMinutes() / 30 );
+	}
+	
 	// It seems that these are all kept in EventCldr
 	// But I will keep these here for safekeeping
 

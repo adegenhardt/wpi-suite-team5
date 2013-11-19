@@ -87,7 +87,7 @@ public class YearDataTest {
 		
 		// Now retrieve the event all the way back out
 		DayData[] days = year.getMonth( 2 ).getDays();
-		ArrayList< Event > retrievedEvents = days[ 1 ].getDayEvents();
+		ArrayList< Event > retrievedEvents = days[ 0 ].getDayEvents();
 		
 		assertEquals( 1, retrievedEvents.size() );
 		assertEquals( event, retrievedEvents.get( 0 ) );

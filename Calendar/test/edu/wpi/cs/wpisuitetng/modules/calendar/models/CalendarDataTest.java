@@ -175,11 +175,11 @@ public class CalendarDataTest {
 		
 		// Test that the event is also transferred
 		DayData[] days1 = year1.getMonth( 2 ).getDays();
-		ArrayList< Event > retrievedEvents1 = days1[ 1 ].getDayEvents();
+		ArrayList< Event > retrievedEvents1 = days1[ 0 ].getDayEvents();
 		
 		YearData year2 = cdNew.getYearData( 1984 );
 		DayData[] days2 = year2.getMonth( 2 ).getDays();
-		ArrayList< Event > retrievedEvents2 = days2[ 1 ].getDayEvents();
+		ArrayList< Event > retrievedEvents2 = days2[ 0 ].getDayEvents();
 		//these were changed to date functions
 		assertEquals( retrievedEvents1.size(), retrievedEvents2.size() );
 		assertEquals( retrievedEvents1.get( 0 ).getStartDate().getSeconds(),

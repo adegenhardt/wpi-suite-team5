@@ -38,21 +38,9 @@ public class MonthData {
 	 */
 	public MonthData(int year, int month) {
 
-		// build array of months
-		// make calendar in given month to get number of days in month
-		Calendar refCal = new GregorianCalendar(this.getDateInfo().getYear(),
-				this.getMonth(), 1);
-		int totalDays = refCal.getActualMaximum(1);
-		for (int i = 0; i < totalDays; i++) {
-			days[i] = new DayData(year, month, i);
-		}
-
 		// build days based on gregorean for given month 0-11 = January-December
-
-		// TODO: Add error handling if the month is out of range [1, 12]
-
 		this.dateInfo = new DateInfo(year, month, -1, -1);
-		//createDays(year, month);
+		createDays(year, month);
 	}
 
 	/**
@@ -70,21 +58,37 @@ public class MonthData {
 	 * @param year
 	 * @param month
 	 */
-	/*
-	 * private void createDays( int year, int month ) { int numDays; //number of
-	 * days in the month
-	 * 
-	 * // Months with 31 days if ( month == 0 || month == 2 || month == 4 ||
-	 * month == 6 || month == 7 || month == 9 || month == 11 ) { numDays = 31; }
-	 * else if ( month == 1 ) { // February if ( year % 4 == 0 && ( !( year %
-	 * 100 == 0 ) || ( year % 400 == 0 ) ) ) { //leap year numDays = 29; } else
-	 * { numDays = 28; } } else { //Otherwise, month has 30 days numDays = 30; }
-	 * 
-	 * days = new DayData[ numDays ]; for ( int i = 0; i < numDays; i++ ) {
-	 * days[ i ] = new DayData( year, month, i ); }
-	 * 
-	 * }
-	 */
+	
+	 private void createDays( int year, int month ) { int numDays;
+	 //number of days in the month
+	 
+	 // Months with 31 days
+	     if ( month == 0 || month == 2 || month == 4 ||
+	          month == 6 || month == 7 || month == 9 || month == 11 )
+	     {
+	    	 numDays = 31;
+	     }
+	     else if ( month == 1 ) { // February
+	    	      if ( year % 4 == 0 && 
+	    	    	   ( !( year % 100 == 0 ) ||
+	    	    	   ( year % 400 == 0 ) ) ) { //leap year
+	    	    	         numDays = 29; 
+	    	      } 
+	    	      else {
+	    	    	  numDays = 28;  
+	    	      }
+	      }
+	      else { //Otherwise, month has 30 days
+	    	  numDays = 30;
+	      }
+	  
+	  days = new DayData[ numDays ];
+	  for ( int i = 0; i < numDays; i++ ) {
+	      days[ i ] = new DayData( year, month, i );
+	  }
+	  
+	  }
+	 
 
 	/**
 	 * 
@@ -121,6 +125,7 @@ public class MonthData {
 	 * @param eventStoreDateInfo
 	 *            DateInfo
 	 */
+	@Deprecated
 	public void addEvent(Event event, DateInfo eventStoreDateInfo) {
 //calendar with day in region for total month days reference
 		Calendar refCal = new GregorianCalendar(this.getDateInfo().getYear(),
@@ -141,6 +146,23 @@ public class MonthData {
 		// TODO Indication of event added to year
 
 	}
+	
+	/**
+	 * Add an event 
+	 * @param event the event to add
+	 */
+	public void addEvent( Event event ) {
+		int eventDay = event.getStartDate().getDate() - 1;
+		
+		if ( eventDay >= 0 && eventDay < days.length )
+			this.days[ eventDay ].addEvent( event );
+		else {
+			// TODO exception the event has an invalid day
+			this.days[ eventDay ].addEvent( event );
+		}
+		// TODO Indication of event added to month
+		// ???
+	}
 
 	/**
 	 * Method removeEvent.
@@ -150,6 +172,7 @@ public class MonthData {
 	 * @param eventStoreDateInfo
 	 *            DateInfo
 	 */
+	@Deprecated
 	public void removeEvent(Event event, DateInfo eventStoreDateInfo) {
 		//calendar with day in region for total month days reference
 		Calendar refCal = new GregorianCalendar(this.getDateInfo().getYear(),
@@ -171,6 +194,22 @@ public class MonthData {
 
 	}
 
+	/**
+	 * Add an event 
+	 * @param event the event to add
+	 */
+	public void removeEvent( Event event ) {
+		int eventDay = event.getStartDate().getDate() - 1;
+		
+		if ( eventDay >= 0 && eventDay < days.length )
+			this.days[ eventDay ].removeEvent( event );
+		else {
+			// TODO exception the event has an invalid day
+		}
+		// TODO Indication of event added to month
+		// ???
+	}
+	
 	/**
 	 * Method getMonthEvents.
 	 * get all the events in a list of events for the given month

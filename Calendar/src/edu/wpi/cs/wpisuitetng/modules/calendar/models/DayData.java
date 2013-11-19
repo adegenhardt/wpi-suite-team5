@@ -39,12 +39,7 @@ public class DayData {
 	public DayData(int year, int month, int day) {
 		dateInfo = new DateInfo(year, month, day, -1);
 		events = new ArrayList<Event>();
-
-		// build halfHour array
-		int totalHalfHours = 48;
-		for (int i = 0; i < totalHalfHours; i++) {
-			halfHours[i] = new HalfHourData(year, month, day, i);
-		}
+		
 	}
 
 	/**
@@ -54,14 +49,10 @@ public class DayData {
 	 *            the Event being added
 	 */
 	public void addEvent(Event event) {
-		// adds event to list in slot to establish order of event
-		// occurrence(index 0 is earliest)
-		// does not correspond to actual halfHour it takes place at because
-		// indexes can not be shared
-		// newest event will be lowest index in a set of events at the same
-		// halfHour
-		// order != event.getStartHalfHour order is relative occurrence.
-		this.events.add(event.getStartHalfHour(), event);
+		// adds event to list
+		// currently this does not sort the objects for the array
+		// that can come later, as the old attempted method was breaking things
+		this.events.add( event );
 	}
 
 	/**
@@ -73,15 +64,14 @@ public class DayData {
 	 * @return boolean returns T/F to signify success
 	 */
 	public boolean removeEvent(Event event) {
-		boolean output = false;
 		// TODO: catch error if someone tries to remove from an empty list
 
 		if (events.size() == 0) {
-			output = false;
-		} else if (this.events.contains(event)) {
-			output = this.events.remove(event);
+			return false;
+		} else {
+			// Remove will catch if the event was stored or not
+			return this.events.remove(event);
 		}
-		return output;
 	}
 
 	/**
