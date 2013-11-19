@@ -216,7 +216,7 @@ public class DayView extends JPanel {
 		// CALENDAR IS COMPLETE GARBAGE
 		int thisYear = currentDay.get(Calendar.YEAR);
 		int displayYear = realDay.get(Calendar.YEAR);
-		int thisDay = currentDay.get(Calendar.DAY_OF_YEAR); 
+		int thisDay = currentDay.get(Calendar.DAY_OF_YEAR);
 		int displayDay = realDay.get(Calendar.DAY_OF_YEAR);
 		if ((thisDay == displayDay) && (thisYear == displayYear)) {
 			header.setBackground(new Color(138,173,209));

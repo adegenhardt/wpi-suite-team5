@@ -17,7 +17,7 @@ public class WeekViewPanel extends JPanel {
 	
 	// Millis for day in Calendar class
 	// Going to use this to calculate first day of week
-	private final static long ONE_DAY = 86400000; 
+	private final static long ONE_DAY = 86400000;
 	
 	private DayView dayOne;
 	private DayView dayTwo;
