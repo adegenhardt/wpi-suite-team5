@@ -35,7 +35,6 @@ public class DayViewPanel extends JPanel {
 	 * 
 	 */
 	// Millis for day in Calendar class
-	// Going to use this to calculate first day of week
 	private final static long ONE_DAY = 86400000; 
 	
 	private static final long serialVersionUID = 1L;
@@ -47,7 +46,7 @@ public class DayViewPanel extends JPanel {
 	private final JButton nextDay;
 	private final JButton prevDay;
 	
-	private final JLabel currentDate;
+	private final JButton currentDate;
 	
 	private Calendar currentDateCal; 
 
@@ -69,7 +68,15 @@ public class DayViewPanel extends JPanel {
 		dayView.setRequestFocusEnabled(false);
 		dayView.setMinimumSize(new Dimension(5, 5));
 		dayView.setBounds(new Rectangle(0, 0, 1000, 1000));
-		currentDate = new JLabel(dayView.getStringDay());
+		currentDate = new JButton(dayView.getStringDay());
+		currentDate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				final Calendar currentDisplay = Calendar.getInstance();
+				dayView.refreshDay(currentDisplay);
+				currentDate.setText(dayView.getStringDay());
+			}
+		});
 		prevDay = new JButton("<");
 		prevDay.addMouseListener(new MouseAdapter() {
 			@Override
