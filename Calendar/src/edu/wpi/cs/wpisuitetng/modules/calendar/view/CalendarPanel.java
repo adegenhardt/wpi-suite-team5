@@ -43,11 +43,13 @@ public class CalendarPanel extends JPanel {
 	private CalendarTab tabs;
 	private CalendarSidebar sidebar; 
 	private JSplitPane splitPane;
-	private JPanel panel1, panel2;
+	private JPanel panel1, panel2, mainPanel;
 	
 
 	public CalendarPanel() {
 		
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
 		panel1 = new JPanel();
 		panel1.setLayout( new BorderLayout());
 		panel2 = new JPanel();
@@ -65,16 +67,18 @@ public class CalendarPanel extends JPanel {
 		
 		//Create a split pane with the two scroll panes in it.
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-		                           panel1, panel2);
+		                           sidebar, tabs);
 		splitPane.setOneTouchExpandable(true);
-		splitPane.setDividerLocation(150);
+		splitPane.setDividerLocation(250);
 
 		//Provide minimum sizes for the two components in the split pane
 		Dimension minimumSize = new Dimension(10, 5);
 		sidebar.setMinimumSize(minimumSize);
 		tabs.setMinimumSize(minimumSize);
 		
-		this.add(splitPane);
+		mainPanel.add(splitPane);
+		this.add(mainPanel);
+		
 		
 		}
 }
