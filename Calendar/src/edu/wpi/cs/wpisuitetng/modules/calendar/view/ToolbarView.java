@@ -77,6 +77,8 @@ public class ToolbarView extends DefaultToolbarView {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
+				/*pane.setTabComponentAt(i,
+                 new ButtonTabComponent(pane)); */
 			}
 		});
 		
