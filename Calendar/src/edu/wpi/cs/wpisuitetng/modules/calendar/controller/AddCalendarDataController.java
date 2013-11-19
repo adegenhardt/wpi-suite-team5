@@ -54,7 +54,7 @@ public class AddCalendarDataController {
 	{
 		// PUT == create
 		final Request request = Network.getInstance().makeRequest( 
-				                   "requirementmanager/iteration", HttpMethod.PUT );
+				                   "calendar/calendardata", HttpMethod.PUT );
 		request.setBody( newCalendarData.toJSON() ); // put the new CalendarData in the body of the request		
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); 

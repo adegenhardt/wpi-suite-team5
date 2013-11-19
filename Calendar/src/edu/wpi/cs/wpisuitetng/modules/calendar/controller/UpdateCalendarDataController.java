@@ -55,7 +55,7 @@ public class UpdateCalendarDataController{
 	 */
 	public void updateCalendarData(CalendarData newCalendarData) 
 	{
-		Request request = Network.getInstance().makeRequest( "requirementmanager/iteration",
+		Request request = Network.getInstance().makeRequest( "calendar/calendardata",
 				              HttpMethod.POST); // POST == update
 		request.setBody( newCalendarData.toJSON() ); // put the new CalendarData in the body of the request
 		request.addObserver( observer ); // add an observer to process the response
