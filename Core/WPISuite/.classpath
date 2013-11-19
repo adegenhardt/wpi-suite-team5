@@ -15,5 +15,9 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/Calendar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DefectTracker"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PostBoard"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RequirementManager"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
