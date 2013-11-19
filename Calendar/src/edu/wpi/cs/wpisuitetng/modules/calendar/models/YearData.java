@@ -59,23 +59,13 @@ public class YearData {
 	 */
 	public void addEvent(Event event) {
 
-		DateInfo eventStoreDateInfo = event.convertParametersToDateInfo();
-		// this.months[ eventStoreDateInfo.getMonth()].addEvent( event,
-		// eventStoreDateInfo );
-
-		boolean monthFound = false;
-		for (int i = 0; i <= 11; i++) {
-			if (this.months[i].getMonth() == eventStoreDateInfo.getMonth()) {
-				monthFound = true;
-				this.months[i].addEvent(event, eventStoreDateInfo);
-				break;
-			}
-
-		}
-		if (monthFound == false) {
+		int eventMonth = event.getStartDate().getMonth();
+		
+		if (eventMonth >= 0 && eventMonth < 12)
+			this.months[eventMonth].addEvent(event);
+		else {
 			// TODO exception the event has an invalid month
 		}
-		// TODO Indication of event added to year
 	}
 
 	/**
@@ -85,21 +75,15 @@ public class YearData {
 	 *            Event
 	 */
 	public void removeEvent(Event event) {
-		DateInfo eventStoreDateInfo = event.convertParametersToDateInfo();
-		boolean monthFound = false;
-		for (int i = 0; i <= 11; i++) {
-			if (this.months[i].getMonth() == eventStoreDateInfo.getMonth()) {
-				monthFound = true;
-				this.months[i].removeEvent(event, eventStoreDateInfo);
-				break;
-			}
-
-		}
-		if (monthFound == false) {
+		
+		int eventMonth = event.getStartDate().getMonth();
+		
+		if (eventMonth >= 0 && eventMonth < 12)
+			this.months[eventMonth].removeEvent(event);
+		else {
 			// TODO exception the event has an invalid month
 		}
-		// TODO Indication of event added to year
-
+		// TODO Indication of event added to YearData
 	}
 
 	/**
