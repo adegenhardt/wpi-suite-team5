@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 /** Category class that contains all the fields required to create a category
  * @author Joe Hill
  *
+ * @version $Revision: 1.0 $
  */
 public class Category {
 	/** Name of the category **/
@@ -28,7 +29,10 @@ public class Category {
 		name = description = "";
 	}
 	
-	/** Constructs a Category with given values **/
+	/** Constructs a Category with given values 
+	 * @param name String
+	 * @param description String
+	 **/
 	public Category(String name, String description) {
 		this();
 		this.name = name;
@@ -38,8 +42,7 @@ public class Category {
 	/** Method getName.
 	 * 
 	 * @return name
-	 * 				the name of the Category
-	 */
+	 * 				the name of the Category */
 	public String getName() {
 		return this.name;
 	}
@@ -67,16 +70,16 @@ public class Category {
 	 * 
 	 * 
 	 * @return description
-	 * 				the description of the Category
-	 **/
+	 * 				the description of the Category **/
 	public String getDescription() {
 		return description;
 	}
 
 	/** Method setDescription.
 	 * 
-	 *  @param description
-	 *            the description to set
+	 *  
+	 * @param desc String
+	 * 			the description to set
 	 */
 	public void setDescription(String desc) {
 		if (!desc.equals(this.description)) {
@@ -92,8 +95,7 @@ public class Category {
 	 * @param description
 	 * 			the description to give the new category
 	 * @return cat
-	 * 			the new category
-	 */
+	 * 			the new category */
 	public Category createNewCategory(String name, String description) {
 		Category cat = new Category(name, description);
 		return cat;
