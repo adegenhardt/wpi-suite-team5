@@ -1,10 +1,13 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
 public class HalfHourData {
-DateInfo dateInfo;
+	DateInfo dateInfo;
 
-public HalfHourData(int year, int month, int day, int halfHour){
-dateInfo = new DateInfo (year, month, day, halfHour);
-}
+	public HalfHourData(int year, int month, int day, int halfHour) {
+		dateInfo = new DateInfo(year, month, day, halfHour);
+	}
 
+	public int getHalfHour() {
+		return this.dateInfo.getHalfHour();
+	}
 }

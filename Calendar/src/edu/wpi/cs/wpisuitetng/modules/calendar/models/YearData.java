@@ -1,18 +1,97 @@
-/**
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
- */
+ * Contributors: Team _
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 
 /**
  * @author Inferno505
- *
+ * 
  */
 public class YearData {
-MonthData[] months;
-DateInfo dateInfo;
+	MonthData[] months;
+	DateInfo dateInfo;
 
-public YearData(int year){
-	//build months based on gregorean for given year
-	this.dateInfo = new DateInfo (year, -1, -1, -1);
-}
+	public YearData(int year) {
+		// build array of months
+		for (int i = 0; i <= 11; i++) {
+			months[i] = new MonthData(year, i);
+		}
+		// build months based on gregorean for given year
+		this.dateInfo = new DateInfo(year, -1, -1, -1);
+	}
+	
+	public MonthData[] getMonths(){
+		return this.months;
+	}
+	public void addEvent(Event event) {
+
+		DateInfo eventStoreDateInfo = event.convertParametersToDateInfo();
+
+		boolean monthFound = false;
+		for (int i = 0; i <= 11; i++) {
+			if (this.months[i].getMonth() == eventStoreDateInfo.getMonth()) {
+				monthFound = true;
+				this.months[i].addEvent(event, eventStoreDateInfo);
+				break;
+			}
+
+		}
+		if (monthFound == false) {
+			// TODO exception the event has an invalid month
+		}
+		// TODO Indication of event added to year
+	}
+	public void removeEvent(Event event) {
+		DateInfo eventStoreDateInfo = event.convertParametersToDateInfo();
+		boolean monthFound = false;
+		for (int i = 0; i <= 11; i++) {
+			if (this.months[i].getMonth() == eventStoreDateInfo.getMonth()) {
+				monthFound = true;
+				this.months[i].removeEvent(event, eventStoreDateInfo);
+				break;
+			}
+
+		}
+		if (monthFound == false) {
+			// TODO exception the event has an invalid month
+		}
+		// TODO Indication of event added to year
+
+		
+	}
+
+	public List<Event> getYearEvents(DateInfo dateRegion) {
+
+		List<Event> monthEvents = new ArrayList<Event>();
+		List<Event> yearEvents = new ArrayList<Event>();
+		for (int i = 0; i <= 11; i++) {
+			monthEvents = months[i].getMonthEvents(dateRegion);
+			yearEvents.addAll(monthEvents);
+			/*
+			 * monthEventsAray = monthEvents.toArray( monthEventsAray); for(int
+			 * j = 0; j< monthEvents.size(); j++){
+			 * yearEvents.add(monthEventsAray[j]); }
+			 */
+
+		}
+
+		return yearEvents;
+	}
+
+	
+
 }

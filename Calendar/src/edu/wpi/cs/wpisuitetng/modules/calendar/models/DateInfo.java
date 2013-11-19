@@ -1,5 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
+import java.util.Date;
+
 
 //this class is a suggested data structure that contains a date (in numerical information).  It would be used in areas to signify the date
 //such as the start and end times of events, the date information of a year, month, or day object.
@@ -23,5 +25,22 @@ public DateInfo (int year, int month, int day, int halfHour){
 	this.month = month;
 	this.day = day;
 	this.halfHour = halfHour;
+}
+public  int getYear(){
+	return this.year;
+}
+public  int getMonth(){
+	return this.month;
+}
+public  int getDay(){
+	return this.day;
+}
+public  int getHalfHour(){
+	return this.halfHour;
+}
+
+public Date convertDateInfoToDate(){
+	Date date = new Date(this.getYear(),this.getMonth(),this.getDay());
+	return date;
 }
 }

@@ -6,21 +6,23 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 //import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
-//import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-
-//import HashMap
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 
-//import gson
 import com.google.gson.Gson;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 
 public class CalendarData extends AbstractModel {
 
 	// class map of YearData objects
 	// Storage Structure for calendars and their events/commitments
-	private HashMap<Integer, YearData> dataMap = new HashMap<Integer, YearData>();
 	private String name;
 	private String type;
+	private HashMap<Integer, YearData> dataMap = new HashMap<Integer, YearData>();
 
 	// class constructor
 	public CalendarData(String name, String type) {
@@ -170,42 +172,175 @@ public class CalendarData extends AbstractModel {
 
 	// End Get Functions Database Interaction
 	// --------------------------------------------------------------------------------------------------------------------------
-
-	
-	
-	// Additional Functions Database Interaction
+	// mapData YearData manipulation Functions
 	// --------------------------------------------------------------------------------------------------------------------------
+
 	// checks dataMap for YearData for given year
 	private boolean containsYearData(int year) {
-		return false;
+		return ((this.dataMap.containsKey(year) && (this.dataMap.get(year) != null)));
 	}
 
 	// returns YearData for given year returns exception if YearData for given
 	// year does not exist
 	private YearData getYearData(int year) {
-		return null;
+		YearData yearData = null;
+
+		if (containsYearData(year)) {
+			yearData = (this.dataMap.get(year));
+		} else {
+			// TODO exception YearData object is not existent.
+		}
+		return yearData;
 	}
 
 	// makes and returns YearData for given year
-	private YearData buildYearData(int year) {
-		// build year with gregorian for given int year
-		return null;
+	private YearData getbuildYearData(int year) {
+		YearData yearData = null;
+		if (containsYearData(year)) {
+			yearData = this.getYearData(year);
+		} else {
+			// build year with gregorian for given int year
+			yearData = new YearData(year);
+		}
+		return yearData;
+	}
 
+	private void removeYearData(int year) {
+		dataMap.remove(year);
+	}
+
+	//
+	private void saveYearData(int year, YearData yearData) {
+		// add to map (year,yearData);
+		this.dataMap.put(year, yearData);
 	}
 
 	// add YearData object to dataMap
 	private void addYearData(int year) {
-		if (!(containsYearData(year))) {
-			YearData yearData = buildYearData(year);
-		} else {
-			YearData yearData = getYearData(year);
-		}
-
+		YearData yearData = getbuildYearData(year);
+		this.removeYearData(year);
+		this.saveYearData(year, yearData);
 	}
+
+	private void addYearData(int year, YearData yearData) {
+		this.removeYearData(year);
+		this.saveYearData(year, yearData);
+	}
+
+	// mapData YearData manipulation Functions(INPUT AS AN EVENT VERSION)
+	// --------------------------------------------------------------------------------------------------------------------------
+
+	private boolean containsYearDataEvent(Event event) {
+		return this.containsYearData(event.getStartYear());
+	}
+
+	// returns YearData for given year returns exception if YearData for given
+	// year does not exist
+	private YearData getYearDataEvent(Event event) {
+		return this.getYearData(event.getStartYear());
+	}
+
+	// makes and returns YearData for given year
+	private YearData buildYearDataEvent(Event event) {
+		return this.getbuildYearData(event.getStartYear());
+	}
+
+	// add YearData object to dataMap
+	private void addYearDataEvent(Event event) {
+		this.addYearData(event.getStartYear());
+	}
+
+	// End mapData YearData manipulation Functions(INPUT AS AN EVENT VERSION)
+	// --------------------------------------------------------------------------------------------------------------------------
+
+	// End mapData YearData manipulation Functions
+	// ------------------------------------------------
+	// Calendar Event manipulation Functions
+	// --------------------------------------------------------------------------------------------------------------------------
+	
+	// add event accordingly to calendar dataMap
+	public void addEvent(Event event) {
+		int year = event.getStartYear();
+		YearData yearData = this.getbuildYearData(year);
+		yearData.addEvent(event);
+		this.addYearData(year, yearData);
+	}
+public void removeEvent(Event event){
+	int year = event.getStartYear();
+	YearData yearData = this.getbuildYearData(year);
+	yearData.removeEvent(event);
+	this.addYearData(year, yearData);
+	
+}
+	// get events spanning view region specified, related to the date of the
+	// given DateInfo
+	public List<Event> getEventsPerView(String view, DateInfo dateRegion) {
+
+		List<Event> eventList = new ArrayList<Event>();
+
+		// get events spanning year
+		if (view.toLowerCase().equals("year")) {
+			eventList = (this.getYearData(dateRegion.getYear()))
+					.getYearEvents(dateRegion);
+		}
+		// get events spanning month
+		else if (view.toLowerCase().equals("month")) {
+			MonthData[] months = (this.getYearData(dateRegion.getYear()))
+					.getMonths();
+			eventList = months[dateRegion.getMonth()]
+					.getMonthEvents(dateRegion);
+		}
+		// get events spanning week
+		else if (view.toLowerCase().equals("week")) {
+			MonthData[] months = (this.getYearData(dateRegion.getYear()))
+					.getMonths();
+			DayData[] days = months[dateRegion.getMonth()].getDays();
+			Calendar refCal = new GregorianCalendar(dateRegion.getYear(),
+					dateRegion.getMonth(), dateRegion.getDay());
+			int weekNum = refCal.getWeekYear();
+			int offset = 0;
+			refCal = new GregorianCalendar(dateRegion.getYear(),
+					dateRegion.getMonth(), dateRegion.getDay() - 1);
+
+			while (refCal.getWeekYear() == weekNum) {
+				refCal = new GregorianCalendar(dateRegion.getYear(),
+						dateRegion.getMonth(), dateRegion.getDay() - 1);
+				offset++;
+			}
+			refCal = new GregorianCalendar(dateRegion.getYear(),
+					dateRegion.getMonth(), dateRegion.getDay() - 1);
+			for (int i = 0; i <= 6; i++) {
+				eventList.addAll(days[dateRegion.getDay() - offset + i]
+						.getDayEvents(dateRegion));
+			}
+
+		}
+		// get events spanning day
+		else if (view.toLowerCase().equals("day")) {
+			MonthData[] months = (this.getYearData(dateRegion.getYear()))
+					.getMonths();
+			DayData[] days = months[dateRegion.getMonth()].getDays();
+			eventList = days[dateRegion.getDay()].getDayEvents(dateRegion);
+
+		}
+		// return events list
+		return eventList;
+	}
+
+	// to add
+	// Populate list of events per a view no criteria
+	// one for criteria
+	// add event to calendar (in according place)
+	//
+	// can: make cal, build year, (get, check for, build, add)
+	// need save year con y without data (lu map functions for save)
+
+	// End Calendar Event manipulation Functions
+	// --------------------------------------------------------------------------------------------------------------------------
 
 	/*
 	 * 
-	 * TODO requires event implementation
+	 * 
 	 * 
 	 * //adds event to according year private void addEventToYearData(Event
 	 * event) { if (!(containsYearData(Event.year))) { YearData yearOfEvent =
@@ -240,6 +375,12 @@ public class CalendarData extends AbstractModel {
 	 * needed //thread to year's day as designated by event.date //add event to
 	 * day's list of events }
 	 */
+
+	// End Additional Functions Database Interaction
+	// --------------------------------------------------------------------------------------------------------------------------
+
+	// Additional Functions Database Interaction
+	// --------------------------------------------------------------------------------------------------------------------------
 
 	// End Additional Functions Database Interaction
 	// --------------------------------------------------------------------------------------------------------------------------

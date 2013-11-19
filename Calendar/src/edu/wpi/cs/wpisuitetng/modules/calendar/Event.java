@@ -20,19 +20,22 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import java.util.List;
 import java.util.Date;
 
-
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 public class Event {
 	private String eventName;
 	private String eventDescr;
 	private Date startDate;
 	private Date endDate;
+	private int startHalfHour;
+	private int endHalfHour;
+	
 	// String category;
 	// Repeat repeat;
 	// List<String> participants;
 	// boolean committed;
 	
 	public Event(String eventName, String eventDescr, Date startDate, Date endDate, 
-			boolean committed, List<String> participants, String category, Repeat repeat){
+			boolean committed, List<String> participants, String category, Repeat repeat, int startHalfHour, int endHalfHour){
 		this.eventName = eventName;
 		this.eventDescr = eventDescr;
 		this.startDate = startDate;
@@ -41,6 +44,8 @@ public class Event {
 		// this.repeat = repeat;
 		// this.committed = committed;
 		// this.participants = participants;
+		this.startHalfHour = startHalfHour;
+		this.endHalfHour = endHalfHour;
 	}
 
 	public String getEventName() {
@@ -74,7 +79,34 @@ public class Event {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
+	@SuppressWarnings("deprecation")
+	public int getStartYear(){
+		return this.startDate.getYear();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public int getEndYear(){
+		return this.endDate.getYear();
+	}
+	
+	public int getStartHalfHour(){
+		return this.startHalfHour;
+	}
+	public int getEndHalfHour(){
+		return this.endHalfHour;
+	}
+	
+	public DateInfo convertParametersToDateInfo(){
+		Date eventStoreDate = this.getStartDate();
+		int eventStoreYear = eventStoreDate.getYear();
+		int eventStoreMonth = eventStoreDate.getMonth();
+		int eventStoreDay = eventStoreDate.getDay();
+		int eventStoreHalfHour = this.getStartHalfHour();
+		DateInfo eventStoreDateInfo = new DateInfo(eventStoreYear,
+				eventStoreMonth, eventStoreDay, eventStoreHalfHour);
+		return eventStoreDateInfo;
+	}
+	
 	// It seems that these are all kept in EventCldr 
 	// But I will keep these here for safekeeping
 	
