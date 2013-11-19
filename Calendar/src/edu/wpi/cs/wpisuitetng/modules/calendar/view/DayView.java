@@ -64,12 +64,17 @@ public class DayView extends JPanel {
 	
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
+	
+	// Will this component be used in the week view? 
+	private boolean isWeekView; 
 
 	/**
-	 * Create the panel.
+	 * Create the panel. 
+	 * @param Takes a boolean that determines if it will display the times
 	 */
-	public DayView() {
+	public DayView(boolean isWeek) {
 		
+		isWeekView = isWeek;
 		initDay();
 		createControls();
 		addElements();
@@ -82,82 +87,158 @@ public class DayView extends JPanel {
 	}
 	
 	private void createControls() {
-		dayTable = new JTable(new DefaultTableModel(
-				new Object[][] {
-						{"Midnight", null},
-						{"12:30", null},
-						{"1:00", null},
-						{"1:30", null},
-						{"2:00", null},
-						{"2:30", null},
-						{"3:00", null},
-						{"3:30", null},
-						{"4:00", null},
-						{"4:30", null},
-						{"5:00", null},
-						{"5:30", null},
-						{"6:00", null},
-						{"6:30", null},
-						{"7:00", null},
-						{"7:30", null},
-						{"8:00", null},
-						{"8:30", null},
-						{"9:00", null},
-						{"9:30", null},
-						{"10:00", null},
-						{"10:30", null},
-						{"11:00", null},
-						{"11:30", null},
-						{"12:00", null},
-						{"12:30", null},
-						{"1:00", null},
-						{"1:30", null},
-						{"2:00", null},
-						{"2:30", null},
-						{"3:00", null},
-						{"3:30", null},
-						{"4:00", null},
-						{"4:30", null},
-						{"5:00", null},
-						{"5:30", null},
-						{"6:00", null},
-						{"6:30", null},
-						{"7:00", null},
-						{"7:30", null},
-						{"8:00", null},
-						{"8:30", null},
-						{"9:00", null},
-						{"9:30", null},
-						{"10:00", null},
-						{"10:30", null},
-						{"11:00", null},
-						{"11:30", null},
-					},
-					new String[] {
-						"", this.getStringDay()
-					}
-				) {
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-					boolean[] columnEditables = new boolean[] {
-						false, false
-					};
-					public boolean isCellEditable(int row, int column) {
-						return columnEditables[column];
-					}
-				});
+		if(isWeekView) {
+			dayTable = new JTable(new DefaultTableModel(
+					new Object[][] {
+							{"Midnight", null},
+							{"12:30", null},
+							{"1:00", null},
+							{"1:30", null},
+							{"2:00", null},
+							{"2:30", null},
+							{"3:00", null},
+							{"3:30", null},
+							{"4:00", null},
+							{"4:30", null},
+							{"5:00", null},
+							{"5:30", null},
+							{"6:00", null},
+							{"6:30", null},
+							{"7:00", null},
+							{"7:30", null},
+							{"8:00", null},
+							{"8:30", null},
+							{"9:00", null},
+							{"9:30", null},
+							{"10:00", null},
+							{"10:30", null},
+							{"11:00", null},
+							{"11:30", null},
+							{"12:00", null},
+							{"12:30", null},
+							{"1:00", null},
+							{"1:30", null},
+							{"2:00", null},
+							{"2:30", null},
+							{"3:00", null},
+							{"3:30", null},
+							{"4:00", null},
+							{"4:30", null},
+							{"5:00", null},
+							{"5:30", null},
+							{"6:00", null},
+							{"6:30", null},
+							{"7:00", null},
+							{"7:30", null},
+							{"8:00", null},
+							{"8:30", null},
+							{"9:00", null},
+							{"9:30", null},
+							{"10:00", null},
+							{"10:30", null},
+							{"11:00", null},
+							{"11:30", null},
+						},
+						new String[] {
+							"", this.getStringDay()
+						}
+					) {
+						/**
+						 * 
+						 */
+						private static final long serialVersionUID = 1L;
+						boolean[] columnEditables = new boolean[] {
+								false, false
+						};
+						public boolean isCellEditable(int row, int column) {
+							return columnEditables[column];
+						}
+					});
+			}
+		else {
+			dayTable = new JTable(new DefaultTableModel(
+					new Object[][] {
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+						},
+						new String[] {
+							this.getStringDay()
+						}
+					) {
+						/**
+						 * 
+						 */
+						private static final long serialVersionUID = 1L;
+						boolean[] columnEditables = new boolean[] {
+								false
+						};
+						public boolean isCellEditable(int row, int column) {
+							return columnEditables[column];
+						}
+					});
+			}
 		dayTable.setAutoCreateColumnsFromModel(false);
 		dayTable.getColumnModel().getColumn(0).setResizable(false);
 		dayTable.getColumnModel().getColumn(0).setPreferredWidth(43);
 		dayTable.getColumnModel().getColumn(0).setMinWidth(30);
 		dayTable.getColumnModel().getColumn(0).setMaxWidth(43);
-		dayTable.getColumnModel().getColumn(1).setResizable(false);
-		dayTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+		if (isWeekView) {
+			dayTable.getColumnModel().getColumn(1).setResizable(false);
+			dayTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+		}
+		else {
+			dayTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+			dayTable.getColumnModel().getColumn(0).setMinWidth(10);
+			dayTable.getColumnModel().getColumn(0).setMaxWidth(238473);
+		}
 		dayTable.setSelectionBackground(Color.GREEN);
 		dayScroll = new JScrollPane(dayTable);
-		// dayScroll.setBounds(0, 0, 554, 569);
 		
 	}
 	
@@ -194,7 +275,7 @@ public class DayView extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 // If the column is disabled, reselect previous column
-                if (sel.isSelectedIndex(disabledColumn)) {
+                if (sel.isSelectedIndex(disabledColumn) && isWeekView) {
                     sel.setSelectionInterval(currentColumn, currentColumn);
                 }
                 // Set current selection
@@ -238,7 +319,12 @@ public class DayView extends JPanel {
 	 */
 	public void refreshDay(Calendar newDay) {
 		realDay = newDay;
-		dayTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(this.getStringDay());
+		if(isWeekView) {
+			dayTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(this.getStringDay());
+		}
+		else {
+			dayTable.getTableHeader().getColumnModel().getColumn(0).setHeaderValue(this.getStringDay());
+		}
 		repaint();
 		colorCurrentDate();
 	}

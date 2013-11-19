@@ -55,31 +55,31 @@ public class WeekViewPanel extends JPanel {
 		// Just set the days to the calculated week above
 		// Maybe I should have kept an array?
 		
-		dayOne = new DayView();
+		dayOne = new DayView(true);
 		dayOne.refreshDay(shiftWeek);
 		
-		dayTwo = new DayView();
+		dayTwo = new DayView(false);
 		
 		shiftWeek.add(Calendar.DATE, 1);
 		dayTwo.refreshDay(shiftWeek);
 		
-		dayThree = new DayView(); 
+		dayThree = new DayView(false); 
 		shiftWeek.add(Calendar.DATE, 1);
 		dayThree.refreshDay(shiftWeek);
 		
-		dayFour = new DayView();
+		dayFour = new DayView(false);
 		shiftWeek.add(Calendar.DATE, 1);
 		dayFour.refreshDay(shiftWeek);
 		
-		dayFive = new DayView();
+		dayFive = new DayView(false);
 		shiftWeek.add(Calendar.DATE, 1);
 		dayFive.refreshDay(shiftWeek);
 		
-		daySix = new DayView();
+		daySix = new DayView(false);
 		shiftWeek.add(Calendar.DATE, 1);
 		daySix.refreshDay(shiftWeek);
 		
-		daySeven = new DayView();
+		daySeven = new DayView(false);
 		shiftWeek.add(Calendar.DATE, 1);
 		daySeven.refreshDay(shiftWeek);
 		
