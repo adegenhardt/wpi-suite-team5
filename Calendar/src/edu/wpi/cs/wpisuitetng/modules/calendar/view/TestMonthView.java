@@ -26,7 +26,6 @@ public class TestMonthView extends JPanel {
 	JComboBox<String> cmbYear;
 	int realYear, realMonth, realDay, currentYear, currentMonth;
 
-
 	/**
 	 * Create the panel.
 	 */
@@ -48,7 +47,7 @@ public class TestMonthView extends JPanel {
 	private void createControls(){
 		btnNext = new JButton("Next");
 		btnPrev = new JButton("Previous");
-		lblMonth = new JLabel("January");
+		lblMonth = new JLabel("January", JLabel.CENTER);
 		cmbYear = new JComboBox<String>();
 		lblYear = new JLabel("Change year:");
 		mtblCalendar = new DefaultTableModel() {
@@ -69,6 +68,7 @@ public class TestMonthView extends JPanel {
 	}
 	
 	private void addControls() {
+		btnNext.setPreferredSize(btnPrev.getPreferredSize());
 		add(btnNext, BorderLayout.EAST);
 		add(btnPrev, BorderLayout.WEST);
 		add(lblMonth, BorderLayout.NORTH);
