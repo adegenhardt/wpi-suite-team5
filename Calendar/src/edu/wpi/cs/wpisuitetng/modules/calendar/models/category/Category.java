@@ -16,7 +16,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
  * @author Joe Hill
  *
  */
-
 public class Category {
 	/** Name of the category **/
 	private String name;
