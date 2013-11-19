@@ -34,14 +34,15 @@ public class ToolbarView extends DefaultToolbarView {
 	/** The panel containing toolbar buttons */
 	private final ToolbarPanel toolbarPanel;
 	
-	private final EventButtonsPanel eventButton = new EventButtonsPanel();
+	private final EventButtonsPanel eventPanel = new EventButtonsPanel();
+	private final TeamPersButtonsPanel teamPanel = new TeamPersButtonsPanel();
 
 
 	/**
 	 * Construct this view and all components in it.
 	 */
 	public ToolbarView() {
-		eventButton.getCreateEventButton().addMouseListener(new MouseAdapter() {
+		eventPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				final JDialog eventWindow  = new JDialog();
@@ -51,10 +52,35 @@ public class ToolbarView extends DefaultToolbarView {
 				eventWindow.setLocationRelativeTo(null);
 				eventWindow.setTitle("Create Event");
 				eventWindow.setVisible(true);
+				/*pane.setTabComponentAt(i, new ButtonTabComponent(pane)); */
+
 			}
 		});
 		
-		this.addGroup(eventButton);
+		eventPanel.getCreateCommitButton().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				final JDialog commitWindow  = new JDialog();
+				final CommitEditor commitTab = new CommitEditor(); 
+				commitWindow.setContentPane(commitTab);
+				commitWindow.setBounds(0, 0, 680, 480);
+				commitWindow.setLocationRelativeTo(null);
+				commitWindow.setTitle("Create Commitment");
+				commitWindow.setVisible(true);
+				/*pane.setTabComponentAt(i, new ButtonTabComponent(pane)); */
+			}
+		});
+		
+		this.addGroup(eventPanel);
+		
+		teamPanel.getCreateTeamButton().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+			}
+		});
+		
+		this.addGroup(teamPanel);
 		
 		// Prevent this toolbar from being moved
 		setFloatable(false);
@@ -70,7 +96,13 @@ public class ToolbarView extends DefaultToolbarView {
 	
 	 * @return EditButtonsPanel */
 	public EventButtonsPanel getEventButton(){
-		return eventButton;
+		return eventPanel;
 	}
+	
+	public EventButtonsPanel getCommitButton(){
+		return eventPanel;
+	}
+	
+	
 	
 }

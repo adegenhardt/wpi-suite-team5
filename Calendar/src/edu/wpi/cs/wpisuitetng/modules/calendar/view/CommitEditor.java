@@ -34,13 +34,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
-public class EventEditor extends JPanel {
+public class CommitEditor extends JPanel {
 	private JTextField textField_1;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
 	 */
-	public EventEditor() {
+	public CommitEditor() {
 		// Set the layout
 		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][40px:40px:40px][150px:150.00:150px]", "[50.00px][125px:125:150px][25.00][][][][][][][100px:100:100px][]"));
 		
