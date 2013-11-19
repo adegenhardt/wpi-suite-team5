@@ -30,9 +30,9 @@ public class MainView extends JPanel {
 	 * Construct the panel.
 	 */
 	public MainView() {
-		setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout());
 		// Add the calendar panel to this view
 		calendarPanel = new CalendarPanel();
-		add(calendarPanel);
+		add(calendarPanel, BorderLayout.CENTER);
 	}
 }

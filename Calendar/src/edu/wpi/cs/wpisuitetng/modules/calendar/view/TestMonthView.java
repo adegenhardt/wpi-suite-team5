@@ -5,10 +5,14 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.GregorianCalendar;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -22,6 +26,7 @@ public class TestMonthView extends JPanel {
 	JTable tblCalendar;
 	JButton btnPrev, btnNext;
 	JLabel lblMonth, lblYear;
+	JScrollPane scrlCalendar; 
 	DefaultTableModel mtblCalendar;
 	JComboBox<String> cmbYear;
 	int realYear, realMonth, realDay, currentYear, currentMonth;
@@ -41,6 +46,7 @@ public class TestMonthView extends JPanel {
 		createTableProperties();
 		populateTable();
 		refreshCalendar(realMonth, realYear);
+		this.addComponentListener(new ResizeListener());
 
 	}
 	
@@ -59,6 +65,7 @@ public class TestMonthView extends JPanel {
 			}
 		};
 		tblCalendar = new JTable(mtblCalendar);
+		scrlCalendar = new JScrollPane(tblCalendar);
 	}
 	
 	private void registerActionListeners() {
@@ -75,7 +82,7 @@ public class TestMonthView extends JPanel {
 		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
 		tblCalendar.setCellSelectionEnabled(true);
-		add(tblCalendar, BorderLayout.CENTER);
+		add(scrlCalendar, BorderLayout.CENTER);
 	}
 	
 	private void createDate() {
@@ -193,6 +200,25 @@ public class TestMonthView extends JPanel {
 			setForeground(Color.black);
 			return this;
 		}
+	}
+	
+	// This can help resize the calendar component
+	// I'm more or less sleepily trying out random
+	// Numbers until it works I hope someone has
+	// A better idea than me
+	class ResizeListener implements ComponentListener {
+
+	    public void componentHidden(ComponentEvent e) {}
+	    public void componentMoved(ComponentEvent e) {}
+	    public void componentShown(ComponentEvent e) {}
+
+	    public void componentResized(ComponentEvent e) {
+	    	// The split pane isn't resizing, but this should work when it does
+	        Dimension newSize = e.getComponent().getBounds().getSize();
+	        System.out.println(newSize);
+	        // THIS NEEDS A LITTLE WORK BUT ITS SO CLOSE
+	        tblCalendar.setRowHeight((newSize.height/6) - (newSize.height/50));
+	    }
 	}
 
 	class btnPrev_Action implements ActionListener {
