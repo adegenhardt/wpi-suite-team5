@@ -326,6 +326,7 @@ public class DayView extends JPanel {
 			dayTable.getTableHeader().getColumnModel().getColumn(0).setHeaderValue(this.getStringDay());
 		}
 		repaint();
+		dayTable.getSelectionModel().clearSelection();
 		colorCurrentDate();
 	}
 	
