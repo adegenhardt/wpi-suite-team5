@@ -21,7 +21,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class TestMonthView extends JPanel {
+public class MonthView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	JTable tblCalendar;
 	JButton btnPrev, btnNext;
@@ -29,17 +29,17 @@ public class TestMonthView extends JPanel {
 	JScrollPane scrlCalendar; 
 	DefaultTableModel mtblCalendar;
 	JComboBox<String> cmbYear;
+	JPanel topPanel;
 	int realYear, realMonth, realDay, currentYear, currentMonth;
 
 	/**
 	 * Create the panel.
 	 */
-	public TestMonthView() {
+	public MonthView() {
 		setLayout(new BorderLayout());
 		createControls();
 		registerActionListeners();
 		addControls();
-		//createBounds();
 		createDate();
 		addHeaders();
 		createBackground();
@@ -51,6 +51,7 @@ public class TestMonthView extends JPanel {
 	}
 	
 	private void createControls(){
+		topPanel = new JPanel();
 		btnNext = new JButton("Next");
 		btnPrev = new JButton("Previous");
 		lblMonth = new JLabel("January", JLabel.CENTER);
@@ -75,10 +76,11 @@ public class TestMonthView extends JPanel {
 	}
 	
 	private void addControls() {
+		add(topPanel, BorderLayout.NORTH);
+		topPanel.add(btnPrev, BorderLayout.WEST);
+		topPanel.add(lblMonth, BorderLayout.CENTER);
+		topPanel.add(btnNext, BorderLayout.EAST);
 		btnNext.setPreferredSize(btnPrev.getPreferredSize());
-		add(btnNext, BorderLayout.EAST);
-		add(btnPrev, BorderLayout.WEST);
-		add(lblMonth, BorderLayout.NORTH);
 		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
 		tblCalendar.setCellSelectionEnabled(true);
@@ -215,9 +217,10 @@ public class TestMonthView extends JPanel {
 	    public void componentResized(ComponentEvent e) {
 	    	// The split pane isn't resizing, but this should work when it does
 	        Dimension newSize = e.getComponent().getBounds().getSize();
-	        System.out.println(newSize);
 	        // THIS NEEDS A LITTLE WORK BUT ITS SO CLOSE
-	        tblCalendar.setRowHeight((newSize.height/6) - (newSize.height/50));
+	        //Have we tried +1?
+	        tblCalendar.setRowHeight((newSize.height - 84)/6);
+	         tblCalendar.setRowHeight(6, (((newSize.height - 84)/6) + ((newSize.height - 84)%6)));
 	    }
 	}
 
