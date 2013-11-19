@@ -63,7 +63,7 @@ public class DayView extends JPanel {
 	private int currentColumn = 1;
 	
 	// String date format that the Day View will give
-	private final DateFormat dayFormat = new SimpleDateFormat("MMMM dd, yyyy");
+	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 
 	/**
 	 * Create the panel.
@@ -212,15 +212,17 @@ public class DayView extends JPanel {
 		JTableHeader header = dayTable.getTableHeader();
 		// thisDay and displayDay get the respective integer day values
 		// So they can be compared because Calendar.equals is garbage
-		int thisDay = currentDay.get(Calendar.DAY_OF_MONTH); 
-		int displayDay = realDay.get(Calendar.DAY_OF_MONTH); 
-		if (thisDay == displayDay) {
+		// Have to compare every individual value because 
+		// CALENDAR IS COMPLETE GARBAGE
+		int thisYear = currentDay.get(Calendar.YEAR);
+		int displayYear = realDay.get(Calendar.YEAR);
+		int thisDay = currentDay.get(Calendar.DAY_OF_YEAR); 
+		int displayDay = realDay.get(Calendar.DAY_OF_YEAR);
+		if ((thisDay == displayDay) && (thisYear == displayYear)) {
 			header.setBackground(new Color(138,173,209));
-			System.out.println("Changed to blue");
 		}
 		else {
 			header.setBackground(UIManager.getColor(JTableHeader.class));
-			System.out.println("Chnaged to default");
 		}
 	}
 	
@@ -247,7 +249,15 @@ public class DayView extends JPanel {
 		return dayFormat.format(realDay.getTime());
 	}
 	
+	public String getToday() {
+		return dayFormat.format(currentDay.getTime());
+	}
+	
 	public Calendar getRealDay() {
 		return realDay;
+	}
+	
+	public void setCurrent() {
+		refreshDay(currentDay); 
 	}
 }

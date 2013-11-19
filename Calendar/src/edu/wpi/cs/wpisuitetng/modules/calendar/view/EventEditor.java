@@ -35,7 +35,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
 public class EventEditor extends JPanel {
-	private JTextField textField_1;
+	private JTextField eventName;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
@@ -45,12 +45,12 @@ public class EventEditor extends JPanel {
 		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][40px:40px:40px][150px:150.00:150px]", "[50.00px][125px:125:150px][25.00][][][][][][][100px:100:100px][]"));
 		
 		// Set the Event label and text editor (single line)
-		JLabel lblEventName = new JLabel("Event Name:");
+		final JLabel lblEventName = new JLabel("Event Name:");
 		add(lblEventName, "cell 0 0,alignx trailing");
 		
-		textField_1 = new JTextField();
-		add(textField_1, "cell 1 0 5 1,growx,aligny center");
-		textField_1.setColumns(10);
+		eventName = new JTextField();
+		add(eventName, "cell 1 0 5 1,growx,aligny center");
+		eventName.setColumns(10);
 		
 		// Set the description label and text editor
 		JLabel lblDescription = new JLabel("Description:");
@@ -61,8 +61,8 @@ public class EventEditor extends JPanel {
 		scrollPaneDesc.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollPaneDesc, "cell 1 1 5 1,grow");
 		// Put the text editor into the scroll pane
-		JEditorPane editorPane = new JEditorPane();
-		scrollPaneDesc.setViewportView(editorPane);
+		JEditorPane descriptionPane = new JEditorPane();
+		scrollPaneDesc.setViewportView(descriptionPane);
 		
 		// Create the date picker
 		JLabel lblDate = new JLabel("Date:");
@@ -125,6 +125,15 @@ public class EventEditor extends JPanel {
 		scrollPaneParticipants.setViewportView(editorPane_1);
 		
 		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Add code to add event
+				// Get the arguments out of their respective fields
+				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%R^$&*^*^T%YHU&Y^U
+				System.out.println(eventName.getText());
+			}
+		});
 		add(btnSubmit, "cell 1 10 2 1,growx");
 		
 		JButton btnCancel = new JButton("Cancel");
