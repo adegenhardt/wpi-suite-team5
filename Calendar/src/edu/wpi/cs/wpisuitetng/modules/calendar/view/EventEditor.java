@@ -39,12 +39,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarData;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCalendarDataController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCalendarDataController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCalendarDataController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarDataModel;
 
 import javax.swing.DefaultComboBoxModel;
 
@@ -174,6 +179,46 @@ public class EventEditor extends JPanel {
 				
 				Event makeEvent = new Event(50, eventName.getText(), descriptionPane.getText(), startDate, endDate);
 				eventCal.addEvent(makeEvent);
+				
+				GetCalendarDataController.getInstance().retrieveCalendarData();
+				int size = CalendarDataModel.getInstance().getCalendarData().size();
+				List<CalendarData> retCal = CalendarDataModel.getInstance().getCalendarData();
+				
+				for (int i = 0; i < size; i++) {
+					if (eventCal.getType().equals((
+							(CalendarData) 
+							((CalendarDataModel) retCal).getElementAt(i)).getType()) &&
+							eventCal.getName().equals(((Component) 
+									((CalendarDataModel) retCal).getElementAt(i)).getName()) &&
+									eventCal.getId() == 
+									(((CalendarData) 
+									((CalendarDataModel) retCal).getElementAt(i)).getId()))
+							{
+						UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
+						System.out.println("You successfully updated your calendar...");
+					}
+					AddCalendarDataController.getInstance().addCalendarData(eventCal);
+					System.out.println("You successfully added a new calendar...");
+				}
+				
+				GetCalendarDataController.getInstance().retrieveCalendarData();
+				List<CalendarData> fromDbCal = CalendarDataModel.getInstance().getCalendarData();
+				
+				for (int j = 0; j < size; j++) {
+					if (eventCal.getType().equals((
+							(CalendarData) 
+							((CalendarDataModel) retCal).getElementAt(j)).getType()) &&
+							eventCal.getName().equals(((Component) 
+									((CalendarDataModel) retCal).getElementAt(j)).getName()) &&
+									eventCal.getId() == 
+									(((CalendarData) 
+									((CalendarDataModel) retCal).getElementAt(j)).getId()))
+							{
+						System.out.println("Here are the contents of what you added");
+					}
+					System.out.println("Nothing found matching what you input to the db... :(");
+				}
+				
 				System.out.println(eventName.getText());
 				System.out.println(descriptionPane.getText());
 				System.out.println(endDate);
