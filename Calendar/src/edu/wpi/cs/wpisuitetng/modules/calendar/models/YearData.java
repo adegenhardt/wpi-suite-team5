@@ -16,7 +16,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+
 
 /**
  * @author Inferno505
@@ -34,12 +34,15 @@ public class YearData {
 	 *            int
 	 */
 	public YearData(int year) {
+		
+		this.dateInfo = new DateInfo(year, -1, -1, -1);
+		
+		months = new MonthData[ 12 ];
 		// build array of months
 		for (int i = 0; i <= 11; i++) {
 			months[i] = new MonthData(year, i);
 		}
 
-		this.dateInfo = new DateInfo(year, -1, -1, -1);
 	}
 
 	/**
@@ -61,13 +64,17 @@ public class YearData {
 
 		int eventMonth = event.getStartDate().getMonth();
 		
-		if (eventMonth >= 0 && eventMonth < 12)
-			this.months[eventMonth].addEvent(event);
+		if ( eventMonth >= 0 && eventMonth < 12 )
+			this.months[ eventMonth ].addEvent( event );
 		else {
 			// TODO exception the event has an invalid month
 		}
+		// TODO Indication of event added to year
+		// ???
 	}
 
+	
+	
 	/**
 	 * Method removeEvent. Removes event from according DayData
 	 * 
@@ -78,8 +85,8 @@ public class YearData {
 		
 		int eventMonth = event.getStartDate().getMonth();
 		
-		if (eventMonth >= 0 && eventMonth < 12)
-			this.months[eventMonth].removeEvent(event);
+		if ( eventMonth >= 0 && eventMonth < 12 )
+			this.months[ eventMonth ].removeEvent( event );
 		else {
 			// TODO exception the event has an invalid month
 		}
@@ -106,7 +113,6 @@ public class YearData {
 			 * j = 0; j< monthEvents.size(); j++){
 			 * yearEvents.add(monthEventsAray[j]); }
 			 */
-
 		}
 
 		return yearEvents;
@@ -128,31 +134,12 @@ public class YearData {
 		if (index < 0 || index >= 12) {
 			throw new ArrayIndexOutOfBoundsException();
 		}
-
 		return months[index];
-
 	}
 
 	public int getYear() {
 
 		return this.dateInfo.getYear();
 	}
-
-	// pre merge functions
-
-	/**
-	 * Create the months of a given year
-	 * 
-	 * @param year
-	 *            the Year having its months created
-	 */
-	/*
-	 * private void createMonths( int year ) {
-	 * 
-	 * for ( int i = 0; i < 12; i++ ) { months[ i ] = new MonthData( year, i );
-	 * }
-	 * 
-	 * }
-	 */
 
 }

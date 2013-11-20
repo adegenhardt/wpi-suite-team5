@@ -29,6 +29,12 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * Creates the Day View tab
+ */
 public class DayViewPanel extends JPanel {
 	
 	/**

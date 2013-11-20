@@ -46,6 +46,14 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarData;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
+import javax.swing.DefaultComboBoxModel;
+
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * Creates the event editor tab
+ */
 public class EventEditor extends JPanel {
 	private JTextField eventName;
 	
@@ -139,9 +147,9 @@ public class EventEditor extends JPanel {
 		scrollPaneParticipants.setViewportView(editorPane_1);
 		
 		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addMouseListener(new MouseAdapter() {
+		btnSubmit.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {
 				// Add code to add event
 				// Get the arguments out of their respective fields
 				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%R^$&*^*^T%YHU&Y^U

@@ -61,18 +61,18 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		createTeamButton = new JButton("<html>Team <br/>Calendar</html>");
 		createPersonalButton = new JButton("<html>Personal <br/>Calendar</html>");
 		// Set the size and layout
-		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		this.setPreferredWidth(350);
 		
-		this.createTeamButton.setHorizontalAlignment(SwingConstants.CENTER);
+		createTeamButton.setHorizontalAlignment(SwingConstants.CENTER);
 		// Set the icons
 		// TODO: New icons
 		try {
 			final Image imgT = ImageIO.read(getClass().getResource("team_calendar.png"));
-		    this.createTeamButton.setIcon(new ImageIcon(imgT));
+		    createTeamButton.setIcon(new ImageIcon(imgT));
 		    
 		    final Image imgP = ImageIO.read(getClass().getResource("pers_calendar.png"));
-		    this.createPersonalButton.setIcon(new ImageIcon(imgP));
+		    createPersonalButton.setIcon(new ImageIcon(imgP));
 		    
 		} catch (IOException ex) {}
 		

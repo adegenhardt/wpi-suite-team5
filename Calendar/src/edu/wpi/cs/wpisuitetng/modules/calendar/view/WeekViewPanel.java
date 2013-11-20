@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2012 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Team Underscore
+ *    
+ *******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.util.Calendar;
@@ -83,14 +95,14 @@ public class WeekViewPanel extends JPanel {
 		shiftWeek.add(Calendar.DATE, 1);
 		daySeven.refreshDay(shiftWeek);
 		
-		nextWeek = new JButton(">");
+		nextWeek = new JButton("Next");
 		nextWeek.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				changeWeek(1);
 			}
 		});
-		prevWeek = new JButton("<");
+		prevWeek = new JButton("Previous");
 		prevWeek.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

@@ -14,7 +14,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
-
 // I'm not sure if we need this, but
 // import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage; 
 // I'll just comment it out to be safe.
@@ -37,6 +36,7 @@ public class Event {
 	private Date startDate;
 	private Date endDate;
 	private Date date;
+	//TODO private List<Category> categories
 
 	/*
 	 * private Date startTime; private Date endTime;
@@ -46,16 +46,22 @@ public class Event {
 	// Repeat repeat;
 	// List<String> participants;
 	// boolean committed;
-	
-//secondary constructor, for samson's tests
-	//not using start and end HalfHour
+
+	// secondary constructor, for samson's tests
+	// not using start and end HalfHour
 	/**
 	 * Constructor for Event.
-	 * @param id int
-	 * @param eventName String
-	 * @param eventDescr String
-	 * @param startDate Date
-	 * @param endDate Date
+	 * 
+	 * @param id
+	 *            int
+	 * @param eventName
+	 *            String
+	 * @param eventDescr
+	 *            String
+	 * @param startDate
+	 *            Date
+	 * @param endDate
+	 *            Date
 	 */
 	public Event(int id, String eventName, String eventDescr, Date startDate,
 			Date endDate) {
@@ -67,42 +73,55 @@ public class Event {
 		// TODO Auto-generated constructor stub
 	}
 
-
-
-	
-
-
 	// ----------------------------------------------------------------------------
 	// Getters for the fields of Event
-	
-	public int getEventID(){
+	/**
+	 * 
+	 * @return
+	 */
+	public int getEventID() {
 		return id;
 	}
-	
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getEventName() {
 		return eventName;
 	}
-	
+
+	/**
+	 * 
+	 * @return
+	 */
 	public String getEventDescr() {
 		return eventDescr;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Date getDate() {
 		return date;
 	}
 
-	//public List<Category>(){
-	//	return categories;
-	//}
-	
+	/**
+	 * 
+	 * @param eventID
+	 */
+	// public List<Category>(){
+	// return categories;
+	// }
+
 	// -----------------------------------------------------------------------------
 	// Setters for the fields of Event
-	
-	public void setEventID(int eventID){
+
+	public void setEventID(int eventID) {
 		this.id = eventID;
 	}
-	
+
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
@@ -110,7 +129,6 @@ public class Event {
 	public void setEventDescr(String eventDescr) {
 		this.eventDescr = eventDescr;
 	}
-
 
 	/*
 	 * public Date getStartTime() { return this.startTime; }
@@ -134,37 +152,39 @@ public class Event {
 
 	/**
 	 * Method convertParametersToDateInfo.
-	
-	 * @return DateInfo */
+	 * 
+	 * @return DateInfo
+	 */
 	@Deprecated
 	public DateInfo getStartDateAsDateInfo() {
 		Date eventStoreDate = this.getStartDate();
 		int eventStoreYear = eventStoreDate.getYear();
 		int eventStoreMonth = eventStoreDate.getMonth();
 		int eventStoreDay = eventStoreDate.getDay();
-		int eventStoreHalfHour = ( eventStoreDate.getHours() * 2 ) +
-				                 ( eventStoreDate.getMinutes() / 30 );
+		int eventStoreHalfHour = (eventStoreDate.getHours() * 2)
+				+ (eventStoreDate.getMinutes() / 30);
 		DateInfo eventStoreDateInfo = new DateInfo(eventStoreYear,
-				eventStoreMonth, eventStoreDay, eventStoreHalfHour );
+				eventStoreMonth, eventStoreDay, eventStoreHalfHour);
 		return eventStoreDateInfo;
 	}
 
 	public Date getStartDate() {
 		return this.startDate;
 	}
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
+
 	/**
 	 * 
 	 * @return the calculated starting half hour from 0-47
 	 */
+	//TODO I thought the time parameters of Date class is based on millisecond from 1970?
 	public int getStartHalfHour() {
-		return 	( startDate.getHours() * 2 ) +
-                ( startDate.getMinutes() / 30 );
+		return (startDate.getHours() * 2) + (startDate.getMinutes() / 30);
 	}
-	
+
 	// It seems that these are all kept in EventCldr
 	// But I will keep these here for safekeeping
 
@@ -184,6 +204,5 @@ public class Event {
 	// public void deleteEvent(){
 	// delete(this);
 	// }
-
 
 }

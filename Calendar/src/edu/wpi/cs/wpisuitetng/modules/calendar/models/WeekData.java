@@ -13,6 +13,8 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
 /**
+ * @author Team_
+ * @version 1.0
  * class for implementing CalendarData dataMap structure as:
  * year-month-week-day-halfHour
  * if such is determined to be a better system

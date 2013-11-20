@@ -31,9 +31,9 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 
 /**
  * @author Inferno505
- * @version $Revision: 1.0 $ Main Class for Holding Data for Team and Personsal
- *          Calednars Holds indentity info, HashNap of Events and Cotmitments
- *          orginizied by day of event Holds master list of categories
+ * @version $Revision: 1.0 $ Main Class for Holding Data for Team and Personal
+ *          Calendars Holds identity info, HashNap of Events and Commitments
+ *          Organized by day of event Holds master list of categories
  */
 public class CalendarData extends AbstractModel {
 	private String name;
@@ -248,7 +248,7 @@ public class CalendarData extends AbstractModel {
 	public boolean containsYearData(int year) {
 		return ((this.dataMap.containsKey(year) && (this.dataMap.get(year) != null)));
 	}
-
+// re
 	//
 	// year does not exist
 	/**

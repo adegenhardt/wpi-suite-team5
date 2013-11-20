@@ -7,8 +7,6 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors: Team Underscore
- * @authors Team Underscore
- * @version $Revision: 1.0$
  *    
  *******************************************************************************/
 
@@ -17,6 +15,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import javax.swing.JTabbedPane;
 
 /**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
  * Creates the CalendarView tabs
  */
 public class CalendarTab extends JTabbedPane {

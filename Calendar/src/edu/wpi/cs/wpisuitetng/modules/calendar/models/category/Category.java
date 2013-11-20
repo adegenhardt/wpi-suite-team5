@@ -25,7 +25,7 @@ public class Category {
 	
 	/** Constructs a Category with default characteristics **/
 	public Category() {
-		super();
+		// Default value for name and description is blank
 		name = description = "";
 	}
 	
@@ -50,8 +50,7 @@ public class Category {
 	/** Method setName.
 	 * 
 	 * @param n
-	 * 			the new name of the Category
-	 */
+	 * 			the new name of the Category */
 	public void setName(String n) {
 		if (!n.equals(this.name)) {
 			String originalName = this.name;
@@ -59,7 +58,9 @@ public class Category {
 			if (newName.length() > 100)
 				newName = newName.substring(0, 100);
 			String message = ("Name changed from " + originalName + " to " + newName);
-			// this.history.add(message);            Possibly implemented later
+			System.out.println(message);
+			// Possibly implemented later
+			// this.history.add(message);
 		}
 		this.name = n;
 		if (name.length() > 100)
@@ -67,23 +68,22 @@ public class Category {
 	}
 	
 	/** Method getDescription.
-	 * 
-	 * 
+	 *
 	 * @return description
-	 * 				the description of the Category **/
+	 * 				the description of the Category */
 	public String getDescription() {
 		return description;
 	}
 
 	/** Method setDescription.
 	 * 
-	 *  
 	 * @param desc String
-	 * 			the description to set
-	 */
+	 * 			the description to set */
 	public void setDescription(String desc) {
 		if (!desc.equals(this.description)) {
-			// this.history.add("Description changed");			Will be implemented later
+			System.out.println("Description changed!");
+			// Possibly implemented later
+			// this.history.add("Description changed!");
 		}
 		this.description = desc;
 	}
@@ -98,6 +98,7 @@ public class Category {
 	 * 			the new category */
 	public Category createNewCategory(String name, String description) {
 		Category cat = new Category(name, description);
+		System.out.println("New Category " + name + " created!");
 		return cat;
 	}
 }
