@@ -42,13 +42,13 @@ public class YearDataTest {
 	 */
 	@Test
 	public void testMonthRetrieval() {
-		YearData year = new YearData( 1984 );
+		YearData year = new YearData(1984);
 		
 		assertNotNull( year.getMonth( 0 ) );
 		assertNotNull( year.getMonth( 11 ) );
 		
 		// Check that errors are being handled
-		try {
+	try {
 			assertNull( year.getMonth( -1 ) );
 		}
 		catch ( ArrayIndexOutOfBoundsException a ) {
