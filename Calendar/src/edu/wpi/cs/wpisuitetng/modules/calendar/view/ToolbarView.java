@@ -28,6 +28,12 @@ import javax.swing.JDialog;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * Creates the toolbar view
+ */
 @SuppressWarnings("serial")
 public class ToolbarView extends DefaultToolbarView {
 	
@@ -53,7 +59,6 @@ public class ToolbarView extends DefaultToolbarView {
 				eventWindow.setTitle("Create Event");
 				eventWindow.setVisible(true);
 				/*pane.setTabComponentAt(i, new ButtonTabComponent(pane)); */
-
 			}
 		});
 		

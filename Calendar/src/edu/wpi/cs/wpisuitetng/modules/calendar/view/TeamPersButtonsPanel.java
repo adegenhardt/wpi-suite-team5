@@ -26,34 +26,53 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
 //Creates a panel in the toolbar with buttons 
 //to switch between Team and Personal calendars
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * Creates the team member button panel
+ */
 public class TeamPersButtonsPanel extends ToolbarGroupView{
-	
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
 	// Create the buttons
 	JButton createTeamButton;
 	JButton createPersonalButton;
-	final private ImageIcon editImg = null;
-	final private ImageIcon saveImg = null;
 
 	// Methods to enable and disable these buttons
+	/**
+	 * Method disableCreateTeamButton.
+	 */
 	public void disableCreateTeamButton() {
 		createTeamButton.setEnabled(false);
 	}
 	
+	/**
+	 * Method enableCreateTeamButton.
+	 */
 	public void enableCreateTeamButton() {
 		createTeamButton.setEnabled(true);
 	}
 	
+	/**
+	 * Method disableCreatePersonalButton.
+	 */
 	public void disableCreatePersonalButton() {
 		createTeamButton.setEnabled(false);
 	}
 	
+	/**
+	 * Method enableCreatePersonalButton.
+	 */
 	public void enableCreatePersonalButton() {
 		createTeamButton.setEnabled(true);
 	}
 
 	// Create the panel
+	/**
+	 * Constructor for TeamPersButtonsPanel.
+	 */
 	public TeamPersButtonsPanel(){
 		super("");
 		
@@ -84,22 +103,20 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			}
-		});	
-				
+		});
+
 		// action listener for the Personal Calendar Button
 		createPersonalButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
-					// ViewEventController.getInstance().createIteration();
-				}
-			//}
+
+			}
 		});
 		// Add the buttons to the panel
 		contentPanel.add(createPersonalButton);
 		contentPanel.add(createTeamButton);
 		contentPanel.setOpaque(false);
-		
+
 		this.add(contentPanel);
 	}
 	

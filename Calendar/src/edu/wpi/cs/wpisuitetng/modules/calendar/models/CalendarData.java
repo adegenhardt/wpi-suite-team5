@@ -17,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 //import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 /**
  * @author Inferno505
@@ -35,13 +37,15 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
  *          Calendars Holds identity info, HashNap of Events and Commitments
  *          Organized by day of event Holds master list of categories
  */
-public class CalendarData extends AbstractModel {
+public class CalendarData extends AbstractModel implements InterfaceCalendarData{
 	private String name;
 	private String type;// "personal" or "project"
 	private int id;
+	private List<Category> calCategories;
 	// class map of YearData objects
 	// Storage Structure for calendars and their events/commitments
 	private HashMap<Integer, YearData> dataMap = new HashMap<Integer, YearData>();
+
 
 	/**
 	 * Constructor for CalendarData. Basic constructor for generating a test
@@ -51,6 +55,7 @@ public class CalendarData extends AbstractModel {
 		this.name = "";
 		this.type = "";
 		this.id = 0;
+		this.calCategories = null;
 		// dataMap = new HashMap<Integer, YearData>();
 	}
 
@@ -68,6 +73,7 @@ public class CalendarData extends AbstractModel {
 		this.name = name;
 		this.type = type;
 		this.id = id;
+		this.calCategories = calCategories;
 		// dataMap = new HashMap<Integer, YearData>();
 	}
 
@@ -96,8 +102,9 @@ public class CalendarData extends AbstractModel {
 	 * Method toJSON.
 	 * 
 	 * 
+	
 	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * @see
-	 *         edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 *         edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
 	@Override
 	/**This returns a Json encoded String representation of this requirement object.
@@ -113,8 +120,9 @@ public class CalendarData extends AbstractModel {
 	 * Method toString.
 	 * 
 	 * 
+	
 	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() * @see
-	 *         edu.wpi.cs.wpisuitetng.modules.Model#toString()
+	 *         edu.wpi.cs.wpisuitetng.modules.Model#toString() * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
 	 */
 	@Override
 	public String toString() {
@@ -128,9 +136,10 @@ public class CalendarData extends AbstractModel {
 	 *            Object
 	 * 
 	 * 
+	
 	 * @return Boolean * @see
 	 *         edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) * @see
-	 *         edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
+	 *         edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
 	 */
 	@Override
 	public Boolean identify(Object o) {
@@ -146,8 +155,8 @@ public class CalendarData extends AbstractModel {
 	 *            JSON-encoded CalendarData to deserialize
 	 * 
 	 * 
-	 * @return the CalendarData contained in the given JSON
-	 */
+	
+	 * @return the CalendarData contained in the given JSON */
 	public static CalendarData fromJson(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, CalendarData.class);
@@ -161,8 +170,8 @@ public class CalendarData extends AbstractModel {
 	 *            string containing a JSON-encoded array of CalendarData
 	 * 
 	 * 
-	 * @return an array of CalendarData deserialized from the given JSON string
-	 */
+	
+	 * @return an array of CalendarData deserialized from the given JSON string */
 	public static CalendarData[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, CalendarData[].class);
@@ -190,34 +199,42 @@ public class CalendarData extends AbstractModel {
 	 * NOte: May not be needed or desired for outside classes to manipulate
 	 * dataMap
 	 * 
-	 * @return dataMap parameter of this CalendarData
-	 */
+	
+	 * @return dataMap parameter of this CalendarData */
 	public HashMap<Integer, YearData> getDataMap() {
 		return this.dataMap;
 	}
 
 	/**
 	 * 
-	 * @return name parameter of this CalendarData
-	 */
+	
+	 * @return name parameter of this CalendarData */
 	public String getName() {
 		return this.name;
 	}
 
 	/**
 	 * 
-	 * @return type parameter of this CalendarData
-	 */
+	
+	 * @return type parameter of this CalendarData */
 	public String getType() {
 		return this.type;
 	}
 
 	/**
 	 * 
-	 * @return the id of the CalendarData
-	 */
+	
+	 * @return the id of the CalendarData */
 	public int getId() {
 		return id;
+	}
+	
+	/**
+	 * Method getCalCategories.
+	 * @return List<Category>
+	 */
+	public List<Category> getCalCategories() {
+		return this.calCategories;
 	}
 
 	/**
@@ -242,22 +259,28 @@ public class CalendarData extends AbstractModel {
 	 * 
 	 * @param year
 	 *            int
+	
 	 * @return boolean state of CalendarData dataMap containing YearData for
-	 *         year
-	 */
+	 *         year */
 	public boolean containsYearData(int year) {
 		return ((this.dataMap.containsKey(year) && (this.dataMap.get(year) != null)));
 	}
-// re
+
+	// re
 	//
 	// year does not exist
 	/**
 	 * Method getYearData.
 	 * 
+<<<<<<< HEAD
+	 * @param year
+	 *            int
+=======
 	 * @param year int  
+	
+>>>>>>> 5fe2e8dc19eac02999b3c6fe65abbc7e74d739f5
 	 * @return YearData returns YearData for given year //TODO and returns
-	 *         exception if YearData for given
-	 */
+	 *         exception if YearData for given */
 	public YearData getYearData(int year) {
 		YearData yearData = null;
 
@@ -269,15 +292,15 @@ public class CalendarData extends AbstractModel {
 		return yearData;
 	}
 
-
 	/**
-	 * Method getbuildYearData.
-	 * makes and or gets then returns YearData for given year
+	 * Method getbuildYearData. makes and or gets then returns YearData for
+	 * given year
+	 * 
 	 * @param year
 	 *            int
 	 * 
-	 * @return YearData
-	 */
+	
+	 * @return YearData */
 	public YearData getbuildYearData(int year) {
 		YearData yearData = null;
 		if (containsYearData(year)) {
@@ -290,8 +313,8 @@ public class CalendarData extends AbstractModel {
 	}
 
 	/**
-	 * Method removeYearData.
-	 * removes YearData for given year from dataMap
+	 * Method removeYearData. removes YearData for given year from dataMap
+	 * 
 	 * @param year
 	 *            int
 	 */
@@ -299,10 +322,10 @@ public class CalendarData extends AbstractModel {
 		dataMap.remove(year);
 	}
 
-	
 	/**
-	 * Method saveYearData.
-	 * adds given YearData to madData with key being integer of its year
+	 * Method saveYearData. adds given YearData to madData with key being
+	 * integer of its year
+	 * 
 	 * @param year
 	 *            int
 	 * @param yearData
@@ -312,10 +335,10 @@ public class CalendarData extends AbstractModel {
 		this.dataMap.put(year, yearData);
 	}
 
-	
 	/**
-	 * Method addYearData.
-	 * adds YearData object to dataMap for given year integer
+	 * Method addYearData. adds YearData object to dataMap for given year
+	 * integer
+	 * 
 	 * @param year
 	 *            int
 	 */
@@ -326,10 +349,16 @@ public class CalendarData extends AbstractModel {
 	}
 
 	/**
-	 * Method addYearData.
-	 * adds given YearData to CalendarData map data
+<<<<<<< HEAD
+	 * Method addYearData. adds given YearData to CalendarData map data
+	 * 
 	 * @param year
 	 *            int
+=======
+	 * Method addYearData.
+	 * adds given YearData to CalendarData map data
+	
+>>>>>>> 5fe2e8dc19eac02999b3c6fe65abbc7e74d739f5
 	 * @param yearData
 	 *            YearData
 	 */
@@ -343,47 +372,50 @@ public class CalendarData extends AbstractModel {
 	// --------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Method containsYearDataEvent.
-	 * checks dataMap for Year data using event's DateInfo
+	 * Method containsYearDataEvent. checks dataMap for Year data using event's
+	 * DateInfo
+	 * 
 	 * @param event
 	 *            Event
 	 * 
-	 * @return boolean
-	 */
+	
+	 * @return boolean */
 	public boolean containsYearDataEvent(Event event) {
 		return this.containsYearData(event.getStartYear());
 	}
 
-	
 	/**
-	 * Method getYearDataEvent.
-	 * returns YearData for given year returns //TODO exception if YearData for given year does not exist
+	 * Method getYearDataEvent. returns YearData for given year returns //TODO
+	 * exception if YearData for given year does not exist
+	 * 
 	 * @param event
 	 *            Event
 	 * 
-	 * @return YearData
-	 */
+	
+	 * @return YearData */
 	public YearData getYearDataEvent(Event event) {
 		return this.getYearData(event.getStartYear());
 	}
 
 	// makes and returns YearData for given year
 	/**
-	 * Method buildYearDataEvent.
-	 * makes and or gets YearData for based on event's DateInfo
+	 * Method buildYearDataEvent. makes and or gets YearData for based on
+	 * event's DateInfo
+	 * 
 	 * @param event
 	 *            Event
 	 * 
-	 * @return YearData
-	 */
+	
+	 * @return YearData */
 	public YearData getbuildYearDataEvent(Event event) {
 		return this.getbuildYearData(event.getStartYear());
 	}
 
 	// add YearData object to dataMap
 	/**
-	 * Method addYearDataEvent.
-	 * adds YearDate to dataMap based on event's DateInfo
+	 * Method addYearDataEvent. adds YearDate to dataMap based on event's
+	 * DateInfo
+	 * 
 	 * @param event
 	 *            Event
 	 */
@@ -396,8 +428,7 @@ public class CalendarData extends AbstractModel {
 
 	// End mapData YearData manipulation Functions
 	// ------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	
+
 	// Calendar Event manipulation Functions
 	// --------------------------------------------------------------------------------------------------------------------------
 
@@ -416,8 +447,9 @@ public class CalendarData extends AbstractModel {
 	}
 
 	/**
-	 * Method removeEvent.
-	 * removes event from according place in YearData, updates YearData in dataMap
+	 * Method removeEvent. removes event from according place in YearData,
+	 * updates YearData in dataMap
+	 * 
 	 * @param event
 	 *            Event
 	 */
@@ -429,17 +461,18 @@ public class CalendarData extends AbstractModel {
 
 	}
 
-	
 	/**
-	 * Method getEventsPerView.
-	 * get events spanning view region specified, related to the view string and date of the given DateInfo
+	 * Method getEventsPerView. get events spanning view region specified,
+	 * related to the view string and date of the given DateInfo
+	 * 
 	 * @param view
 	 *            String Accepts "year" "month" "week" "day"
 	 * @param dateRegion
-	 *            DateInfo DateInfo for a day inside the region desired to get events from
+	 *            DateInfo DateInfo for a day inside the region desired to get
+	 *            events from
 	 * 
-	 * @return List<Event>
-	 */
+	
+	 * @return List<Event> */
 	public List<Event> getEventsPerView(String view, DateInfo dateRegion) {
 
 		List<Event> eventList = new ArrayList<Event>();
@@ -467,16 +500,17 @@ public class CalendarData extends AbstractModel {
 			int offset = 0;
 			refCal = new GregorianCalendar(dateRegion.getYear(),
 					dateRegion.getMonth(), dateRegion.getDay() - 1);
-//determines offset between given day and start of week
+			// determines offset between given day and start of week
 			while (refCal.getWeekYear() == weekNum) {
 				refCal = new GregorianCalendar(dateRegion.getYear(),
 						dateRegion.getMonth(), dateRegion.getDay() - 1);
 				offset++;
 			}
-			
+
 			refCal = new GregorianCalendar(dateRegion.getYear(),
 					dateRegion.getMonth(), dateRegion.getDay() - 1);
-		 //gets events for all days in week region, starting with earliest day
+			// gets events for all days in week region, starting with earliest
+			// day
 			for (int i = 0; i <= 6; i++) {
 				eventList.addAll(days[dateRegion.getDay() - offset + i]
 						.getDayEvents(dateRegion));
@@ -506,8 +540,18 @@ public class CalendarData extends AbstractModel {
 	// End Calendar Event manipulation Functions
 	// --------------------------------------------------------------------------------------------------------------------------
 
+	
+	/**
+	 * Method addCategoryToList.
+	 * @param name String
+	 * @param desc String
+	 */
+	public void addCategoryToList(String name, String desc) {
+		this.calCategories.add(new Category(name, desc));
+	}
+	
 	// =======
-//Pre merge functions
+	// Pre merge functions
 	/**
 	 * Checks if the CalendarData contains an instance of YearData for a given
 	 * year

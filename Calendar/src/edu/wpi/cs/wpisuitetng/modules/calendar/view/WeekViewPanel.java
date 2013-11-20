@@ -16,33 +16,38 @@ import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * Creates the Week View calendar tab
+ */
 public class WeekViewPanel extends JPanel {
-	
+	private static final long serialVersionUID = 1L;
+
 	// Millis for day in Calendar class
 	// Going to use this to calculate first day of week
-	private final static long ONE_DAY = 86400000;
+	private static final long ONE_DAY = 86400000;
 	
-	private DayView dayOne;
-	private DayView dayTwo;
-	private DayView dayThree;
-	private DayView dayFour;
-	private DayView dayFive;
-	private DayView daySix;
-	private DayView daySeven;
+	private final DayView dayOne;
+	private final DayView dayTwo;
+	private final DayView dayThree;
+	private final DayView dayFour;
+	private final DayView dayFive;
+	private final DayView daySix;
+	private final DayView daySeven;
 	
 	private final JButton nextWeek;
 	private final JButton prevWeek;
 	
-	private Calendar shiftWeek; 
+	private final Calendar shiftWeek; 
 
 	/**
 	 * Create the panel.
@@ -51,15 +56,15 @@ public class WeekViewPanel extends JPanel {
 		
 		shiftWeek = Calendar.getInstance();
 		
-	    int day = shiftWeek.get(Calendar.DAY_OF_YEAR); 
+		//final int day = shiftWeek.get(Calendar.DAY_OF_YEAR);
 	     // While loop through the week to obtain the first day of the week
 	     // Why is this a thiiiiiiiiiiiiingggggggg
 	    while(shiftWeek.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 	         shiftWeek.setTimeInMillis(shiftWeek.getTimeInMillis() - ONE_DAY);  
 	    }  
 		
-		JPanel weekContainer = new JPanel();
-		JPanel buttonContainer = new JPanel();
+	    final JPanel weekContainer = new JPanel();
+	    final JPanel buttonContainer = new JPanel();
 
 		weekContainer.setLayout(new GridLayout(0, 7, 0, 0));
 		buttonContainer.setLayout(new GridLayout(0, 2, 0, 0));
@@ -70,28 +75,27 @@ public class WeekViewPanel extends JPanel {
 		dayOne = new DayView(true);
 		dayOne.refreshDay(shiftWeek);
 		
-		dayTwo = new DayView(false);
-		
+		dayTwo = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		dayTwo.refreshDay(shiftWeek);
 		
-		dayThree = new DayView(false); 
+		dayThree = new DayView(true); 
 		shiftWeek.add(Calendar.DATE, 1);
 		dayThree.refreshDay(shiftWeek);
 		
-		dayFour = new DayView(false);
+		dayFour = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		dayFour.refreshDay(shiftWeek);
 		
-		dayFive = new DayView(false);
+		dayFive = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		dayFive.refreshDay(shiftWeek);
 		
-		daySix = new DayView(false);
+		daySix = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		daySix.refreshDay(shiftWeek);
 		
-		daySeven = new DayView(false);
+		daySeven = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		daySeven.refreshDay(shiftWeek);
 		
