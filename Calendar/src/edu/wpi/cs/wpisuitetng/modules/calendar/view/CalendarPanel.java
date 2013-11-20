@@ -64,7 +64,7 @@ public class CalendarPanel extends JPanel {
 		splitPane.setResizeWeight(.5);
 		splitPane.setBorder(null);
 		splitPane.setOneTouchExpandable(true);
-		splitPane.setDividerLocation(.25);
+		splitPane.setDividerLocation(250);
 
 		
 		mainPanel.add(splitPane);
