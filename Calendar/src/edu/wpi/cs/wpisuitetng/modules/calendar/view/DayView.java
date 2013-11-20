@@ -67,15 +67,14 @@ public class DayView extends JPanel {
 	
 	// Will this component be used in the week view? 
 	private boolean isWeekView; 
-	private boolean isInWeekView;
-	
+
 	/**
 	 * Create the panel. 
 	 * @param Takes a boolean that determines if it will display the times
 	 */
-	public DayView(boolean isSunday) {
+	public DayView(boolean isWeek) {
 		
-		isWeekView = isSunday;
+		isWeekView = isWeek;
 		initDay();
 		createControls();
 		addElements();
@@ -85,20 +84,6 @@ public class DayView extends JPanel {
 		createUnselectableCol();
 		colorCurrentDate();
 		
-	}
-	
-	public DayView(boolean isSunday, boolean isInWeek){
-		isWeekView = isSunday;
-		isInWeekView= isInWeek;
-		setInWeekView(isInWeek);
-		initDay();
-		createControls();
-		addElements();
-		createBounds(); 
-		createBackground();
-		createTableProperties();
-		createUnselectableCol();
-		colorCurrentDate();
 	}
 	
 	private void createControls() {
@@ -361,13 +346,5 @@ public class DayView extends JPanel {
 	
 	public void resetCurrent() {
 		refreshDay(currentDay); 
-	}
-
-	public boolean getInWeekView() {
-		return isInWeekView;
-	}
-
-	public void setInWeekView(boolean isInWeekView) {
-		this.isInWeekView = isInWeekView;
 	}
 }
