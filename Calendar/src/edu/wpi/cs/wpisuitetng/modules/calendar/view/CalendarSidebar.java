@@ -27,7 +27,7 @@ public class CalendarSidebar extends JPanel {
 		eventScroll.setViewportView(eventTable);
 		eventTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null},
+				{"Test", "Nov 19, 2013", "12:00", "1:00"},
 				{null, null, null, null},
 				{null, null, null, null},
 				{null, null, null, null},

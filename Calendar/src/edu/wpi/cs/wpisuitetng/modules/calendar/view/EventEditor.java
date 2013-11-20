@@ -125,9 +125,9 @@ public class EventEditor extends JPanel {
 		scrollPaneParticipants.setViewportView(editorPane_1);
 		
 		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addMouseListener(new MouseAdapter() {
+		btnSubmit.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {
 				// Add code to add event
 				// Get the arguments out of their respective fields
 				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%R^$&*^*^T%YHU&Y^U
@@ -139,6 +139,7 @@ public class EventEditor extends JPanel {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			
 			}
 		});
 		add(btnCancel, "cell 3 10 2 1,growx");
