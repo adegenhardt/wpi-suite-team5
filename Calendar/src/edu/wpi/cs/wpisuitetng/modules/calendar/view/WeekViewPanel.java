@@ -95,14 +95,14 @@ public class WeekViewPanel extends JPanel {
 		shiftWeek.add(Calendar.DATE, 1);
 		daySeven.refreshDay(shiftWeek);
 		
-		nextWeek = new JButton(">");
+		nextWeek = new JButton("Next");
 		nextWeek.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				changeWeek(1);
 			}
 		});
-		prevWeek = new JButton("<");
+		prevWeek = new JButton("Previous");
 		prevWeek.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
