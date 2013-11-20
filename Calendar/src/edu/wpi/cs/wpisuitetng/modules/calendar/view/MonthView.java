@@ -55,6 +55,13 @@ public class MonthView extends JPanel {
 		btnNext = new JButton("Next");
 		btnPrev = new JButton("Previous");
 		lblMonth = new JLabel("January", JLabel.CENTER);
+		
+		// Set size constraints for month label
+		Dimension mlabelDim = new Dimension(115, 15);
+		lblMonth.setMinimumSize(mlabelDim);
+		lblMonth.setPreferredSize(mlabelDim);
+		lblMonth.setMaximumSize(mlabelDim);
+		
 		cmbYear = new JComboBox<String>();
 		lblYear = new JLabel("Change year:");
 		mtblCalendar = new DefaultTableModel() {
