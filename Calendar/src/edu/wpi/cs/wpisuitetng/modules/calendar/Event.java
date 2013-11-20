@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
+
 // I'm not sure if we need this, but
 // import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage; 
 // I'll just comment it out to be safe.
@@ -21,31 +22,89 @@ import java.util.List;
 import java.util.Date;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+
+/**
+ * @author Inferno505
+ * @version $Revision: 1.0 $
+ */
 public class Event {
+	private int id;
 	private String eventName;
 	private String eventDescr;
+
 	private Date startDate;
 	private Date endDate;
 	private int startHalfHour;
 	private int endHalfHour;
-	
+
+	/*
+	 * private Date startTime; private Date endTime;
+	 */
+
 	// String category;
 	// Repeat repeat;
 	// List<String> participants;
 	// boolean committed;
-	
-	public Event(String eventName, String eventDescr, Date startDate, Date endDate, 
-			boolean committed, List<String> participants, String category, Repeat repeat, int startHalfHour, int endHalfHour){
+
+	/**
+	 * Constructor for Event.
+	 * @param id int
+	 * @param eventName String
+	 * @param eventDescr String
+	 * @param startDate Date
+	 * @param endDate Date
+	 * @param startHalfHour int
+	 * @param endHalfHour int
+	 */
+	public Event(int id, String eventName, String eventDescr, Date startDate,
+			Date endDate, /*
+						 * boolean committed, List<String> participants, String
+						 * category, Repeat repeat,
+						 */
+			int startHalfHour, int endHalfHour) {
+		this.id = id;
 		this.eventName = eventName;
 		this.eventDescr = eventDescr;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.startHalfHour = startHalfHour;
+		this.endHalfHour = endHalfHour;
+		/*
+		 * this.startTime = startTime; this.endTime = endTime;
+		 */
 		// this.category = category;
 		// this.repeat = repeat;
 		// this.committed = committed;
 		// this.participants = participants;
 		this.startHalfHour = startHalfHour;
 		this.endHalfHour = endHalfHour;
+	}
+//secondary constructor, for samson's tests
+	//not using start and end HalfHour
+	/**
+	 * Constructor for Event.
+	 * @param id int
+	 * @param eventName String
+	 * @param eventDescr String
+	 * @param startDate Date
+	 * @param endDate Date
+	 */
+	public Event(int id, String eventName, String eventDescr, Date startDate,
+			Date endDate) {
+		this.id = id;
+		this.eventName = eventName;
+		this.eventDescr = eventDescr;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getEventID() {
+		return id;
+	}
+
+	public void setEventID(int eventID) {
+		this.id = eventID;
 	}
 
 	public String getEventName() {
@@ -64,39 +123,39 @@ public class Event {
 		this.eventDescr = eventDescr;
 	}
 
-	public Date getStartDate() {
-		return startDate;
-	}
+	/*
+	 * public Date getStartTime() { return this.startTime; }
+	 * 
+	 * public void setStartTime(Date startTime) { this.startTime = startTime; }
+	 * 
+	 * public Date getEndTime() { return endTime; }
+	 * 
+	 * public void setEndTime(Date endTime) { this.endTime = endTime; }
+	 */
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
 	@SuppressWarnings("deprecation")
-	public int getStartYear(){
+	public int getStartYear() {
 		return this.startDate.getYear();
 	}
-	
+
 	@SuppressWarnings("deprecation")
-	public int getEndYear(){
+	public int getEndYear() {
 		return this.endDate.getYear();
 	}
-	
-	public int getStartHalfHour(){
+
+	public int getStartHalfHour() {
 		return this.startHalfHour;
 	}
-	public int getEndHalfHour(){
+
+	public int getEndHalfHour() {
 		return this.endHalfHour;
 	}
+
+	/**
+	 * Method convertParametersToDateInfo.
 	
-	public DateInfo convertParametersToDateInfo(){
+	 * @return DateInfo */
+	public DateInfo convertParametersToDateInfo() {
 		Date eventStoreDate = this.getStartDate();
 		int eventStoreYear = eventStoreDate.getYear();
 		int eventStoreMonth = eventStoreDate.getMonth();
@@ -106,27 +165,29 @@ public class Event {
 				eventStoreMonth, eventStoreDay, eventStoreHalfHour);
 		return eventStoreDateInfo;
 	}
-	
-	// It seems that these are all kept in EventCldr 
+
+	public Date getStartDate() {
+		return this.startDate;
+	}
+
+	// It seems that these are all kept in EventCldr
 	// But I will keep these here for safekeeping
-	
+
 	// Stores a new event in the database
 	// public void storeEvent(){
-	//	 save(this);
-	//	 System.out.println("Stored "+this.eventName);
+	// save(this);
+	// System.out.println("Stored "+this.eventName);
 	// }
-	
+
 	// Uses input from the GUI to update the event
 	// Find the event, delete it, then create the updated ver. of it
 	// public void updateEvent(){
-	//	 save(this);	
+	// save(this);
 	// }
-	
+
 	// Deletes an event from the database
 	// public void deleteEvent(){
-	//	 delete(this);
+	// delete(this);
 	// }
-	
-	
 
 }
