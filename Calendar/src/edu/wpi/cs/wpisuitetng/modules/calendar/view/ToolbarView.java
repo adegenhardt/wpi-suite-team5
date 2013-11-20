@@ -36,6 +36,7 @@ public class ToolbarView extends DefaultToolbarView {
 	
 	private final EventButtonsPanel eventPanel = new EventButtonsPanel();
 	private final TeamPersButtonsPanel teamPanel = new TeamPersButtonsPanel();
+	private final CategoryButtonPanel categoryPanel = new CategoryButtonPanel(); 
 
 
 	/**
@@ -83,6 +84,8 @@ public class ToolbarView extends DefaultToolbarView {
 		});
 		
 		this.addGroup(teamPanel);
+		
+		this.addGroup(categoryPanel);
 		
 		// Prevent this toolbar from being moved
 		setFloatable(false);
