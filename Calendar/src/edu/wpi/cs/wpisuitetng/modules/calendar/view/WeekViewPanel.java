@@ -75,28 +75,27 @@ public class WeekViewPanel extends JPanel {
 		dayOne = new DayView(true);
 		dayOne.refreshDay(shiftWeek);
 		
-		dayTwo = new DayView(false);
-		
+		dayTwo = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		dayTwo.refreshDay(shiftWeek);
 		
-		dayThree = new DayView(false); 
+		dayThree = new DayView(true); 
 		shiftWeek.add(Calendar.DATE, 1);
 		dayThree.refreshDay(shiftWeek);
 		
-		dayFour = new DayView(false);
+		dayFour = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		dayFour.refreshDay(shiftWeek);
 		
-		dayFive = new DayView(false);
+		dayFive = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		dayFive.refreshDay(shiftWeek);
 		
-		daySix = new DayView(false);
+		daySix = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		daySix.refreshDay(shiftWeek);
 		
-		daySeven = new DayView(false);
+		daySeven = new DayView(true);
 		shiftWeek.add(Calendar.DATE, 1);
 		daySeven.refreshDay(shiftWeek);
 		
