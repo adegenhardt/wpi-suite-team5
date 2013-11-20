@@ -14,10 +14,10 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import javax.swing.JPanel;
 
 /**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
  * 
- * 
- * @author 
- *
+ * Creates the Toolbar panel
  */
 @SuppressWarnings("serial")
 public class ToolbarPanel extends JPanel {
