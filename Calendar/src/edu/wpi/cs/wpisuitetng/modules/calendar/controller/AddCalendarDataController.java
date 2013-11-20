@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @version $Revision: 1.0 $
  * @author srkodzis
  */
-public class AddCalendarDataController {
+public class AddCalendarDataController  {
 	
 	private static AddCalendarDataController instance;
 	private AddCalendarDataRequestObserver observer;
