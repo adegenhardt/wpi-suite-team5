@@ -11,14 +11,7 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar;
 
-import edu.wpi.cs.wpisuitetng.Session;
-import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
-// I'm not sure if we need this, but
-// import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage; 
-// I'll just comment it out to be safe.
-// import edu.wpi.cs.wpisuitetng.database.data;
-import java.util.List;
 import java.util.Date;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
@@ -33,15 +26,12 @@ public class Event {
 	private String eventName;
 	private String eventDescr;
 
-	private Date startDate;
-	private Date endDate;
-	private Date date;
+	private DateInfo startDate;
+	private DateInfo endDate;
 	//TODO private List<Category> categories
 
-	/*
-	 * private Date startTime; private Date endTime;
-	 */
-
+	
+	// Potential fields for later
 	// String category;
 	// Repeat repeat;
 	// List<String> participants;
@@ -63,29 +53,46 @@ public class Event {
 	 * @param endDate
 	 *            Date
 	 */
+	@Deprecated
 	public Event(int id, String eventName, String eventDescr, Date startDate,
 			Date endDate) {
 		this.id = id;
 		this.eventName = eventName;
 		this.eventDescr = eventDescr;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		// TODO Auto-generated constructor stub
+		this.startDate = new DateInfo( startDate );
+		this.endDate = new DateInfo( endDate );
 	}
 
+	/**
+	 * Construct an event object
+	 * @param id The ID of the event
+	 * @param eventName The event's name
+	 * @param eventDescr The description of the event
+	 * @param startDate Start date and time of event
+	 * @param endDate End date and time of event
+	 */
+	public Event( int id, String eventName, String eventDescr,
+			      DateInfo startDate, DateInfo endDate ) {
+		this.id = id;
+		this.eventName = eventName;
+		this.eventDescr = eventDescr;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+	
 	// ----------------------------------------------------------------------------
 	// Getters for the fields of Event
 	/**
 	 * 
-	 * @return
+	 * @return the ID of the event
 	 */
-	public int getEventID() {
+	public int getEventId() {
 		return id;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the name of the event
 	 */
 	public String getEventName() {
 		return eventName;
@@ -93,116 +100,102 @@ public class Event {
 
 	/**
 	 * 
-	 * @return
+	 * @return The description of the event
 	 */
-	public String getEventDescr() {
+	public String getEventDescription() {
 		return eventDescr;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public Date getDate() {
-		return date;
-	}
 
-	/**
-	 * 
-	 * @param eventID
-	 */
-	// public List<Category>(){
-	// return categories;
-	// }
-
-	// -----------------------------------------------------------------------------
+	// ---------------------------------------------
 	// Setters for the fields of Event
 
-	public void setEventID(int eventID) {
-		this.id = eventID;
+	/**
+	 * 
+	 * @param eventID the event's new ID
+	 */
+	public void setId(int eventID) {
+		id = eventID;
 	}
 
+	/**
+	 * 
+	 * @param eventName The new name of the event
+	 */
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
 
-	public void setEventDescr(String eventDescr) {
+	/**
+	 * 
+	 * @param eventDescr The new event description
+	 */
+	public void setEventDescription(String eventDescr) {
 		this.eventDescr = eventDescr;
 	}
 
-	/*
-	 * public Date getStartTime() { return this.startTime; }
+	/**
 	 * 
-	 * public void setStartTime(Date startTime) { this.startTime = startTime; }
-	 * 
-	 * public Date getEndTime() { return endTime; }
-	 * 
-	 * public void setEndTime(Date endTime) { this.endTime = endTime; }
+	 * @return the year that the event starts
 	 */
-
-	@SuppressWarnings("deprecation")
 	public int getStartYear() {
-		return this.startDate.getYear();
+		return startDate.getYear();
 	}
 
-	@SuppressWarnings("deprecation")
+	/**
+	 * 
+	 * @return the year that the event ends
+	 */
 	public int getEndYear() {
-		return this.endDate.getYear();
-	}
-
-	/**
-	 * Method convertParametersToDateInfo.
-	 * 
-	 * @return DateInfo
-	 */
-	@Deprecated
-	public DateInfo getStartDateAsDateInfo() {
-		Date eventStoreDate = this.getStartDate();
-		int eventStoreYear = eventStoreDate.getYear();
-		int eventStoreMonth = eventStoreDate.getMonth();
-		int eventStoreDay = eventStoreDate.getDay();
-		int eventStoreHalfHour = (eventStoreDate.getHours() * 2)
-				+ (eventStoreDate.getMinutes() / 30);
-		DateInfo eventStoreDateInfo = new DateInfo(eventStoreYear,
-				eventStoreMonth, eventStoreDay, eventStoreHalfHour);
-		return eventStoreDateInfo;
-	}
-
-	public Date getStartDate() {
-		return this.startDate;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
+		return endDate.getYear();
 	}
 
 	/**
 	 * 
-	 * @return the calculated starting half hour from 0-47
+	 * @return The starting date and time of event as a DateInfo object
 	 */
-	//TODO I thought the time parameters of Date class is based on millisecond from 1970?
+	public DateInfo getStartDate() {
+		return startDate;
+	}
+	
+	/**
+	 * 
+	 * @param startDate The new starting date for the event
+	 */
+	public void setStartDate(DateInfo startDate) {
+		this.startDate = startDate;
+	}
+	
+	/**
+	 * 
+	 * @return The ending date and time of event as a DateInfo object
+	 */
+	public DateInfo getEndDate() {
+		return endDate;
+	}
+
+	/**
+	 * 
+	 * @param endDate the new end date of the event
+	 */
+	public void setEndDate(DateInfo endDate) {
+		this.endDate = endDate;
+	}
+	
+	/**
+	 * 
+	 * @return the starting half hour of the event from 0-47
+	 */
 	public int getStartHalfHour() {
-		return (startDate.getHours() * 2) + (startDate.getMinutes() / 30);
+		return startDate.getHalfHour();
 	}
-
-	// It seems that these are all kept in EventCldr
-	// But I will keep these here for safekeeping
-
-	// Stores a new event in the database
-	// public void storeEvent(){
-	// save(this);
-	// System.out.println("Stored "+this.eventName);
-	// }
-
-	// Uses input from the GUI to update the event
-	// Find the event, delete it, then create the updated ver. of it
-	// public void updateEvent(){
-	// save(this);
-	// }
-
-	// Deletes an event from the database
-	// public void deleteEvent(){
-	// delete(this);
-	// }
+	
+	/**
+	 * 
+	 * @return the ending half hour of the event from 0-47
+	 */
+	public int getEndHalfHour() {
+		return endDate.getHalfHour();
+	}
 
 }

@@ -24,7 +24,7 @@ import java.util.List;
  * @version $Revision: 1.0 $
  */
 public class YearData {
-	MonthData[] months; // array of contained MonthDatas
+	MonthData[] months; // array of contined MonthDatas
 	DateInfo dateInfo; // Date info with resolution to year
 
 	/**
@@ -42,13 +42,8 @@ public class YearData {
 		for (int i = 0; i <= 11; i++) {
 			months[i] = new MonthData(year, i);
 		}
-
 	}
 
-	/**
-	 * 
-	 * @return array of contained MonthDatas
-	 */
 	public MonthData[] getMonths() {
 		return this.months;
 	}
@@ -90,7 +85,8 @@ public class YearData {
 		else {
 			// TODO exception the event has an invalid month
 		}
-		// TODO Indication of event added to YearData
+		// TODO Indication of event added to year
+		// ???
 	}
 
 	/**
@@ -113,6 +109,7 @@ public class YearData {
 			 * j = 0; j< monthEvents.size(); j++){
 			 * yearEvents.add(monthEventsAray[j]); }
 			 */
+
 		}
 
 		return yearEvents;
@@ -134,7 +131,9 @@ public class YearData {
 		if (index < 0 || index >= 12) {
 			throw new ArrayIndexOutOfBoundsException();
 		}
+
 		return months[index];
+
 	}
 
 	public int getYear() {

@@ -73,10 +73,10 @@ public class CalendarDataTest {
 		// Make sure no unnecessary intermediate years added
 		cd.addYearData( 2101 );
 		assertNotNull( cd.getYearData( 2101 ) );
-		assertFalse( cd.containsYearData( 2100 ) );
+		assertFalse( cd.hasYearData( 2100 ) );
 		
 		cd.removeYearData( 1984 );
-		assertFalse( cd.containsYearData( 1984 ) );
+		assertFalse( cd.hasYearData( 1984 ) );
 		
 		// Attempt to remove the year again and ensure that no errors are thrown
 		cd.removeYearData( 1984 );
@@ -182,8 +182,8 @@ public class CalendarDataTest {
 		List< Event > retrievedEvents2 = days2[ 0 ].getDayEvents();
 		//these were changed to date functions
 		assertEquals( retrievedEvents1.size(), retrievedEvents2.size() );
-		assertEquals( retrievedEvents1.get( 0 ).getStartDate().getSeconds(),
-				      retrievedEvents2.get( 0 ).getStartDate().getSeconds() );
+		assertEquals( retrievedEvents1.get( 0 ).getStartDate().getHalfHour(),
+				      retrievedEvents2.get( 0 ).getStartDate().getHalfHour() );
 		
 		
 	}
