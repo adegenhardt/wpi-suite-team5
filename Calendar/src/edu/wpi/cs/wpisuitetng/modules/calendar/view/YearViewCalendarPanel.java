@@ -58,7 +58,6 @@ public class YearViewCalendarPanel extends JScrollPane {
 		contentPanel.setLayout(new MigLayout("", "[924.00px]", "[30.00][500px]"));
 		
 		final JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(1, 5));
 		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		nextYear = new JButton("Next Year");
@@ -74,15 +73,16 @@ public class YearViewCalendarPanel extends JScrollPane {
 		prevMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
 		*/			
+		buttonPanel.setLayout(new MigLayout("", "[100px][][100px][][100px]", "[25px]"));
 		prevYear = new JButton("Previous");
 		prevYear.setPreferredSize(new Dimension(200, 23));
 		prevYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 						
-		buttonPanel.add(prevYear);
+		buttonPanel.add(prevYear, "cell 0 0,grow");
 		//buttonPanel.add(prevMonth);
-		buttonPanel.add(year);
+		buttonPanel.add(year, "cell 2 0,grow");
 		//buttonPanel.add(nextMonth);
-		buttonPanel.add(nextYear);
+		buttonPanel.add(nextYear, "cell 4 0,grow");
 						
 		contentPanel.add(buttonPanel, "cell 0 0,alignx center,aligny center");
 		 		

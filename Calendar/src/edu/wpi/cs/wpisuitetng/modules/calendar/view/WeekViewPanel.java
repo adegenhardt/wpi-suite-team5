@@ -48,6 +48,7 @@ public class WeekViewPanel extends JPanel {
 	private final JButton prevWeek;
 	
 	private final Calendar shiftWeek; 
+	private JButton btnThisWeek;
 
 	/**
 	 * Create the panel.
@@ -67,7 +68,6 @@ public class WeekViewPanel extends JPanel {
 	    final JPanel buttonContainer = new JPanel();
 
 		weekContainer.setLayout(new GridLayout(0, 7, 0, 0));
-		buttonContainer.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		// Just set the days to the calculated week above
 		// Maybe I should have kept an array?
@@ -113,9 +113,13 @@ public class WeekViewPanel extends JPanel {
 				changeWeek(-1); 
 			}
 		});
+		buttonContainer.setLayout(new MigLayout("", "[100px][][100px][][100px]", "[25px]"));
 		
-		buttonContainer.add(prevWeek);
-		buttonContainer.add(nextWeek);
+		buttonContainer.add(prevWeek, "cell 0 0,grow");
+		
+		btnThisWeek = new JButton("This Week");
+		buttonContainer.add(btnThisWeek, "cell 2 0");
+		buttonContainer.add(nextWeek, "cell 4 0,grow");
 		
 		setLayout(new MigLayout("", "[626px,grow]", "[29.00px][grow]"));
 

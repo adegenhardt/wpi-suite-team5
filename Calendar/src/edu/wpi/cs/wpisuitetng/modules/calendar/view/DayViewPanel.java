@@ -60,7 +60,7 @@ public class DayViewPanel extends JPanel {
 		currentDateCal = Calendar.getInstance(); 
 		
 		buttonsPanel = new JPanel(); 
-		buttonsPanel.setLayout(new MigLayout("", "[100px][][][][100px]", "[]"));
+		buttonsPanel.setLayout(new MigLayout("", "[100px][][100px][][100px]", "[]"));
 		
 		dayView = new DayView(true);
 		dayView.refreshDay(currentDateCal);
