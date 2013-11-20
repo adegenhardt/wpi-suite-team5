@@ -19,6 +19,10 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.border.TitledBorder;
+import javax.swing.JButton;
 
 /**
  * @author Team Underscore
@@ -37,7 +41,7 @@ public class CalendarSidebar extends JPanel {
 	 * Create the panel.
 	 */
 	public CalendarSidebar() {
-		setLayout(new MigLayout("", "[grow]", "[10:237.00:3853294,center][246.00,grow]"));
+		setLayout(new MigLayout("", "[grow]", "[10:237.00:3853294,center][246.00,grow][grow][]"));
 
 		final JScrollPane eventScroll = new JScrollPane();
 		add(eventScroll, "cell 0 0,grow");
@@ -110,6 +114,26 @@ public class CalendarSidebar extends JPanel {
 			}
 		});
 		scrollPane_1.setViewportView(commitmentTable);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Filters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		add(panel, "cell 0 2,grow");
+		panel.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		
+		JList list = new JList();
+		panel.add(list, "cell 0 0,grow");
+		list.setModel(new AbstractListModel() {
+			String[] values = new String[] {"Team", "Personal", "Things"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		
+		JButton btnNewButton = new JButton("Create Category");
+		add(btnNewButton, "cell 0 3,alignx center");
 
 	}
 
