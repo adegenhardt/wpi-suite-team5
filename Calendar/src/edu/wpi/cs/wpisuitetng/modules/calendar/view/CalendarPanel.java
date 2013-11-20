@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team Underscore
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
@@ -52,7 +52,7 @@ public class CalendarPanel extends JPanel {
 		panel2.add(tabs);
 		
 		//Provide minimum sizes for the two components in the split pane
-		Dimension minimumSize = new Dimension(10, 5);
+		final Dimension minimumSize = new Dimension(10, 5);
 		sidebar.setMinimumSize(minimumSize);
 		tabs.setMinimumSize(minimumSize);
 		setLayout(new BorderLayout(0, 0));
