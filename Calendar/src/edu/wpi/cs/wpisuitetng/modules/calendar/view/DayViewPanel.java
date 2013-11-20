@@ -12,20 +12,13 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
-import java.awt.Component;
 import java.awt.Rectangle;
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
@@ -41,11 +34,11 @@ public class DayViewPanel extends JPanel {
 	 * 
 	 */
 	// Millis for day in Calendar class
-	private final static long ONE_DAY = 86400000; 
+	private static final long ONE_DAY = 86400000; 
 	
 	private static final long serialVersionUID = 1L;
 
-	private DayView dayView;
+	private final DayView dayView;
 	
 	private final JPanel buttonsPanel;
 	
@@ -54,7 +47,7 @@ public class DayViewPanel extends JPanel {
 	
 	private final JButton currentDate;
 	
-	private Calendar currentDateCal; 
+	private final Calendar currentDateCal; 
 
 	/**
 	 * Create the panel.

@@ -29,62 +29,66 @@ import java.awt.event.MouseEvent;
  * Creates the event viewer
  */
 public class EventViewer extends JPanel {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Create the panel. Created using WindowBuilder
 	 */
 	public EventViewer() {
 		// Set the layout
-		setLayout(new MigLayout("", "[114px][275.00]", "[50.00px][125px:125:150px][25.00][][][][][][][100px:100:100px]"));
+		setLayout(new MigLayout("", "[114px][275.00]", "[50.00px][125px:125:150px][25.00][][][][]"
+				+ "[][][100px:100:100px]"));
 		
 		// Set the Event label and text editor (single line)
-		JLabel lblEventName = new JLabel("Event Name:");
+		final JLabel lblEventName = new JLabel("Event Name:");
 		add(lblEventName, "cell 0 0,alignx trailing");
 		
-		JLabel lblInputName = new JLabel("Input Name");
+		final JLabel lblInputName = new JLabel("Input Name");
 		add(lblInputName, "cell 1 0");
 		
 		// Set the description label and text editor
-		JLabel lblDescription = new JLabel("Description:");
+		final JLabel lblDescription = new JLabel("Description:");
 		add(lblDescription, "cell 0 1,alignx trailing");
 		
-		JLabel lblInputDesc = new JLabel("Input Desc");
+		final JLabel lblInputDesc = new JLabel("Input Desc");
 		add(lblInputDesc, "cell 1 1");
 		
 		// Create the date picker: three combo boxes, Month/Day/Year
-		JLabel lblDate = new JLabel("Date:");
+		final JLabel lblDate = new JLabel("Date:");
 		add(lblDate, "cell 0 3,alignx trailing");
 		
-		JLabel lblInputDate = new JLabel("Input Date");
+		final JLabel lblInputDate = new JLabel("Input Date");
 		add(lblInputDate, "cell 1 3");
 		
 		// Set the Start and End time fields
-		JLabel lblTime = new JLabel("Start Time:");
+		final JLabel lblTime = new JLabel("Start Time:");
 		add(lblTime, "cell 0 4,alignx trailing");
 		
-		JLabel lblInputStart = new JLabel("Input Start");
+		final JLabel lblInputStart = new JLabel("Input Start");
 		add(lblInputStart, "cell 1 4");
 		
-		JLabel lblEndTime = new JLabel("End Time:");
+		final JLabel lblEndTime = new JLabel("End Time:");
 		add(lblEndTime, "cell 0 5,alignx trailing");
 		
-		JLabel lblInputEnd = new JLabel("Input End");
+		final JLabel lblInputEnd = new JLabel("Input End");
 		add(lblInputEnd, "cell 1 5");
 		
 		// Set the Category picker; will be populated by current categories
-		JLabel lblCategory = new JLabel("Category:");
+		final JLabel lblCategory = new JLabel("Category:");
 		add(lblCategory, "cell 0 7,alignx trailing");
 		
-		JLabel lblInputCategory = new JLabel("Input Category");
+		final JLabel lblInputCategory = new JLabel("Input Category");
 		add(lblInputCategory, "cell 1 7");
 		
 		// Label and create the Participants text editor
 		// TODO: This is a bit unintuitive; we should come up with a
 		// better way to do this
-		JLabel lblParticipants = new JLabel("Participants:");
+		final JLabel lblParticipants = new JLabel("Participants:");
 		add(lblParticipants, "cell 0 9,alignx trailing");
 		
-		JLabel lblInputParticipants = new JLabel("Input Participants");
+		final JLabel lblInputParticipants = new JLabel("Input Participants");
 		add(lblInputParticipants, "cell 1 9");
 
 	}

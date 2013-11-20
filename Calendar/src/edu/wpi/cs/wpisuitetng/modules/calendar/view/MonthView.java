@@ -34,6 +34,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * MonthView creates the Month Tab in the Calendar module
+ */
 public class MonthView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	JTable tblCalendar;
@@ -70,7 +76,7 @@ public class MonthView extends JPanel {
 		lblMonth = new JLabel("January", JLabel.CENTER);
 		
 		// Set size constraints for month label
-		Dimension mlabelDim = new Dimension(115, 15);
+		final Dimension mlabelDim = new Dimension(115, 15);
 		lblMonth.setMinimumSize(mlabelDim);
 		lblMonth.setPreferredSize(mlabelDim);
 		lblMonth.setMaximumSize(mlabelDim);
@@ -196,6 +202,12 @@ public class MonthView extends JPanel {
 		tblCalendar.setDefaultRenderer(tblCalendar.getColumnClass(0), new tblCalendarRenderer());
 	}
 
+	/**
+	 * @author Team Underscore
+	 * @version $Revision: 1.0$
+	 * 
+	 * Cell Renderer for the calendar
+	 */
 	class tblCalendarRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
@@ -215,7 +227,7 @@ public class MonthView extends JPanel {
 			if (value != null) {
 				if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth 
 						&& currentYear == realYear) { // Today
-					setBackground(new Color(138,173,209));
+					setBackground(new Color(138, 173, 209));
 				}
 			}
 			setBorder(null);
@@ -228,6 +240,12 @@ public class MonthView extends JPanel {
 	// I'm more or less sleepily trying out random
 	// Numbers until it works I hope someone has
 	// A better idea than me
+	/**
+	 * @author Team Underscore
+	 * @version $Revision: 1.0$
+	 * 
+	 * Component Listener for resizing the calendar
+	 */
 	class ResizeListener implements ComponentListener {
 
 	    public void componentHidden(ComponentEvent e) {}
@@ -236,14 +254,21 @@ public class MonthView extends JPanel {
 
 	    public void componentResized(ComponentEvent e) {
 	    	// The split pane isn't resizing, but this should work when it does
-	        Dimension newSize = e.getComponent().getBounds().getSize();
+	        final Dimension newSize = e.getComponent().getBounds().getSize();
 	        // THIS NEEDS A LITTLE WORK BUT ITS SO CLOSE
 	        //Have we tried +1?
-	        tblCalendar.setRowHeight((newSize.height - 84)/6);
-	         tblCalendar.setRowHeight(6, (((newSize.height - 84)/6) + ((newSize.height - 84)%6)));
+	        tblCalendar.setRowHeight((newSize.height - 84) / 6);
+	         tblCalendar.setRowHeight(6, (((newSize.height - 84) / 6) + 
+	        		 ((newSize.height - 84) % 6)));
 	    }
 	}
 
+	/**
+	 * @author Team Underscore
+	 * @version $Revision: 1.0$
+	 * 
+	 * Action Listener for the Previous Button
+	 */
 	class btnPrev_Action implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (currentMonth == 0) { // Back one year
@@ -257,6 +282,12 @@ public class MonthView extends JPanel {
 		}
 	}
 
+	/**
+	 * @author Team Underscore
+	 * @version $Revision: 1.0$
+	 * 
+	 * Action Listener for the Next button
+	 */
 	class btnNext_Action implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (currentMonth == 11) { // Forward one year
@@ -270,6 +301,12 @@ public class MonthView extends JPanel {
 		}
 	}
 
+	/**
+	 * @author Team Underscore
+	 * @version $Revision: 1.0$
+	 * 
+	 * Action Listener for the Year dropdown menu
+	 */
 	class cmbYear_Action implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (cmbYear.getSelectedItem() != null) {

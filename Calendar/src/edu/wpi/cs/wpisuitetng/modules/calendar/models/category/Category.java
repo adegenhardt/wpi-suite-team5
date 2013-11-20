@@ -44,7 +44,7 @@ public class Category {
 	 * @return name
 	 * 				the name of the Category */
 	public String getName() {
-		return this.name;
+		return name;
 	}
 	
 	/** Method setName.
@@ -52,19 +52,19 @@ public class Category {
 	 * @param n
 	 * 			the new name of the Category */
 	public void setName(String n) {
-		if (!n.equals(this.name)) {
-			String originalName = this.name;
+		if (!n.equals(name)) {
+			final String originalName = name;
 			String newName = n;
 			if (newName.length() > 100)
 				newName = newName.substring(0, 100);
-			String message = ("Name changed from " + originalName + " to " + newName);
+			final String message = ("Name changed from " + originalName + " to " + newName);
 			System.out.println(message);
 			// Possibly implemented later
 			// this.history.add(message);
 		}
-		this.name = n;
+		name = n;
 		if (name.length() > 100)
-			this.name = n.substring(0, 100);
+			name = n.substring(0, 100);
 	}
 	
 	/** Method getDescription.
@@ -80,12 +80,12 @@ public class Category {
 	 * @param desc String
 	 * 			the description to set */
 	public void setDescription(String desc) {
-		if (!desc.equals(this.description)) {
+		if (!desc.equals(description)) {
 			System.out.println("Description changed!");
 			// Possibly implemented later
 			// this.history.add("Description changed!");
 		}
-		this.description = desc;
+		description = desc;
 	}
 	
 	/** Method createNewCategory.
@@ -97,7 +97,7 @@ public class Category {
 	 * @return cat
 	 * 			the new category */
 	public Category createNewCategory(String name, String description) {
-		Category cat = new Category(name, description);
+		final Category cat = new Category(name, description);
 		System.out.println("New Category " + name + " created!");
 		return cat;
 	}

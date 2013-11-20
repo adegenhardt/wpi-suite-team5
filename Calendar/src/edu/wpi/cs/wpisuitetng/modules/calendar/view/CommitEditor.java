@@ -57,7 +57,7 @@ public class CommitEditor extends JPanel {
 						+ "[][][][100px:100:100px][]"));
 		
 		// Set the Event label and text editor (single line)
-		final JLabel lblEventName = new JLabel("Event Name:");
+		final JLabel lblEventName = new JLabel("Commitment Name:");
 		add(lblEventName, "cell 0 0,alignx trailing");
 		
 		textField_1 = new JTextField();

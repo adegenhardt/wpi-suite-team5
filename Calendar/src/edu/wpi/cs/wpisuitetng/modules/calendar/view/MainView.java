@@ -17,8 +17,8 @@ import java.awt.BorderLayout;
 /**
  * This panel fills the main content area of the tab for this module.
  * 
- * @author Team 5 (B13)
- *
+ * @author Team Underscore
+ * @version $Revision: 1.0$
  */
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
