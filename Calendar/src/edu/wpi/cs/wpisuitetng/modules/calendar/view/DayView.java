@@ -35,15 +35,10 @@ import java.awt.BorderLayout;
  * @version $Revision: 1.0 $
  */
 public class DayView extends JPanel {
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
-	private final long serialVersionUID1 = 1L;
 	private JScrollPane dayScroll;
 	private JTable dayTable;
 	// This may very well be useless
@@ -66,11 +61,12 @@ public class DayView extends JPanel {
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 	
 	// Will this component be used in the week view? 
-	private boolean isWeekView; 
+	private final boolean isWeekView; 
 
 	/**
 	 * Create the panel. 
-	 * @param Takes a boolean that determines if it will display the times
+	
+	 * @param isWeek boolean
 	 */
 	public DayView(boolean isWeek) {
 		
@@ -147,7 +143,7 @@ public class DayView extends JPanel {
 						 * 
 						 */
 						private static final long serialVersionUID = 1L;
-						boolean[] columnEditables = new boolean[] {
+						private final boolean[] columnEditables = new boolean[] {
 								false, false
 						};
 						public boolean isCellEditable(int row, int column) {
@@ -215,7 +211,7 @@ public class DayView extends JPanel {
 						 * 
 						 */
 						private static final long serialVersionUID = 1L;
-						boolean[] columnEditables = new boolean[] {
+						private final boolean[] columnEditables = new boolean[] {
 								false
 						};
 						public boolean isCellEditable(int row, int column) {
@@ -290,17 +286,17 @@ public class DayView extends JPanel {
 	// Day view panel, I'll look into this when it
 	// Isn't 2:00AM
 	private void colorCurrentDate() {
-		JTableHeader header = dayTable.getTableHeader();
+		final JTableHeader header = dayTable.getTableHeader();
 		// thisDay and displayDay get the respective integer day values
 		// So they can be compared because Calendar.equals is garbage
 		// Have to compare every individual value because 
 		// CALENDAR IS COMPLETE GARBAGE
-		int thisYear = currentDay.get(Calendar.YEAR);
-		int displayYear = realDay.get(Calendar.YEAR);
-		int thisDay = currentDay.get(Calendar.DAY_OF_YEAR);
-		int displayDay = realDay.get(Calendar.DAY_OF_YEAR);
+		final int thisYear = currentDay.get(Calendar.YEAR);
+		final int displayYear = realDay.get(Calendar.YEAR);
+		final int thisDay = currentDay.get(Calendar.DAY_OF_YEAR);
+		final int displayDay = realDay.get(Calendar.DAY_OF_YEAR);
 		if ((thisDay == displayDay) && (thisYear == displayYear)) {
-			header.setBackground(new Color(138,173,209));
+			header.setBackground(new Color(138, 173, 209));
 		}
 		else {
 			header.setBackground(UIManager.getColor(JTableHeader.class));
@@ -320,10 +316,12 @@ public class DayView extends JPanel {
 	public void refreshDay(Calendar newDay) {
 		realDay = newDay;
 		if(isWeekView) {
-			dayTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(this.getStringDay());
+			dayTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(
+					this.getStringDay());
 		}
 		else {
-			dayTable.getTableHeader().getColumnModel().getColumn(0).setHeaderValue(this.getStringDay());
+			dayTable.getTableHeader().getColumnModel().getColumn(0).setHeaderValue(
+					this.getStringDay());
 		}
 		repaint();
 		dayTable.getSelectionModel().clearSelection();
@@ -344,6 +342,9 @@ public class DayView extends JPanel {
 		return realDay;
 	}
 	
+	/**
+	 * Method resetCurrent.
+	 */
 	public void resetCurrent() {
 		refreshDay(currentDay); 
 	}
