@@ -12,7 +12,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 
 import org.junit.Test;
@@ -87,7 +87,7 @@ public class YearDataTest {
 		
 		// Now retrieve the event all the way back out
 		DayData[] days = year.getMonth( 2 ).getDays();
-		ArrayList< Event > retrievedEvents = days[ 0 ].getDayEvents();
+		List< Event > retrievedEvents = days[ 0 ].getDayEvents();
 		
 		assertEquals( 1, retrievedEvents.size() );
 		assertEquals( event, retrievedEvents.get( 0 ) );

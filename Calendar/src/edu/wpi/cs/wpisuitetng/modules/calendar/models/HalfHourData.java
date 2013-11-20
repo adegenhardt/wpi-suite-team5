@@ -13,7 +13,8 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
 /**
- * @authors Inferno505
+ * @author Matt Rafferty
+ * @author Team_
  * @version $Revision: 1.0 $
  */
 public class HalfHourData {
@@ -34,6 +35,6 @@ public class HalfHourData {
  * @return halfHour integer of given HalfHourData
  */
 	public int getHalfHour() {
-		return this.dateInfo.getHalfHour();
+		return dateInfo.getHalfHour();
 	}
 }

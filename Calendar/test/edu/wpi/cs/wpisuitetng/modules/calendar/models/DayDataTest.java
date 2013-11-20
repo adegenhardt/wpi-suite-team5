@@ -16,7 +16,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DayData;
 import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
@@ -53,7 +53,7 @@ public class DayDataTest {
 		
 		// test that the first item can be added and retrieved
 		day.addEvent( event1 );
-		ArrayList<Event> retrievedEvents = day.getDayEvents();
+		List<Event> retrievedEvents = day.getDayEvents();
 		assertTrue( retrievedEvents.contains( event1 ) );
 		
 		Event event2 = new Event( 2, "name2", "desc2", startTime, endTime );

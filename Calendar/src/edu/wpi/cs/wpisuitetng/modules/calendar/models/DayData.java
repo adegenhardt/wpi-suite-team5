@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 
 /**
- * @authors Inferno505
+ * @author Inferno505
  * @version $Revision: 1.0 $
  */
 public class DayData {
 	DateInfo dateInfo; // DateInfo indicating date down to day resolution
 	HalfHourData[] halfHours;// array of contained halfHour Objects
-	ArrayList<Event> events; // List of events taking place on this day
+	List<Event> events; // List of events taking place on this day
 
 	/**
 	 * Constructor for DayData.
@@ -52,7 +52,7 @@ public class DayData {
 		// adds event to list
 		// currently this does not sort the objects for the array
 		// that can come later, as the old attempted method was breaking things
-		this.events.add( event );
+		events.add( event );
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class DayData {
 			return false;
 		} else {
 			// Remove will catch if the event was stored or not
-			return this.events.remove(event);
+			return events.remove(event);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class DayData {
 	 * @return integer of day for given DayData object
 	 */
 	public int getDay() {
-		return this.dateInfo.getDay();
+		return dateInfo.getDay();
 	}
 
 	/**
@@ -90,9 +90,9 @@ public class DayData {
 	 * 
 	 * @return List<Event> List of events of given DayData
 	 */
-	public ArrayList<Event> getDayEvents(DateInfo dateRegion) {
+	public List<Event> getDayEvents(DateInfo dateRegion) {
 
-		return this.events;
+		return events;
 	}
 	
 
@@ -104,9 +104,9 @@ public class DayData {
 	 * 
 	 * @return List<Event> List of events of given DayData
 	 */
-	public ArrayList<Event> getDayEvents() {
+	public List<Event> getDayEvents() {
 
-		return this.events;
+		return events;
 	}
 
 
