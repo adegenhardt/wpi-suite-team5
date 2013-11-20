@@ -247,7 +247,7 @@ public class EventEditor extends JPanel {
 				//CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
 				//List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
 				//Event retrievedEventDB = eventList.get(0);
-				editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());
+				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());
 				//editorPane_1.setText(retrievedEventDB.getEventName()+" "+retrievedEventDB.getEventDescr()+" "+retrievedEventDB.getStartDate().toString());
 				//getInstance and getCalendar are not returning anything correctly we cannot recieve things from database
 			}
@@ -278,12 +278,14 @@ public class EventEditor extends JPanel {
 		});
 		add(btnSubmit, "cell 1 10 2 1,growx");
 
-		final JButton btnCancel = new JButton("Make Calendar");
+		final JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				/*
 				final CalendarData eventCal = new CalendarData(
 						ConfigManager.getConfig().getProjectName(), "Personal", 10);
 				AddCalendarDataController.getInstance().addCalendarData(eventCal);
+				*/
 			}
 		});
 		add(btnCancel, "cell 3 10 2 1,growx");
