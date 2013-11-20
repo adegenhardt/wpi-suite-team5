@@ -29,13 +29,27 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import org.jdesktop.swingx.JXDatePicker;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.swing.DefaultComboBoxModel;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarData;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 public class EventEditor extends JPanel {
 	private JTextField eventName;
+	
+	private DateFormat dateForm = new SimpleDateFormat("DDD mm/dd/yyyy");
 
 	/**
 	 * Create the panel. Created using WindowBuilder
@@ -61,7 +75,7 @@ public class EventEditor extends JPanel {
 		scrollPaneDesc.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollPaneDesc, "cell 1 1 5 1,grow");
 		// Put the text editor into the scroll pane
-		JEditorPane descriptionPane = new JEditorPane();
+		final JEditorPane descriptionPane = new JEditorPane();
 		scrollPaneDesc.setViewportView(descriptionPane);
 		
 		// Create the date picker
@@ -69,18 +83,18 @@ public class EventEditor extends JPanel {
 		add(lblDate, "cell 0 3,alignx trailing");
 		
 		// Date picker
-		JXDatePicker comboBoxMonth = new JXDatePicker();
+		final JXDatePicker comboBoxMonth = new JXDatePicker();
 		add(comboBoxMonth, "cell 1 3,growx, span 2");
 		
 		// Set the Start and End time fields
 		JLabel lblTime = new JLabel("Start Time:");
 		add(lblTime, "cell 0 4,alignx trailing");
 		
-		JComboBox comboBoxStartHour = new JComboBox();
+		final JComboBox comboBoxStartHour = new JComboBox();
 		comboBoxStartHour.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
 		add(comboBoxStartHour, "cell 1 4,growx");
 		
-		JComboBox comboBoxStartMinutes = new JComboBox();
+		final JComboBox comboBoxStartMinutes = new JComboBox();
 		comboBoxStartMinutes.setModel(new DefaultComboBoxModel(new String[] {"00", "30"}));
 		add(comboBoxStartMinutes, "cell 2 4,growx");
 		
@@ -91,11 +105,11 @@ public class EventEditor extends JPanel {
 		JLabel lblEndTime = new JLabel("End Time:");
 		add(lblEndTime, "cell 0 5,alignx trailing");
 		
-		JComboBox comboBoxEndHour = new JComboBox();
+		final JComboBox comboBoxEndHour = new JComboBox();
 		comboBoxEndHour.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
 		add(comboBoxEndHour, "cell 1 5,growx");
 		
-		JComboBox comboBoxEndMinutes = new JComboBox();
+		final JComboBox comboBoxEndMinutes = new JComboBox();
 		comboBoxEndMinutes.setModel(new DefaultComboBoxModel(new String[] {"00", "30"}));
 		add(comboBoxEndMinutes, "cell 2 5,growx");
 		
@@ -131,7 +145,30 @@ public class EventEditor extends JPanel {
 				// Add code to add event
 				// Get the arguments out of their respective fields
 				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%R^$&*^*^T%YHU&Y^U
+				CalendarData eventCal = new CalendarData(ConfigManager.getConfig().getProjectName(), "Personal", 10);
+				Date startDate = new Date();
+				startDate = (Date) comboBoxMonth.getDate().clone();
+				Date endDate = new Date();
+				endDate = (Date) comboBoxMonth.getDate().clone();
+				
+				String startHour = (String) comboBoxStartHour.getSelectedItem();
+				String startMinutes = (String) comboBoxStartMinutes.getSelectedItem();
+				
+				startDate.setHours(Integer.parseInt(startHour));
+				startDate.setMinutes(Integer.parseInt(startMinutes));
+				System.out.println(startDate);
+				
+				String endHour = (String) comboBoxEndHour.getSelectedItem(); 
+				String endMinutes = (String) comboBoxEndMinutes.getSelectedItem();
+				
+				endDate.setHours(Integer.parseInt(endHour));
+				endDate.setMinutes(Integer.parseInt(endMinutes));
+				
+				Event makeEvent = new Event(50, eventName.getText(), descriptionPane.getText(), startDate, endDate);
+				eventCal.addEvent(makeEvent);
 				System.out.println(eventName.getText());
+				System.out.println(descriptionPane.getText());
+				System.out.println(endDate);
 			}
 		});
 		add(btnSubmit, "cell 1 10 2 1,growx");
