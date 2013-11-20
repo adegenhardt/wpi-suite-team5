@@ -1,4 +1,20 @@
+//<<<<<<< HEAD:Calendar/src/edu/wpi/cs/wpisuitetng/modules/calendar/models/CalendarDataModel.java
 package edu.wpi.cs.wpisuitetng.modules.calendar.models;
+//=======
+/*********************************************************************************************
+ * Copyright (c) 2013 WPI Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * List of Calendars pulled from the server
+ * 
+ * Adapted from RequirementModel.java by Team Underscore Database Crew
+ *
+ *********************************************************************************************/
+//package edu.wpi.cs.wpisuitetng.modules.calendar;
+//>>>>>>> e17367033dafe3686a20a561fd598bda2f5f94b5:Calendar/src/edu/wpi/cs/wpisuitetng/modules/calendar/CalendarDataModel.java
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,6 +27,7 @@ import javax.swing.ListModel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.AddCalendarDataController;
 
+//<<<<<<< HEAD:Calendar/src/edu/wpi/cs/wpisuitetng/modules/calendar/models/CalendarDataModel.java
 /**List of Calendars pulled from the server
  * 
  * @author cporell, adapted from RequirementModel.java
@@ -18,6 +35,8 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.AddCalendarDataController;
  * @version $Revision: 1.0 $
  */
 
+//=======
+//>>>>>>> e17367033dafe3686a20a561fd598bda2f5f94b5:Calendar/src/edu/wpi/cs/wpisuitetng/modules/calendar/CalendarDataModel.java
 public class CalendarDataModel extends AbstractListModel{
 
 	// ********************************************************************
@@ -35,6 +54,7 @@ public class CalendarDataModel extends AbstractListModel{
 	
 	/**
 	 * Constructs an empty list of calendar data
+	 * Sets a default ID of 0 to the calendar data
 	 */
 	private CalendarDataModel(){
 		calendarData = new ArrayList<CalendarData>();
@@ -80,6 +100,8 @@ public class CalendarDataModel extends AbstractListModel{
 	 * 			found. */
 	public CalendarData getCalendarData(int id){
 		CalendarData temp = null;
+		// iterate through the calendar data in order to find the matching ID
+		// break the loop once the ID is found
 		for(int i = 0; i < this.calendarData.size(); i++){
 			temp = calendarData.get(i);
 			if(temp.getId() == id){
@@ -95,6 +117,8 @@ public class CalendarDataModel extends AbstractListModel{
 	 * @param removeID The ID number of the cldr data to be removed
 	 */
 	public void removeCalendarData(int removeID){
+		// iterate through the calendar data to find the given ID
+		// break the loop once that element has been found and removed
 		for(int i = 0; i < this.calendarData.size(); i++){
 			if(calendarData.get(i).getId() == removeID){
 				calendarData.remove(i);
@@ -115,6 +139,8 @@ public class CalendarDataModel extends AbstractListModel{
 	public void emptyModel() {
 		int oldSize = getSize();
 		Iterator<CalendarData> iterator = calendarData.iterator();
+		// in case the iterator has data, remove each element individually
+		// in order to make sure the model is empty
 		while (iterator.hasNext()) {
 			iterator.next();
 			iterator.remove();
@@ -132,6 +158,8 @@ public class CalendarDataModel extends AbstractListModel{
 	 * @param calendarData the array of data to add
 	 */
 	public void addCalendarData(CalendarData[] calendarData){
+		// iterate through the added array, adding each element to 
+		// the model and assigning each element a unique ID as it is added.
 		for (int i = 0; i < calendarData.length; i++) {
 			this.calendarData.add(calendarData[i]);
 			if(calendarData[i].getId() >= nextID){ 
@@ -185,10 +213,12 @@ public class CalendarDataModel extends AbstractListModel{
 	}
 	
 	//**************************************************************************
-	//Everything below this point involves use of data fields that
-	//our calendar data is not likely to have.
-	//In case we do need these functions, adapt the following from the
-	//Req't Manager Model:
+	// Everything below this point involves use of data fields that
+	// our calendar data is not likely to have.
+	// The functions below require the use of fields that a calendar or
+	// event class is not likely to have.
+	// In case we do need these functions, adapt the following from the
+	// Req't Manager Model:
 	//    * getChildren()
 	//    * getPossibleChildren()
 	//    * getPossibleParents()

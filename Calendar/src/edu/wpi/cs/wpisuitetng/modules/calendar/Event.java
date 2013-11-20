@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
+
 // I'm not sure if we need this, but
 // import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage; 
 // I'll just comment it out to be safe.
@@ -27,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
  * @author Inferno505
  * @version $Revision: 1.0 $
  */
+
 public class Event {
 	private int id;
 	private String eventName;
@@ -36,6 +38,7 @@ public class Event {
 	private Date endDate;
 	private int startHalfHour;
 	private int endHalfHour;
+	private Date date;
 
 	/*
 	 * private Date startTime; private Date endTime;
@@ -47,12 +50,18 @@ public class Event {
 	// boolean committed;
 
 	/**
-	 * Constructor for Event.
-	 * @param id int
-	 * @param eventName String
-	 * @param eventDescr String
-	 * @param startDate Date
-	 * @param endDate Date
+	 * Constructs an event with the following fields. An event has a name,
+	 * description, date on which it occurs, a series of categories under which
+	 * the event falls, and an ID by which the program recognizes a
+	 * particular event.
+	 *  
+	 * @param id A unique ID for this event.
+	 * @param eventName The name of this event.
+	 * @param eventDescr A description of this event.
+	 * @param date The date of the event.
+	 * @param category A series of categories that filters can use to recognize
+	 * 				   this event.
+	 *
 	 * @param startHalfHour int
 	 * @param endHalfHour int
 	 */
@@ -61,7 +70,7 @@ public class Event {
 						 * boolean committed, List<String> participants, String
 						 * category, Repeat repeat,
 						 */
-			int startHalfHour, int endHalfHour) {
+			int startHalfHour, int endHalfHour, Date date) {
 		this.id = id;
 		this.eventName = eventName;
 		this.eventDescr = eventDescr;
@@ -73,12 +82,10 @@ public class Event {
 		 * this.startTime = startTime; this.endTime = endTime;
 		 */
 		// this.category = category;
-		// this.repeat = repeat;
-		// this.committed = committed;
-		// this.participants = participants;
-		this.startHalfHour = startHalfHour;
-		this.endHalfHour = endHalfHour;
+
+	
 	}
+	
 //secondary constructor, for samson's tests
 	//not using start and end HalfHour
 	/**
@@ -99,29 +106,50 @@ public class Event {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getEventID() {
+
+
+	
+
+
+	// ----------------------------------------------------------------------------
+	// Getters for the fields of Event
+	
+	public int getEventID(){
 		return id;
 	}
-
-	public void setEventID(int eventID) {
-		this.id = eventID;
-	}
+	
 
 	public String getEventName() {
 		return eventName;
 	}
-
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
-	}
-
+	
 	public String getEventDescr() {
 		return eventDescr;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	//public List<Category>(){
+	//	return categories;
+	//}
+	
+	// -----------------------------------------------------------------------------
+	// Setters for the fields of Event
+	
+	public void setEventID(int eventID){
+		this.id = eventID;
+	}
+	
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 
 	public void setEventDescr(String eventDescr) {
 		this.eventDescr = eventDescr;
 	}
+
 
 	/*
 	 * public Date getStartTime() { return this.startTime; }
@@ -169,7 +197,9 @@ public class Event {
 	public Date getStartDate() {
 		return this.startDate;
 	}
-
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	// It seems that these are all kept in EventCldr
 	// But I will keep these here for safekeeping
 
@@ -189,5 +219,6 @@ public class Event {
 	// public void deleteEvent(){
 	// delete(this);
 	// }
+
 
 }
