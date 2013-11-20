@@ -38,7 +38,7 @@ public class MonthData {
 	 */
 	public MonthData(int year, int month) {
 
-		// build days based on gregorean for given month 0-11 = January-December
+		// build days based on GregorianCalendar system for given month: 0-11 = January-December
 		this.dateInfo = new DateInfo(year, month, -1, -1);
 		createDays(year, month);
 	}
@@ -58,7 +58,6 @@ public class MonthData {
 	 * @param year
 	 * @param month
 	 */
-	
 	 private void createDays( int year, int month ) { int numDays;
 	 //number of days in the month
 	 
@@ -71,7 +70,7 @@ public class MonthData {
 	     else if ( month == 1 ) { // February
 	    	      if ( year % 4 == 0 && 
 	    	    	   ( !( year % 100 == 0 ) ||
-	    	    	   ( year % 400 == 0 ) ) ) { //leap year
+	    	    	   ( year % 400 == 0 ) ) ) { //leap year  //TODO Does this cover leap year rule to the same resolution as the GregorianCalendar class? If so then this is swell
 	    	    	         numDays = 29; 
 	    	      } 
 	    	      else {
@@ -81,7 +80,7 @@ public class MonthData {
 	      else { //Otherwise, month has 30 days
 	    	  numDays = 30;
 	      }
-	  
+	  //sets days to be of needed length  // I could have just done List of<DayData>
 	  days = new DayData[ numDays ];
 	  for ( int i = 0; i < numDays; i++ ) {
 	      days[ i ] = new DayData( year, month, i );
@@ -124,7 +123,7 @@ public class MonthData {
 	 *            the Event to be added
 	 * @param eventStoreDateInfo
 	 *            DateInfo
-	 */
+	 *//*
 	@Deprecated
 	public void addEvent(Event event, DateInfo eventStoreDateInfo) {
 //calendar with day in region for total month days reference
@@ -138,19 +137,18 @@ public class MonthData {
 				this.days[i].addEvent(event);
 				break;
 			}
-
 		}
 		if (dayFound == false) {
 			// TODO exception the event has an invalid day
 		}
 		// TODO Indication of event added to year
-
-	}
+	}*/
 	
 	/**
 	 * Add an event 
 	 * @param event the event to add
 	 */
+	//date number indicator is to be absolute (1 to last day of month, not 0 to last day of month -1)
 	public void addEvent( Event event ) {
 		int eventDay = event.getStartDate().getDate() - 1;
 		
@@ -158,10 +156,9 @@ public class MonthData {
 			this.days[ eventDay ].addEvent( event );
 		else {
 			// TODO exception the event has an invalid day
-			this.days[ eventDay ].addEvent( event );
+			//this.days[ eventDay ].addEvent( event ); //TODO why was it se to still add the event if the day is invalid?
 		}
 		// TODO Indication of event added to month
-		// ???
 	}
 
 	/**
@@ -171,7 +168,7 @@ public class MonthData {
 	 *            Event
 	 * @param eventStoreDateInfo
 	 *            DateInfo
-	 */
+	 *//*
 	@Deprecated
 	public void removeEvent(Event event, DateInfo eventStoreDateInfo) {
 		//calendar with day in region for total month days reference
@@ -185,15 +182,13 @@ public class MonthData {
 				this.days[i].removeEvent(event);
 				break;
 			}
-
 		}
 		if (dayFound == false) {
 			// TODO exception the event has an invalid day
 		}
 		// TODO Indication of event added to year
-
 	}
-
+*/
 	/**
 	 * Add an event 
 	 * @param event the event to add
@@ -207,7 +202,6 @@ public class MonthData {
 			// TODO exception the event has an invalid day
 		}
 		// TODO Indication of event added to month
-		// ???
 	}
 	
 	/**
