@@ -34,6 +34,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * Creates the event editor tab
+ */
 public class EventEditor extends JPanel {
 	private JTextField eventName;
 

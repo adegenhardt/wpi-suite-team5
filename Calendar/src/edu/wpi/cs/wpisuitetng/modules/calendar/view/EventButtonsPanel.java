@@ -34,7 +34,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
-
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * Create the event buttons
+ */
 public class EventButtonsPanel extends ToolbarGroupView{
 	
 	private final JPanel contentPanel = new JPanel();
@@ -66,17 +71,17 @@ public class EventButtonsPanel extends ToolbarGroupView{
 		createEventButton = new JButton("<html>Create <br/>Event</html>");
 		createCommitButton = new JButton("<html>Create <br/>Commitment</html>");
 		
-		this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		this.setPreferredWidth(350);
 		
-		this.createEventButton.setHorizontalAlignment(SwingConstants.CENTER);
+		createEventButton.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		try {
 			final Image imgE = ImageIO.read(getClass().getResource("new_event.png"));
-		    this.createEventButton.setIcon(new ImageIcon(imgE));
+		    createEventButton.setIcon(new ImageIcon(imgE));
 		    
 		    final Image imgC = ImageIO.read(getClass().getResource("new_commit.png"));
-		    this.createCommitButton.setIcon(new ImageIcon(imgC));
+		    createCommitButton.setIcon(new ImageIcon(imgC));
 		    
 		} catch (IOException ex) {}
 		

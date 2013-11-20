@@ -12,7 +12,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -23,16 +22,12 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-
-import org.jdesktop.swingx.JXDatePicker;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * Creates the event viewer
+ */
 public class EventViewer extends JPanel {
 
 	/**
