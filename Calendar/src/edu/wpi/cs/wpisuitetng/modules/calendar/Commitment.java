@@ -14,11 +14,21 @@ package edu.wpi.cs.wpisuitetng.modules.calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Team Underscore
+ * @version 1.0
+ */
 public class Commitment {
 	private String commitName;
 	private Date dueDate;
 	private List<String> tasks;
 	
+	/**
+	 * Constructor for Commitment.
+	 * @param commitName String Name of the commitment
+	 * @param dueDate Date Due date for the commitment 
+	 * @param tasks List<String> Tasks that are to be completed for the commitment
+	 */
 	public Commitment (String commitName, Date dueDate, List<String> tasks){
 		this.commitName = commitName;
 		this.dueDate = dueDate;
