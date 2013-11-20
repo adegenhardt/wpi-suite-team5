@@ -40,8 +40,8 @@ public class YearViewCalendarPanel extends JScrollPane {
 	
 	private final JButton nextYear;
 	private final JButton prevYear;
-	private final JButton nextMonth;
-	private final JButton prevMonth;
+	//private final JButton nextMonth;
+	//private final JButton prevMonth;
 	private final JButton year; 
 	
 	/**
@@ -61,30 +61,30 @@ public class YearViewCalendarPanel extends JScrollPane {
 		buttonPanel.setLayout(new GridLayout(1, 5));
 		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
-		nextYear = new JButton(">>");
+		nextYear = new JButton("Next Year");
 		nextYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
-				nextMonth = new JButton(">");
-				nextMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-				
-				year = new JButton("THIS YEAR");
-				year.setBounds(0, 0, 400, 400);
-				
-						prevMonth = new JButton("<");
-						prevMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-						buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
+		/*
+		nextMonth = new JButton(">");
+		nextMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		*/	
+		year = new JButton("This Year");
+		year.setBounds(0, 0, 400, 400);
+		/*	
+		prevMonth = new JButton("<");
+		prevMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
+		*/			
+		prevYear = new JButton("Previous");
+		prevYear.setPreferredSize(new Dimension(200, 23));
+		prevYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 						
-						prevYear = new JButton("<<");
-						prevYear.setPreferredSize(new Dimension(200, 23));
-						prevYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		buttonPanel.add(prevYear);
+		//buttonPanel.add(prevMonth);
+		buttonPanel.add(year);
+		//buttonPanel.add(nextMonth);
+		buttonPanel.add(nextYear);
 						
-						buttonPanel.add(prevYear);
-						buttonPanel.add(prevMonth);
-						buttonPanel.add(year);
-						buttonPanel.add(nextMonth);
-						buttonPanel.add(nextYear);
-						
-						contentPanel.add(buttonPanel, "cell 0 0,alignx center,aligny center");
+		contentPanel.add(buttonPanel, "cell 0 0,alignx center,aligny center");
 		 		
 		final JPanel calendarPanel = new JPanel(new BorderLayout());
 		calendarView = new YearViewCalendar();
