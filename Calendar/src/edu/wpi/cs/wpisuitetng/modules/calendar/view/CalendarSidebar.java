@@ -23,6 +23,9 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JRadioButton;
 
 /**
  * @author Team Underscore
@@ -36,12 +39,13 @@ public class CalendarSidebar extends JPanel {
 	 */
 	private JTable eventTable;
 	private JTable commitmentTable;
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
 	 */
 	public CalendarSidebar() {
-		setLayout(new MigLayout("", "[grow]", "[10:237.00:3853294,center][246.00,grow][grow][]"));
+		setLayout(new MigLayout("", "[grow]", "[10:237.00:3853294,center][246.00,grow][grow][grow][grow][grow][]"));
 
 		final JScrollPane eventScroll = new JScrollPane();
 		add(eventScroll, "cell 0 0,grow");
@@ -115,13 +119,16 @@ public class CalendarSidebar extends JPanel {
 		});
 		scrollPane_1.setViewportView(commitmentTable);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Filters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		add(panel, "cell 0 2,grow");
-		panel.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, "cell 0 2,grow");
+		
+		JPanel panelFilter = new JPanel();
+		scrollPane.setViewportView(panelFilter);
+		panelFilter.setBorder(new TitledBorder(null, "Filters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelFilter.setLayout(new MigLayout("", "[grow]", "[grow][grow][]"));
 		
 		JList list = new JList();
-		panel.add(list, "cell 0 0,grow");
+		panelFilter.add(list, "cell 0 1,grow");
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Team", "Personal", "Things"};
 			public int getSize() {
@@ -132,8 +139,35 @@ public class CalendarSidebar extends JPanel {
 			}
 		});
 		
-		JButton btnNewButton = new JButton("Create Category");
-		add(btnNewButton, "cell 0 3,alignx center");
+		JButton btnApply = new JButton("Apply");
+		panelFilter.add(btnApply, "flowx,cell 0 2");
+		
+		JButton btnDelete = new JButton("Delete");
+		panelFilter.add(btnDelete, "cell 0 2");
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		add(scrollPane_2, "cell 0 3,grow");
+		
+		JPanel panelCatCreate = new JPanel();
+		scrollPane_2.setViewportView(panelCatCreate);
+		panelCatCreate.setBorder(new TitledBorder(null, "Create a Category", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelCatCreate.setLayout(new MigLayout("", "[][][]", "[][][][]"));
+		
+		JLabel lblCategory = new JLabel("Category:");
+		panelCatCreate.add(lblCategory, "cell 0 0,alignx trailing");
+		
+		textField = new JTextField();
+		panelCatCreate.add(textField, "cell 1 0 2 1,growx");
+		textField.setColumns(10);
+		
+		JRadioButton rdbtnTeam = new JRadioButton("Team");
+		panelCatCreate.add(rdbtnTeam, "flowx,cell 1 1");
+		
+		JRadioButton rdbtnPersonal = new JRadioButton("Personal");
+		panelCatCreate.add(rdbtnPersonal, "cell 1 1");
+		
+		JButton btnSubmit = new JButton("Submit");
+		panelCatCreate.add(btnSubmit, "cell 2 1");
 
 	}
 

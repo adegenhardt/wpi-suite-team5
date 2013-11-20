@@ -123,7 +123,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 			public void actionPerformed(ActionEvent e) {
 				today();
 			}
-		});
+		});/*
 		prevMonth.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -136,7 +136,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 			public void actionPerformed(ActionEvent e) {
 				nextMonth();
 			}
-		});
+		});*/
 		
 	}
 	
