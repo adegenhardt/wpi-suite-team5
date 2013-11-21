@@ -161,7 +161,8 @@ public class EventEditor extends JPanel {
 				// Add code to add event
 				// Get the arguments out of their respective fields
 				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%R^$&*^*^T%YHU&Y^U
-				final CalendarData eventCal = new CalendarData(
+				System.out.println("reached add event function");
+				/*final*/ CalendarData eventCal = new CalendarData(
 						ConfigManager.getConfig().getProjectName(), "Personal", 10);
 				Date startDate = new Date();
 				startDate = (Date) comboBoxMonth.getDate().clone();
@@ -188,7 +189,7 @@ public class EventEditor extends JPanel {
 				GetCalendarDataController.getInstance().retrieveCalendarData();
 				int size = CalendarDataModel.getInstance().getCalendarData().size();
 				List<CalendarData> retCal = CalendarDataModel.getInstance().getCalendarData();
-				
+				System.out.println(size);
 				for (int i = 0; i < size; i++) {
 					if (eventCal.getType().equals((
 							(CalendarData) 
