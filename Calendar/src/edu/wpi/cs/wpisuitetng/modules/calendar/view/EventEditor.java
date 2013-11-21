@@ -164,15 +164,10 @@ public class EventEditor extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 				// Add code to add event
 				// Get the arguments out of their respective fields
-<<<<<<< HEAD
-				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%R^$&*^*^T%YHU&Y^U
-				System.out.println("reached add event function");
-				/*final*/ CalendarData eventCal = new CalendarData(
-						ConfigManager.getConfig().getProjectName(), "Personal", 10);
-=======
+
 				final CalendarData eventCal = new CalendarData(
 					ConfigManager.getConfig().getProjectName(), "Personal", 10);
->>>>>>> 55a8031189db173bbe640908598eb48600ed0931
+
 				Date startDate = new Date();
 				startDate = (Date) comboBoxMonth.getDate().clone();
 				Date endDate = new Date();
@@ -194,15 +189,7 @@ public class EventEditor extends JPanel {
 				final Event makeEvent = new Event(50, eventName.getText(),
 						descriptionPane.getText(), startDate, endDate);
 				eventCal.addEvent(makeEvent);
-<<<<<<< HEAD
-				
-				GetCalendarDataController.getInstance().retrieveCalendarData();
-				int size = CalendarDataModel.getInstance().getCalendarData().size();
-				List<CalendarData> retCal = CalendarDataModel.getInstance().getCalendarData();
-				System.out.println(size);
-				for (int i = 0; i < size; i++) {
-					if (eventCal.getType().equals((
-=======
+
 				//GetCalendarDataController.getInstance().retrieveCalendarData();
 				//int size = CalendarDataModel.getInstance().getCalendarData().size();
 				//List<CalendarData> retCal = CalendarDataModel.getInstance().getCalendarData();
@@ -292,7 +279,7 @@ public class EventEditor extends JPanel {
 				editorPane_1.setText("PointA");
 				Event retrievedEventDB = eventList.get(0);
 				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());
-				editorPane_1.setText(retrievedEventDB.getEventName()+" "+retrievedEventDB.getEventDescr()+" "+retrievedEventDB.getStartDate().toString());
+				editorPane_1.setText(retrievedEventDB.getEventName()+" "+retrievedEventDB.getEventDescription()+" "+retrievedEventDB.getStartDate().toString());
 				//CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
 				//List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
 				//Event retrievedEventDB = eventList.get(0);
