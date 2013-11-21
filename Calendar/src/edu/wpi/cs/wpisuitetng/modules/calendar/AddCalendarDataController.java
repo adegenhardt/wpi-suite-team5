@@ -18,6 +18,10 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/** 
+ * @author Team Underscore
+ * @version 1.0 
+ */
 public class AddCalendarDataController {
 	private static AddCalendarDataController instance;
 	private AddCalendarDataRequestObserver observer;
@@ -40,12 +44,14 @@ public class AddCalendarDataController {
 	
 	/**
 	 * This method adds a piece of calendar data to the server
-	 * @return newCalendarData will be added to the server
+	
+	 * 
+	 * @param newCalendarData CalendarData
 	 */
 	public void addCalendarData(CalendarData newCalendarData){
 		final Request request = Network.getInstance()
 				.makeRequest("calendar/calendardata", HttpMethod.PUT); 
-		// PUT == create
+		// PUT means create
 		request.setBody(newCalendarData.toJSON()); 
 		// put the new data in the body of the request
 		request.addObserver(observer); 
