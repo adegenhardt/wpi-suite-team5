@@ -21,24 +21,21 @@ import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 import java.awt.Component;
 import net.miginfocom.swing.MigLayout;
-import java.awt.Rectangle;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
 /**
  * @author justinhess
  * @version $Revision: 1.0 $
+ * 
  */
 public class YearViewCalendarPanel extends JScrollPane {
-	
-	
+	private static final long serialVersionUID = 1L;
+
 	private final YearViewCalendar calendarView;
 	
 	private final JButton nextYear;

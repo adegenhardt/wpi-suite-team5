@@ -10,16 +10,6 @@
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
-/**
- *  * Copyright (c) 2013 -- WPI Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- */
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -41,30 +31,46 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
  * Create the event buttons
  */
 public class EventButtonsPanel extends ToolbarGroupView{
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
 	JButton createEventButton;
 	JButton createCommitButton;
-	final private ImageIcon editImg = null;
-	final private ImageIcon saveImg = null;
 
+	/**
+	 * Method disableCreateEventButton.
+	 */
 	public void disableCreateEventButton() {
 		createEventButton.setEnabled(false);
 	}
 	
+	/**
+	 * Method enableCreateEventButton.
+	 */
 	public void enableCreateEventButton() {
 		createEventButton.setEnabled(true);
 	}
 	
+	/**
+	 * Method disableCreateCommitButton.
+	 */
 	public void disableCreateCommitButton() {
 		createEventButton.setEnabled(false);
 	}
 	
+	/**
+	 * Method enableCreateCommitButton.
+	 */
 	public void enableCreateCommitButton() {
 		createEventButton.setEnabled(true);
 	}
 
+	/**
+	 * Constructor for EventButtonsPanel.
+	 */
 	public EventButtonsPanel(){
 		super("");
 		
@@ -93,16 +99,14 @@ public class EventButtonsPanel extends ToolbarGroupView{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			}
-		});	
+		});
 				
 		// action listener for the Create Commit Button
 		createCommitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//if (!ViewEventController.getInstance().getOverviewTable().getEditFlag()) {
-					// ViewEventController.getInstance().createIteration();
-				}
-			//}
+				
+			}
 		});
 		
 		contentPanel.add(createCommitButton);

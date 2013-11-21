@@ -21,14 +21,25 @@ import java.util.SortedSet;
  import org.jdesktop.swingx.JXMonthView;
  import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
+/**
+ * @author Team Underscore
+ * @version $Revision: 1.0$
+ * 
+ * Creates the calendar for the Year View calendar tab
+ */
 public class YearViewCalendar extends JXMonthView {
-	// Don't know how, but possibly distinguish Events and Commitments marked as different colors
-	// Read up on this, but it seems like its a hidden incomplete feature as of now
-	// I found the renderer to do so, not entirely sure how to use it may add later 
+	private static final long serialVersionUID = 1L;
+	
+	/* Don't know how, but possibly distinguish Events and Commitments marked as different colors
+	 * Read up on this, but it seems like its a hidden incomplete feature as of now
+	 * I found the renderer to do so, not entirely sure how to use it may add later */
 	private static final Color EVENT_DAY  = Color.green;
 	private static final Color COM_DAY = Color.cyan;
 	private ActionListener doCalStuff;
 	
+	/**
+	 * Constructor for YearViewCalendar.
+	 */
 	public YearViewCalendar() {
 		buildYearView();
 		buildActionListeners(); 
