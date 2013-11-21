@@ -48,7 +48,7 @@ public class DayViewPanel extends JPanel {
 	private final JButton currentDate;
 	
 	private final Calendar currentDateCal; 
-	private JButton button;
+	private final JButton nextDay;
 
 	/**
 	 * Create the panel.
@@ -70,10 +70,6 @@ public class DayViewPanel extends JPanel {
 		dayView.setBounds(new Rectangle(0, 0, 1000, 1000));
 		
 		currentDate = new JButton("Today");
-		currentDate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		currentDate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -97,8 +93,17 @@ public class DayViewPanel extends JPanel {
 		buttonsPanel.add(currentDate, "cell 2 0,growx");
 		this.add(buttonsPanel, "cell 0 0,alignx center,aligny bottom");
 		
-		button = new JButton("Next");
-		buttonsPanel.add(button, "cell 4 0,grow");
+		nextDay = new JButton("Next");
+		nextDay.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				final Calendar currentDisplay = dayView.getRealDay();
+				currentDisplay.setTimeInMillis(currentDisplay.getTimeInMillis() + ONE_DAY);
+				dayView.refreshDay(currentDisplay);
+			}
+		});
+		
+		buttonsPanel.add(nextDay, "cell 4 0,grow");
 		this.add(dayView, "cell 0 1,grow");
 		dayView.setLayout(new GridLayout(1, 0, 0, 0));
 	}

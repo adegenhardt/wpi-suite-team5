@@ -36,6 +36,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,10 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCalendarDataControl
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCalendarDataController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCalendarDataController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarDataModel;
+
 import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  * @author Team Underscore
@@ -120,11 +124,21 @@ public class EventEditor extends JPanel {
 
 		// Date picker
 		comboBoxMonth = new JXDatePicker();
+		// Setting the date format to something more intuitive
+		comboBoxMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
 		add(comboBoxMonth, "cell 1 3,growx, span 2");
 		
-		lblDatemsg = new JLabel("");
-		lblDatemsg.setForeground(new Color(255, 0, 0));
-		add(lblDatemsg, "cell 3 3");
+		lblDatemsg = new JLabel("Ex. Oct/02/1993");
+		lblDatemsg.setForeground(new Color(0, 0, 0));
+		add(lblDatemsg, "cell 3 3 2 1,alignx center");
+		
+		comboBoxMonth.getEditor().addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				lblDatemsg.setText("Ex. Oct/02/1993");
+				lblDatemsg.setForeground(new Color(0, 0, 0));
+			}
+		});
 
 		// Set the Start and End time fields
 		final JLabel lblTime = new JLabel("Start Time:");
@@ -382,7 +396,8 @@ public class EventEditor extends JPanel {
 			lblDescmsg.setText("");
 		}
 		if (comboBoxMonth.getDate() == null) {
-			lblDatemsg.setText("Just use the damn Date Picker");
+			lblDatemsg.setText("Invalid Date");
+			lblDatemsg.setForeground(new Color(255, 0, 0));
 			isValid = false;
 		}
 		else {
