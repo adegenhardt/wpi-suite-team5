@@ -20,7 +20,10 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
 
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.tabs.ClosableTabCreator;
+
 import javax.swing.JDialog;
+
 
 
 
@@ -42,14 +45,19 @@ public class ToolbarView extends DefaultToolbarView {
 	
 	private final EventButtonsPanel eventPanel = new EventButtonsPanel();
 	private final TeamPersButtonsPanel teamPanel = new TeamPersButtonsPanel();
+	
+	private ClosableTabCreator tabCreator; 
 
 	/**
 	 * Construct this view and all components in it.
 	 */
-	public ToolbarView() {
+	public ToolbarView(ClosableTabCreator _tabCreator) {
+		this.tabCreator = _tabCreator;
+		
 		eventPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				/*
 				final JDialog eventWindow  = new JDialog();
 				final EventEditor eventTab = new EventEditor(); 
 				eventWindow.setContentPane(eventTab);
@@ -58,12 +66,15 @@ public class ToolbarView extends DefaultToolbarView {
 				eventWindow.setTitle("Create Event");
 				eventWindow.setVisible(true);
 				/*pane.setTabComponentAt(i, new ButtonTabComponent(pane)); */
+				final EventEditor eventTab = new EventEditor();
+				tabCreator.addClosableTab(eventTab, "Create Event");
 			}
 		});
 		
 		eventPanel.getCreateCommitButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				/*
 				final JDialog commitWindow  = new JDialog();
 				final CommitEditor commitTab = new CommitEditor(); 
 				commitWindow.setContentPane(commitTab);
@@ -72,6 +83,8 @@ public class ToolbarView extends DefaultToolbarView {
 				commitWindow.setTitle("Create Commitment");
 				commitWindow.setVisible(true);
 				/*pane.setTabComponentAt(i, new ButtonTabComponent(pane)); */
+				final CommitEditor commitTab = new CommitEditor();
+				tabCreator.addClosableTab(commitTab, "Create Commitment");
 			}
 		});
 		

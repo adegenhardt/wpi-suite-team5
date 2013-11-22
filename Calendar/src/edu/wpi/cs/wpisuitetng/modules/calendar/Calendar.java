@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.tabs.ClosableTabCreator;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.ToolbarView;
 
@@ -20,6 +21,7 @@ public class Calendar implements IJanewayModule {
 	 * A list of tabs owned by this module
 	 */
 	List<JanewayTabModel> tabs;
+	private ClosableTabCreator tabCreator;
 	
 	/**
 	 * Constructs the main views for this module.
@@ -28,11 +30,13 @@ public class Calendar implements IJanewayModule {
 		// Initialize the list of tabs (however, this module has only one tab)
 		tabs = new ArrayList<JanewayTabModel>();
 		
-		// Create a JPanel to hold the toolbar for the tab
-		ToolbarView toolbarView = new ToolbarView();
-		
 		// Constructs and adds the MainPanel	
 		MainView mainPanel = new MainView();
+		
+		tabCreator = new ClosableTabCreator(mainPanel.getCalendarPanel().getCalendarTab());
+		
+		// Create a JPanel to hold the toolbar for the tab
+		ToolbarView toolbarView = new ToolbarView(tabCreator);
 
 		// Create a tab model that contains the toolbar panel and the main content panel
 		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolbarView, mainPanel);
