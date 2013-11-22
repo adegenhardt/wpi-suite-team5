@@ -68,7 +68,6 @@ public class MonthView extends JPanel {
 		populateTable();
 		refreshCalendar(realMonth, realYear);
 		this.addComponentListener(new ResizeListener());
-
 	}
 	
 	private void createControls(){
@@ -106,12 +105,12 @@ public class MonthView extends JPanel {
 	
 	private void addControls() {
 		add(buttonPanel, BorderLayout.NORTH);
-		buttonPanel.add(btnPrev, "cell 0 0,alignx left,aligny top");
+		buttonPanel.add(btnPrev, "cell 0 0,alignx center,aligny top");
 		//buttonPanel.add(lblMonth, "cell 1 0,alignx left,aligny center");
 		
 		btnThisMonth = new JButton("This Month");
 		buttonPanel.add(btnThisMonth, "cell 2 0");
-		buttonPanel.add(btnNext, "cell 4 0,alignx left,aligny top");
+		buttonPanel.add(btnNext, "cell 4 0,alignx center,aligny top");
 		btnNext.setPreferredSize(btnPrev.getPreferredSize());
 		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
