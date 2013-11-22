@@ -25,7 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.Component;
 import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
 import java.awt.Dimension;
 
 /**
@@ -62,26 +61,18 @@ public class YearViewCalendarPanel extends JScrollPane {
 		
 		nextYear = new JButton("Next Year");
 		nextYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		/*
-		nextMonth = new JButton(">");
-		nextMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		*/	
+		
 		year = new JButton("This Year");
-		year.setBounds(0, 0, 400, 400);
-		/*	
-		prevMonth = new JButton("<");
-		prevMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
-		*/			
-		buttonPanel.setLayout(new MigLayout("", "[100px][][100px][][100px]", "[25px]"));
-		prevYear = new JButton("Previous");
-		prevYear.setPreferredSize(new Dimension(200, 23));
+		
+		prevYear = new JButton("Previous Year");
 		prevYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-						
+		
+		nextYear.setPreferredSize(prevYear.getPreferredSize());
+		
+		buttonPanel.setLayout(new MigLayout("", "[100px][][100px][][100px]", "[25px]"));
+		
 		buttonPanel.add(prevYear, "cell 0 0,grow");
-		//buttonPanel.add(prevMonth);
 		buttonPanel.add(year, "cell 2 0,grow");
-		//buttonPanel.add(nextMonth);
 		buttonPanel.add(nextYear, "cell 4 0,grow");
 						
 		contentPanel.add(buttonPanel, "cell 0 0,alignx center,aligny center");
