@@ -72,7 +72,6 @@ public class MonthView extends JPanel {
 		populateTable();
 		refreshCalendar(realMonth, realYear);
 		this.addComponentListener(new ResizeListener());
-
 	}
 	
 	private void createControls(){
