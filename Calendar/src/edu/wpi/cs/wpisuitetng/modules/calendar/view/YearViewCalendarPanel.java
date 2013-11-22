@@ -27,11 +27,6 @@ import java.awt.Component;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Dimension;
 
-/**
- * @author justinhess
- * @version $Revision: 1.0 $
- * 
- */
 public class YearViewCalendarPanel extends JScrollPane {
 	private static final long serialVersionUID = 1L;
 
@@ -60,12 +55,10 @@ public class YearViewCalendarPanel extends JScrollPane {
 		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		nextYear = new JButton("Next Year");
-		nextYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		year = new JButton("This Year");
 		
 		prevYear = new JButton("Previous Year");
-		prevYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		nextYear.setPreferredSize(prevYear.getPreferredSize());
 		
