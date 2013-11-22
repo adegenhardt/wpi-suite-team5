@@ -22,17 +22,26 @@ public class Commitment {
 	private String commitName;
 	private Date dueDate;
 	private List<String> tasks;
+	private CalendarItemLevel type;
 	
 	/**
 	 * Constructor for Commitment.
 	 * @param commitName String Name of the commitment
 	 * @param dueDate Date Due date for the commitment 
 	 * @param tasks List<String> Tasks that are to be completed for the commitment
+	 * @param type 
+	 * @param type An enum representing whether the commitment is personal or team
+	 *             The functionality for type will be implemented now, but
+	 *             it may be removed later. It depends on whether commitments are
+	 *             purely personal, or whether commitments can exist on both personal
+	 *             and team calendars. -Connor 
 	 */
-	public Commitment (String commitName, Date dueDate, List<String> tasks){
+	public Commitment (String commitName, Date dueDate, List<String> tasks, 
+			CalendarItemLevel type){
 		this.commitName = commitName;
 		this.dueDate = dueDate;
 		this.tasks = tasks;
+		this.type = type;
 	}
 	
 	public String getCommitName() {
@@ -58,5 +67,12 @@ public class Commitment {
 	public void setTasks(List<String> tasks) {
 		this.tasks = tasks;
 	}
+		
+	public CalendarItemLevel getType(){
+		return type;
+	}
 	
+	public void setType(CalendarItemLevel type){
+		this.type = type;
+	}
 }
