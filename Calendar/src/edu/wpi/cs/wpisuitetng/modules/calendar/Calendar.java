@@ -1,13 +1,22 @@
+/*********************************************************************************************
+ * Copyright (c) 2013 WPI Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This observer is called when a response is received from a request to
+ * the server to add a piece of calendar data.
+ * Adapted from AddRequirementRequestObserver.java by Team Underscore Database Crew
+ *
+ *********************************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.calendar;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
@@ -15,13 +24,19 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.tabs.ClosableTabCreator;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.ToolbarView;
 
+/**
+ * 
+ * @author Team_
+ * @version 1.0
+ *
+ */
 public class Calendar implements IJanewayModule {
 
 	/**
 	 * A list of tabs owned by this module
 	 */
 	List<JanewayTabModel> tabs;
-	private ClosableTabCreator tabCreator;
+	private final ClosableTabCreator tabCreator;
 	
 	/**
 	 * Constructs the main views for this module.
@@ -31,15 +46,16 @@ public class Calendar implements IJanewayModule {
 		tabs = new ArrayList<JanewayTabModel>();
 		
 		// Constructs and adds the MainPanel	
-		MainView mainPanel = new MainView();
+		final MainView mainPanel = new MainView();
 		
 		tabCreator = new ClosableTabCreator(mainPanel.getCalendarPanel().getCalendarTab());
 		
 		// Create a JPanel to hold the toolbar for the tab
-		ToolbarView toolbarView = new ToolbarView(tabCreator);
+		final ToolbarView toolbarView = new ToolbarView(tabCreator);
 
 		// Create a tab model that contains the toolbar panel and the main content panel
-		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolbarView, mainPanel);
+		final JanewayTabModel tab1 = 
+				new JanewayTabModel(getName(), new ImageIcon(), toolbarView, mainPanel);
 
 		// Add the tab to the list of tabs owned by this module
 		tabs.add(tab1);

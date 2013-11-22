@@ -30,7 +30,6 @@ public class Event {
 	private DateInfo endDate;
 	//TODO private List<Category> categories
 
-	
 	// Potential fields for later
 	// String category;
 	// Repeat repeat;

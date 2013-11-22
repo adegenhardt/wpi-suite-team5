@@ -18,10 +18,21 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * 
+ * @author Team_
+ * @version 1.0
+ *
+ */
 public class AddCalendarDataRequestObserver implements RequestObserver {
 
-	private AddCalendarDataController controller;
-	
+	private final AddCalendarDataController controller;
+
+	/**
+	 * Adds an observer for a CalendarData request
+	 * @param controller Controller to add observer to
+	 *
+	 */
 	public AddCalendarDataRequestObserver(AddCalendarDataController controller){
 		this.controller = controller;
 	}
