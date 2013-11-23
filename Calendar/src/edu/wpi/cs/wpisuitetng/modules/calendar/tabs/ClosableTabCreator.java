@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.tabs;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +20,7 @@ import javax.swing.KeyStroke;
 public class ClosableTabCreator {
 	
 	// Going to need a prettier icon
-	private static final Icon CLOSE_TAB_ICON = new ImageIcon(ClosableTabCreator.class.getResource("placeholder.png"));
+	// private static final Icon CLOSE_TAB_ICON = new ImageIcon(ClosableTabCreator.class.getResource("placeholder.png"));
 	private JTabbedPane tabbedPane;
 
 	public ClosableTabCreator(JTabbedPane _tabbedPane) {
@@ -42,12 +43,13 @@ public class ClosableTabCreator {
 		JLabel lblTitle = new JLabel(title);
 
 		// Create a JButton for the close tab button
-		JButton btnClose = new JButton();
+		JButton btnClose = new JButton("X");
 		btnClose.setOpaque(false);
 
 		// Configure icon and rollover icon for button
 		btnClose.setRolloverEnabled(true);
-		btnClose.setIcon(CLOSE_TAB_ICON);
+		btnClose.setPreferredSize(new Dimension(11, 11));
+		// btnClose.setIcon(CLOSE_TAB_ICON);
 
 		// Set border null so the button doesn't make the tab too big
 		btnClose.setBorder(null);

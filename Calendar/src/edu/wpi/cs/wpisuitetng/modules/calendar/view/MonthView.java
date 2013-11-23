@@ -47,7 +47,7 @@ public class MonthView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	JTable tblCalendar;
 	JButton btnPrev, btnNext;
-	JLabel /*lblMonth,*/ lblYear;
+	JLabel lblMonth, lblYear;
 	JScrollPane scrlCalendar; 
 	DefaultTableModel mtblCalendar;
 	JComboBox<String> cmbYear;
@@ -76,13 +76,13 @@ public class MonthView extends JPanel {
 	
 	private void createControls(){
 		buttonPanel = new JPanel();
-		//lblMonth = new JLabel("January", JLabel.CENTER);
+		lblMonth = new JLabel("January", JLabel.CENTER);
 		
 		// Set size constraints for month label
 		final Dimension mlabelDim = new Dimension(115, 15);
-		/*lblMonth.setMinimumSize(mlabelDim);
+		lblMonth.setMinimumSize(mlabelDim);
 		lblMonth.setPreferredSize(mlabelDim);
-		lblMonth.setMaximumSize(mlabelDim);*/
+		lblMonth.setMaximumSize(mlabelDim);
 		
 		cmbYear = new JComboBox<String>();
 		lblYear = new JLabel("Change year:");
@@ -112,7 +112,7 @@ public class MonthView extends JPanel {
 		buttonPanel.add(label);
 		btnPrev = new JButton("Previous");
 		buttonPanel.add(btnPrev);
-		//buttonPanel.add(lblMonth, "cell 1 0,alignx left,aligny center");
+		buttonPanel.add(lblMonth, "cell 1 0,alignx left,aligny center");
 		
 		btnThisMonth = new JButton("This Month");
 		buttonPanel.add(btnThisMonth);
@@ -184,10 +184,10 @@ public class MonthView extends JPanel {
 		if (month == 11 && year >= realYear + 100) {
 			btnNext.setEnabled(false);
 		} // Too late
-		//lblMonth.setText(months[month]); // Refresh the month label (at the top)
+		lblMonth.setText(months[month]); // Refresh the month label (at the top)
 
 		// Re-align label with calendar
-		//lblMonth.setBounds(160 - lblMonth.getPreferredSize().width / 2, 25, 180, 25); 
+		lblMonth.setBounds(160 - lblMonth.getPreferredSize().width / 2, 25, 180, 25); 
 		// Select the correct year in the combo box
 		cmbYear.setSelectedItem(String.valueOf(year)); 
 
