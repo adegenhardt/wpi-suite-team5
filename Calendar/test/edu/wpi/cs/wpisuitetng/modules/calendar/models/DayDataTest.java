@@ -19,7 +19,7 @@ import org.junit.Test;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DayData;
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
  * Test functionality of the DayData class

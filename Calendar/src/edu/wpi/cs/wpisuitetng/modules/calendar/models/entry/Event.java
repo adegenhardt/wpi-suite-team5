@@ -9,11 +9,12 @@
  * Contributors: Team Underscore 
  *    
  *******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.calendar;
+package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 
 import java.util.Date;
 
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 
 /**
@@ -21,11 +22,11 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
  * @version $Revision: 1.0 $
  */
 
-public class Event {
+public class Event extends AbstractModel implements ICalendarEntry {
 	private int id;
 	private String eventName;
 	private String eventDescr;
-	private CalendarItemLevel type;
+	//private CalendarItemLevel type;
 	private DateInfo startDate;
 	private DateInfo endDate;
 	//TODO private List<Category> categories
@@ -114,9 +115,9 @@ public class Event {
 	/**
 	 * @return the type of the event- either personal or team
 	 */
-	public CalendarItemLevel getType(){
+	/*public CalendarItemLevel getType(){
 		return type;
-	}
+	}*/
 	
 	/**
 	 * 
@@ -208,6 +209,32 @@ public class Event {
 	 */
 	public void setEndDate(DateInfo endDate) {
 		this.endDate = endDate;
+	}
+
+	// Required Functions Database Interaction
+		// -----------------------------------------
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Boolean identify(Object arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void save() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String toJSON() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

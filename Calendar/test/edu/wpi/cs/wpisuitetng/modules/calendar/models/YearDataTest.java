@@ -17,7 +17,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
  * Test functionality of the YearData class

@@ -2,7 +2,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
 import java.util.List;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 public interface InterfaceCalendarData {
 

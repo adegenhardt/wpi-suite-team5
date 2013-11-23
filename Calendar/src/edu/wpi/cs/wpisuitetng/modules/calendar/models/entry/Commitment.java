@@ -9,7 +9,7 @@
  * Contributors: Team Underscore 
  *    
  *******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.calendar;
+package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 import java.util.Date;
 import java.util.List;
