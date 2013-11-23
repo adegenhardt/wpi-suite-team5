@@ -31,19 +31,16 @@ public class Category {
 		name = description = "";
 	}
 
-	// @Override
-	/*
-	 * public int hashCode() { final int prime = 31; int result = 1; result =
-	 * prime * result + ((description == null) ? 0 : description.hashCode());
-	 * result = prime * result + ((name == null) ? 0 : name.hashCode()); return
-	 * result; }
-	 */
-
 	@Override
 	public boolean equals(Object obj) {
-		return (this.name.equals(((Category) obj).getName()) &&
-				this.description.equals(((Category) obj)
-				.getDescription()));
+		if (obj instanceof Category) {
+			return (this.name.equals(((Category) obj).getName()) &&
+					this.description.equals(((Category) obj)
+							.getDescription()));
+		}
+		else {
+			return false;
+		}
 
 	}
 
@@ -80,17 +77,19 @@ public class Category {
 		if (!n.equals(name)) {
 			final String originalName = name;
 			String newName = n;
-			if (newName.length() > 100)
+			if (newName.length() > 100) {
 				newName = newName.substring(0, 100);
+			}
 			final String message = ("Name changed from " + originalName
 					+ " to " + newName);
 			System.out.println(message);
 			// Possibly implemented later
-			// this.history.add(message);
+			// Add the message to the history (There was code here, this is what it did)
 		}
 		name = n;
-		if (name.length() > 100)
+		if (name.length() > 100) {
 			name = n.substring(0, 100);
+		}
 	}
 
 	/**
@@ -112,7 +111,7 @@ public class Category {
 		if (!desc.equals(description)) {
 			System.out.println("Description changed!");
 			// Possibly implemented later
-			// this.history.add("Description changed!");
+			// Add a message in history to say description changed (Code here again)
 		}
 		description = desc;
 	}

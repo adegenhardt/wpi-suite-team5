@@ -21,24 +21,11 @@ import java.util.Date;
  */
 public class DateInfo {
 	/*
-	 * @Override public int hashCode() { final int prime = 31; int result = 1;
-	 * result = prime * result + day; result = prime * result + halfHour; result
-	 * = prime * result + month; result = prime * result + year; return result;
-	 * }
 	 */
-
-	@Override
-	public boolean equals(Object obj) {
-		return (this.year == ((DateInfo) obj).getYear()
-				&& this.month == ((DateInfo) obj).getMonth()
-				&& this.day == ((DateInfo) obj).getDay() && this.halfHour == ((DateInfo) obj)
-					.getHalfHour());
-	}
-
-	int year;
-	int month;
-	int day;
-	int halfHour;
+	private int year;
+	private int month;
+	private int day;
+	private int halfHour;
 
 	/**
 	 * Constructor for DateInfo.
@@ -134,5 +121,14 @@ public class DateInfo {
 	public Date convertDateInfoToDate() {
 		final Date date = new Date(year, month, day);
 		return date;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		// You need to do checking for instance of object first
+		return (this.year == ((DateInfo) obj).getYear()
+				&& this.month == ((DateInfo) obj).getMonth()
+				&& this.day == ((DateInfo) obj).getDay() && this.halfHour == ((DateInfo) obj)
+					.getHalfHour());
 	}
 }
