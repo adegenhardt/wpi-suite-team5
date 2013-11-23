@@ -25,7 +25,7 @@ public class Event {
 	private int id;
 	private String eventName;
 	private String eventDescr;
-
+	private CalendarItemLevel type;
 	private DateInfo startDate;
 	private DateInfo endDate;
 	//TODO private List<Category> categories
@@ -48,17 +48,21 @@ public class Event {
 	 *            String
 	 * @param eventDescr
 	 *            String
+	 * @param type The type of the event- either personal or team.
+	 * 			   This determines what type of calendar this event belongs to. 
 	 * @param startDate
 	 *            Date
 	 * @param endDate
 	 *            Date
+
 	 */
 	@Deprecated
-	public Event(int id, String eventName, String eventDescr, Date startDate,
-			Date endDate) {
+	public Event(int id, String eventName, String eventDescr, 
+			Date startDate, Date endDate) {
 		this.id = id;
 		this.eventName = eventName;
 		this.eventDescr = eventDescr;
+		
 		this.startDate = new DateInfo( startDate );
 		this.endDate = new DateInfo( endDate );
 	}
@@ -68,19 +72,21 @@ public class Event {
 	 * @param id The ID of the event
 	 * @param eventName The event's name
 	 * @param eventDescr The description of the event
+	 * @param type An enum representing whether the event is team or personal
 	 * @param startDate Start date and time of event
 	 * @param endDate End date and time of event
 	 */
 	public Event( int id, String eventName, String eventDescr,
-			      DateInfo startDate, DateInfo endDate ) {
+			      DateInfo startDate, DateInfo endDate) {
 		this.id = id;
 		this.eventName = eventName;
 		this.eventDescr = eventDescr;
+		
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 	
-	// ----------------------------------------------------------------------------
+	// ---------------------------------------------------------
 	// Getters for the fields of Event
 	/**
 	 * 
@@ -105,35 +111,14 @@ public class Event {
 	public String getEventDescription() {
 		return eventDescr;
 	}
-
-
-	// ---------------------------------------------
-	// Setters for the fields of Event
-
+	
 	/**
-	 * 
-	 * @param eventID the event's new ID
+	 * @return the type of the event- either personal or team
 	 */
-	public void setId(int eventID) {
-		id = eventID;
+	public CalendarItemLevel getType(){
+		return type;
 	}
-
-	/**
-	 * 
-	 * @param eventName The new name of the event
-	 */
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
-	}
-
-	/**
-	 * 
-	 * @param eventDescr The new event description
-	 */
-	public void setEventDescription(String eventDescr) {
-		this.eventDescr = eventDescr;
-	}
-
+	
 	/**
 	 * 
 	 * @return the year that the event starts
@@ -160,6 +145,50 @@ public class Event {
 	
 	/**
 	 * 
+	 * @return the starting half hour of the event from 0-47
+	 */
+	public int getStartHalfHour() {
+		return startDate.getHalfHour();
+	}
+	
+	/**
+	 * 
+	 * @return the ending half hour of the event from 0-47
+	 */
+	public int getEndHalfHour() {
+		return endDate.getHalfHour();
+	}
+
+	// ---------------------------------------------------------
+	// Setters for the fields of Event
+
+	/**
+	 * 
+	 * @param eventID the event's new ID
+	 */
+	public void setId(int eventID) {
+		id = eventID;
+	}
+
+	/**
+	 * 
+	 * @param eventName The new name of the event
+	 */
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
+	/**
+	 * 
+	 * @param eventDescr The new event description
+	 */
+	public void setEventDescription(String eventDescr) {
+		this.eventDescr = eventDescr;
+	}
+
+
+	/**
+	 * 
 	 * @param startDate The new starting date for the event
 	 */
 	public void setStartDate(DateInfo startDate) {
@@ -180,22 +209,6 @@ public class Event {
 	 */
 	public void setEndDate(DateInfo endDate) {
 		this.endDate = endDate;
-	}
-	
-	/**
-	 * 
-	 * @return the starting half hour of the event from 0-47
-	 */
-	public int getStartHalfHour() {
-		return startDate.getHalfHour();
-	}
-	
-	/**
-	 * 
-	 * @return the ending half hour of the event from 0-47
-	 */
-	public int getEndHalfHour() {
-		return endDate.getHalfHour();
 	}
 
 }

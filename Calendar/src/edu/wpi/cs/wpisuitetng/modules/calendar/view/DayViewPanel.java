@@ -23,6 +23,7 @@ import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
 
 /**
  * @author Team Underscore
@@ -59,8 +60,7 @@ public class DayViewPanel extends JPanel {
 		// Thanks Calendar class, your the best
 		currentDateCal = Calendar.getInstance(); 
 		
-		buttonsPanel = new JPanel(); 
-		buttonsPanel.setLayout(new MigLayout("", "[100px][][100px][][100px]", "[]"));
+		buttonsPanel = new JPanel();
 		
 		dayView = new DayView(true);
 		dayView.refreshDay(currentDateCal);
@@ -86,12 +86,13 @@ public class DayViewPanel extends JPanel {
 				dayView.refreshDay(currentDisplay);
 			}
 		});
-		setLayout(new MigLayout("", "[600px,grow 1000,center]", "[100px][600px,grow 1000,fill]"));
+		setLayout(new MigLayout("", "[600px,grow 1000,center]", "[pref!][600px,grow 1000,fill]"));
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		
-		buttonsPanel.add(prevDay, "cell 0 0,growy");
-		buttonsPanel.add(currentDate, "cell 2 0,growx");
-		this.add(buttonsPanel, "cell 0 0,alignx center,aligny bottom");
+		buttonsPanel.add(prevDay);
+		buttonsPanel.add(currentDate);
+		this.add(buttonsPanel, "cell 0 0,alignx center,aligny top");
 		
 		nextDay = new JButton("Next");
 		nextDay.addMouseListener(new MouseAdapter() {
@@ -103,7 +104,7 @@ public class DayViewPanel extends JPanel {
 			}
 		});
 		
-		buttonsPanel.add(nextDay, "cell 4 0,grow");
+		buttonsPanel.add(nextDay);
 		this.add(dayView, "cell 0 1,grow");
 		dayView.setLayout(new GridLayout(1, 0, 0, 0));
 	}
