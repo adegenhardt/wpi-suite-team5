@@ -42,13 +42,8 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarData;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCalendarDataController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCalendarDataController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCalendarDataController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarDataModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 import java.awt.Color;
@@ -212,8 +207,9 @@ public class EventEditor extends JPanel {
 					return;
 				}
 
-				final CalendarData eventCal = new CalendarData(
-					ConfigManager.getConfig().getProjectName(), "Personal", 10);
+				// TODO: Replace code with something using new data model
+//				final CalendarData eventCal = new CalendarData(
+//					ConfigManager.getConfig().getProjectName(), "Personal", 10);
 
 				Date startDate = new Date();
 				startDate = (Date) comboBoxMonth.getDate().clone();
@@ -234,22 +230,27 @@ public class EventEditor extends JPanel {
 				endDate.setHours(Integer.parseInt(endHour));
 				endDate.setMinutes(Integer.parseInt(endMinutes));
 
-				final Event makeEvent = new Event(50, eventName.getText(),
-						descriptionPane.getText(), startDate, endDate, "project");
-				eventCal.addEvent(makeEvent);
+				// TODO: Replace code with something using new data model
+//				final Event makeEvent = new Event(50, eventName.getText(),
+//						descriptionPane.getText(), startDate, endDate, "project");
+//				eventCal.addEvent(makeEvent);
 
 				//Database Interaction Attempt
 				//Attempts to replace DB CalendarData with Updated Calendar Data evntCal
-				UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
-				GetCalendarDataController.getInstance().retrieveCalendarData();
-				
+				// TODO: Replace code with something using new data model
+//				UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
+//				GetCalendarDataController.getInstance().retrieveCalendarData();
+//				
 				editorPane_1.setText("PointA");
-				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
+				// TODO: Replace code with something using new data model
+//				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
 				editorPane_1.setText("PointB");
-				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
+				// TODO: Replace code with something using new data model
+//				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
 				editorPane_1.setText("PointC");
-				Event retrievedEventDB = eventList.get(0);
-				editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
+				// TODO: Replace code with something using new data model
+//				Event retrievedEventDB = eventList.get(0);
+//				editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
 				
 				//Demo Methods (Lacks Database Functionality)
 				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());
