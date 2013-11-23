@@ -112,7 +112,7 @@ public class EventTest {
 		assertTrue( event1.isDeleted() );
 	}
 
-	/*
+	/**
 	 * Test get and set for name field
 	 */
 	@Test
@@ -123,7 +123,7 @@ public class EventTest {
 		assertEquals( "testName", event1.getName() );
 	}
 	
-	/*
+	/**
 	 * Test get and set for description field
 	 */
 	@Test
@@ -134,7 +134,7 @@ public class EventTest {
 		assertEquals( "testDescription", event1.getDescription() );
 	}
 	
-	/*
+	/**
 	 * Test get and set for start date
 	 */
 	@Test
@@ -145,7 +145,7 @@ public class EventTest {
 		assertEquals( startDate2, event1.getStartDate() );
 	}
 	
-	/*
+	/**
 	 * Test get and set for end date
 	 */
 	@Test
@@ -156,7 +156,7 @@ public class EventTest {
 		assertEquals( endDate2, event1.getEndDate() );
 	}
 	
-	/*
+	/**
 	 * Test get and set for category
 	 */
 	@Test
