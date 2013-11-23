@@ -14,6 +14,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
@@ -23,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
  * 
  * @version $Revision: 1.0 $
  */
-public class Category {
+public class Category extends AbstractModel {
 	/** Name of the category **/
 	private String name;
 	/** The unique identification number **/
@@ -37,6 +40,40 @@ public class Category {
 	public Category(String name, int id) {
 		this.name = name;
 		this.id = id;
+	}
+	
+	/**
+	 * Method toJSON.
+	 * @return String * 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
+	
+	/**
+	 * This returns a JSON encoded String 
+	 * representation of this requirement object.
+	 * @return a JSON encoded String representation
+	 * of this requirement
+	 */
+	public String toJSON() {
+		return new Gson().toJson(this, Category.class);
+	}
+	
+	/**
+	 * Method toString.
+	 * @return String 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
+	 */
+	/**
+	 * This returns a Json encoded String representation
+	 * of this requirement object.
+	 * @return a Json encoded String representation of
+	 * this Event
+	 */
+	@Override
+	public String toString() {
+		return this.getName();
 	}
 	
 	/**
@@ -118,5 +155,52 @@ public class Category {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	/**
+	 * Copies all of the values from the given Category
+	 * to this Category.
+	 * @param toCopyFrom the Category to copy from.
+	 */
+	public void copyFrom(Category toCopyFrom) {
+		this.id = toCopyFrom.id;
+		
+		// Descriptive Parameters
+		this.name = toCopyFrom.name;
+	}
+	
+	
+	// Required Methods for Database Interaction //
+
+	
+	/**
+	 * Method save.
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
+	@Override
+	public void save() {
+		// TODO Auto-generated method stub	
+	}
+
+	/**
+	 * Method delete.
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Method identify.
+	 * @param o Object
+	 * @return Boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
+	 */
+	@Override
+	public Boolean identify(Object o) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -40,7 +40,7 @@ public class CategoryTest {
 		assertNotNull( category2 );
 	}
 	
-	/*
+	/**
 	 * Test get and set for the object id field
 	 */
 	@Test
@@ -51,7 +51,7 @@ public class CategoryTest {
 		assertEquals( 44, category1.getId() );
 	}
 	
-	/*
+	/**
 	 * Test get and set for the name field of category
 	 */
 	@Test
@@ -61,5 +61,41 @@ public class CategoryTest {
 		category1.setName( "Category Name 2" );
 		assertEquals( "Category Name 2", category1.getName() );
 	}
+	
+	/**
+	 * Test toJson and fromJson methods
+	 */
+	@Test
+	public void testJsonConversion() {
+		String convertedEvent = category1.toJSON();
+		Event eventFromJson = Event.fromJson( convertedEvent );
+		assertEquals( category1, eventFromJson );
+	}
+	
+	/**
+	 * Test toString method
+	 */
+	@Test
+	public void testToString() {
+		assertEquals( "Category Name 1", category1.toString() );
+	}
+	
+	/**
+	 * Test the copyFrom method
+	 */
+	@Test
+	public void testCopyFrom() {
+		assertFalse( category1.equals( category2 ) );
+		category1.copyFrom( category2 );
+		assertTrue( category1.equals( category2 ) );
+	}
 
+	/**
+	 * Test the equals method
+	 */
+	@Test
+	public void testEquals() {
+		assertTrue( category1.equals( category1 ) );
+	}
+	
 }
