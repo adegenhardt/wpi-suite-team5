@@ -59,7 +59,7 @@ public class Category extends AbstractModel {
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
-	
+
 	/**
 	 * This returns a JSON encoded String 
 	 * representation of this requirement object.
