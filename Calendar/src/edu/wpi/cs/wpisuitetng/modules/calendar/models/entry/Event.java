@@ -129,7 +129,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.projectId = projectId;
 		this.creatorId = creatorId;
 		
-		category = new Category();
+		category = new Category( name, id );
 		
 		// create empty list of userIds and add the creator
 		userIds = new ArrayList< String >();
