@@ -36,6 +36,7 @@ import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
 
 /**
  * @author Team Underscore
@@ -54,8 +55,8 @@ public class MonthView extends JPanel {
 	JPanel buttonPanel;
 	int realYear, realMonth, realDay, currentYear, currentMonth;
 	private JButton btnThisMonth;
-	private JLabel label;
-	private JLabel label_1;
+	private JPanel panel;
+	private JPanel panel_1;
 
 	/**
 	 * Create the panel.
@@ -76,13 +77,8 @@ public class MonthView extends JPanel {
 	
 	private void createControls(){
 		buttonPanel = new JPanel();
-		lblMonth = new JLabel("January", JLabel.CENTER);
 		
 		// Set size constraints for month label
-		final Dimension mlabelDim = new Dimension(115, 15);
-		lblMonth.setMinimumSize(mlabelDim);
-		lblMonth.setPreferredSize(mlabelDim);
-		lblMonth.setMaximumSize(mlabelDim);
 		
 		cmbYear = new JComboBox<String>();
 		lblYear = new JLabel("Change year:");
@@ -102,26 +98,34 @@ public class MonthView extends JPanel {
 		btnPrev.addActionListener(new btnPrev_Action());
 		btnNext.addActionListener(new btnNext_Action());
 		cmbYear.addActionListener(new cmbYear_Action());
+		btnThisMonth.addActionListener(new thisMonth_Action());
 	}
 	
 	private void addControls() {
-		add(buttonPanel, BorderLayout.NORTH);
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		final Dimension mlabelDim = new Dimension(115, 15);
 		
-		label = new JLabel("");
-		buttonPanel.add(label);
+		add(buttonPanel, BorderLayout.NORTH);
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
+		
+		panel = new JPanel();
+
 		btnPrev = new JButton("Previous");
-		buttonPanel.add(btnPrev);
-		buttonPanel.add(lblMonth, "cell 1 0,alignx left,aligny center");
+		panel.add(btnPrev);
 		
 		btnThisMonth = new JButton("This Month");
-		buttonPanel.add(btnThisMonth);
+		panel.add(btnThisMonth);
 		btnNext = new JButton("Next");
 		btnNext.setPreferredSize(btnPrev.getPreferredSize());
-		buttonPanel.add(btnNext);
+		panel.add(btnNext);
 		
-		label_1 = new JLabel("");
-		buttonPanel.add(label_1);
+		panel_1 = new JPanel();
+		buttonPanel.add(panel_1);
+		buttonPanel.add(panel);
+		lblMonth = new JLabel("January", JLabel.CENTER);
+		panel_1.add(lblMonth);
+		lblMonth.setMinimumSize(mlabelDim);
+		lblMonth.setPreferredSize(mlabelDim);
+		lblMonth.setMaximumSize(mlabelDim);
 		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
 		tblCalendar.setCellSelectionEnabled(true);
@@ -178,7 +182,7 @@ public class MonthView extends JPanel {
 		// Allow (or disallow) buttons
 		btnPrev.setEnabled(true);
 		btnNext.setEnabled(true);
-		if (month == 0 && year <= realYear - 10) {
+		if (month == 0 && year <= realYear - 100) {
 			btnPrev.setEnabled(false);
 		} // Too early
 		if (month == 11 && year >= realYear + 100) {
@@ -328,6 +332,16 @@ public class MonthView extends JPanel {
 				final String b = cmbYear.getSelectedItem().toString();
 				currentYear = Integer.parseInt(b);
 				refreshCalendar(currentMonth, currentYear);
+			}
+		}
+	}
+	
+	class thisMonth_Action implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if ((currentMonth != realMonth) || (currentYear != realYear)) {
+				currentMonth = realMonth;
+				currentYear = realYear;
+				refreshCalendar(realMonth, realYear);
 			}
 		}
 	}
