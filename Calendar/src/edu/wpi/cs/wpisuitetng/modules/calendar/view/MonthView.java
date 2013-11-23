@@ -34,6 +34,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
 
 /**
  * @author Team Underscore
@@ -52,6 +54,8 @@ public class MonthView extends JPanel {
 	JPanel buttonPanel;
 	int realYear, realMonth, realDay, currentYear, currentMonth;
 	private JButton btnThisMonth;
+	private JLabel label;
+	private JLabel label_1;
 
 	/**
 	 * Create the panel.
@@ -59,8 +63,8 @@ public class MonthView extends JPanel {
 	public MonthView() {
 		setLayout(new BorderLayout());
 		createControls();
-		registerActionListeners();
 		addControls();
+		registerActionListeners();
 		createDate();
 		addHeaders();
 		createBackground();
@@ -68,14 +72,10 @@ public class MonthView extends JPanel {
 		populateTable();
 		refreshCalendar(realMonth, realYear);
 		this.addComponentListener(new ResizeListener());
-
 	}
 	
 	private void createControls(){
 		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new MigLayout("", "[100px][][100px][][100px]", "[]"));
-		btnNext = new JButton("Next");
-		btnPrev = new JButton("Previous");
 		//lblMonth = new JLabel("January", JLabel.CENTER);
 		
 		// Set size constraints for month label
@@ -106,13 +106,22 @@ public class MonthView extends JPanel {
 	
 	private void addControls() {
 		add(buttonPanel, BorderLayout.NORTH);
-		buttonPanel.add(btnPrev, "cell 0 0,alignx left,aligny top");
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		label = new JLabel("");
+		buttonPanel.add(label);
+		btnPrev = new JButton("Previous");
+		buttonPanel.add(btnPrev);
 		//buttonPanel.add(lblMonth, "cell 1 0,alignx left,aligny center");
 		
 		btnThisMonth = new JButton("This Month");
-		buttonPanel.add(btnThisMonth, "cell 2 0");
-		buttonPanel.add(btnNext, "cell 4 0,alignx left,aligny top");
+		buttonPanel.add(btnThisMonth);
+		btnNext = new JButton("Next");
 		btnNext.setPreferredSize(btnPrev.getPreferredSize());
+		buttonPanel.add(btnNext);
+		
+		label_1 = new JLabel("");
+		buttonPanel.add(label_1);
 		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
 		tblCalendar.setCellSelectionEnabled(true);

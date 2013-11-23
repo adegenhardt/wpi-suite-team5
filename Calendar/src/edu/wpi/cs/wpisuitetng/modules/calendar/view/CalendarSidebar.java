@@ -145,6 +145,9 @@ public class CalendarSidebar extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		panelFilter.add(btnDelete, "cell 0 2");
 		
+		JButton btnNewFilter = new JButton("New Filter");
+		panelFilter.add(btnNewFilter, "cell 0 2");
+		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		add(scrollPane_2, "cell 0 3,grow");
 		

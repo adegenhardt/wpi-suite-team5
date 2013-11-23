@@ -35,4 +35,8 @@ public class MainView extends JPanel {
 		calendarPanel = new CalendarPanel();
 		add(calendarPanel, BorderLayout.CENTER);
 	}
+	
+	public CalendarPanel getCalendarPanel() {
+		return this.calendarPanel;
+	}
 }
