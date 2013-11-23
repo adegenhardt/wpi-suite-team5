@@ -204,7 +204,6 @@ public class EventEditor extends JPanel {
 					editorPane_1.setText("into for loop");
 					//editorPane_1.setText(eventCal.getType()+eventCal.getName()+eventCal.getId()+((CalendarData) ((CalendarDataModel) retCal).getElementAt(i)).getType()+((Component) ((CalendarDataModel) retCal).getElementAt(i)).getName() + ((AWTEvent) ((CalendarDataModel) retCal).getElementAt(i)).getID());
 					if ((eventCal.getType().equals((
->>>>>>> 55a8031189db173bbe640908598eb48600ed0931
 							(CalendarData) 
 							((CalendarDataModel) retCal).getElementAt(i)).getType())) &&
 							(eventCal.getName().equals(((CalendarData) 
@@ -251,26 +250,9 @@ public class EventEditor extends JPanel {
 
 				//do these interact with the database as required
 				
-				//attepts to replace DB CalendarData with Updated Calendar Data evntCal
+				//Attempts to replace DB CalendarData with Updated Calendar Data evntCal
 				UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
-				//db40 storage confic
-				//activation and update depth
-				//atempts 
-				//searc code for activation
-				//send queery to support commiters about issue
-				//activation depth
-				//num way from original object
-				//methods to allow to either dbo reference for java
-				//method in wpi suite for this
-				//load next layers
-				//one says load everything
-				//wpi suite exposed it 
-				//db40 home, db4o reference for java
-				//explict activation container.activate how deep to activate
-				//or confic activation globaly or 
-				//could have for each day has a pointer
-				//give year then pointer to all days
-				//do year continas days by date string 
+
 				GetCalendarDataController.getInstance().retrieveCalendarData();
 				editorPane_1.setText("PointB");//program got to here in test
 				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);

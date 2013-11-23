@@ -53,8 +53,7 @@ public class AddCalendarDataController  {
 	public void addCalendarData( CalendarData newCalendarData ) 
 	{
 		// PUT == create
-		final Request request = Network.getInstance().makeRequest( 
-				                   "calendar/calendardata", HttpMethod.PUT );
+		final Request request = Network.getInstance().makeRequest( "calendar/calendardata", HttpMethod.PUT );
 		request.setBody( newCalendarData.toJSON() ); // put the new CalendarData in the body of the request		
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); 
