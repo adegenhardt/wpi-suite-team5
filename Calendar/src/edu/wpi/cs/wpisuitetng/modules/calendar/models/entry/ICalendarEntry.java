@@ -14,6 +14,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 import java.util.Collection;
 
 /**
+ * @author Team Underscore
+ * @version $Revision: 1.0 $
  */
 public interface ICalendarEntry {
 
@@ -22,18 +24,18 @@ public interface ICalendarEntry {
 	/**
 	 * Determine if an entry occurs at some point in a given year
 	 * @param year the year to check for the entry
+	
 	 * @return true if the entry occurs at some point in the year,
-	 * false otherwise
-	 */
+	 * false otherwise */
 	public boolean occursOnYear( int year );
 	
 	/**
 	 * Determine if an entry occurs at some point in a given year
 	 * @param year the year to check for the entry
 	 * @param month the month to check for the entry (0-11)
+	
 	 * @return true if the entry occurs during the given month and year,
-	 * false otherwise
-	 */
+	 * false otherwise */
 	public boolean occursOnMonth( int year, int month );
 	
 	/**
@@ -41,9 +43,9 @@ public interface ICalendarEntry {
 	 * @param year the year to check for the entry
 	 * @param month the month to check for the entry (0-11)
 	 * @param day the day to check for the entry (0-30)
+	
 	 * @return true if the entry occurs during the given month and year,
-	 * false otherwise
-	 */
+	 * false otherwise */
 	public boolean occursOnDate( int year, int month, int day );
 	
 	/**
@@ -56,8 +58,8 @@ public interface ICalendarEntry {
 	/**
 	 * Determine if a user has access to an entry
 	 * @param userId the ID of the user being tested
-	 * @return true if the user has access, false otherwise
-	 */
+	
+	 * @return true if the user has access, false otherwise */
 	public boolean hasAccess( String userId );
 	
 	/**
