@@ -42,7 +42,6 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarData;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -50,6 +49,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCalendarDataControl
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCalendarDataController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCalendarDataController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarDataModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
@@ -235,87 +235,28 @@ public class EventEditor extends JPanel {
 				endDate.setMinutes(Integer.parseInt(endMinutes));
 
 				final Event makeEvent = new Event(50, eventName.getText(),
-						descriptionPane.getText(), startDate, endDate);
+						descriptionPane.getText(), startDate, endDate, "project");
 				eventCal.addEvent(makeEvent);
 
-				//GetCalendarDataController.getInstance().retrieveCalendarData();
-				//int size = CalendarDataModel.getInstance().getCalendarData().size();
-				//List<CalendarData> retCal = CalendarDataModel.getInstance().getCalendarData();
-				//System.out.println(size);
-				//String s= ""+size;
-				//editorPane_1.setText(s);
-				//boolean calendarFound = false;
-				//UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
-				//GetCalendarDataController.getInstance().retrieveCalendarData();
-				/*for (int i = 0; i < size; i++) {
-					System.out.println("got into first loop");
-					editorPane_1.setText("into for loop");
-					//editorPane_1.setText(eventCal.getType()+eventCal.getName()+eventCal.getId()+((CalendarData) ((CalendarDataModel) retCal).getElementAt(i)).getType()+((Component) ((CalendarDataModel) retCal).getElementAt(i)).getName() + ((AWTEvent) ((CalendarDataModel) retCal).getElementAt(i)).getID());
-					if ((eventCal.getType().equals((
-							(CalendarData) 
-							((CalendarDataModel) retCal).getElementAt(i)).getType())) &&
-							(eventCal.getName().equals(((CalendarData) 
-									((CalendarDataModel) retCal).getElementAt(i)).getName())) &&
-									(eventCal.getId() == 
-									(((CalendarData) 
-											((CalendarDataModel) retCal).getElementAt(i)).getId())))
-					{
-						calendarFound = true;
-						UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
-						editorPane_1.setText("true");
-						System.out.println("You successfully updated your calendar...");
-					}
-					
-				}
-				if (calendarFound==false){
-					AddCalendarDataController.getInstance().addCalendarData(eventCal);
-					System.out.println("You successfully added a new calendar...");
-				}
-				System.out.println("got here again");
-				GetCalendarDataController.getInstance().retrieveCalendarData();
-				List<CalendarData> fromDbCal = CalendarDataModel.getInstance().getCalendarData();
-
-				for (int j = 0; j < size; j++) {
-					System.out.println("got into second loop");
-					if (eventCal.getType().equals((
-							(CalendarData) 
-							((CalendarDataModel) retCal).getElementAt(j)).getType()) &&
-							eventCal.getName().equals(((CalendarData) 
-									((CalendarDataModel) retCal).getElementAt(j)).getName()) &&
-									eventCal.getId() == 
-									(((CalendarData) 
-											((CalendarDataModel) retCal).getElementAt(j)).getId()))
-					{
-						System.out.println("Here are the contents of what you added");
-					}
-					System.out.println("Nothing found matching what you input to the db... :(");
-				}
-
-				//editorPane_1.setText(eventName.getText()+descriptionPane.getText());
-				System.out.println(eventName.getText());
-				System.out.println(descriptionPane.getText());
-				System.out.println(endDate); */
-
-				//do these interact with the database as required
-				
+				//Database Interaction Attempt
 				//Attempts to replace DB CalendarData with Updated Calendar Data evntCal
 				UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
-
 				GetCalendarDataController.getInstance().retrieveCalendarData();
-				editorPane_1.setText("PointB");//program got to here in test
-				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
-				editorPane_1.setText("PointC");
-				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
+				
 				editorPane_1.setText("PointA");
+				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
+				editorPane_1.setText("PointB");
+				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
+				editorPane_1.setText("PointC");
 				Event retrievedEventDB = eventList.get(0);
+				editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
+				
+				//Demo Methods (Lacks Database Functionality)
 				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());
-				editorPane_1.setText(retrievedEventDB.getEventName()+" "+retrievedEventDB.getEventDescription()+" "+retrievedEventDB.getStartDate().toString());
-				//CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
-				//List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
-				//Event retrievedEventDB = eventList.get(0);
-				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());
-				//editorPane_1.setText(retrievedEventDB.getEventName()+" "+retrievedEventDB.getEventDescr()+" "+retrievedEventDB.getStartDate().toString());
-				//getInstance and getCalendar are not returning anything correctly we cannot recieve things from database
+				
+			
+				
+				
 			}
 
 			@Override

@@ -12,9 +12,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarData;
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockNetwork;
-
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
@@ -113,7 +112,7 @@ public class CalendarDataTest {
 		endTime.setYear( 1984 );
 		endTime.setMonth( 2 );
 		
-		Event event = new Event( 1, "name1", "desc1", startTime, endTime );
+		Event event = new Event( 1, "name1", "desc1", startTime, endTime, "project" );
 		
 		YearData year1 = cd1.getYearData( 1984 );
 		year1.addEvent( event );
@@ -157,7 +156,7 @@ public class CalendarDataTest {
 		endTime.setYear( 1984 );
 		endTime.setMonth( 2 );
 		
-		Event event = new Event( 1, "name1", "desc1", startTime, endTime );
+		Event event = new Event( 1, "name1", "desc1", startTime, endTime, "project" );
 		
 		YearData year1 = cdOriginal.getYearData( 1984 );
 		year1.addEvent( event );

@@ -15,7 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 import java.util.List;
 import java.util.ArrayList;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
  * @author Inferno505

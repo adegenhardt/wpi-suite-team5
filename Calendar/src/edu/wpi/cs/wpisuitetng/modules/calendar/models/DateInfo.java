@@ -13,13 +13,28 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 import java.util.Date;
 
 /**
- * DateInfo is a form of storing time information.
- * It contains a year, a month, a day, and
- * a half hour from 0-47
+ * DateInfo is a form of storing time information. It contains a year, a month,
+ * a day, and a half hour from 0-47
+ * 
  * @author Inferno505
  * @version $Revision: 1.0 $
  */
 public class DateInfo {
+	/*
+	 * @Override public int hashCode() { final int prime = 31; int result = 1;
+	 * result = prime * result + day; result = prime * result + halfHour; result
+	 * = prime * result + month; result = prime * result + year; return result;
+	 * }
+	 */
+
+	@Override
+	public boolean equals(Object obj) {
+		return (this.year == ((DateInfo) obj).getYear()
+				&& this.month == ((DateInfo) obj).getMonth()
+				&& this.day == ((DateInfo) obj).getDay() && this.halfHour == ((DateInfo) obj)
+					.getHalfHour());
+	}
+
 	int year;
 	int month;
 	int day;
@@ -43,18 +58,19 @@ public class DateInfo {
 		this.day = day;
 		this.halfHour = halfHour;
 	}
-	
+
 	/**
 	 * Construct a DateInfo from the Java Date class
-	 * @param date An instance of Date with required information
+	 * 
+	 * @param date
+	 *            An instance of Date with required information
 	 */
 	@SuppressWarnings("deprecation")
-	public DateInfo( Date date ) {
+	public DateInfo(Date date) {
 		year = date.getYear();
 		month = date.getMonth();
 		day = date.getDate() - 1;
-		halfHour = (date.getHours() * 2)
-				+ (date.getMinutes() / 30);
+		halfHour = (date.getHours() * 2) + (date.getMinutes() / 30);
 	}
 
 	/**
@@ -90,23 +106,24 @@ public class DateInfo {
 	}
 
 	/**
-	 * Converts a Java calendar Date to a DateInfo
-	 * Used to maintain compatability with an old version of the program
-	 * @param date The date in its original format
+	 * Converts a Java calendar Date to a DateInfo Used to maintain
+	 * compatability with an old version of the program
+	 * 
+	 * @param date
+	 *            The date in its original format
 	 * @return a DateInfo object with the updated information
 	 */
 	@SuppressWarnings("deprecation")
-	public DateInfo convertToDateInfo( Date date ) {
+	public DateInfo convertToDateInfo(Date date) {
 		final int year = date.getYear();
 		final int month = date.getMonth();
 		final int day = date.getDate() - 1;
-		final int halfHour = (date.getHours() * 2)
-				+ (date.getMinutes() / 30);
-		
-		return new DateInfo( year, month, day, halfHour );
-		
+		final int halfHour = (date.getHours() * 2) + (date.getMinutes() / 30);
+
+		return new DateInfo(year, month, day, halfHour);
+
 	}
-	
+
 	/**
 	 * Method convertDateInfoToDate. converts a DateInfo object to a Date object
 	 * of the same parameters

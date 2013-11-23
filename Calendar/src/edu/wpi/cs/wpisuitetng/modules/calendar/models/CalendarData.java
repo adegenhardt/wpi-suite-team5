@@ -13,7 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -179,7 +179,7 @@ public class CalendarData extends AbstractModel {
 	// End Required Functions Database Interaction
 	// -------------------------------------------
 
-	// Get Functions Database Interaction
+	// Get Functions 
 	// -------------------------------------------
 	/**
 	 * NOte: May not be needed or desired for outside classes to manipulate

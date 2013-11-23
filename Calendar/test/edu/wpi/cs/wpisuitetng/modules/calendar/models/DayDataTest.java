@@ -19,7 +19,7 @@ import org.junit.Test;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DayData;
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
  * Test functionality of the DayData class
@@ -49,14 +49,14 @@ public class DayDataTest {
 		Date startTime = new Date();
 		Date endTime = new Date();
 		
-		Event event1 = new Event( 1, "name1", "desc1", startTime, endTime );
+		Event event1 = new Event( 1, "name1", "desc1", startTime, endTime, "project" );
 		
 		// test that the first item can be added and retrieved
 		day.addEvent( event1 );
 		List<Event> retrievedEvents = day.getDayEvents();
 		assertTrue( retrievedEvents.contains( event1 ) );
 		
-		Event event2 = new Event( 2, "name2", "desc2", startTime, endTime );
+		Event event2 = new Event( 2, "name2", "desc2", startTime, endTime, "project" );
 		day.addEvent( event2 );
 		
 		retrievedEvents = day.getDayEvents();
