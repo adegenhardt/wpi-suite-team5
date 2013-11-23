@@ -22,43 +22,17 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 public class Category {
 	/** Name of the category **/
 	private String name;
-	/** Description of the category **/
-	private String description;
-
-	/** Constructs a Category with default characteristics **/
-	public Category() {
-		// Default value for name and description is blank
-		name = description = "";
-	}
-
-	// @Override
-	/*
-	 * public int hashCode() { final int prime = 31; int result = 1; result =
-	 * prime * result + ((description == null) ? 0 : description.hashCode());
-	 * result = prime * result + ((name == null) ? 0 : name.hashCode()); return
-	 * result; }
-	 */
-
-	@Override
-	public boolean equals(Object obj) {
-		return (this.name.equals(((Category) obj).getName()) &&
-				this.description.equals(((Category) obj)
-				.getDescription()));
-
-	}
-
+	/** The unique identification number **/
+	private int id;
+	
 	/**
-	 * Constructs a Category with given values
-	 * 
-	 * @param name
-	 *            String
-	 * @param description
-	 *            String
-	 **/
-	public Category(String name, String description) {
-		this();
+	 * Constructor for a category object.
+	 * @param name a string that represent the category type.
+	 * @param id an integer that represents the object id.
+	 */
+	public Category(String name, int id) {
 		this.name = name;
-		this.description = description;
+		this.id = id;
 	}
 
 	/**
@@ -73,8 +47,7 @@ public class Category {
 	/**
 	 * Method setName.
 	 * 
-	 * @param n
-	 *            the new name of the Category
+	 * @param n the new name of the Category
 	 */
 	public void setName(String n) {
 		if (!n.equals(name)) {
@@ -94,41 +67,28 @@ public class Category {
 	}
 
 	/**
-	 * Method getDescription.
-	 * 
-	 * @return description the description of the Category
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * Method setDescription.
-	 * 
-	 * @param desc
-	 *            String the description to set
-	 */
-	public void setDescription(String desc) {
-		if (!desc.equals(description)) {
-			System.out.println("Description changed!");
-			// Possibly implemented later
-			// this.history.add("Description changed!");
-		}
-		description = desc;
-	}
-
-	/**
 	 * Method createNewCategory.
 	 * 
-	 * @param name
-	 *            the name to give the new category
-	 * @param description
-	 *            the description to give the new category
+	 * @param name the name to give the new category
 	 * @return cat the new category
 	 */
-	public Category createNewCategory(String name, String description) {
-		final Category cat = new Category(name, description);
+	public Category createNewCategory(String name, int id) {
+		final Category cat = new Category(name, id);
 		System.out.println("New Category " + name + " created!");
 		return cat;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 }
