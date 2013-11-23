@@ -579,7 +579,6 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	/**
 	 * Determines whether or not a user has access to this event
-	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.models.entry#hasAccess( String userId )
 	 */
 	@Override

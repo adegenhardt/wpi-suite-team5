@@ -12,6 +12,13 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+
 /**
  * Category class that contains all the fields required to create a category
  * 
@@ -19,43 +26,89 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
  * 
  * @version $Revision: 1.0 $
  */
-public class Category {
+public class Category extends AbstractModel {
 	/** Name of the category **/
 	private String name;
-	/** Description of the category **/
-	private String description;
-
-	/** Constructs a Category with default characteristics **/
-	public Category() {
-		// Default value for name and description is blank
-		name = description = "";
+	/** The unique identification number **/
+	private int id;
+	
+	/**
+	 * Constructor for a category object.
+	 * @param name a string that represent the category type.
+	 * @param id an integer that represents the object id.
+	 */
+	public Category(String name, int id) {
+		this.name = name;
+		this.id = id;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Category) {
 			return (this.name.equals(((Category) obj).getName()) &&
-					this.description.equals(((Category) obj)
-							.getDescription()));
+					this.id == ((Category) obj).getId());
 		}
 		else {
 			return false;
 		}
-
 	}
-
+	
 	/**
-	 * Constructs a Category with given values
-	 * 
-	 * @param name
-	 *            String
-	 * @param description
-	 *            String
-	 **/
-	public Category(String name, String description) {
-		this();
-		this.name = name;
-		this.description = description;
+	 * Method toJSON.
+	 * @return String * 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
+	
+	/**
+	 * This returns a JSON encoded String 
+	 * representation of this requirement object.
+	 * @return a JSON encoded String representation
+	 * of this requirement
+	 */
+	public String toJSON() {
+		return new Gson().toJson(this, Category.class);
+	}
+	
+	/**
+	 * Method toString.
+	 * @return String 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
+	 */
+	/**
+	 * This returns a Json encoded String representation
+	 * of this requirement object.
+	 * @return a Json encoded String representation of
+	 * this Event
+	 */
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+	
+	/**
+	 * Returns an instance of Category constructed 
+	 * using the given Category encoded as a JSON string.
+	 * @param json JSON-encoded Category to deserialize
+	 * @return the Event contained in the given JSON
+	 */
+	public static Category fromJson(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, Category.class);
+	}
+	
+	/**
+	 * Returns an array of Category parsed from 
+	 * the given JSON-encoded string.
+	 * @param json string containing a JSON-encoded
+	 * array of Category
+	 * @return an array of Event deserialized
+	 * from the given JSON string 
+	 */
+	public static Category[] fromJsonArray(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, Category[].class);
 	}
 
 	/**
@@ -70,8 +123,7 @@ public class Category {
 	/**
 	 * Method setName.
 	 * 
-	 * @param n
-	 *            the new name of the Category
+	 * @param n the new name of the Category
 	 */
 	public void setName(String n) {
 		if (!n.equals(name)) {
@@ -93,41 +145,75 @@ public class Category {
 	}
 
 	/**
-	 * Method getDescription.
-	 * 
-	 * @return description the description of the Category
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * Method setDescription.
-	 * 
-	 * @param desc
-	 *            String the description to set
-	 */
-	public void setDescription(String desc) {
-		if (!desc.equals(description)) {
-			System.out.println("Description changed!");
-			// Possibly implemented later
-			// Add a message in history to say description changed (Code here again)
-		}
-		description = desc;
-	}
-
-	/**
 	 * Method createNewCategory.
 	 * 
-	 * @param name
-	 *            the name to give the new category
-	 * @param description
-	 *            the description to give the new category
+	 * @param name the name to give the new category
 	 * @return cat the new category
 	 */
-	public Category createNewCategory(String name, String description) {
-		final Category cat = new Category(name, description);
+	public Category createNewCategory(String name, int id) {
+		final Category cat = new Category(name, id);
 		System.out.println("New Category " + name + " created!");
 		return cat;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	/**
+	 * Copies all of the values from the given Category
+	 * to this Category.
+	 * @param toCopyFrom the Category to copy from.
+	 */
+	public void copyFrom(Category toCopyFrom) {
+		this.id = toCopyFrom.id;
+		
+		// Descriptive Parameters
+		this.name = toCopyFrom.name;
+	}
+	
+	
+	// Required Methods for Database Interaction //
+
+	
+	/**
+	 * Method save.
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
+	@Override
+	public void save() {
+		// TODO Auto-generated method stub	
+	}
+
+	/**
+	 * Method delete.
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Method identify.
+	 * @param o Object
+	 * @return Boolean
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
+	 */
+	@Override
+	public Boolean identify(Object o) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
