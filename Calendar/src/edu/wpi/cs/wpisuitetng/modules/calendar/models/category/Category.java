@@ -41,6 +41,17 @@ public class Category extends AbstractModel {
 		this.name = name;
 		this.id = id;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Category) {
+			return (this.name.equals(((Category) obj).getName()) &&
+					this.id == ((Category) obj).getId());
+		}
+		else {
+			return false;
+		}
+	}
 	
 	/**
 	 * Method toJSON.
@@ -118,17 +129,19 @@ public class Category extends AbstractModel {
 		if (!n.equals(name)) {
 			final String originalName = name;
 			String newName = n;
-			if (newName.length() > 100)
+			if (newName.length() > 100) {
 				newName = newName.substring(0, 100);
+			}
 			final String message = ("Name changed from " + originalName
 					+ " to " + newName);
 			System.out.println(message);
 			// Possibly implemented later
-			// this.history.add(message);
+			// Add the message to the history (There was code here, this is what it did)
 		}
 		name = n;
-		if (name.length() > 100)
+		if (name.length() > 100) {
 			name = n.substring(0, 100);
+		}
 	}
 
 	/**
