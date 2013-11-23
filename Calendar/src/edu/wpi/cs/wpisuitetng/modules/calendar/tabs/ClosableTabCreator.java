@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2012 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Team Underscore 
+ *    
+ *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.tabs;
 
 import java.awt.Color;
@@ -7,23 +18,18 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractAction;
+
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.KeyStroke;
+
 
 public class ClosableTabCreator {
 	
-	// Going to need a prettier icon
-	// private static final Icon CLOSE_TAB_ICON = new ImageIcon(ClosableTabCreator.class.getResource("placeholder.png"));
-	private JTabbedPane tabbedPane;
+	private final JTabbedPane tabbedPane;
 
 	public ClosableTabCreator(JTabbedPane _tabbedPane) {
 		tabbedPane = _tabbedPane;
@@ -32,26 +38,25 @@ public class ClosableTabCreator {
 	public void addClosableTab(final JComponent c, final String title) {
 		// Add the tab to the pane without any label
 		tabbedPane.addTab(null, c);
-		int pos = tabbedPane.indexOfComponent(c);
+		final int pos = tabbedPane.indexOfComponent(c);
 
 		// Create a FlowLayout that will space things 5px apart
-		FlowLayout f = new FlowLayout(FlowLayout.CENTER, 5, 0);
+		final FlowLayout f = new FlowLayout(FlowLayout.CENTER, 5, 0);
 
 		// Make a small JPanel with the layout and make it non-opaque
-		JPanel pnlTab = new JPanel(f);
+		final JPanel pnlTab = new JPanel(f);
 		pnlTab.setOpaque(false);
 
 		// Add a JLabel with title
-		JLabel lblTitle = new JLabel(title);
+		final JLabel lblTitle = new JLabel(title);
 
 		// Create a JButton for the close tab button
-		JButton btnClose = new JButton("\u2716");
+		final JButton btnClose = new JButton("\u2716");
 		btnClose.setOpaque(false);
 
-		// Configure icon and rollover icon for button
+		// Configure icon and rollover stuff for later
 		btnClose.setRolloverEnabled(true);
 		btnClose.setPreferredSize(new Dimension(11, 15));
-		// btnClose.setIcon(CLOSE_TAB_ICON);
 
 		// Set border null so the button doesn't make the tab too big
 		btnClose.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -73,7 +78,7 @@ public class ClosableTabCreator {
 		tabbedPane.setTabComponentAt(pos, pnlTab);
 
 		// Add the listener that removes the tab
-		ActionListener listener = new ActionListener() {
+		final ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// The component parameter must be declared "final" so that it
