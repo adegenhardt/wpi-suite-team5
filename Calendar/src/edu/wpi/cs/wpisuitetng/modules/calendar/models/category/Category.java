@@ -12,6 +12,10 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 
+import com.google.gson.Gson;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+
 /**
  * Category class that contains all the fields required to create a category
  * 
@@ -33,6 +37,30 @@ public class Category {
 	public Category(String name, int id) {
 		this.name = name;
 		this.id = id;
+	}
+	
+	/**
+	 * Returns an instance of Category constructed 
+	 * using the given Category encoded as a JSON string.
+	 * @param json JSON-encoded Category to deserialize
+	 * @return the Event contained in the given JSON
+	 */
+	public static Category fromJson(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, Category.class);
+	}
+	
+	/**
+	 * Returns an array of Category parsed from 
+	 * the given JSON-encoded string.
+	 * @param json string containing a JSON-encoded
+	 * array of Category
+	 * @return an array of Event deserialized
+	 * from the given JSON string 
+	 */
+	public static Category[] fromJsonArray(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, Category[].class);
 	}
 
 	/**
