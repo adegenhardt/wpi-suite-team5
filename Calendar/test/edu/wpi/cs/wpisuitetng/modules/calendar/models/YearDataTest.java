@@ -79,7 +79,7 @@ public class YearDataTest {
 		endTime.setYear( 1984 );
 		endTime.setMonth( 2 );
 		
-		Event event = new Event( 1, "name1", "desc1", startTime, endTime );
+		Event event = new Event( 1, "name1", "desc1", startTime, endTime, "project" );
 		
 		YearData year = new YearData( 1984 );
 		

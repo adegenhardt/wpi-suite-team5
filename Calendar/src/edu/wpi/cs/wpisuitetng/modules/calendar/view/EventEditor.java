@@ -235,7 +235,7 @@ public class EventEditor extends JPanel {
 				endDate.setMinutes(Integer.parseInt(endMinutes));
 
 				final Event makeEvent = new Event(50, eventName.getText(),
-						descriptionPane.getText(), startDate, endDate);
+						descriptionPane.getText(), startDate, endDate, "project");
 				eventCal.addEvent(makeEvent);
 
 				//Database Interaction Attempt
@@ -249,7 +249,7 @@ public class EventEditor extends JPanel {
 				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
 				editorPane_1.setText("PointC");
 				Event retrievedEventDB = eventList.get(0);
-				editorPane_1.setText(retrievedEventDB.getEventName()+" "+retrievedEventDB.getEventDescription()+" "+retrievedEventDB.getStartDate().toString());
+				editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
 				
 				//Demo Methods (Lacks Database Functionality)
 				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());

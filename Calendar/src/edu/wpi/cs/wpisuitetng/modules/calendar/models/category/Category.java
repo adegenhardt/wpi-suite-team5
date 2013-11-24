@@ -12,9 +12,11 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 
-/** Category class that contains all the fields required to create a category
+/**
+ * Category class that contains all the fields required to create a category
+ * 
  * @author Joe Hill
- *
+ * 
  * @version $Revision: 1.0 $
  */
 public class Category {
@@ -22,42 +24,66 @@ public class Category {
 	private String name;
 	/** Description of the category **/
 	private String description;
-	
+
 	/** Constructs a Category with default characteristics **/
 	public Category() {
 		// Default value for name and description is blank
 		name = description = "";
 	}
-	
-	/** Constructs a Category with given values 
-	 * @param name String
-	 * @param description String
+
+	// @Override
+	/*
+	 * public int hashCode() { final int prime = 31; int result = 1; result =
+	 * prime * result + ((description == null) ? 0 : description.hashCode());
+	 * result = prime * result + ((name == null) ? 0 : name.hashCode()); return
+	 * result; }
+	 */
+
+	@Override
+	public boolean equals(Object obj) {
+		return (this.name.equals(((Category) obj).getName()) &&
+				this.description.equals(((Category) obj)
+				.getDescription()));
+
+	}
+
+	/**
+	 * Constructs a Category with given values
+	 * 
+	 * @param name
+	 *            String
+	 * @param description
+	 *            String
 	 **/
 	public Category(String name, String description) {
 		this();
 		this.name = name;
 		this.description = description;
 	}
-	
-	/** Method getName.
+
+	/**
+	 * Method getName.
 	 * 
-	 * @return name
-	 * 				the name of the Category */
+	 * @return name the name of the Category
+	 */
 	public String getName() {
 		return name;
 	}
-	
-	/** Method setName.
+
+	/**
+	 * Method setName.
 	 * 
 	 * @param n
-	 * 			the new name of the Category */
+	 *            the new name of the Category
+	 */
 	public void setName(String n) {
 		if (!n.equals(name)) {
 			final String originalName = name;
 			String newName = n;
 			if (newName.length() > 100)
 				newName = newName.substring(0, 100);
-			final String message = ("Name changed from " + originalName + " to " + newName);
+			final String message = ("Name changed from " + originalName
+					+ " to " + newName);
 			System.out.println(message);
 			// Possibly implemented later
 			// this.history.add(message);
@@ -66,19 +92,22 @@ public class Category {
 		if (name.length() > 100)
 			name = n.substring(0, 100);
 	}
-	
-	/** Method getDescription.
-	 *
-	 * @return description
-	 * 				the description of the Category */
+
+	/**
+	 * Method getDescription.
+	 * 
+	 * @return description the description of the Category
+	 */
 	public String getDescription() {
 		return description;
 	}
 
-	/** Method setDescription.
+	/**
+	 * Method setDescription.
 	 * 
-	 * @param desc String
-	 * 			the description to set */
+	 * @param desc
+	 *            String the description to set
+	 */
 	public void setDescription(String desc) {
 		if (!desc.equals(description)) {
 			System.out.println("Description changed!");
@@ -87,15 +116,16 @@ public class Category {
 		}
 		description = desc;
 	}
-	
-	/** Method createNewCategory.
+
+	/**
+	 * Method createNewCategory.
 	 * 
 	 * @param name
-	 * 			the name to give the new category
+	 *            the name to give the new category
 	 * @param description
-	 * 			the description to give the new category
-	 * @return cat
-	 * 			the new category */
+	 *            the description to give the new category
+	 * @return cat the new category
+	 */
 	public Category createNewCategory(String name, String description) {
 		final Category cat = new Category(name, description);
 		System.out.println("New Category " + name + " created!");
