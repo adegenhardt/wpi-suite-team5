@@ -59,7 +59,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		description = "";
 		startDate = new DateInfo( -1, -1, -1, -1 );
 		endDate = new DateInfo( -1, -1, -1, -1 );
-		category = new Category();
+		category = new Category( "-1", -1);
 		
 		id = -1;
 		creatorId = "-1";
@@ -150,7 +150,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.id = id;
 		this.creatorId = creatorId;
 		
-		category = new Category();
+		category = new Category( name, id );
 		
 		this.isTeamEvent = isTeamEvent;
 		
@@ -611,7 +611,6 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	/**
 	 * Determines whether or not a user has access to this event
-	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.models.entry#hasAccess( String userId )
 	 */
 	@Override

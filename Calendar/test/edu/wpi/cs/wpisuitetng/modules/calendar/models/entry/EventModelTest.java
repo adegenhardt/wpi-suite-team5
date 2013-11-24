@@ -33,7 +33,7 @@ public class EventModelTest {
 	DateInfo startDate2 = new DateInfo( 2013, 5, 12, 2 );
 	DateInfo endDate2 = new DateInfo( 2013, 5, 12, 40 );
 	
-	Category testCategory = new Category( "name", "description" );
+	Category testCategory = new Category( "name", 10 );
 	
 	Event indEvent1 = new Event( "name1", "description1", startDate1,
 			endDate1, testCategory, false, 1, "111" );

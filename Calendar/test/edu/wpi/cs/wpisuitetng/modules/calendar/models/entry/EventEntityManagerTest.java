@@ -57,7 +57,7 @@ public class EventEntityManagerTest {
 	DateInfo startDate2 = new DateInfo( 2013, 5, 12, 2 );
 	DateInfo endDate2 = new DateInfo( 2013, 5, 12, 40 );
 	
-	Category testCategory = new Category( "name", "description" );
+	Category testCategory = new Category( "name", 10 );
 	
 	/**
 	 * Set up objects and create a mock session for testing

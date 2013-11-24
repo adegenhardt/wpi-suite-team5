@@ -12,7 +12,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventRequestObserver;
-import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;

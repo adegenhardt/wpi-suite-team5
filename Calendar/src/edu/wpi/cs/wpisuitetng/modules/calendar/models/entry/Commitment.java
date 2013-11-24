@@ -46,8 +46,6 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 
 	private List<String> tasks;
 
-	// private CalendarItemLevel type;
-
 	/**
 	 * Full Specification Constructor for Commitment.
 	 * @param projectId String  name of project Commitment is Linked to.
@@ -119,7 +117,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 		this.tasks = tasks;
 	}
 	
-	// Get/Set Functions
+	// GetterSetter Functions
 	// ---------------------------------
 
 	public String getName() {
