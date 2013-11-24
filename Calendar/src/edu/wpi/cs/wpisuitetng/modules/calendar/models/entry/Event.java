@@ -28,7 +28,6 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	// ID Parameters
 	private int id; // object unique ID integer
-	private String projectId; // id of Event's project
 	private String creatorId; // id of creating user
 	private boolean isDeleted; // object is deleted from user view
 
@@ -44,9 +43,31 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	private ArrayList<String> userIds; // userIds of users to participate in
 										// event
 
+	boolean isTeamEvent;		/* Whether or not the event is a team event */
+	
 	// Potential fields for later
 	// Repeat repeat;
 
+	/**
+	 * Default event constructor that sets invalid values to all fields
+	 */
+	public Event() {
+		isDeleted = false;
+		
+		// Descriptive Parameters
+		name = "";
+		description = "";
+		startDate = new DateInfo( -1, -1, -1, -1 );
+		endDate = new DateInfo( -1, -1, -1, -1 );
+		category = new Category();
+		
+		id = -1;
+		creatorId = "-1";
+		
+		// create empty list of userIds and add the creator
+		userIds = new ArrayList< String >();
+	}
+	
 	/**
 	 * Full Specification Constructor for Event. (Test Only)
 	 * 
@@ -70,8 +91,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            by personal calendar)
 	 */
 	public Event(String name, String description, DateInfo startDate,
-			DateInfo endDate, Category category,
-			int id, String projectId, String creatorId) {
+			DateInfo endDate, Category category, boolean isTeamEvent,
+			int id, String creatorId) {
 
 		this.isDeleted = false;
 
@@ -83,8 +104,9 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.category = category;
 		
 		this.id = id;
-		this.projectId = projectId;
 		this.creatorId = creatorId;
+		
+		this.isTeamEvent = isTeamEvent;
 		
 		// create empty list of userIds and add the creator
 		userIds = new ArrayList< String >();
@@ -115,7 +137,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            by personal calendar)
 	 */
 	public Event(String name, String description, DateInfo startDate,
-			DateInfo endDate, int id, String projectId, String creatorId) {
+			DateInfo endDate, boolean isTeamEvent, int id, String creatorId) {
 
 		this.isDeleted = false;
 
@@ -126,10 +148,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.endDate = endDate;
 		
 		this.id = id;
-		this.projectId = projectId;
 		this.creatorId = creatorId;
 		
 		category = new Category();
+		
+		this.isTeamEvent = isTeamEvent;
 		
 		// create empty list of userIds and add the creator
 		userIds = new ArrayList< String >();
@@ -163,10 +186,6 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		return this.startDate;
 	}
 
-	public String getProjectId() {
-		return projectId;
-	}
-
 	public String getCreatorId() {
 		return creatorId;
 	}
@@ -178,14 +197,6 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 */
 	public void setAbsoluteId(int absoluteId) {
 		this.id = absoluteId;
-	}
-
-	/**
-	 * 
-	 * @param idProject
-	 */
-	public void setProjectId(String idProject) {
-		this.projectId = idProject;
 	}
 
 	/**
@@ -257,6 +268,25 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.category = category;
 	}
 
+	/**
+	 * 
+	 * @return True if the event is a team event,
+	 * false if it's an individual event
+	 */
+	public boolean isTeamEvent() {
+		return isTeamEvent;
+	}
+
+	/**
+	 * 
+	 * @param isTeamEvent true if the event is a team event,
+	 * false if it's an individual event
+	 */
+	public void setTeamEvent(boolean isTeamEvent) {
+		this.isTeamEvent = isTeamEvent;
+	}
+	
+	
 	// Required Functions Database Interaction
 	// -----------------------------------------
 	/**
@@ -379,7 +409,6 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	public void copyFrom(Event toCopyFrom) {
 		this.id = toCopyFrom.id;
-		this.projectId = toCopyFrom.projectId;
 		this.creatorId = toCopyFrom.creatorId;
 		this.isDeleted = toCopyFrom.isDeleted;
 
@@ -390,6 +419,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.endDate = toCopyFrom.endDate;
 		this.category =(toCopyFrom.category);
 		this.userIds = toCopyFrom.userIds;
+		
+		this.isTeamEvent = toCopyFrom.isTeamEvent;
 	}
 
 	/**
@@ -414,7 +445,6 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		return
 				
 		this.id == (((Event)obj).id) &&
-		this.projectId.equals(((Event)obj).projectId) &&
 		this.creatorId.equals(((Event)obj).creatorId) &&
 		this.isDeleted  == ((Event)obj).isDeleted &&
 
@@ -431,7 +461,9 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @param newId the userID to be added
 	 */
 	public void addUserId( String newId ) {
-		userIds.add( newId );
+		if ( isTeamEvent() ) {
+			userIds.add( newId );
+		}
 	}
 	
 	/**
