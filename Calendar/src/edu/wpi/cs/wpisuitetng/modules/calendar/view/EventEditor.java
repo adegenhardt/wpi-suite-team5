@@ -45,6 +45,7 @@ import javax.swing.DefaultComboBoxModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
 
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
@@ -235,10 +236,11 @@ public class EventEditor extends JPanel {
 				endDate.setHours(Integer.parseInt(endHour));
 				endDate.setMinutes(Integer.parseInt(endMinutes));
 
-				// TODO: Replace code with something using new data model
-//				final Event makeEvent = new Event(50, eventName.getText(),
-//						descriptionPane.getText(), startDate, endDate, "project");
-//				eventCal.addEvent(makeEvent);
+				final Event makeEvent = new Event();
+				
+				makeEvent.setId(10);
+				
+				AddEventController.getInstance().addEvent(makeEvent);
 
 				//Database Interaction Attempt
 				//Attempts to replace DB CalendarData with Updated Calendar Data evntCal
