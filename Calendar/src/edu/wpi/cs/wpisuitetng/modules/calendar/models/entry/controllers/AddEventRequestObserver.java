@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers;
 
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -53,7 +54,7 @@ public class AddEventRequestObserver implements RequestObserver {
 		final Event event = Event.fromJson( response.getBody() );
 		
 		// Pass the event back to the controller
-		controller.addEvent( event );
+		EventModel.getInstance().addEvent( event );
 	}
 
 	/**

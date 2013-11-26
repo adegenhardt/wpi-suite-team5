@@ -22,10 +22,10 @@ import java.util.Date;
 public class DateInfo {
 	/*
 	 */
-	private int year;
-	private int month;
-	private int day;
-	private int halfHour;
+	private final int year;
+	private final int month;
+	private final int day;
+	private final int halfHour;
 
 	/**
 	 * Constructor for DateInfo.
@@ -122,13 +122,42 @@ public class DateInfo {
 		final Date date = new Date(year, month, day);
 		return date;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + day;
+		result = prime * result + halfHour;
+		result = prime * result + month;
+		result = prime * result + year;
+		return result;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		// You need to do checking for instance of object first
-		return (this.year == ((DateInfo) obj).getYear()
-				&& this.month == ((DateInfo) obj).getMonth()
-				&& this.day == ((DateInfo) obj).getDay() && this.halfHour == ((DateInfo) obj)
-					.getHalfHour());
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final DateInfo other = (DateInfo) obj;
+		if (day != other.day) {
+			return false;
+		}
+		if (halfHour != other.halfHour) {
+			return false;
+		}
+		if (month != other.month) {
+			return false;
+		}
+		if (year != other.year) {
+			return false;
+		}
+		return true;
 	}
 }

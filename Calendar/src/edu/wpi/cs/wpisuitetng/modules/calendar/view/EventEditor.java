@@ -44,8 +44,11 @@ import javax.swing.DefaultComboBoxModel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
 
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
@@ -78,8 +81,7 @@ public class EventEditor extends JPanel {
 	private final JLabel lblDescmsg;
 	private final JLabel lblEventnamemsg;
 	private final JLabel lblTimemsg;
-	private JButton btnNewButton;
-	
+
 	/**
 	 * Create the panel. Created using WindowBuilder
 	 */
@@ -94,7 +96,7 @@ public class EventEditor extends JPanel {
 		eventName = new JTextField();
 		add(eventName, "cell 1 0 5 1,growx,aligny center");
 		eventName.setColumns(10);
-		
+
 		lblEventnamemsg = new JLabel("");
 		lblEventnamemsg.setForeground(new Color(255, 0, 0));
 		add(lblEventnamemsg, "cell 6 0");
@@ -110,7 +112,7 @@ public class EventEditor extends JPanel {
 		// Put the text editor into the scroll pane
 		descriptionPane = new JEditorPane();
 		scrollPaneDesc.setViewportView(descriptionPane);
-		
+
 		lblDescmsg = new JLabel("");
 		lblDescmsg.setForeground(new Color(255, 0, 0));
 		add(lblDescmsg, "cell 6 1");
@@ -124,11 +126,11 @@ public class EventEditor extends JPanel {
 		// Setting the date format to something more intuitive
 		comboBoxStartMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
 		add(comboBoxStartMonth, "cell 1 3,growx, span 2");
-		
+
 		lblDatemsg = new JLabel("Ex. Oct/02/1993");
 		lblDatemsg.setForeground(new Color(0, 0, 0));
 		add(lblDatemsg, "cell 3 3 2 1,alignx center");
-		
+
 		comboBoxStartMonth.getEditor().addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -136,7 +138,7 @@ public class EventEditor extends JPanel {
 				lblDatemsg.setForeground(new Color(0, 0, 0));
 			}
 		});
-		
+
 		comboBoxEndMonth = new JXDatePicker();
 		add(comboBoxEndMonth, "cell 1 4");
 
@@ -156,7 +158,7 @@ public class EventEditor extends JPanel {
 		comboBoxStartAMPM = new JComboBox<String>();
 		comboBoxStartAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
 		add(comboBoxStartAMPM, "cell 3 6,growx");
-		
+
 		lblTimemsg = new JLabel("");
 		lblTimemsg.setForeground(new Color(255, 0, 0));
 		add(lblTimemsg, "cell 4 6");
@@ -201,11 +203,79 @@ public class EventEditor extends JPanel {
 		scrollPaneParticipants.setViewportView(editorPane_1);
 
 		final JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(new SubmitButtonListener());	
-		add(btnSubmit, "cell 1 12 2 1,growx");
 		
+		class SubmitButtonListener implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				// Check for validity of input
+				if (!checkValid()) {
+					return;
+				}
+
+				int startHalfHours = parseTime((String) comboBoxStartHour.getSelectedItem(),
+						(String) comboBoxStartMinutes.getSelectedItem(),
+						(String) comboBoxStartAMPM.getSelectedItem());
+
+				// TODO: Replace code with something using new data model
+				Date start = (Date) comboBoxStartMonth.getDate().clone();
+				DateInfo startDate = new DateInfo(start.getYear(), start.getMonth(),
+						start.getDay(), startHalfHours);
+
+				int endHalfHours = parseTime((String) comboBoxEndHour.getSelectedItem(),
+						(String) comboBoxEndMinutes.getSelectedItem(),
+						(String) comboBoxEndAMPM.getSelectedItem());
+
+				// TODO: Replace code with something using new data model
+				Date end = (Date) comboBoxEndMonth.getDate().clone();
+				DateInfo endDate = new DateInfo(end.getYear(), end.getMonth(),
+						end.getDay(), endHalfHours);
+
+				final Event makeEvent = new Event(eventName.getText(),
+						descriptionPane.getText(), startDate, endDate, false,
+						new Category("Place", 5));
+
+				//GetEventController.getInstance().retrieveEvent();
+
+				makeEvent.setId(EventModel.getInstance().getNextID());
+
+				AddEventController.getInstance().addEvent(makeEvent);
+
+				//GetEventController.getInstance().retrieveEvent();
+
+				List<Event> events = EventModel.getInstance().getAllEvents();
+				editorPane_1.setText(Integer.toString(events.size()));
+
+				for(int i=0; i < events.size(); i++) {
+					String poop = editorPane_1.getText();
+					editorPane_1.setText(poop+events.get(i).getName());
+				}
+
+
+				//Database Interaction Attempt
+				//Attempts to replace DB CalendarData with Updated Calendar Data evntCal
+				// TODO: Replace code with something using new data model
+				//				UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
+				//				GetCalendarDataController.getInstance().retrieveCalendarData();
+				//				
+				//editorPane_1.setText("PointA");
+				// TODO: Replace code with something using new data model
+				//				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
+				//editorPane_1.setText("PointB");
+				// TODO: Replace code with something using new data model
+				//				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
+				//editorPane_1.setText("PointC");
+				// TODO: Replace code with something using new data model
+				//				Event retrievedEventDB = eventList.get(0);
+				//				editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
+
+				//Demo Methods (Lacks Database Functionality)
+				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());			
+			}
+		}
+		btnSubmit.addActionListener(new SubmitButtonListener());
+		add(btnSubmit, "cell 1 12 2 1,growx");
+
 	}
-	
+
 	// Checks for valid input and displays messages next to
 	// Fields that may need correcting, right now only checks 
 	// For blank fields,I'll add some more sophisticated checks
@@ -244,7 +314,7 @@ public class EventEditor extends JPanel {
 		}
 		return true;
 	}
-	
+
 	// Parse the String times into ints so they can be compared
 	// Used to check if the start time and end times are valid
 	private int parseTime(String hour, String minutes, String AMPM) {
@@ -261,58 +331,5 @@ public class EventEditor extends JPanel {
 		}
 		time += Integer.parseInt(minutes) / 30;
 		return time;
-	}
-	
-	class SubmitButtonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			// Check for validity of input
-			if (!checkValid()) {
-				return;
-			}
-			
-			int startHalfHours = parseTime((String) comboBoxStartHour.getSelectedItem(),
-					(String) comboBoxStartMinutes.getSelectedItem(),
-					(String) comboBoxStartAMPM.getSelectedItem());
-			
-			// TODO: Replace code with something using new data model
-			Date start = (Date) comboBoxStartMonth.getDate().clone();
-			DateInfo startDate = new DateInfo(start.getYear(), start.getMonth(),
-					start.getDay(), startHalfHours);
-			
-			int endHalfHours = parseTime((String) comboBoxEndHour.getSelectedItem(),
-					(String) comboBoxEndMinutes.getSelectedItem(),
-					(String) comboBoxEndAMPM.getSelectedItem());
-			
-			// TODO: Replace code with something using new data model
-			Date end = (Date) comboBoxEndMonth.getDate().clone();
-			DateInfo endDate = new DateInfo(end.getYear(), end.getMonth(),
-					end.getDay(), endHalfHours);
-			
-			// TODO: Replace code with something using new data model
-			//		final Event makeEvent = new Event(50, eventName.getText(),
-			//				descriptionPane.getText(), startDate, endDate, "project");
-			//		eventCal.addEvent(makeEvent);
-
-			//Database Interaction Attempt
-			//Attempts to replace DB CalendarData with Updated Calendar Data evntCal
-			// TODO: Replace code with something using new data model
-			//		UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
-			//		GetCalendarDataController.getInstance().retrieveCalendarData();
-			//		
-			// TODO: Replace code with something using new data model
-			//		CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
-			// TODO: Replace code with something using new data model
-			//		List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
-			// TODO: Replace code with something using new data model
-			//		Event retrievedEventDB = eventList.get(0);
-			//		editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
-
-			//Demo Methods (Lacks Database Functionality)
-			//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());
-
-
-
-
-		}
 	}
 }

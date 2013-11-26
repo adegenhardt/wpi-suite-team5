@@ -14,10 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
  * Category class that contains all the fields required to create a category
@@ -43,14 +40,37 @@ public class Category extends AbstractModel {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Category) {
-			return (this.name.equals(((Category) obj).getName()) &&
-					this.id == ((Category) obj).getId());
+		if (this == obj) {
+			return true;
 		}
-		else {
+		if (obj == null) {
 			return false;
 		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Category other = (Category) obj;
+		if (id != other.id) {
+			return false;
+		}
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -84,7 +104,7 @@ public class Category extends AbstractModel {
 	 */
 	@Override
 	public String toString() {
-		return this.getName();
+		return name;
 	}
 	
 	/**
@@ -148,6 +168,7 @@ public class Category extends AbstractModel {
 	 * Method createNewCategory.
 	 * 
 	 * @param name the name to give the new category
+	 * @param id the id for the new category
 	 * @return cat the new category
 	 */
 	public Category createNewCategory(String name, int id) {
@@ -176,10 +197,10 @@ public class Category extends AbstractModel {
 	 * @param toCopyFrom the Category to copy from.
 	 */
 	public void copyFrom(Category toCopyFrom) {
-		this.id = toCopyFrom.id;
+		id = toCopyFrom.id;
 		
 		// Descriptive Parameters
-		this.name = toCopyFrom.name;
+		name = toCopyFrom.name;
 	}
 	
 	
