@@ -54,10 +54,10 @@ public class EventTest {
 				new NetworkConfiguration("http://wpisuitetng"));
 		
 		event1 = new Event( "name1", "description1", startDate1,
-				endDate1, testCategory, 1, "11", "111" );
+				endDate1, testCategory, true, 1, "111" );
 		
 		event2 = new Event( "name2", "description2", startDate2,
-				endDate2, 2, "22", "222" );
+				endDate2, false, 2, "222" );
 	}
 	
 	/**
@@ -84,11 +84,10 @@ public class EventTest {
 	 * Test get and set for project id field
 	 */
 	@Test
-	public void testGetSetProjectId() {
-		assertEquals( "11", event1.getProjectId() );
-		assertNotSame( "44", event1.getProjectId() );
-		event1.setProjectId( "44" );
-		assertEquals( "44", event1.getProjectId() );
+	public void testGetSetTeamEvent() {
+		assertFalse( event2.isTeamEvent() );
+		event2.setTeamEvent( true );
+		assertTrue( event2.isTeamEvent() );
 	}
 	
 	/*
@@ -202,6 +201,11 @@ public class EventTest {
 		assertTrue( event1.hasAccess( "20" ) );
 		event1.removeUserId( "20" );
 		assertFalse( event1.hasAccess( "20" ) );
+		
+		
+		// Attempt to addd user to individual event
+		event2.addUserId( "111" );
+		assertFalse( event2.hasAccess( "111" ) );
 	}
 	
 	/**

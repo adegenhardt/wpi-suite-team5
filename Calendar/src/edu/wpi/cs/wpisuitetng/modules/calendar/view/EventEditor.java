@@ -45,6 +45,7 @@ import javax.swing.DefaultComboBoxModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
 
 import java.awt.Color;
 import java.awt.event.FocusAdapter;

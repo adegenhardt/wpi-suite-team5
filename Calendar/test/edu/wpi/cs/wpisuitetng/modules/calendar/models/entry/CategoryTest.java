@@ -67,9 +67,9 @@ public class CategoryTest {
 	 */
 	@Test
 	public void testJsonConversion() {
-		String convertedEvent = category1.toJSON();
-		Event eventFromJson = Event.fromJson( convertedEvent );
-		assertEquals( category1, eventFromJson );
+		String convertedCategory = category1.toJSON();
+		Category categoryFromJson = Category.fromJson( convertedCategory );
+		assertEquals( category1, categoryFromJson );
 	}
 	
 	/**
