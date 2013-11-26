@@ -116,20 +116,16 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * System Implemented Constructor for Event. Gets and sets the project and
 	 * user Id fields based on system's current project and user. absoluteId is
 	 * generated as unique int at creation To be used in User Event creation
 	 *
-=======
 	 * (GIVES DEFAULT CATEGORY)System Implemented Constructor for Event. Gets
 	 * and sets the project and user Id fields based on system's current project
 	 * and user. absoluteId is generated as unique int at creation To be used in
 	 * User Event creation
 	 * 
 	 * 
-	 * 
->>>>>>> a4e50d77d0736965b646d37dccbf4b8870ada0f3
 	 * @param name
 	 *            String name of Event
 	 * @param description
@@ -155,16 +151,12 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.name = name;
 		this.description = description;
 		this.startDate = startDate;
-		this.endDate = endDate;
-<<<<<<< HEAD
-		
+		this.endDate = endDate;		
 		this.id = id;
 		this.creatorId = creatorId;
 		
 		category = new Category( name, id);
 		
-=======
-
 		this.id = id;// TODO auto generate unique
 		this.creatorId = creatorId;// TODO get from session
 
@@ -217,7 +209,6 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 		this.category = category;
 
->>>>>>> a4e50d77d0736965b646d37dccbf4b8870ada0f3
 		this.isTeamEvent = isTeamEvent;
 
 		// create empty list of userIds and add the creator

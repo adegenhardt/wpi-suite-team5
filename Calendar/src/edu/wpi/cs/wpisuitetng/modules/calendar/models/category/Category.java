@@ -57,9 +57,9 @@ public class Category extends AbstractModel {
 			boolean isTeamCat) {
 		this.name = name;
 		this.id = id;
-		this.creatorID = creatorID;
-		this.isDeleted = isDeleted;
-		this.isTeamCat = isTeamCat;
+		this.setCreatorID(creatorID);
+		this.setDeleted(isDeleted);
+		this.setTeamCat(isTeamCat);
 	}
 
 	// ------------------------------------------------------------------------
@@ -111,8 +111,54 @@ public class Category extends AbstractModel {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
+
+	/**
+	 * Get the creator's ID
+	 * @return creatorID
+	 */
+	public String getCreatorID() {
+		return creatorID;
+	}
+
+	/**
+	 * Set the creator ID
+	 * @param creatorID
+	 */
+	public void setCreatorID(String creatorID) {
+		this.creatorID = creatorID;
+	}
+
+	/**
+	 * Get whether the category is deleted or not
+	 * @return isDeleted
+	 */
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	/**
+	 * Set the "deleted" status of a category
+	 * @param isDeleted
+	 */
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	/**
+	 * Get the status of whether the category is team or personal
+	 * @return isTeamCat
+	 */
+	public boolean isTeamCat() {
+		return isTeamCat;
+	}
+
+	/**
+	 * Set the privay status of the category
+	 * @param isTeamCat
+	 */
+	public void setTeamCat(boolean isTeamCat) {
+		this.isTeamCat = isTeamCat;
+	}
 	
 	// ------------------------------------------------------------------------
 	// Functionality for the Category class
@@ -233,14 +279,10 @@ public class Category extends AbstractModel {
 		id = toCopyFrom.id;
 		
 		// Descriptive Parameters
-<<<<<<< HEAD
+
 		this.name = toCopyFrom.name;
 	}	
-=======
-		name = toCopyFrom.name;
-	}
 	
->>>>>>> a4e50d77d0736965b646d37dccbf4b8870ada0f3
 	
 	// ------------------------------------------------------------------------
 	// Required Methods for Database Interaction //
