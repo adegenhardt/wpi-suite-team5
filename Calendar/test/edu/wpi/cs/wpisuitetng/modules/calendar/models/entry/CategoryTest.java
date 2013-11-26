@@ -15,7 +15,7 @@ public class CategoryTest {
 	Category category1;
 	Category category2;
 	
-	Category testCategory = new Category( "name", 10 );
+	Category testCategory = new Category ("name", 10);
 	
 	/**
 	 * Set up category1 and 2 as well as the network.
