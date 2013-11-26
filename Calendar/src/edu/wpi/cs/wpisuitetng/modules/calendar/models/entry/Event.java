@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
@@ -105,7 +106,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		
 		this.id = id;
 		this.creatorId = creatorId;
-		
+
 		this.isTeamEvent = isTeamEvent;
 		
 		// create empty list of userIds and add the creator
@@ -117,9 +118,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * System Implemented Constructor for Event. Gets and sets the project and
 	 * user Id fields based on system's current project and user. absoluteId is
 	 * generated as unique int at creation To be used in User Event creation
-	 * 
-	
-	
+	 *
 	 * @param name
 	 *            String name of Event
 	 * @param description
@@ -150,7 +149,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.id = id;
 		this.creatorId = creatorId;
 		
-		category = new Category( name, id );
+		category = new Category( name, id);
 		
 		this.isTeamEvent = isTeamEvent;
 		
@@ -311,8 +310,9 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * Method toJSON.
 	 * 
 	 * 
-	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * @see
-	 *         edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 * @return String 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
 	@Override
 	/**This returns a Json encoded String representation of this requirement object.
@@ -327,15 +327,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	/**
 	 * Method toString.
 	 * 
-	 * 
-	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() * @see
-	 *         edu.wpi.cs.wpisuitetng.modules.Model#toString()
-	 */
-	/**
+	 * @return a Json encoded String representation of this Event 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
 	 * This returns a Json encoded String representation of this requirement
 	 * object.
-	 * 
-	 * @return a Json encoded String representation of this Event
 	 * 
 	 */
 	@Override
