@@ -101,7 +101,7 @@ public class DateInfo {
 	 * @return a DateInfo object with the updated information
 	 */
 	@SuppressWarnings("deprecation")
-	public DateInfo convertToDateInfo(Date date) {
+	public static DateInfo convertToDateInfo(Date date) {
 		final int year = date.getYear();
 		final int month = date.getMonth();
 		final int day = date.getDate() - 1;
