@@ -55,7 +55,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	public Event makeEntity( Session s, String content ) throws WPISuiteException {
 		final Event newCldrData = Event.fromJson(content);
 		if( !db.save( newCldrData, s.getProject() ) ) {
-			throw new WPISuiteException();
+			throw new WPISuiteException("Error saving to database");
 		}
 		return newCldrData;
 	}
@@ -70,7 +70,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	public Event[] getEntity( Session s, String id ) throws NotFoundException {
 		final int intId = Integer.parseInt( id );
 		if( intId < 1 ) {
-			throw new NotFoundException();
+			throw new NotFoundException("Entity not found");
 		}
 		Event[] events = null;
 		try {
@@ -79,7 +79,7 @@ public class EventEntityManager implements EntityManager<Event> {
 			e.printStackTrace();
 		}
 		if( events.length < 1 || events[0] == null ) {
-			throw new NotFoundException();
+			throw new NotFoundException("Entity not found");
 		}
 		return events;
 	}
@@ -110,10 +110,10 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @param role the role being verified
 	 * @throws WPISuiteException user isn't authorized for the given role */
 	private void ensureRole( Session session, Role role ) throws WPISuiteException {
-		User user = (User) db.retrieve( User.class, "username",
+		final User user = (User) db.retrieve( User.class, "username",
 				               session.getUsername()).get(0);
 		if( !user.getRole().equals( role ) ) {
-			throw new UnauthorizedException();
+			throw new UnauthorizedException("Unauthorized");
 		}
 	}
 	
@@ -132,8 +132,6 @@ public class EventEntityManager implements EntityManager<Event> {
 	/**
 	 * Deletes all calendar data from the database
 	 * @param s the session
-	
-	
 	 * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
 	 */
 	@Override
@@ -147,7 +145,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @return number of calendar data instances stored * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count() */
 	@Override
-	public int Count() throws WPISuiteException {
+	public int Count() {
 		return db.retrieveAll( new Event() ).size();
 	}
 
@@ -161,25 +159,25 @@ public class EventEntityManager implements EntityManager<Event> {
 	@Override
 	public Event update( Session session, String content ) throws WPISuiteException {
 		
-		Event updatedEvent = Event.fromJson( content );
+		final Event updatedEvent = Event.fromJson( content );
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just save Events.
 		 * We have to get the original defect from db4o, copy properties from updatedEvent,
 		 * then save the original Event again.
 		 */
-		List<Model> oldEvents = db.retrieve( Event.class, "id",
+		final List<Model> oldEvents = db.retrieve( Event.class, "id",
 				                           updatedEvent.getId(), session.getProject() );
 		if( oldEvents.size() < 1 || oldEvents.get(0) == null ) {
 			throw new BadRequestException( "Event with ID does not exist." );
 		}
 				
-		Event existingEvent = (Event)oldEvents.get(0);		
+		final Event existingEvent = (Event)oldEvents.get(0);
 
 		// copy values to old calendar and fill in our changeset appropriately
 		existingEvent.copyFrom( updatedEvent );
 		
 		if(!db.save(existingEvent, session.getProject())) {
-			throw new WPISuiteException();
+			throw new WPISuiteException("Error saving event");
 		}
 		
 		return existingEvent;

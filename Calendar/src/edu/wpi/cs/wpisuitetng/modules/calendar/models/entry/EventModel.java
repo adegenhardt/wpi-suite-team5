@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team _
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 /*********************************************************************************************
@@ -15,14 +24,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
-
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
 
 
 /**List of Calendars pulled from the server
@@ -33,7 +37,12 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEvent
  */
 
 
-public class EventModel extends AbstractListModel{
+public class EventModel extends AbstractListModel<Event> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8998701695357104361L;
 
 	// ********************************************************************
 	// Construct the Calendar Model
@@ -42,13 +51,13 @@ public class EventModel extends AbstractListModel{
 	 * The list in which all the calendar data for a single project
 	 * are contained
 	 */
-	private List<Event> events;
+	private final List<Event> events;
 	
 	// TODO: Research if and how this is maintained between different instances of the program
 	private int nextID; // the next available ID number for the calendar data
 						// that are added
 	// the static object that allows the calendar data model to be
-	private static EventModel instance;
+	private static EventModel instance = null;
 	
 	/**
 	 * Constructs an empty list of calendar data
@@ -96,7 +105,7 @@ public class EventModel extends AbstractListModel{
 		Event temp = null;
 		// iterate through the calendar data in order to find the matching ID
 		// break the loop once the ID is found
-		for(int i = 0; i < this.events.size(); i++){
+		for(int i = 0; i < events.size(); i++){
 			temp = events.get(i);
 			if(temp.getId() == id){
 				break;
@@ -113,17 +122,19 @@ public class EventModel extends AbstractListModel{
 	public void removeEvent(int removeID){
 		// iterate through the calendar data to find the given ID
 		// break the loop once that element has been found and removed
-		for(int i = 0; i < this.events.size(); i++){
+		for(int i = 0; i < events.size(); i++){
 			if(events.get(i).getId() == removeID){
 				events.remove(i);
 				break;
 			}
 		}
-		try{
-//			ViewEventController.getInstance().refreshTable();
-//			ViewEventController.getInstance().refreshTree();
+		/*
+		try {
+			ViewEventController.getInstance().refreshTable();
+			ViewEventController.getInstance().refreshTree();
 		}
 		catch(Exception e){}
+		*/
 	}
 		
 	/**
@@ -131,8 +142,8 @@ public class EventModel extends AbstractListModel{
 	 * Each event is removed individually
 	 */
 	public void emptyModel() {
-		int oldSize = getSize();
-		Iterator<Event> iterator = events.iterator();
+		final int oldSize = getSize();
+		final Iterator<Event> iterator = events.iterator();
 		// in case the iterator has data, remove each element individually
 		// in order to make sure the model is empty
 		while (iterator.hasNext()) {
@@ -140,11 +151,13 @@ public class EventModel extends AbstractListModel{
 			iterator.remove();
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
+		/*
 		try{
-//			ViewEventController.getInstance().refreshTable();
-//			ViewEventController.getInstance().refreshTree();
+			ViewEventController.getInstance().refreshTable();
+			ViewEventController.getInstance().refreshTree();
 		}
 		catch (Exception e) {}
+		*/
 	}
 	
 	/**
@@ -161,8 +174,8 @@ public class EventModel extends AbstractListModel{
 			}
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-//		ViewEventController.getInstance().refreshTable();
-//		ViewEventController.getInstance().refreshTree();
+		// ViewEventController.getInstance().refreshTable();
+		// ViewEventController.getInstance().refreshTree();
 	}
 	
 	// ******************************************************************
@@ -185,7 +198,7 @@ public class EventModel extends AbstractListModel{
 	 * @return the next avail. ID number
 	 */
 	public int getNextID(){
-		return this.nextID++;
+		return nextID++;
 	}
 
 	/**
@@ -195,7 +208,7 @@ public class EventModel extends AbstractListModel{
 	 * @param index The index of the calendar data to be returned
 	 * @return the calendar data associated with the given index
 	 */
-	public Object getElementAt(int index) {
+	public Event getElementAt(int index) {
 		return events.get(events.size() - 1 - index);
 	}
 		
@@ -213,7 +226,7 @@ public class EventModel extends AbstractListModel{
 	 * @return A list of all events the user has access to
 	 */
 	public List<Event> getTeamEvents( String userId, int year) {
-		ArrayList< Event > teamEvents = new ArrayList< Event >();
+		final List< Event > teamEvents = new ArrayList< Event >();
 		Event currentEvent;
 		
 		for ( int i = 0; i < events.size(); i++ ) {
@@ -239,7 +252,7 @@ public class EventModel extends AbstractListModel{
 	 * @return A list of all events the user has access to
 	 */
 	public List<Event> getTeamEvents( String userId, int year, int month) {
-		ArrayList< Event > teamEvents = new ArrayList< Event >();
+		final List< Event > teamEvents = new ArrayList< Event >();
 		Event currentEvent;
 		
 		for ( int i = 0; i < events.size(); i++ ) {
@@ -262,11 +275,11 @@ public class EventModel extends AbstractListModel{
 	 * @param userId The id of the user attempting to access the events
 	 * @param year the year to check
 	 * @param month the month to check (0-11)
-	 * @param
+	 * @param day the day to check
 	 * @return A list of all events the user has access to
 	 */
 	public List<Event> getTeamEvents( String userId, int year, int month, int day) {
-		ArrayList< Event > teamEvents = new ArrayList< Event >();
+		final List< Event > teamEvents = new ArrayList< Event >();
 		Event currentEvent;
 		
 		for ( int i = 0; i < events.size(); i++ ) {
@@ -292,7 +305,7 @@ public class EventModel extends AbstractListModel{
 	 * @return A list of all events the user has access to
 	 */
 	public List<Event> getUserEvents( String userId, int year) {
-		ArrayList< Event > userEvents = new ArrayList< Event >();
+		final List< Event > userEvents = new ArrayList< Event >();
 		Event currentEvent;
 		
 		for ( int i = 0; i < events.size(); i++ ) {
@@ -318,7 +331,7 @@ public class EventModel extends AbstractListModel{
 	 * @return A list of all events the user has access to
 	 */
 	public List<Event> getUserEvents( String userId, int year, int month) {
-		ArrayList< Event > userEvents = new ArrayList< Event >();
+		final List< Event > userEvents = new ArrayList< Event >();
 		Event currentEvent;
 		
 		for ( int i = 0; i < events.size(); i++ ) {
@@ -341,11 +354,11 @@ public class EventModel extends AbstractListModel{
 	 * @param userId The id of the user attempting to access the events
 	 * @param year the year to check
 	 * @param month the month to check (0-11)
-	 * @param
+	 * @param day the day to check
 	 * @return A list of all events the user has access to
 	 */
 	public List<Event> getUserEvents( String userId, int year, int month, int day) {
-		ArrayList< Event > userEvents = new ArrayList< Event >();
+		final List< Event > userEvents = new ArrayList< Event >();
 		Event currentEvent;
 		
 		for ( int i = 0; i < events.size(); i++ ) {
