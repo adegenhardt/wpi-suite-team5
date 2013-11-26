@@ -44,8 +44,11 @@ import javax.swing.DefaultComboBoxModel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
 
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
@@ -236,25 +239,38 @@ public class EventEditor extends JPanel {
 				endDate.setHours(Integer.parseInt(endHour));
 				endDate.setMinutes(Integer.parseInt(endMinutes));
 
-				final Event makeEvent = new Event();
+				final Event makeEvent = new Event(eventName.getText(), descriptionPane.getText(), new DateInfo(startDate), new DateInfo(endDate), false, new Category("Place", 5));
+
+				//GetEventController.getInstance().retrieveEvent();
 				
-				makeEvent.setId(10);
+				makeEvent.setId(EventModel.getInstance().getNextID());
 				
 				AddEventController.getInstance().addEvent(makeEvent);
-
+				
+				//GetEventController.getInstance().retrieveEvent();
+				
+				List<Event> events = EventModel.getInstance().getAllEvents();
+				editorPane_1.setText(Integer.toString(events.size()));
+				
+				for(int i=0; i < events.size(); i++) {
+					String poop = editorPane_1.getText();
+					editorPane_1.setText(poop+events.get(i).getName());
+				}
+				
+				
 				//Database Interaction Attempt
 				//Attempts to replace DB CalendarData with Updated Calendar Data evntCal
 				// TODO: Replace code with something using new data model
 //				UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
 //				GetCalendarDataController.getInstance().retrieveCalendarData();
 //				
-				editorPane_1.setText("PointA");
+				//editorPane_1.setText("PointA");
 				// TODO: Replace code with something using new data model
 //				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
-				editorPane_1.setText("PointB");
+				//editorPane_1.setText("PointB");
 				// TODO: Replace code with something using new data model
 //				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
-				editorPane_1.setText("PointC");
+				//editorPane_1.setText("PointC");
 				// TODO: Replace code with something using new data model
 //				Event retrievedEventDB = eventList.get(0);
 //				editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
