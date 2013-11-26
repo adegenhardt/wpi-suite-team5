@@ -49,7 +49,7 @@ public class EventTest extends TestCase {
 	}
 
 	/**
-	 * Test the simple getter fields for CalendarData
+	 * Test the simple getter fields for CalendarData//
 	 */
 	@Test
 	public void testGetters() {
