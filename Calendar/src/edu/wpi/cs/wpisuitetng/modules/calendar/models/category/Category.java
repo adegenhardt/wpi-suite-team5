@@ -66,6 +66,13 @@ public class Category extends AbstractModel {
 	// Getters/Setters for Category
 	
 	/**
+	 * Empty Category constructor used in the Entity Manager
+	 */
+	public Category() {
+
+	}
+
+	/**
 	 * Method getName.
 	 * 
 	 * @return name the name of the Category
