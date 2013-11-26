@@ -80,6 +80,8 @@ public class EventModel extends AbstractListModel{
 	 */
 	public void addEvent(Event newEvent){
 		events.add(newEvent);
+		
+		this.fireIntervalAdded(this, 0, 0);
 	}
 	
 	/**
