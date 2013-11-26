@@ -12,8 +12,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -29,20 +27,9 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 public class Event extends AbstractModel implements ICalendarEntry {
 
 	// ID Parameters
-	private int absoluteId; // object unique ID integer
-	private String projectId; // name of Event's project
-	private String userId; // name of creating User
-	private String typeId; // "project"" or "personal" calendar type ID
+	private int id; // object unique ID integer
+	private String creatorId; // id of creating user
 	private boolean isDeleted; // object is deleted from user view
-
-	// Date Region information
-	// can be regulated to only startDate and endDate
-	// Date ID fields for Event defining date (start Date)
-	private int year; // year event occurs on (absolute base 1900 = 1900)
-	private int month; // month event occurs on (0 based (0-11 = Jan - Dec)
-	private int day; // day event occurs on (0 Based (0 to DaysInMonth-1)
-	private int halfHour; // half hour event occurs on (0 based 0-47 = 12am to
-							// 11:30 pm or 0:00 to 23:30)
 
 	// Descriptive Parameters
 	private String name; // Name of Event
@@ -52,245 +39,62 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	// halfHour
 	private DateInfo startDate; // StartDate of event
 	private DateInfo endDate; // End Date of event
-	private List<Category> category; // Categories Event belongs to for
-										// filtering
-	private List<String> participants;// userIds of users to participate in
+	private Category category; // Category describing the event
+	private ArrayList<String> userIds; // userIds of users to participate in
 										// event
 
+	boolean isTeamEvent;		/* Whether or not the event is a team event */
+	
 	// Potential fields for later
 	// Repeat repeat;
 
-	// secondary constructor, for samson's tests
-	// not using start and end HalfHour
 	/**
-	 * Constructor for Event.
-	 * 
-	 * @param startDate
-	 *            Date
-	 * @param endDate
-	 *            Date
-	 * @param participants
-	 * @param absoluteId
-	 *            int
-	 * @param projectId
-	 *            String
-	 * @param userId
-	 *            String
-	 * @param typeId
-	 *            String
-	 * @param name
-	 *            String
-	 * @param description
-	 *            String
-	 * @param category
-	 *            List<Category>
+	 * Default event constructor that sets invalid values to all fields
+	 */
+	public Event() {
+		isDeleted = false;
+		
+		// Descriptive Parameters
+		name = "";
+		description = "";
+		startDate = new DateInfo( -1, -1, -1, -1 );
+		endDate = new DateInfo( -1, -1, -1, -1 );
+		category = new Category( "-1", -1);
+		
+		id = -1;
+		creatorId = "-1";
+		
+		// create empty list of userIds and add the creator
+		userIds = new ArrayList< String >();
+	}
 	
-	 */
-	// @Deprecated
-	/*
-	 * public Event(int id, String eventName, String eventDescr, Date startDate,
-	 * Date endDate) { this.id = id; this.name = eventName; this.description =
-	 * eventDescr;
-	 * 
-	 * this.startDate = new DateInfo( startDate ); this.endDate = new DateInfo(
-	 * endDate ); }
-	 */
-
 	/**
 	 * Full Specification Constructor for Event. (Test Only)
 	 * 
+	 * 
+	 * @param name
+	 *            String name of Event
+	 * @param description
+	 *            String description of Event
+	 * @param startDate
+	 *            DateInfo dateInfo parameter for holding date Event starts
+	 * @param endDate
+	 *            DateInfo dateInfo parameter for holding date Event ends
+	 * @param category
+	 *            List<Category> list of categories commitment is part of
+	 * @param id
+	 * 			  The id of the Event
 	 * @param projectId
-	 *            String name of Project Event is Linked to.
-	 * @param userId
-	 *            String name of User Event is Linked to (either by creation or
+	 *            String id of Project that the Event is Linked to.
+	 * @param creatorId
+	 *            String id of User that the Event is Linked to (either by creation or
 	 *            by personal calendar)
-	 * @param typeId
-	 *            String "personal" or "project" string to ID which form of
-	 *            calendar it is related to
-	 * @param name
-	 *            String name of Event
-	 * @param description
-	 *            String description of Event
-	 * @param startDate
-	 *            DateInfo dateInfo parameter for holding date Event starts
-	 * @param endDate
-	 *            DateInfo dateInfo parameter for holding date Event ends
-	 * @param category
-	 *            List<Category> list of categories commitment is part of
-	 */
-	public Event(int absoluteId, String projectId, String userId,
-			String typeId, String name, String description, DateInfo startDate,
-			DateInfo endDate, List<Category> category, List<String> participants) {
-
-		this.absoluteId = absoluteId;
-		this.projectId = projectId;
-		this.userId = userId;
-		this.setTypeId(typeId);
-		this.isDeleted = false;
-
-		// Date Region information
-		this.setYear(startDate.getYear());
-		this.setMonth(startDate.getMonth());
-		this.setDay(startDate.getDay());
-		this.setHalfHour(startDate.getHalfHour());
-
-		// Descriptive Parameters
-		this.name = name;
-		this.description = description;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.setCategory(category);
-		this.participants = participants;
-	}
-
-	/**
-	 * Automatic Example Constructor for Event. (Test Only)
-	 * 
-	 * @param ex int
-	 */
-	public Event(int ex) {
-if (ex == 1){
-		this.absoluteId = 1;
-		this.projectId = "project";
-		this.userId = "user";
-		this.typeId = "project";
-		this.isDeleted = false;
-
-		// Descriptive Parameters
-		DateInfo startDate = new DateInfo(2000,0,0,0);
-		DateInfo endDate = new DateInfo(2000,0,0,1);
-		this.name = "event";
-		this.description = "an event";
-		this.startDate = startDate;
-		this.endDate = endDate;
-		 List<Category> category = new ArrayList<Category>();
-		 category.add(new Category ("cName", "cDescription"));
-		this.setCategory(category);
-		List<String> participants = new ArrayList<String>();
-		participants.add("user");
-		this.participants = participants;
-		// Date Region information
-
-		this.setYear(startDate.getYear());
-		this.setMonth(startDate.getMonth());
-		this.setDay(startDate.getDay());
-		this.setHalfHour(startDate.getHalfHour());
-}
-else if(ex == 2){
-	this.absoluteId = 2;
-	this.projectId = "project2";
-	this.userId = "user2";
-	this.typeId = "personal";
-	this.isDeleted = true;
-
-	// Descriptive Parameters
-	DateInfo startDate = new DateInfo(2000,1,1,1);
-	DateInfo endDate = new DateInfo(2000,1,1,2);
-	this.name = "event2";
-	this.description = "an event2";
-	this.startDate = startDate;
-	this.endDate = endDate;
-	 List<Category> category = new ArrayList<Category>();
-	 category.add(new Category ("cName2", "cDescription2"));
-	this.setCategory(category);
-	List<String> participants = new ArrayList<String>();
-	participants.add("user2");
-	this.participants = participants;
-	// Date Region information
-
-	this.setYear(startDate.getYear());
-	this.setMonth(startDate.getMonth());
-	this.setDay(startDate.getDay());
-	this.setHalfHour(startDate.getHalfHour());
-	
-}
-	}
-
-	/**
-	 * Basic Constructor for Event with inputs of Type Date. (No participants,
-	 * categories)
-	 * 
-	 * 
-	 * @param name
-	 *            String name of Event
-	 * @param description
-	 *            String description of Event
-	 * @param startDate
-	 *            Date date parameter for holding date Event starts
-	 * @param endDate
-	 *            Date date parameter for holding date Event ends
-	
-	 * 
-	 * @param typeId
-	 *            String "personal" or "project" to identify calendar type
-	 *            object belongs to
-	
-	
-	 * @param absoluteId int
-	 */
-	public Event(int absoluteId, String name, String description,
-			Date startDate, Date endDate, String typeId) {
-
-		this.absoluteId = absoluteId;// generate new id;
-		// this.projectId = TODO getProjectName();
-		// this.userId = TODO getUserName();
-		this.typeId = typeId;
-		this.isDeleted = false;
-
-		// Date Region information
-		this.setYear(startDate.getYear());
-		this.setMonth(startDate.getMonth());
-		this.setDay(startDate.getDay());
-		this.halfHour = 0;
-
-		// Descriptive Parameters
-		this.name = name;
-		this.description = description;
-		this.startDate = new DateInfo(startDate.getYear(),
-				startDate.getMonth(), startDate.getDay(), 0);
-		this.endDate = new DateInfo(endDate.getYear(), endDate.getMonth(),
-				endDate.getDay(), 0);
-		this.setCategory(category);
-		this.participants = participants;
-	}
-
-	/**
-	 * System Implemented Constructor for Event. Gets and sets the project and
-	 * user Id fields based on system's current project and user. absoluteId is
-	 * generated as unique int at creation To be used in User Event creation
-	 * 
-	
-	
-	 * @param typeId
-	 *            String "personal" or "project" string to ID which form of
-	 *            calendar it is related to
-	 * @param name
-	 *            String name of Event
-	 * @param description
-	 *            String description of Event
-	 * @param startDate
-	 *            DateInfo dateInfo parameter for holding date Event starts
-	 * @param endDate
-	 *            DateInfo dateInfo parameter for holding date Event ends
-	 * @param participants
-	 * @param category
-	 *            List<Category> list of categories commitment is part of
 	 */
 	public Event(String name, String description, DateInfo startDate,
-			String typeId, DateInfo endDate, List<Category> category,
-			List<String> participants) {
+			DateInfo endDate, Category category, boolean isTeamEvent,
+			int id, String creatorId) {
 
-		// this.absoluteId = getNextAbsoluteId();// generate new id;
-		// this.projectId = TODO getProjectName();
-		// this.userId = TODO getUserName();
-		this.setTypeId(typeId);
 		this.isDeleted = false;
-
-		// Date Region information
-		this.setYear(startDate.getYear());
-		this.setMonth(startDate.getMonth());
-		this.setDay(startDate.getDay());
-		this.setHalfHour(startDate.getHalfHour());
 
 		// Descriptive Parameters
 		this.name = name;
@@ -298,7 +102,108 @@ else if(ex == 2){
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.category = category;
-		this.participants = participants;
+		
+		this.id = id;
+		this.creatorId = creatorId;
+		
+		this.isTeamEvent = isTeamEvent;
+		
+		// create empty list of userIds and add the creator
+		userIds = new ArrayList< String >();
+		userIds.add( creatorId );
+	}
+
+	/**
+	 *(GIVES DEFAULT CATEGORY)System Implemented Constructor for Event. Gets and sets the project and
+	 * user Id fields based on system's current project and user. absoluteId is
+	 * generated as unique int at creation To be used in User Event creation
+	 * 
+	
+	
+	 * @param name
+	 *            String name of Event
+	 * @param description
+	 *            String description of Event
+	 * @param startDate
+	 *            DateInfo dateInfo parameter for holding date Event starts
+	 * @param endDate
+	 *            DateInfo dateInfo parameter for holding date Event ends
+	 * @param id
+	 * 			  The id of the Event
+	 * @param projectId
+	 *            String id of Project that the Event is Linked to.
+	 * @param creatorId
+	 *            String id of User that the Event is Linked to (either by creation or
+	 *            by personal calendar)
+	 */
+	public Event(String name, String description, DateInfo startDate,
+			DateInfo endDate, boolean isTeamEvent, int id, String creatorId) {
+
+		this.isDeleted = false;
+
+		// Descriptive Parameters
+		this.name = name;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		
+		this.id = id;//TODO auto generate unique 
+		this.creatorId = creatorId;//TODO get from session
+		
+		category = new Category( name, id );
+		
+		this.isTeamEvent = isTeamEvent;
+		
+		// create empty list of userIds and add the creator
+		userIds = new ArrayList< String >();
+		userIds.add( creatorId );
+	}
+	
+	/**
+	 * FOR REAL USE CONSTRUCTOR
+	 * (REQUIRES CATEGORY)System Implemented Constructor for Event. Gets and sets the project and
+	 * user Id fields based on system's current project and user. absoluteId is
+	 * generated as unique int at creation To be used in User Event creation
+	 * 
+	
+	
+	 * @param name
+	 *            String name of Event
+	 * @param description
+	 *            String description of Event
+	 * @param startDate
+	 *            DateInfo dateInfo parameter for holding date Event starts
+	 * @param endDate
+	 *            DateInfo dateInfo parameter for holding date Event ends
+	 * @param id
+	 * 			  The id of the Event
+	 * @param projectId
+	 *            String id of Project that the Event is Linked to.
+	 * @param creatorId
+	 *            String id of User that the Event is Linked to (either by creation or
+	 *            by personal calendar)
+	 */
+	public Event(String name, String description, DateInfo startDate,
+			DateInfo endDate, boolean isTeamEvent,  Category category) {
+
+		this.isDeleted = false;
+
+		// Descriptive Parameters
+		this.name = name;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		
+		this.id = 0;//TODO auto generate unique 
+		this.creatorId = "bundle of fish";//TODO get from session
+		
+		this.category = category;
+		
+		this.isTeamEvent = isTeamEvent;
+		
+		// create empty list of userIds and add the creator
+		userIds = new ArrayList< String >();
+		userIds.add( creatorId );
 	}
 
 	// ---------------------------------------------------------
@@ -328,25 +233,8 @@ else if(ex == 2){
 		return this.startDate;
 	}
 
-	public String getProjectId() {
-		return projectId;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	/**
-	 * Method getisDeleted.
-	 * 
-	 * @return boolean
-	 */
-	public boolean getIsDeleted() {
-		return isDeleted;
-	}
-
-	public int getAbsoluteId() {
-		return absoluteId;
+	public String getCreatorId() {
+		return creatorId;
 	}
 
 	/**
@@ -355,31 +243,15 @@ else if(ex == 2){
 	 *            the event's new ID
 	 */
 	public void setAbsoluteId(int absoluteId) {
-		this.absoluteId = absoluteId;
-	}
-
-	/**
-	 * 
-	 * @param idProject
-	 */
-	public void setProjectId(String idProject) {
-		this.projectId = idProject;
+		this.id = absoluteId;
 	}
 
 	/**
 	 * 
 	 * @param idUser
 	 */
-	public void setUserIdr(String idUser) {
-		this.userId = idUser;
-	}
-
-	/**
-	 * 
-	 * @param isDeleted
-	 */
-	public void setIsDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setCreatorId(String idUser) {
+		this.creatorId = idUser;
 	}
 
 	/**
@@ -387,8 +259,8 @@ else if(ex == 2){
 	 * @param eventName
 	 *            The new name of the event
 	 */
-	public void setName(String Name) {
-		this.name = Name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -407,11 +279,6 @@ else if(ex == 2){
 	 */
 	public void setStartDate(DateInfo startDate) {
 		this.startDate = startDate;
-		this.year = endDate.getYear();
-		this.month = endDate.getMonth();
-		this.day = endDate.getDay();
-		this.halfHour = endDate.getHalfHour();
-
 	}
 
 	/**
@@ -436,74 +303,7 @@ else if(ex == 2){
 	 * 
 	 * @return
 	 */
-	public String getTypeId() {
-		return typeId;
-	}
-
-	/**
-	 * 
-	 * @param typeId
-	 */
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public int getYear() {
-		return year;
-	}
-
-	/**
-	 * 
-	 * @param year
-	 */
-	public void setYear(int year) {
-		this.year = year;
-		this.startDate = new DateInfo(year, this.month, this.day, this.halfHour);
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public int getMonth() {
-		return month;
-	}
-
-	/**
-	 * 
-	 * @param month
-	 */
-	public void setMonth(int month) {
-		this.month = month;
-		this.startDate = new DateInfo(this.year, month, this.day, this.halfHour);
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public int getDay() {
-		return day;
-	}
-
-	/**
-	 * 
-	 * @param day
-	 */
-	public void setDay(int day) {
-		this.day = day;
-		this.startDate = new DateInfo(this.year, this.month, day, this.halfHour);
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public List<Category> getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
@@ -511,27 +311,29 @@ else if(ex == 2){
 	 * 
 	 * @param category
 	 */
-	public void setCategory(List<Category> category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return True if the event is a team event,
+	 * false if it's an individual event
 	 */
-	public int getHalfHour() {
-		return halfHour;
+	public boolean isTeamEvent() {
+		return isTeamEvent;
 	}
 
 	/**
 	 * 
-	 * @param halfHour
+	 * @param isTeamEvent true if the event is a team event,
+	 * false if it's an individual event
 	 */
-	public void setHalfHour(int halfHour) {
-		this.halfHour = halfHour;
-		this.startDate = new DateInfo(this.year, this.month, this.day, halfHour);
+	public void setTeamEvent(boolean isTeamEvent) {
+		this.isTeamEvent = isTeamEvent;
 	}
-
+	
+	
 	// Required Functions Database Interaction
 	// -----------------------------------------
 	/**
@@ -588,20 +390,13 @@ else if(ex == 2){
 		return this.getName();
 	}
 
-	public List<String> getParticipants() {
-		return participants;
+	public void setUserIds(ArrayList<String> userIds) {
+		this.userIds = userIds;
 	}
-
-	public void setParticipants(List<String> participants) {
-		this.participants = participants;
-	}
-
+	
+	
 	public String getName() {
 		return name;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	/**
@@ -660,17 +455,9 @@ else if(ex == 2){
 	 */
 
 	public void copyFrom(Event toCopyFrom) {
-		this.absoluteId = toCopyFrom.absoluteId;
-		this.projectId = toCopyFrom.projectId;
-		this.userId = toCopyFrom.userId;
-		this.typeId = toCopyFrom.typeId;
+		this.id = toCopyFrom.id;
+		this.creatorId = toCopyFrom.creatorId;
 		this.isDeleted = toCopyFrom.isDeleted;
-
-		// Date Region information
-		this.setYear(toCopyFrom.getYear());
-		this.setMonth(toCopyFrom.getMonth());
-		this.setDay(toCopyFrom.getDay());
-		this.setHalfHour(toCopyFrom.getHalfHour());
 
 		// Descriptive Parameters
 		this.name = toCopyFrom.name;
@@ -678,62 +465,206 @@ else if(ex == 2){
 		this.startDate = toCopyFrom.startDate;
 		this.endDate = toCopyFrom.endDate;
 		this.category =(toCopyFrom.category);
-		this.participants = toCopyFrom.participants;
+		this.userIds = toCopyFrom.userIds;
+		
+		this.isTeamEvent = toCopyFrom.isTeamEvent;
 	}
-//TODO Can we use this for AbsoluteId?
-	//@Override
-	/*public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((category == null) ? 0 : category.hashCode());
-		result = prime * result + day;
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-		result = prime * result + halfHour;
-		result = prime * result + (isDeleted ? 1231 : 1237);
-		result = prime * result + month;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((participants == null) ? 0 : participants.hashCode());
-		result = prime * result
-				+ ((projectId == null) ? 0 : projectId.hashCode());
-		result = prime * result
-				+ ((startDate == null) ? 0 : startDate.hashCode());
-		result = prime * result + ((typeId == null) ? 0 : typeId.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result + year;
-		return result;
-	}*/
+
+	/**
+	 * 
+	 * @return the unique ID of the event
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * 
+	 * @param id the new ID for the object
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {
 		return
 				
-		this.absoluteId == (((Event)obj).absoluteId) &&
-		this.projectId.equals(((Event)obj).projectId) &&
-		this.userId.equals(((Event)obj).userId) &&
-		this.typeId.equals(((Event)obj).typeId) &&
+		this.id == (((Event)obj).id) &&
+		this.creatorId.equals(((Event)obj).creatorId) &&
 		this.isDeleted  == ((Event)obj).isDeleted &&
-
-		
-		this.year==(startDate.getYear())&&
-		this.month==(startDate.getMonth())&&
-		this.day==(startDate.getDay())&&
-		this.halfHour==(startDate.getHalfHour())&&
 
 		this.name.equals(((Event)obj).name)&&
 		this.description.equals(((Event)obj).description)&&
 		this.startDate.equals(((Event)obj).startDate)&&
 		this.endDate.equals(((Event)obj).endDate)&&
 		this.category.equals(((Event)obj).category) &&
-		this.participants.equals(((Event)obj).participants);
+		this.userIds.equals(((Event)obj).userIds);
 	}
 
-
+	/**
+	 * Add a user to the collection of users that are involved in an event
+	 * @param newId the userID to be added
+	 */
+	public void addUserId( String newId ) {
+		if ( isTeamEvent() ) {
+			userIds.add( newId );
+		}
+	}
 	
-	// End Required Functions Database Interaction
-	// -------------------------------------------
+	/**
+	 * Remove a user from the collection of users involved with the event
+	 * @param removedId the user ID to be removed
+	 */
+	public void removeUserId( String removedId ) {
+		userIds.remove( removedId );
+	}
+	
+	
+	// Interface methods
+	/////////////////////////////////////////////
+	
+
+	/**
+	 * Method isDeleted.
+	 * 
+	 * @return true if an object is deleted, false otherwise
+	 */
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	
+	/**
+	 * 
+	 * @param isDeleted true if the object is now "deleted", false otherwise
+	 */
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
+	/**
+	 * 
+	 * @return the user ids of all people involved in the event
+	 */
+	public ArrayList<String> getUserIds() {
+		return userIds;
+	}
+
+	/**
+	 * Determines whether or not an event occurs on a given year
+	 * 
+	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.models.entry#occursOnYear(int year)
+	 */
+	@Override
+	public boolean occursOnYear(int year) {
+		if ( startDate.getYear() == year ||
+				endDate.getYear() == year ) {
+			return true;
+			
+		// check for event that starts before a given year and ends after it
+		// (a very long event)
+		} else if ( startDate.getYear() < year &&
+					endDate.getYear() > year ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Determines whether or not an event occurs on a given month
+	 * 
+	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.models.entry#occursOnMonth(int year, int month)
+	 */
+	@Override
+	public boolean occursOnMonth(int year, int month) {
+		
+		// TODO: Error handling for invalid months (< 0, > 11 )
+		
+		if ( startDate.getYear() == year ||
+				endDate.getYear() == year ) {
+			
+			if ( startDate.getMonth() == month ||
+					endDate.getMonth() == month ) {
+				return true;
+				
+			// check for an event spanning multiple months
+			// from start to finish
+			} else if ( startDate.getMonth() < month &&
+						endDate.getMonth() > month ) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		// check for event that starts before a given year and ends after it
+		// (a very long event)
+		} else if ( startDate.getYear() < year &&
+					endDate.getYear() > year ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Determines whether or not an event occurs on a given month
+	 * 
+	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.models.entry#occursOnDate(int year, int month, int day)
+	 */
+	@Override
+	public boolean occursOnDate(int year, int month, int day) {
+		
+		// TODO: Error handling for invalid days (< 0, >= number of days in month )
+		
+		if ( startDate.getYear() == year ||
+				endDate.getYear() == year ) {
+			
+			if ( startDate.getMonth() == month ||
+					endDate.getMonth() == month ) {
+
+				if ( startDate.getDay() == day ||
+					 endDate.getDay() == day ) {
+					return true;
+					
+				// check for an event spanning multiple days
+				// from start to finish
+				} else if ( startDate.getDay() < day &&
+							endDate.getDay() > day ) {
+					return true;
+				} else {
+					return false;
+				}
+				
+			// check for an event spanning multiple months
+			// from start to finish	
+			} else if ( startDate.getMonth() < month &&
+						endDate.getMonth() > month ) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		// check for event that starts before a given year and ends after it
+		// (a very long event)
+		} else if ( startDate.getYear() < year &&
+					endDate.getYear() > year ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Determines whether or not a user has access to this event
+	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.models.entry#hasAccess( String userId )
+	 */
+	@Override
+	public boolean hasAccess(String userId) {
+		return userIds.contains( userId );
+	}
+	
+	
 
 }

@@ -7,7 +7,7 @@
  * 
  * Contributors: Team _
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.calendar.models;
+package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -27,15 +27,17 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockData;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 /**
- * Testing for various aspects of CalendarDataEntityManager
+ * Testing for various aspects of EventEntityManager
  * Thanks to Team Rolling Thunder for the helpful starting point
  * @author srkodzis
  *
  * @version $Revision: 1.0 $
  */
-public class CalendarDataEntityManagerTest {
+public class EventEntityManagerTest {
 
 	MockData db;
 	User existingUser;
@@ -45,9 +47,17 @@ public class CalendarDataEntityManagerTest {
 	Session adminSession;
 	Project testProject;
 	Project otherProject;
-	CalendarDataEntityManager manager;
-	CalendarData cd1;
-	CalendarData cd2;
+	EventEntityManager manager;
+	Event event1;
+	Event event2;
+	
+	DateInfo startDate1 = new DateInfo( 1984, 1, 11, 1 );
+	DateInfo endDate1 = new DateInfo( 1994, 4, 11, 1 );
+	
+	DateInfo startDate2 = new DateInfo( 2013, 5, 12, 2 );
+	DateInfo endDate2 = new DateInfo( 2013, 5, 12, 40 );
+	
+	Category testCategory = new Category( "name", 10 );
 	
 	/**
 	 * Set up objects and create a mock session for testing
@@ -63,53 +73,49 @@ public class CalendarDataEntityManagerTest {
 		adminSession = new Session(admin, testProject, mockSsid);
 		
 		existingUser = new User("alfred", "alfred", "1234", 2);
-		cd1 = new CalendarData( "name", "type", 1 );
+
+		event1 = new Event( "name1", "description1", startDate1,
+				endDate1, testCategory, false, 1, "111" );
 		
-		cd2 = new CalendarData( "other_name", "other_type", 2 );
+		event2 = new Event( "name2", "description2", startDate2,
+				endDate2, true, 2, "222" );
 		
 		defaultSession = new Session(existingUser, testProject, mockSsid);
 		
 		db = new MockData(new HashSet<Object>());
-		db.save( cd1, testProject);
+		db.save( event1, testProject);
 		db.save(existingUser);
-		
-		// Saving something to another project seems to overwrite the old one
-		// Hence why this is commented out
-		// db.save( cd1, otherProject);
-		db.save( cd2, otherProject );
+		db.save( event2, otherProject );
 		
 		
 		db.save(admin);
-		manager = new CalendarDataEntityManager( db );
+		manager = new EventEntityManager( db );
 	}
 
 	/**
-	 * Stores a new requirement and ensures the correct data was stored
+	 * Stores a new event and ensures the correct data was stored
 	
 	 * @throws WPISuiteException */
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		CalendarData created = manager.makeEntity(defaultSession, cd1.toJSON());
+		Event created = manager.makeEntity(defaultSession, event1.toJSON());
 		assertEquals( 1, created.getId() ); // IDs are unique across projects
-		assertEquals( "name", created.getName() );
-		assertEquals( "type", created.getType() );
-		//TODO: Test Years stored in Calendar using a getEquals method
-		//TODO: Write said getEquals method
+		assertEquals( created, event1 );
 	}
 	
 	/**
-	 * Ensures a requirement can be retrieved from the database
+	 * Ensures a event can be retrieved from the database
 	
 	 * @throws NotFoundException */
 	@Test
 	public void testGetEntity() throws NotFoundException {
-		CalendarData[] gotten = manager.getEntity( defaultSession, "1" );
-		assertSame( cd1, gotten[0] );
+		Event[] gotten = manager.getEntity( defaultSession, "1" );
+		assertSame( event1, gotten[0] );
 	}
 
 	/**
 	 * Ensures a NotFoundException is thrown when trying to
-	 * retrieve an invalid requirement
+	 * retrieve an invalid event
 	
 	 * @throws NotFoundException */
 	@Test(expected=NotFoundException.class)
@@ -118,19 +124,19 @@ public class CalendarDataEntityManagerTest {
 	}
 
 	/**
-	 * Ensures that CalendarData can be deleted
+	 * Ensures that Event can be deleted
 	
 	 * @throws WPISuiteException */
 	@Test
 	public void testDelete() throws WPISuiteException {
-		assertSame( cd1, db.retrieve( CalendarData.class, "id", 1).get(0));
+		assertSame( event1, db.retrieve( Event.class, "id", 1).get(0));
 		assertTrue(manager.deleteEntity(adminSession, "1"));
-		assertEquals(0, db.retrieve( CalendarData.class, "id", 1).size());
+		assertEquals(0, db.retrieve( Event.class, "id", 1).size());
 	}
 	
 	/**
 	 * Ensures a NotFoundException is thrown when trying to delete
-	 * an invalid CalendarData instance
+	 * an invalid Event instance
 	
 	 * @throws WPISuiteException */
 	@Test(expected=NotFoundException.class)
@@ -145,7 +151,7 @@ public class CalendarDataEntityManagerTest {
 	 * @throws WPISuiteException */
 	@Test(expected=UnauthorizedException.class)
 	public void testDeleteNotAllowed() throws WPISuiteException {
-		manager.deleteEntity( defaultSession, Integer.toString( cd1.getId() ) );
+		manager.deleteEntity( defaultSession, Integer.toString( event1.getId() ) );
 	}
 	
 	/**
@@ -154,13 +160,13 @@ public class CalendarDataEntityManagerTest {
 	 * @throws WPISuiteException */
 	@Test
 	public void testDeleteAll() throws WPISuiteException {
-		CalendarData anotherRequirement = new CalendarData();
-		manager.makeEntity(defaultSession, anotherRequirement.toJSON());
-		assertEquals(2, db.retrieveAll(new CalendarData(), testProject).size());
+		Event anotherEvent = new Event();
+		manager.makeEntity(defaultSession, anotherEvent.toJSON());
+		assertEquals(2, db.retrieveAll(new Event(), testProject).size());
 		manager.deleteAll(adminSession);
-		assertEquals(0, db.retrieveAll(new CalendarData(), testProject).size());
-		// cd2 should still be around on the other project
-		assertEquals(1, db.retrieveAll(new CalendarData(), otherProject).size());
+		assertEquals(0, db.retrieveAll(new Event(), testProject).size());
+		// event2 should still be around on the other project
+		assertEquals(1, db.retrieveAll(new Event(), otherProject).size());
 	}
 
 	/**
@@ -185,26 +191,26 @@ public class CalendarDataEntityManagerTest {
 
 
 	/**
-	 * Method updateCalendarDataTest.
+	 * Method updateEventTest.
 	
 	 * @throws WPISuiteException */
 	@Test
-	public void updateRequirementTest() throws WPISuiteException {
-		CalendarData updatedCD = manager.update(defaultSession,cd1.toJSON());
-		assertEquals(cd1.getName(), updatedCD.getName());
-		assertEquals(cd1.getId(), updatedCD.getId());
+	public void updateEventTest() throws WPISuiteException {
+		Event updatedEvent = manager.update(defaultSession,event1.toJSON());
+		assertEquals(event1.getName(), updatedEvent.getName());
+		assertEquals(event1.getId(), updatedEvent.getId());
 	}
 	
 	/**
-	 * Test that all CalendarData entities are returned
+	 * Test that all Event entities are returned
 	 */
 	@Test
 	public void getAllTest() {
-		CalendarData reqList[] = new CalendarData[2];
-		reqList[0] = cd1;
-		reqList[1] = cd2;
-		manager.save(defaultSession, cd2);
-		CalendarData returnedCDList[] = manager.getAll( defaultSession );
-		assertEquals(2, returnedCDList.length);
+		Event reqList[] = new Event[2];
+		reqList[0] = event1;
+		reqList[1] = event2;
+		manager.save(defaultSession, event2);
+		Event returnedEventList[] = manager.getAll( defaultSession );
+		assertEquals(2, returnedEventList.length);
 	}
 }

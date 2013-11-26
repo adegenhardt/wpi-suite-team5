@@ -42,13 +42,8 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarData;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCalendarDataController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCalendarDataController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCalendarDataController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.CalendarDataModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 import java.awt.Color;
@@ -70,6 +65,7 @@ public class EventEditor extends JPanel {
 	private final JTextField eventName;
 	private final JEditorPane descriptionPane;
 	private final JXDatePicker comboBoxMonth;
+	private final JXDatePicker comboBoxMonth2;
 	private final JComboBox<String> comboBoxStartHour;
 	private final JComboBox<String> comboBoxStartMinutes;
 	private final JComboBox<String> comboBoxStartAMPM;
@@ -81,6 +77,7 @@ public class EventEditor extends JPanel {
 	private final JLabel lblDescmsg;
 	private final JLabel lblEventnamemsg;
 	private final JLabel lblTimemsg;
+	private JButton btnNewButton;
 	
 
 	/**
@@ -88,7 +85,7 @@ public class EventEditor extends JPanel {
 	 */
 	public EventEditor() {
 		// Set the layout
-		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][40px:40px:40px][150px:150.00:150px][]", "[50.00px][125px:125:150px][25.00][][][][][][][100px:100:100px][]"));
+		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][40px:40px:40px][150px:150.00:150px][]", "[50.00px][125px:125:150px][25.00][][][][][][][][][100px:100:100px][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -139,63 +136,66 @@ public class EventEditor extends JPanel {
 				lblDatemsg.setForeground(new Color(0, 0, 0));
 			}
 		});
+		
+		comboBoxMonth2 = new JXDatePicker();
+		add(comboBoxMonth2, "cell 1 4");
 
 		// Set the Start and End time fields
 		final JLabel lblTime = new JLabel("Start Time:");
-		add(lblTime, "cell 0 4,alignx trailing");
+		add(lblTime, "cell 0 6,alignx trailing");
 
 		comboBoxStartHour = new JComboBox<String>();
 		comboBoxStartHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
 				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		add(comboBoxStartHour, "cell 1 4,growx");
+		add(comboBoxStartHour, "cell 1 6,growx");
 
 		comboBoxStartMinutes = new JComboBox<String>();
 		comboBoxStartMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
-		add(comboBoxStartMinutes, "cell 2 4,growx");
+		add(comboBoxStartMinutes, "cell 2 6,growx");
 
 		comboBoxStartAMPM = new JComboBox<String>();
 		comboBoxStartAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
-		add(comboBoxStartAMPM, "cell 3 4,growx");
+		add(comboBoxStartAMPM, "cell 3 6,growx");
 		
 		lblTimemsg = new JLabel("");
 		lblTimemsg.setForeground(new Color(255, 0, 0));
-		add(lblTimemsg, "cell 4 4");
+		add(lblTimemsg, "cell 4 6");
 
 		final JLabel lblEndTime = new JLabel("End Time:");
-		add(lblEndTime, "cell 0 5,alignx trailing");
+		add(lblEndTime, "cell 0 7,alignx trailing");
 
 		comboBoxEndHour = new JComboBox<String>();
 		comboBoxEndHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
 				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		add(comboBoxEndHour, "cell 1 5,growx");
+		add(comboBoxEndHour, "cell 1 7,growx");
 
 		comboBoxEndMinutes = new JComboBox<String>();
 		comboBoxEndMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
-		add(comboBoxEndMinutes, "cell 2 5,growx");
+		add(comboBoxEndMinutes, "cell 2 7,growx");
 
 		comboBoxEndAMPM = new JComboBox<String>();
 		comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
-		add(comboBoxEndAMPM, "cell 3 5,growx");
+		add(comboBoxEndAMPM, "cell 3 7,growx");
 
 		// Set the Category picker; will be populated by current categories
 		final JLabel lblCategory = new JLabel("Category:");
-		add(lblCategory, "cell 0 7,alignx trailing");
+		add(lblCategory, "cell 0 9,alignx trailing");
 
 		final JComboBox<String> comboBoxCategory = new JComboBox<String>();
 		comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
 				"Not Important", "Even Less Important", "Party!"}));
-		add(comboBoxCategory, "cell 1 7 2 1,growx");
+		add(comboBoxCategory, "cell 1 9 2 1,growx");
 
 		// Label and create the Participants text editor
 		// TODO: This is a bit unintuitive; we should come up with a
 		// better way to do this
 		final JLabel lblParticipants = new JLabel("Event Information:");
-		add(lblParticipants, "cell 0 9,alignx trailing");
+		add(lblParticipants, "cell 0 11,alignx trailing");
 
 		final JScrollPane scrollPaneParticipants = new JScrollPane();
 		scrollPaneParticipants.setHorizontalScrollBarPolicy(
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		add(scrollPaneParticipants, "cell 1 9 4 1,grow");
+		add(scrollPaneParticipants, "cell 1 11 4 1,grow");
 
 		final JEditorPane editorPane_1 = new JEditorPane();
 		scrollPaneParticipants.setViewportView(editorPane_1);
@@ -212,8 +212,9 @@ public class EventEditor extends JPanel {
 					return;
 				}
 
-				final CalendarData eventCal = new CalendarData(
-					ConfigManager.getConfig().getProjectName(), "Personal", 10);
+				// TODO: Replace code with something using new data model
+//				final CalendarData eventCal = new CalendarData(
+//					ConfigManager.getConfig().getProjectName(), "Personal", 10);
 
 				Date startDate = new Date();
 				startDate = (Date) comboBoxMonth.getDate().clone();
@@ -234,22 +235,27 @@ public class EventEditor extends JPanel {
 				endDate.setHours(Integer.parseInt(endHour));
 				endDate.setMinutes(Integer.parseInt(endMinutes));
 
-				final Event makeEvent = new Event(50, eventName.getText(),
-						descriptionPane.getText(), startDate, endDate, "project");
-				eventCal.addEvent(makeEvent);
+				// TODO: Replace code with something using new data model
+//				final Event makeEvent = new Event(50, eventName.getText(),
+//						descriptionPane.getText(), startDate, endDate, "project");
+//				eventCal.addEvent(makeEvent);
 
 				//Database Interaction Attempt
 				//Attempts to replace DB CalendarData with Updated Calendar Data evntCal
-				UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
-				GetCalendarDataController.getInstance().retrieveCalendarData();
-				
+				// TODO: Replace code with something using new data model
+//				UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
+//				GetCalendarDataController.getInstance().retrieveCalendarData();
+//				
 				editorPane_1.setText("PointA");
-				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
+				// TODO: Replace code with something using new data model
+//				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
 				editorPane_1.setText("PointB");
-				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
+				// TODO: Replace code with something using new data model
+//				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
 				editorPane_1.setText("PointC");
-				Event retrievedEventDB = eventList.get(0);
-				editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
+				// TODO: Replace code with something using new data model
+//				Event retrievedEventDB = eventList.get(0);
+//				editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
 				
 				//Demo Methods (Lacks Database Functionality)
 				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());
@@ -283,7 +289,7 @@ public class EventEditor extends JPanel {
 
 			}
 		});
-		add(btnSubmit, "cell 1 10 2 1,growx");
+		add(btnSubmit, "cell 1 12 2 1,growx");
 
 		final JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -295,7 +301,7 @@ public class EventEditor extends JPanel {
 				*/
 			}
 		});
-		add(btnCancel, "cell 3 10 2 1,growx");
+		add(btnCancel, "cell 3 12 2 1,growx");
 
 	}
 	

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -44,8 +45,6 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	private List<Category> category;
 
 	private List<String> tasks;
-
-	// private CalendarItemLevel type;
 
 	/**
 	 * Full Specification Constructor for Commitment.
@@ -118,7 +117,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 		this.tasks = tasks;
 	}
 	
-	// Get/Set Functions
+	// GetterSetter Functions
 	// ---------------------------------
 
 	public String getName() {
@@ -280,6 +279,48 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	public String toJSON() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean occursOnYear(int year) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean occursOnMonth(int year, int month) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean occursOnDate(int year, int month, int day) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Collection<String> getUserIds() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isDeleted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setDeleted(boolean isDeleted) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean hasAccess(String userId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 
