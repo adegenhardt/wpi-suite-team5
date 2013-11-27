@@ -9,19 +9,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
-/*********************************************************************************************
- * Copyright (c) 2013 WPI Suite
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * List of Event pulled from the server
- * 
- * Adapted from RequirementModel.java by Team Underscore Database Crew
- *
- *********************************************************************************************/
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,12 +18,10 @@ import javax.swing.AbstractListModel;
 
 /**List of Calendars pulled from the server
  * 
- * @author cporell, adapted from RequirementModel.java
+ * @author srkodzis, adapted from RequirementModel.java
  *
  * @version $Revision: 1.0 $
  */
-
-
 public class EventModel extends AbstractListModel<Event> {
 
 	/**
@@ -128,13 +113,6 @@ public class EventModel extends AbstractListModel<Event> {
 				break;
 			}
 		}
-		/*
-		try {
-			ViewEventController.getInstance().refreshTable();
-			ViewEventController.getInstance().refreshTree();
-		}
-		catch(Exception e){}
-		*/
 	}
 		
 	/**
@@ -151,13 +129,6 @@ public class EventModel extends AbstractListModel<Event> {
 			iterator.remove();
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
-		/*
-		try{
-			ViewEventController.getInstance().refreshTable();
-			ViewEventController.getInstance().refreshTree();
-		}
-		catch (Exception e) {}
-		*/
 	}
 	
 	/**
@@ -174,8 +145,6 @@ public class EventModel extends AbstractListModel<Event> {
 			}
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-		// ViewEventController.getInstance().refreshTable();
-		// ViewEventController.getInstance().refreshTree();
 	}
 	
 	// ******************************************************************

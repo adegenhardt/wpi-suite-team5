@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * This is the entity manager for events in the Calendar module.
  *
  * @version $Revision: 1.0 $
- * @author srkodzis
+ * @author srkodzis, adapted from RequirementEntityManager.java
  */
 public class EventEntityManager implements EntityManager<Event> {
 
@@ -49,7 +49,8 @@ public class EventEntityManager implements EntityManager<Event> {
 	/**
 	 * Saves an instance of Event when it is received from a client
 	 * 
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity
+	 * (edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
 	public Event makeEntity( Session s, String content ) throws WPISuiteException {
@@ -87,7 +88,8 @@ public class EventEntityManager implements EntityManager<Event> {
 	/**
 	 * Retrieves all Event from the database
 	 * @param s the session
-	 * @return array of all stored calendar data * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
+	 * @return array of all stored calendar data
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
 	 */
 	@Override
 	public Event[] getAll( Session s ) {
@@ -121,8 +123,10 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * Deletes calendar data from the database
 	 * @param s the session
 	 * @param id the id of the calendar data to delete
-	 * @return true if the deletion was successful * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String) */
+	 * @return true if the deletion was successful
+	 * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String)
+	 */
 	@Override
 	public boolean deleteEntity( Session s, String id ) throws WPISuiteException {
 		ensureRole( s, Role.ADMIN );
@@ -132,7 +136,8 @@ public class EventEntityManager implements EntityManager<Event> {
 	/**
 	 * Deletes all calendar data from the database
 	 * @param s the session
-	 * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
+	 * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
@@ -142,7 +147,8 @@ public class EventEntityManager implements EntityManager<Event> {
 	
 	/**
 	 * Returns the number of calendar data instances in the database
-	 * @return number of calendar data instances stored * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
+	 * @return number of calendar data instances stored
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count() */
 	@Override
 	public int Count() {
@@ -153,7 +159,8 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * Method update.
 	 * @param session Session
 	 * @param content String
-	 * @return Event * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(Session, String) * @throws WPISuiteException
+	 * @return Event
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(Session, String)
 	 */
 	@Override
@@ -187,7 +194,8 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * Method advancedGet.
 	 * @param arg0 Session
 	 * @param arg1 String[]
-	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[]) * @throws NotImplementedException
+	 * @return String
+	 * @throws NotImplementedException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[])
 	 */
 	@Override
@@ -200,11 +208,13 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @param arg0 Session
 	 * @param arg1 String
 	 * @param arg2 String
-	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String) * @throws NotImplementedException
+	 * @return String
+	 * @throws NotImplementedException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String)
 	 */
 	@Override
-	public String advancedPost( Session arg0, String arg1, String arg2 ) throws NotImplementedException {
+	public String advancedPost( Session arg0, String arg1, String arg2 )
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -213,11 +223,13 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @param arg0 Session
 	 * @param arg1 String[]
 	 * @param arg2 String
-	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String) * @throws NotImplementedException
+	 * @return String
+	 * @throws NotImplementedException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
 	 */
 	@Override
-	public String advancedPut( Session arg0, String[] arg1, String arg2 ) throws NotImplementedException {
+	public String advancedPut( Session arg0, String[] arg1, String arg2 )
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 

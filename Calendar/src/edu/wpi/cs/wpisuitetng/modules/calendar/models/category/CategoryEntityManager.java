@@ -17,14 +17,12 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -54,13 +52,14 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	/**
 	 * Saves an instance of Event when it is received from a client
 	 * 
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity
+	 * (edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Category makeEntity( Session s, String content ) 
 			throws WPISuiteException {
 		final Category newCategory = Category.fromJson(content);
 		if( !db.save( newCategory, s.getProject() ) ) {
-			throw new WPISuiteException();
+			throw new WPISuiteException( "Unable to save session" );
 		}
 		return newCategory;
 	}
@@ -75,16 +74,17 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	public Category[] getEntity( Session s, String id ) throws NotFoundException {
 		final int intId = Integer.parseInt( id );
 		if( intId < 1 ) {
-			throw new NotFoundException();
+			throw new NotFoundException( "ID must be greater than or equal to 1" );
 		}
 		Category[] categories = null;
 		try {
-			categories = db.retrieve( Category.class, "id", intId, s.getProject()).toArray(new Category[0] );
+			categories = db.retrieve( Category.class, "id",
+					intId, s.getProject()).toArray(new Category[0] );
 		} catch (WPISuiteException e) {
 			e.printStackTrace();
 		}
 		if( categories.length < 1 || categories[0] == null ) {
-			throw new NotFoundException();
+			throw new NotFoundException( "Unable to find any categories" );
 		}
 		return categories;
 	}
@@ -92,7 +92,8 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	/**
 	 * Retrieves all Event from the database
 	 * @param s the session
-	 * @return array of all stored calendar data * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
+	 * @return array of all stored calendar data
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
 	 */
 	@Override
 	public Category[] getAll( Session s ) {
@@ -115,10 +116,11 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	 * @param role the role being verified
 	 * @throws WPISuiteException user isn't authorized for the given role */
 	private void ensureRole( Session session, Role role ) throws WPISuiteException {
-		User user = (User) db.retrieve( User.class, "username",
+		final User user = (User) db.retrieve( User.class, "username",
 				               session.getUsername()).get(0);
 		if( !user.getRole().equals( role ) ) {
-			throw new UnauthorizedException();
+			throw new UnauthorizedException(
+					"You do not have access to the requested session" );
 		}
 	}
 	
@@ -126,7 +128,8 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	 * Deletes a category from the database
 	 * @param s the session
 	 * @param id the id of the calendar data to delete
-	 * @return true if the deletion was successful * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
+	 * @return true if the deletion was successful
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String) */
 	@Override
 	public boolean deleteEntity( Session s, String id ) throws WPISuiteException {
@@ -137,7 +140,8 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	/**
 	 * Deletes all categories from the database
 	 * @param s the session
-	 * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
+	 * @throws WPISuiteException
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
@@ -147,10 +151,10 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	
 	/**
 	 * Returns the number of category instances in the database
-	 * @return number of calendar data instances stored * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
+	 * @return number of calendar data instances stored
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count() */
 	@Override
-	public int Count() throws WPISuiteException {
+	public int Count() {
 		return db.retrieveAll( new Category() ).size();
 	}
 
@@ -158,31 +162,32 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	 * Method update.
 	 * @param session Session
 	 * @param content String
-	 * @return Event * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(Session, String) * @throws WPISuiteException
+	 * @return Event
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(Session, String)
 	 */
 	@Override
 	public Category update( Session session, String content ) throws WPISuiteException {
 		
-		Category updatedCategory = Category.fromJson( content );
+		final Category updatedCategory = Category.fromJson( content );
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just save data.
 		 * We have to get the original defect from db4o, copy properties from updatedCategory,
 		 * then save the original Category again.
 		 */
-		List<Model> oldCategories = db.retrieve( Category.class, "id",
+		final List<Model> oldCategories = db.retrieve( Category.class, "id",
 				                           updatedCategory.getId(), session.getProject() );
 		if( oldCategories.size() < 1 || oldCategories.get(0) == null ) {
 			throw new BadRequestException( "Category with ID does not exist." );
 		}
 				
-		Category existingCategory = (Category)oldCategories.get(0);		
+		final Category existingCategory = (Category)oldCategories.get(0);
 
 		// copy values to old calendar and fill in our changeset appropriately
 		existingCategory.copyFrom( updatedCategory );
 		
 		if(!db.save(existingCategory, session.getProject())) {
-			throw new WPISuiteException();
+			throw new WPISuiteException( "Unable to save updated project" );
 		}
 		
 		return existingCategory;
@@ -192,7 +197,8 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	 * Method advancedGet.
 	 * @param arg0 Session
 	 * @param arg1 String[]
-	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[]) * @throws NotImplementedException
+	 * @return String
+	 * @throws NotImplementedException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(Session, String[])
 	 */
 	@Override
@@ -205,11 +211,13 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	 * @param arg0 Session
 	 * @param arg1 String
 	 * @param arg2 String
-	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String) * @throws NotImplementedException
+	 * @return String
+	 * @throws NotImplementedException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String)
 	 */
 	@Override
-	public String advancedPost( Session arg0, String arg1, String arg2 ) throws NotImplementedException {
+	public String advancedPost( Session arg0, String arg1, String arg2 )
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -218,11 +226,13 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	 * @param arg0 Session
 	 * @param arg1 String[]
 	 * @param arg2 String
-	 * @return String * @throws NotImplementedException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String) * @throws NotImplementedException
+	 * @return String
+	 * @throws NotImplementedException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
 	 */
 	@Override
-	public String advancedPut( Session arg0, String[] arg1, String arg2 ) throws NotImplementedException {
+	public String advancedPut( Session arg0, String[] arg1, String arg2 )
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 }

@@ -268,6 +268,9 @@ public class Category extends AbstractModel {
 	 * 
 	 * @param name the name to give the new category
 	 * @param id the id for the new category
+	 * @param creatorID the ID of the user that created this Category
+	 * @param isTeamCat a boolean that is true if the category
+	 * 		is available to the whole team
 	 * @return cat the new category
 	 */
 	public Category createNewCategory(String name, int id, String creatorID,
@@ -287,8 +290,8 @@ public class Category extends AbstractModel {
 		
 		// Descriptive Parameters
 
-		this.name = toCopyFrom.name;
-	}	
+		name = toCopyFrom.name;
+	}
 	
 	
 	// ------------------------------------------------------------------------

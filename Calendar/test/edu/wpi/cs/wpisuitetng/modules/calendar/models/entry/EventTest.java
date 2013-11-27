@@ -324,4 +324,7 @@ public class EventTest {
 	public void testToString() {
 		assertEquals( "name1", event1.toString() );
 	}
+	
+	// TODO: Write tests to check the out-of-range exceptions
+	// for occursOnMonth and Day
 }

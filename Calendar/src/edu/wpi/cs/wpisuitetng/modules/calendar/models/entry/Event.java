@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -82,21 +82,12 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @param category
 	 *            List<Category> list of categories commitment is part of
 	 * @param id
-<<<<<<< HEAD
 	 *            The id of the Event
-	 * @param projectId
-	 *            String id of Project that the Event is Linked to.
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
-=======
-	 * 			  The id of the Event
-	 * @param creatorId
-	 *            String id of User that the Event is Linked to (either by creation or
-	 *            by personal calendar)
 	 * @param isTeamEvent
 	 * 			  Whether or not the event is a team event
->>>>>>> Audit some files with CodePro
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, Category category, boolean isTeamEvent, int id,
@@ -122,12 +113,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * System Implemented Constructor for Event. Gets and sets the project and
-=======
-	 *(GIVES DEFAULT CATEGORY)System Implemented Constructor for Event.
+	 * System Implemented Constructor for Event.
 	 * Gets and sets the project and
->>>>>>> Audit some files with CodePro
 	 * user Id fields based on system's current project and user. absoluteId is
 	 * generated as unique int at creation To be used in User Event creation
 	 *
@@ -146,21 +133,12 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @param endDate
 	 *            DateInfo dateInfo parameter for holding date Event ends
 	 * @param id
-<<<<<<< HEAD
 	 *            The id of the Event
-	 * @param projectId
-	 *            String id of Project that the Event is Linked to.
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
-=======
-	 * 			  The id of the Event
-	 * @param creatorId
-	 *            String id of User that the Event is Linked to (either by creation or
-	 *            by personal calendar)
 	 * @param isTeamEvent
 	 * 			  Whether or not this event is a team event
->>>>>>> Audit some files with CodePro
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamEvent, int id, String creatorId) {
@@ -171,7 +149,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.name = name;
 		this.description = description;
 		this.startDate = startDate;
-		this.endDate = endDate;		
+		this.endDate = endDate;
 		this.id = id;
 		this.creatorId = creatorId;
 		
@@ -535,16 +513,22 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	@Override
 	public boolean equals(Object obj) {
+		
+		if ( !( obj instanceof Event ) ||
+				!( obj instanceof ICalendarEntry ) ){
+			return false;
+		}
+		
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
-			return false;
-		}
+		
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
+		
 		final Event other = (Event) obj;
+		
 		if (category == null) {
 			if (other.category != null) {
 				return false;
@@ -552,6 +536,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		} else if (!category.equals(other.category)) {
 			return false;
 		}
+		
 		if (creatorId == null) {
 			if (other.creatorId != null) {
 				return false;
@@ -559,6 +544,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		} else if (!creatorId.equals(other.creatorId)) {
 			return false;
 		}
+		
 		if (description == null) {
 			if (other.description != null) {
 				return false;
@@ -566,6 +552,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		} else if (!description.equals(other.description)) {
 			return false;
 		}
+		
 		if (endDate == null) {
 			if (other.endDate != null) {
 				return false;
@@ -573,15 +560,19 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		} else if (!endDate.equals(other.endDate)) {
 			return false;
 		}
+		
 		if (id != other.id) {
 			return false;
 		}
+		
 		if (isDeleted != other.isDeleted) {
 			return false;
 		}
+		
 		if (isTeamEvent != other.isTeamEvent) {
 			return false;
 		}
+		
 		if (name == null) {
 			if (other.name != null) {
 				return false;
@@ -589,6 +580,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
+		
 		if (startDate == null) {
 			if (other.startDate != null) {
 				return false;
@@ -596,6 +588,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		} else if (!startDate.equals(other.startDate)) {
 			return false;
 		}
+		
 		if (userIds == null) {
 			if (other.userIds != null) {
 				return false;
@@ -603,6 +596,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		} else if (!userIds.equals(other.userIds)) {
 			return false;
 		}
+		
 		return true;
 	}
 
@@ -685,10 +679,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *      year, int month)
 	 */
 	@Override
-	public boolean occursOnMonth(int year, int month) {
+	public boolean occursOnMonth(int year, int month) throws ArrayIndexOutOfBoundsException {
 
-		// TODO: Error handling for invalid months (< 0, > 11 )
-
+		if ( month < 0 || month > 11 ) {
+			throw new ArrayIndexOutOfBoundsException( "Valid months are in the range 0 - 11" );
+		}
 		if (startDate.getYear() == year || endDate.getYear() == year) {
 
 			if (startDate.getMonth() == month || endDate.getMonth() == month) {
@@ -719,10 +714,15 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *      year, int month, int day)
 	 */
 	@Override
-	public boolean occursOnDate(int year, int month, int day) {
+	public boolean occursOnDate(int year, int month, int day) throws ArrayIndexOutOfBoundsException {
 
-		// TODO: Error handling for invalid days (< 0, >= number of days in
-		// month )
+		if ( month < 0 || month > 11 ) {
+			throw new ArrayIndexOutOfBoundsException( "Valid months are in the range 0 - 11" );
+		}
+		
+		if ( day < 0 || day >= calculateNumDays( year, month ) ) {
+			throw new ArrayIndexOutOfBoundsException( "Day is out of range" );
+		}
 
 		if (startDate.getYear() == year || endDate.getYear() == year) {
 
@@ -768,4 +768,33 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		return userIds.contains(userId);
 	}
 
+	
+	/**
+	 * Calculate the number of days in a given month
+	 * @param year the year to check
+	 * @param month the month to check (from 0-11)
+	 * @return a number from 28-31 representing the number of days in the month
+	 */
+	private int calculateNumDays( int year, int month ) {
+		
+		// Check for months with 31 days
+		if ( month == 0 || month == 2 || month == 5 ||
+				month == 7 || month == 8 || month == 10 ||
+				month == 12 ) {
+			return 31;
+			
+		// Otherwise, check if the month isn't February (ie: 30 days)
+		} else if ( month != 1 ) {
+			return 30;
+		}
+		
+		// At this point the month is February, so check if leap year or not
+		if ( year % 4 == 0 &&
+			( !( year % 100 == 0 ) || (year % 400 == 0 ) ) ) {
+			return 29;
+		} else {
+			return 28;
+		}
+	}
+	
 }

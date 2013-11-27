@@ -1,5 +1,3 @@
-package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
-
 /*********************************************************************************************
  * Copyright (c) 2013 WPI Suite
  * All rights reserved. This program and the accompanying materials
@@ -13,6 +11,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
  *
  *********************************************************************************************/
 
+
+package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,14 +21,12 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 
 
-/**List of Calendars pulled from the server
+/**List of Categories pulled from the server
  * 
  * @author Joe Hill, adapted from EventModel.java
  *
  * @version $Revision: 1.0 $
  */
-
-
 public class CategoryModel extends AbstractListModel{
 
 	// ********************************************************************
@@ -37,7 +36,7 @@ public class CategoryModel extends AbstractListModel{
 	 * The list in which all the calendar data for a single project
 	 * are contained
 	 */
-	private List<Category> categories;
+	private final List<Category> categories;
 	
 	// TODO: Research if and how this is maintained between different instances of the program
 	private int nextID; // the next available ID number for the calendar data
@@ -89,7 +88,7 @@ public class CategoryModel extends AbstractListModel{
 		Category temp = null;
 		// iterate through the calendar data in order to find the matching ID
 		// break the loop once the ID is found
-		for(int i = 0; i < this.categories.size(); i++){
+		for(int i = 0; i < categories.size(); i++){
 			temp = categories.get(i);
 			if(temp.getId() == id){
 				break;
@@ -106,17 +105,12 @@ public class CategoryModel extends AbstractListModel{
 	public void removeCategory(int removeID){
 		// iterate through the calendar data to find the given ID
 		// break the loop once that element has been found and removed
-		for(int i = 0; i < this.categories.size(); i++){
+		for(int i = 0; i < categories.size(); i++){
 			if(categories.get(i).getId() == removeID){
 				categories.remove(i);
 				break;
 			}
 		}
-		try{
-//			ViewCategoryController.getInstance().refreshTable();
-//			ViewCategoryController.getInstance().refreshTree();
-		}
-		catch(Exception e){}
 	}
 		
 	/**
@@ -124,8 +118,8 @@ public class CategoryModel extends AbstractListModel{
 	 * Each Category is removed individually
 	 */
 	public void emptyModel() {
-		int oldSize = getSize();
-		Iterator<Category> iterator = categories.iterator();
+		final int oldSize = getSize();
+		final Iterator<Category> iterator = categories.iterator();
 		// in case the iterator has data, remove each element individually
 		// in order to make sure the model is empty
 		while (iterator.hasNext()) {
@@ -133,11 +127,6 @@ public class CategoryModel extends AbstractListModel{
 			iterator.remove();
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
-		try{
-//			ViewCategoryController.getInstance().refreshTable();
-//			ViewCategoryController.getInstance().refreshTree();
-		}
-		catch (Exception e) {}
 	}
 	
 	/**
@@ -154,8 +143,6 @@ public class CategoryModel extends AbstractListModel{
 			}
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-//		ViewCategoryController.getInstance().refreshTable();
-//		ViewCategoryController.getInstance().refreshTree();
 	}
 	
 	// ******************************************************************
@@ -178,7 +165,7 @@ public class CategoryModel extends AbstractListModel{
 	 * @return the next avail. ID number
 	 */
 	public int getNextID(){
-		return this.nextID++;
+		return nextID++;
 	}
 
 	/**
@@ -202,11 +189,10 @@ public class CategoryModel extends AbstractListModel{
 	/**
 	 * Get all the categories for the team that the user can access
 	 * @param userId The id of the user attempting to access the categories
-	 * @param year the year to check
 	 * @return A list of all categories the user has access to
 	 */
-	public List<Category> getteamCategories( String userId) {
-		ArrayList< Category > teamCategories = new ArrayList< Category >();
+	public List<Category> getTeamCategories( String userId) {
+		final List< Category > teamCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
 		for ( int i = 0; i < categories.size(); i++ ) {
@@ -229,8 +215,8 @@ public class CategoryModel extends AbstractListModel{
 	 * @param month the month to check (0-11)
 	 * @return A list of all categories the user has access to
 	 */
-	public List<Category> getteamCategories( String userId, int year, int month) {
-		ArrayList< Category > teamCategories = new ArrayList< Category >();
+	public List<Category> getTeamCategories( String userId, int year, int month) {
+		final List< Category > teamCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
 		for ( int i = 0; i < categories.size(); i++ ) {
@@ -251,11 +237,11 @@ public class CategoryModel extends AbstractListModel{
 	 * @param userId The id of the user attempting to access the categories
 	 * @param year the year to check
 	 * @param month the month to check (0-11)
-	 * @param
+	 * @param day the day to check (0-30, depending on month)
 	 * @return A list of all categories the user has access to
 	 */
-	public List<Category> getteamCategories( String userId, int year, int month, int day) {
-		ArrayList< Category > teamCategories = new ArrayList< Category >();
+	public List<Category> getTeamCategories( String userId, int year, int month, int day) {
+		final List< Category > teamCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
 		for ( int i = 0; i < categories.size(); i++ ) {
@@ -279,7 +265,7 @@ public class CategoryModel extends AbstractListModel{
 	 * @return A list of all categories the user has access to
 	 */
 	public List<Category> getuserCategories( String userId, int year) {
-		ArrayList< Category > userCategories = new ArrayList< Category >();
+		final List< Category > userCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
 		for ( int i = 0; i < categories.size(); i++ ) {
@@ -303,7 +289,7 @@ public class CategoryModel extends AbstractListModel{
 	 * @return A list of all categories the user has access to
 	 */
 	public List<Category> getuserCategories( String userId, int year, int month) {
-		ArrayList< Category > userCategories = new ArrayList< Category >();
+		final List< Category > userCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
 		for ( int i = 0; i < categories.size(); i++ ) {
@@ -325,7 +311,7 @@ public class CategoryModel extends AbstractListModel{
 	 * @return A list of all categories the user has access to
 	 */
 	public List<Category> getuserCategories( String userId) {
-		ArrayList< Category > userCategories = new ArrayList< Category >();
+		final List< Category > userCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
 		for ( int i = 0; i < categories.size(); i++ ) {
