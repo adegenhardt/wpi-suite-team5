@@ -9,7 +9,7 @@
  * Contributors: Team Underscore 
  *    
  *******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.calendar.view;
+package edu.wpi.cs.wpisuitetng.modules.calendar.view.toolbar;
 
 
 
@@ -21,8 +21,12 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.tabs.ClosableTabCreator;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.CommitEditor;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventEditor;
 
 import javax.swing.JDialog;
+
+
 
 
 

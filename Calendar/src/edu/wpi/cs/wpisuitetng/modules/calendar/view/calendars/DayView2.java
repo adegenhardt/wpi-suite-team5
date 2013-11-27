@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.modules.calendar.view;
+package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;

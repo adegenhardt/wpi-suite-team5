@@ -9,7 +9,7 @@
  * Contributors: Team Underscore 
  *    
  *******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.calendar.view;
+package edu.wpi.cs.wpisuitetng.modules.calendar.view.toolbar;
 /**
  *  * Copyright (c) 2013 -- WPI Suite
  *
