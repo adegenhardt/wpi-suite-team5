@@ -33,20 +33,20 @@ public class EventModel extends AbstractListModel<Event> {
 	// Construct the Calendar Model
 	
 	/**
-	 * The list in which all the calendar data for a single project
+	 * The list in which all the events for a single project
 	 * are contained
 	 */
 	private final List<Event> events;
 	
 	// TODO: Research if and how this is maintained between different instances of the program
-	private int nextID; // the next available ID number for the calendar data
+	private int nextID; // the next available ID number for the event
 						// that are added
-	// the static object that allows the calendar data model to be
+	// the static object that allows the event model to be
 	private static EventModel instance = null;
 	
 	/**
-	 * Constructs an empty list of calendar data
-	 * Sets a default ID of 0 to the calendar data
+	 * Constructs an empty list of events
+	 * Sets a default ID of 0 to the event
 	 */
 	private EventModel(){
 		events = new ArrayList<Event>();
@@ -54,10 +54,10 @@ public class EventModel extends AbstractListModel<Event> {
 	}
 	
 	// **********************************************************************
-	// Manipulate calendar data
+	// Manipulate events
 	
 	/**
-	 * @return the instance of the calendar data model singleton
+	 * @return the instance of the event model singleton
 	 */
 	public static EventModel getInstance(){
 		if(instance == null){
@@ -70,7 +70,7 @@ public class EventModel extends AbstractListModel<Event> {
 	 * Adds a single calendar datum to the data of the project
 	 * 
 	 * @param newEvent The calendar datum to be added to the list
-	 * 						of calendar data in the project
+	 * 						of events in the project
 	 */
 	public void addEvent(Event newEvent){
 		events.add(newEvent);
@@ -81,14 +81,14 @@ public class EventModel extends AbstractListModel<Event> {
 	/**
 	 * Returns the Calendar Data with the given ID
 	 * 
-	 * @param id The ID number of the calendar data to be returned
+	 * @param id The ID number of the event to be returned
 	 * 
 	
-	 * @return the calendar data for the ID, or null if the data is not
+	 * @return the event for the ID, or null if the data is not
 	 * 			found. */
 	public Event getEvent(int id){
 		Event temp = null;
-		// iterate through the calendar data in order to find the matching ID
+		// iterate through the events in order to find the matching ID
 		// break the loop once the ID is found
 		for(int i = 0; i < events.size(); i++){
 			temp = events.get(i);
@@ -100,12 +100,12 @@ public class EventModel extends AbstractListModel<Event> {
 	}
 	
 	/**
-	 * Removes the calendar data with the given ID
+	 * Removes the event with the given ID
 	 * 
 	 * @param removeID The ID number of the cldr data to be removed
 	 */
 	public void removeEvent(int removeID){
-		// iterate through the calendar data to find the given ID
+		// iterate through the events to find the given ID
 		// break the loop once that element has been found and removed
 		for(int i = 0; i < events.size(); i++){
 			if(events.get(i).getId() == removeID){
@@ -132,7 +132,7 @@ public class EventModel extends AbstractListModel<Event> {
 	}
 	
 	/**
-	 * Adds the given array of calendar data to the list
+	 * Adds the given array of events to the list
 	 * @param events the array of data to add
 	 */
 	public void addEvents(Event[] events){
@@ -148,13 +148,13 @@ public class EventModel extends AbstractListModel<Event> {
 	}
 	
 	// ******************************************************************
-	// Getters for the calendar data
+	// Getters for the events
 	
 	/**
-	 * Provides the number of elements in the list of calendar data for 
+	 * Provides the number of elements in the list of events for 
 	 * this project. Elements are returned from the newest to the oldest.
 	 * 
-	 * @return the number of calendar data in the project
+	 * @return the number of events in the project
 	 */
 	public int getSize() {
 		return events.size();
@@ -162,7 +162,7 @@ public class EventModel extends AbstractListModel<Event> {
 	
 	/**
 	 * Provides the next ID number the should be used for the next 
-	 * calendar data generated.
+	 * event generated.
 	 * 
 	 * @return the next avail. ID number
 	 */
@@ -171,19 +171,19 @@ public class EventModel extends AbstractListModel<Event> {
 	}
 
 	/**
-	 * Takes in an index and find the calendar data in the list for the
+	 * Takes in an index and find the event in the list for the
 	 * project. 
 	 * 
-	 * @param index The index of the calendar data to be returned
-	 * @return the calendar data associated with the given index
+	 * @param index The index of the event to be returned
+	 * @return the event associated with the given index
 	 */
 	public Event getElementAt(int index) {
 		return events.get(events.size() - 1 - index);
 	}
 		
 	/**
-	 * Returns the list of calendar data
-	 * @return the requirements held within the calendar data model. */
+	 * Returns the list of events
+	 * @return the requirements held within the event model. */
 	public List<Event> getAllEvents() {
 		return events;
 	}
