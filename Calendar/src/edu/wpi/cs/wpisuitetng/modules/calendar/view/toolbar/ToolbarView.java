@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
 
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.tabs.ClosableTabCreator;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CommitEditor;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventEditor;
 

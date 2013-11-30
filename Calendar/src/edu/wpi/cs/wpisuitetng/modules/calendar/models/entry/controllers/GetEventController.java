@@ -69,8 +69,8 @@ public class GetEventController implements ActionListener {
 	/**
 	 * Sends an HTTP request to retrieve all Event instances
 	 */
-	public void retrieveEvent() {
-		final Request request = Network.getInstance().makeRequest("calendar/calendardata", HttpMethod.GET); // GET == read
+	public void retrieveEvents() {
+		final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.GET); // GET == read
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); // send the request
 	}

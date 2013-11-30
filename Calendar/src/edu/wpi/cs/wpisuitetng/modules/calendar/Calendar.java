@@ -20,9 +20,11 @@ import javax.swing.ImageIcon;
 
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.tabs.ClosableTabCreator;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.ToolbarView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.toolbar.ToolbarView;
 
 /**
  * 
