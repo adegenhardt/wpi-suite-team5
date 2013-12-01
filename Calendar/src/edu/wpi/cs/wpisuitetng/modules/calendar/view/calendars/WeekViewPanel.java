@@ -1,169 +1,75 @@
-/*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors: Team Underscore
- *    
- *******************************************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
-import java.util.Calendar;
-
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
 
-/**
- * @author Team Underscore
- * @version $Revision: 1.0$
- * 
- * Creates the Week View calendar tab
- */
 public class WeekViewPanel extends JPanel {
+	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
-	// Millis for day in Calendar class
-	// Going to use this to calculate first day of week
-	private static final long ONE_DAY = 86400000;
+	private WeekView weekView;
 	
-	private final DayView dayOne;
-	private final DayView dayTwo;
-	private final DayView dayThree;
-	private final DayView dayFour;
-	private final DayView dayFive;
-	private final DayView daySix;
-	private final DayView daySeven;
+	private final JPanel buttonsPanel;
 	
-	private final JButton nextWeek;
-	private final JButton prevWeek;
+	private final JButton nextDay;
+	private final JButton prevDay;
 	
-	private final Calendar shiftWeek; 
-	private JButton btnThisWeek;
+	private final JButton currentDate;
 
 	/**
 	 * Create the panel.
 	 */
 	public WeekViewPanel() {
 		
-		shiftWeek = Calendar.getInstance();
+		buttonsPanel = new JPanel();
 		
-		//final int day = shiftWeek.get(Calendar.DAY_OF_YEAR);
-	     // While loop through the week to obtain the first day of the week
-	     // Why is this a thiiiiiiiiiiiiingggggggg
-	    while(shiftWeek.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-	         shiftWeek.setTimeInMillis(shiftWeek.getTimeInMillis() - ONE_DAY);  
-	    }  
-		
-	    final JPanel weekContainer = new JPanel();
-	    final JPanel buttonContainer = new JPanel();
-
-		weekContainer.setLayout(new GridLayout(0, 7, 0, 0));
-		
-		// Just set the days to the calculated week above
-		// Maybe I should have kept an array?
-		
-		dayOne = new DayView(true);
-		dayOne.refreshDay(shiftWeek);
-		
-		dayTwo = new DayView(true);
-		shiftWeek.add(Calendar.DATE, 1);
-		dayTwo.refreshDay(shiftWeek);
-		
-		dayThree = new DayView(true); 
-		shiftWeek.add(Calendar.DATE, 1);
-		dayThree.refreshDay(shiftWeek);
-		
-		dayFour = new DayView(true);
-		shiftWeek.add(Calendar.DATE, 1);
-		dayFour.refreshDay(shiftWeek);
-		
-		dayFive = new DayView(true);
-		shiftWeek.add(Calendar.DATE, 1);
-		dayFive.refreshDay(shiftWeek);
-		
-		daySix = new DayView(true);
-		shiftWeek.add(Calendar.DATE, 1);
-		daySix.refreshDay(shiftWeek);
-		
-		daySeven = new DayView(true);
-		shiftWeek.add(Calendar.DATE, 1);
-		daySeven.refreshDay(shiftWeek);
-		
-		nextWeek = new JButton("Next");
-		nextWeek.addMouseListener(new MouseAdapter() {
+		weekView = new WeekView();
+		currentDate = new JButton("Current Week");
+		currentDate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				changeWeek(1);
+				weekView.currentWeek();
 			}
 		});
-		prevWeek = new JButton("Previous");
-		prevWeek.addMouseListener(new MouseAdapter() {
+		prevDay = new JButton("Previous Week");
+		prevDay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				changeWeek(-1); 
+				weekView.backWeek();
+			}
+			
+		});
+		nextDay = new JButton("Next Week");
+		nextDay.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				weekView.forwardWeek();
 			}
 		});
-		buttonContainer.setLayout(new MigLayout("", "[100px][][100px][][100px]", "[25px]"));
-		
-		buttonContainer.add(prevWeek, "cell 0 0,grow");
-		
-		btnThisWeek = new JButton("This Week");
-		buttonContainer.add(btnThisWeek, "cell 2 0");
-		buttonContainer.add(nextWeek, "cell 4 0,grow");
-		
-		setLayout(new MigLayout("", "[626px,grow]", "[29.00px][grow]"));
+		setLayout(new MigLayout("", "[638px,grow]", "[40:n:40,grow][247px,grow]"));
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		weekContainer.add(dayOne);
-		weekContainer.add(dayTwo);
-		weekContainer.add(dayThree);
-		weekContainer.add(dayFour);
-		weekContainer.add(dayFive);
-		weekContainer.add(daySix);
-		weekContainer.add(daySeven);
 		
-		this.add(buttonContainer, "cell 0 0,alignx center"); 
-		this.add(weekContainer, "cell 0 1,grow");
-		weekContainer.setVisible(true);
-
-	}
-	
-	
-	// Given an integer x, if the x is negative
-	// All collected day views will be updated 
-	// To display the previous week, and a positive
-	// Will display the next week
-	private void changeWeek(int x) {
-		int dayWeight;
-		if (x > 0) {
-			dayWeight = 1;
-		}
-		else {
-			dayWeight = -13; 
-		}
-		shiftWeek.add(Calendar.DATE, dayWeight);
-		dayOne.refreshDay(shiftWeek);
-		shiftWeek.add(Calendar.DATE, 1);
-		dayTwo.refreshDay(shiftWeek);
-		shiftWeek.add(Calendar.DATE, 1);
-		dayThree.refreshDay(shiftWeek);
-		shiftWeek.add(Calendar.DATE, 1);
-		dayFour.refreshDay(shiftWeek);
-		shiftWeek.add(Calendar.DATE, 1);
-		dayFive.refreshDay(shiftWeek);
-		shiftWeek.add(Calendar.DATE, 1);
-		daySix.refreshDay(shiftWeek);
-		shiftWeek.add(Calendar.DATE, 1);
-		daySeven.refreshDay(shiftWeek);
+		buttonsPanel.add(prevDay);
+		buttonsPanel.add(currentDate);
+		buttonsPanel.add(nextDay);
+		this.add(buttonsPanel, "cell 0 0,alignx center,growy");
+		this.add(weekView, "cell 0 1,grow");
 	}
 
 }
