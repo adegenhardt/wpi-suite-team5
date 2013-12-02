@@ -33,6 +33,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Color;
 
 /**
  * @author Team Underscore
@@ -97,7 +98,11 @@ public class CommitEditor extends JPanel {
 		
 		// Date picker
 		final JXDatePicker comboBoxMonth = new JXDatePicker();
-		add(comboBoxMonth, "cell 1 4 2 1,growx");
+		add(comboBoxMonth, "cell 1 4 3 1,growx");
+		
+		JLabel label = new JLabel("Ex. Oct/02/1993");
+		label.setForeground(Color.BLACK);
+		add(label, "cell 4 4");
 		
 		// Set the Category picker; will be populated by current categories
 		final JLabel lblCategory = new JLabel("Category:");
