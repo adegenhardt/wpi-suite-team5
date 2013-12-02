@@ -52,9 +52,7 @@ public class CommitEditor extends JPanel {
 	 */
 	public CommitEditor() {
 		// Set the layout
-		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px]"
-				+ "[40px:40px:40px][150px:150.00:150px]", "[50.00px][125px:125:150px][25.00][][][]"
-						+ "[][][][100px:100:100px][]"));
+		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][40px:40px:40px][150px:150.00:150px]", "[50.00px][125px:125:150px][][25.00][][][][]"));
 		
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Commitment Name:");
@@ -76,79 +74,42 @@ public class CommitEditor extends JPanel {
 		final JEditorPane editorPane = new JEditorPane();
 		scrollPaneDesc.setViewportView(editorPane);
 		
-		// Create the date picker
-		final JLabel lblDate = new JLabel("Date:");
-		add(lblDate, "cell 0 3,alignx trailing");
-		
-		// Date picker
-		final JXDatePicker comboBoxMonth = new JXDatePicker();
-		add(comboBoxMonth, "cell 1 3,growx, span 2");
-		
 		// Set the Start and End time fields
-		final JLabel lblTime = new JLabel("Start Time:");
-		add(lblTime, "cell 0 4,alignx trailing");
+		final JLabel lblTime = new JLabel("Time:");
+		add(lblTime, "cell 0 3,alignx trailing");
 		
 		final JComboBox<String> comboBoxStartHour = new JComboBox<String>();
 		comboBoxStartHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
 				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		add(comboBoxStartHour, "cell 1 4,growx");
+		add(comboBoxStartHour, "cell 1 3,growx");
 		
 		final JComboBox<String> comboBoxStartMinutes = new JComboBox<String>();
 		comboBoxStartMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
-		add(comboBoxStartMinutes, "cell 2 4,growx");
+		add(comboBoxStartMinutes, "cell 2 3,growx");
 		
 		final JComboBox<String> comboBoxStartAMPM = new JComboBox<String>();
 		comboBoxStartAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
-		add(comboBoxStartAMPM, "cell 3 4,growx");
+		add(comboBoxStartAMPM, "cell 3 3,growx");
 		
-		final JLabel lblEndTime = new JLabel("End Time:");
-		add(lblEndTime, "cell 0 5,alignx trailing");
+		// Create the date picker
+		final JLabel lblDate = new JLabel("Date:");
+		add(lblDate, "cell 0 4,alignx trailing");
 		
-		final JComboBox<String> comboBoxEndHour = new JComboBox<String>();
-		comboBoxEndHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
-				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		add(comboBoxEndHour, "cell 1 5,growx");
-		
-		final JComboBox<String> comboBoxEndMinutes = new JComboBox<String>();
-		comboBoxEndMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
-		add(comboBoxEndMinutes, "cell 2 5,growx");
-		
-		final JComboBox<String> comboBoxEndAMPM = new JComboBox<String>();
-		comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
-		add(comboBoxEndAMPM, "cell 3 5,growx");
+		// Date picker
+		final JXDatePicker comboBoxMonth = new JXDatePicker();
+		add(comboBoxMonth, "cell 1 4 2 1,growx");
 		
 		// Set the Category picker; will be populated by current categories
 		final JLabel lblCategory = new JLabel("Category:");
-		add(lblCategory, "cell 0 7,alignx trailing");
+		add(lblCategory, "cell 0 6,alignx trailing");
 		
 		final JComboBox<String> comboBoxCategory = new JComboBox<String>();
 		comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
 				"Not Important", "Even Less Important", "Party!"}));
-		add(comboBoxCategory, "cell 1 7 2 1,growx");
-		
-		// Label and create the Participants text editor
-		// TODO: This is a bit unintuitive; we should come up with a
-		// better way to do this
-		final JLabel lblParticipants = new JLabel("Participants:");
-		add(lblParticipants, "cell 0 9,alignx trailing");
-		
-		final JScrollPane scrollPaneParticipants = new JScrollPane();
-		scrollPaneParticipants.setHorizontalScrollBarPolicy(
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		add(scrollPaneParticipants, "cell 1 9 4 1,grow");
-		
-		final JEditorPane editorPane_1 = new JEditorPane();
-		scrollPaneParticipants.setViewportView(editorPane_1);
+		add(comboBoxCategory, "cell 1 6,growx");
 		
 		final JButton btnSubmit = new JButton("Submit");
-		add(btnSubmit, "cell 1 10 2 1,growx");
-		
-		final JButton btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		add(btnCancel, "cell 3 10 2 1,growx");
+		add(btnSubmit, "cell 1 7 2 1,growx");
 
 	}
 	// Set listeners
