@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,14 +11,22 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import java.util.List;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.google.gson.Gson;
 
+
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+
+import edu.wpi.cs.wpisuitetng.Session;
+
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
@@ -48,13 +56,15 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	private DateInfo startDate; // StartDate of event
 	private DateInfo endDate; // End Date of event
 	private Category category; // Category describing the event
-	private ArrayList<String> userIds; // userIds of users to participate in
+	private List<String> userIds; // userIds of users to participate in
 										// event
+
 
 	// Potential fields for later
 	// Repeat repeat;
 	// TODO Either a projectId field is needed or we need to be certain that we
 	// are only retrieving from the current project's section of the database
+
 
 	/**
 	 * Default event constructor that sets invalid values to all fields
@@ -94,17 +104,25 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            List<Category> list of categories commitment is part of
 	 * @param id
 	 *            The id of the Event
+<<<<<<< HEAD
 	
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
 	 * @param isTeamEvent boolean
+=======
+	 * @param creatorId
+	 *            String id of User that the Event is Linked to (either by
+	 *            creation or by personal calendar)
+	 * @param isTeamEvent
+	 * 			  Whether or not the event is a team event
+>>>>>>> c81c011bb5c3ccff3c0324a6cc67a04e286d4e4d
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, Category category, boolean isTeamEvent, int id,
 			String creatorId) {
 
-		this.isDeleted = false;
+		isDeleted = false;
 
 		// Descriptive Parameters
 		this.name = name;
@@ -126,11 +144,15 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	}
 
 	/**
+	 * System Implemented Constructor for Event.
+	 * Gets and sets the project and
+	 * user Id fields based on system's current project and user. absoluteId is
+	 * generated as unique int at creation To be used in User Event creation
+	 *
 	 * (GIVES DEFAULT CATEGORY)System Implemented Constructor for Event. Gets
 	 * and sets the project and user Id fields based on system's current project
 	 * and user. absoluteId is generated as unique int at creation To be used in
 	 * User Event creation
-	 * 
 	 * 
 	 * 
 	 * @param name
@@ -143,16 +165,24 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event ends
 	 * @param id
 	 *            The id of the Event
+<<<<<<< HEAD
 	
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
 	 * @param isTeamEvent boolean
+=======
+	 * @param creatorId
+	 *            String id of User that the Event is Linked to (either by
+	 *            creation or by personal calendar)
+	 * @param isTeamEvent
+	 * 			  Whether or not this event is a team event
+>>>>>>> c81c011bb5c3ccff3c0324a6cc67a04e286d4e4d
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamEvent, int id, String creatorId) {
 
-		this.isDeleted = false;
+		isDeleted = false;
 
 		// Descriptive Parameters
 		this.name = name;
@@ -160,8 +190,16 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.startDate = startDate;
 		this.endDate = endDate;
 
+
 		Calendar currentDateTime = Calendar.getInstance();
 		this.absoluteId = currentDateTime;
+
+		this.id = id;
+		this.creatorId = creatorId;
+		
+		category = new Category( name, id);
+		
+
 		this.id = id;// TODO auto generate unique
 		this.creatorId = creatorId;// TODO get from session
 
@@ -190,22 +228,30 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event starts
 	 * @param endDate
 	 *            DateInfo dateInfo parameter for holding date Event ends
+<<<<<<< HEAD
 	
 	
 	
 	 * @param isTeamEvent boolean
 	 * @param category Category
+=======
+	 * @param isTeamEvent
+	 * 			  Whether or not this is a team event
+	 * @param category
+	 * 			  The category this event is in
+>>>>>>> c81c011bb5c3ccff3c0324a6cc67a04e286d4e4d
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamEvent, Category category) {
 
-		this.isDeleted = false;
+		isDeleted = false;
 
 		// Descriptive Parameters
 		this.name = name;
 		this.description = description;
 		this.startDate = startDate;
 		this.endDate = endDate;
+
 
 		Calendar currentDateTime = Calendar.getInstance();
 		this.absoluteId = currentDateTime;
@@ -215,6 +261,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 																	// from
 																	// system
 																	// configuration
+
 
 		this.category = category;
 
@@ -249,7 +296,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @return The starting date and time of event as a DateInfo object
 	 */
 	public DateInfo getStartDate() {
-		return this.startDate;
+		return startDate;
 	}
 
 	public String getCreatorId() {
@@ -262,7 +309,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            the event's new ID
 	 */
 	public void setAbsoluteId(int absoluteId) {
-		this.id = absoluteId;
+		id = absoluteId;
 	}
 
 	/**
@@ -270,7 +317,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @param idUser
 	 */
 	public void setCreatorId(String idUser) {
-		this.creatorId = idUser;
+		creatorId = idUser;
 	}
 
 	/**
@@ -377,8 +424,9 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * Method toJSON.
 	 * 
 	 * 
-	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * @see
-	 *         edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 * @return String 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
 	@Override
 	/**This returns a Json encoded String representation of this requirement object.
@@ -393,23 +441,19 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	/**
 	 * Method toString.
 	 * 
-	 * 
-	 * @return String * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() * @see
-	 *         edu.wpi.cs.wpisuitetng.modules.Model#toString()
-	 */
-	/**
+	 * @return a Json encoded String representation of this Event 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
 	 * This returns a Json encoded String representation of this requirement
 	 * object.
-	 * 
-	 * @return a Json encoded String representation of this Event
 	 * 
 	 */
 	@Override
 	public String toString() {
-		return this.getName();
+		return name;
 	}
 
-	public void setUserIds(ArrayList<String> userIds) {
+	public void setUserIds(List<String> userIds) {
 		this.userIds = userIds;
 	}
 
@@ -475,19 +519,19 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 */
 
 	public void copyFrom(Event toCopyFrom) {
-		this.id = toCopyFrom.id;
-		this.creatorId = toCopyFrom.creatorId;
-		this.isDeleted = toCopyFrom.isDeleted;
+		id = toCopyFrom.id;
+		creatorId = toCopyFrom.creatorId;
+		isDeleted = toCopyFrom.isDeleted;
 
 		// Descriptive Parameters
-		this.name = toCopyFrom.name;
-		this.description = toCopyFrom.description;
-		this.startDate = toCopyFrom.startDate;
-		this.endDate = toCopyFrom.endDate;
-		this.category = (toCopyFrom.category);
-		this.userIds = toCopyFrom.userIds;
-
-		this.isTeamEvent = toCopyFrom.isTeamEvent;
+		name = toCopyFrom.name;
+		description = toCopyFrom.description;
+		startDate = toCopyFrom.startDate;
+		endDate = toCopyFrom.endDate;
+		category =(toCopyFrom.category);
+		userIds = toCopyFrom.userIds;
+		
+		isTeamEvent = toCopyFrom.isTeamEvent;
 	}
 
 	/**
@@ -506,24 +550,115 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((category == null) ? 0 : category.hashCode());
+		result = prime * result
+				+ ((creatorId == null) ? 0 : creatorId.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result + id;
+		result = prime * result + (isDeleted ? 1231 : 1237);
+		result = prime * result + (isTeamEvent ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((startDate == null) ? 0 : startDate.hashCode());
+		result = prime * result + ((userIds == null) ? 0 : userIds.hashCode());
+		return result;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
-		boolean out = false;
-
-		if (obj instanceof Event) {
-			out = (this.id == (((Event) obj).id))
-					&& this.creatorId.equals(((Event) obj).creatorId)
-					&& this.isDeleted == ((Event) obj).isDeleted &&
-
-					this.name.equals(((Event) obj).name)
-					&& this.description.equals(((Event) obj).description)
-					&& this.startDate.equals(((Event) obj).startDate)
-					&& this.endDate.equals(((Event) obj).endDate)
-					&& this.category.equals(((Event) obj).category)
-					&& this.userIds.equals(((Event) obj).userIds);
+		
+		if ( !( obj instanceof Event ) ||
+				!( obj instanceof ICalendarEntry ) ){
+			return false;
 		}
-		return out;
+		
+		if (this == obj) {
+			return true;
+		}
+		
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		
+		final Event other = (Event) obj;
+		
+		if (category == null) {
+			if (other.category != null) {
+				return false;
+			}
+		} else if (!category.equals(other.category)) {
+			return false;
+		}
+		
+		if (creatorId == null) {
+			if (other.creatorId != null) {
+				return false;
+			}
+		} else if (!creatorId.equals(other.creatorId)) {
+			return false;
+		}
+		
+		if (description == null) {
+			if (other.description != null) {
+				return false;
+			}
+		} else if (!description.equals(other.description)) {
+			return false;
+		}
+		
+		if (endDate == null) {
+			if (other.endDate != null) {
+				return false;
+			}
+		} else if (!endDate.equals(other.endDate)) {
+			return false;
+		}
+		
+		if (id != other.id) {
+			return false;
+		}
+		
+		if (isDeleted != other.isDeleted) {
+			return false;
+		}
+		
+		if (isTeamEvent != other.isTeamEvent) {
+			return false;
+		}
+		
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		
+		if (startDate == null) {
+			if (other.startDate != null) {
+				return false;
+			}
+		} else if (!startDate.equals(other.startDate)) {
+			return false;
+		}
+		
+		if (userIds == null) {
+			if (other.userIds != null) {
+				return false;
+			}
+		} else if (!userIds.equals(other.userIds)) {
+			return false;
+		}
+		
+		return true;
 	}
 
 	/**
@@ -575,7 +710,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * 
 	 * @return the user ids of all people involved in the event
 	 */
-	public ArrayList<String> getUserIds() {
+	public List<String> getUserIds() {
 		return userIds;
 	}
 
@@ -623,10 +758,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *      year, int month)
 	 */
 	@Override
-	public boolean occursOnMonth(int year, int month) {
+	public boolean occursOnMonth(int year, int month) throws ArrayIndexOutOfBoundsException {
 
-		// TODO: Error handling for invalid months (< 0, > 11 )
-
+		if ( month < 0 || month > 11 ) {
+			throw new ArrayIndexOutOfBoundsException( "Valid months are in the range 0 - 11" );
+		}
 		if (startDate.getYear() == year || endDate.getYear() == year) {
 
 			if (startDate.getMonth() == month || endDate.getMonth() == month) {
@@ -657,10 +793,15 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *      year, int month, int day)
 	 */
 	@Override
-	public boolean occursOnDate(int year, int month, int day) {
+	public boolean occursOnDate(int year, int month, int day) throws ArrayIndexOutOfBoundsException {
 
-		// TODO: Error handling for invalid days (< 0, >= number of days in
-		// month )
+		if ( month < 0 || month > 11 ) {
+			throw new ArrayIndexOutOfBoundsException( "Valid months are in the range 0 - 11" );
+		}
+		
+		if ( day < 0 || day >= calculateNumDays( year, month ) ) {
+			throw new ArrayIndexOutOfBoundsException( "Day is out of range" );
+		}
 
 		if (startDate.getYear() == year || endDate.getYear() == year) {
 
@@ -764,4 +905,33 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		return userIds.contains(userId);
 	}
 
+	
+	/**
+	 * Calculate the number of days in a given month
+	 * @param year the year to check
+	 * @param month the month to check (from 0-11)
+	 * @return a number from 28-31 representing the number of days in the month
+	 */
+	private int calculateNumDays( int year, int month ) {
+		
+		// Check for months with 31 days
+		if ( month == 0 || month == 2 || month == 5 ||
+				month == 7 || month == 8 || month == 10 ||
+				month == 12 ) {
+			return 31;
+			
+		// Otherwise, check if the month isn't February (ie: 30 days)
+		} else if ( month != 1 ) {
+			return 30;
+		}
+		
+		// At this point the month is February, so check if leap year or not
+		if ( year % 4 == 0 &&
+			( !( year % 100 == 0 ) || (year % 400 == 0 ) ) ) {
+			return 29;
+		} else {
+			return 28;
+		}
+	}
+	
 }

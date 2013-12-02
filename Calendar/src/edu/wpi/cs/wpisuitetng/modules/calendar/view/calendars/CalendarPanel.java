@@ -9,11 +9,15 @@
  * Contributors: Team Underscore
  *    
  *******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.calendar.view;
+package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
 import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarSidebar;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.CalendarTab;
 
 import java.awt.BorderLayout;
 

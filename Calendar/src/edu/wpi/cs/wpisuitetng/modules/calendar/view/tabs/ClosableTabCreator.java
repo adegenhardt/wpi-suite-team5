@@ -9,7 +9,7 @@
  * Contributors: Team Underscore 
  *    
  *******************************************************************************/
-package edu.wpi.cs.wpisuitetng.modules.calendar.tabs;
+package edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs;
 
 import java.awt.Color;
 import java.awt.Dimension;

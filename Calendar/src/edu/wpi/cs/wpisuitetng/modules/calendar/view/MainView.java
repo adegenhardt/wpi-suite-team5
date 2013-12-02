@@ -12,6 +12,9 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.JPanel;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.CalendarPanel;
+
 import java.awt.BorderLayout;
 
 /**

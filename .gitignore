@@ -45,3 +45,8 @@ Janeway/janeway.conf
 
 RequirementManager/build
 RequirementManager/bin
+Calendar/build/edu/wpi/cs/wpisuitetng/modules/calendar/view/tabs/placeholder.png
+Calendar/build/edu/wpi/cs/wpisuitetng/modules/calendar/view/toolbar/new_commit.png
+Calendar/build/edu/wpi/cs/wpisuitetng/modules/calendar/view/toolbar/new_event.png
+Calendar/build/edu/wpi/cs/wpisuitetng/modules/calendar/view/toolbar/pers_calendar.png
+Calendar/build/edu/wpi/cs/wpisuitetng/modules/calendar/view/toolbar/team_calendar.png

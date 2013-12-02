@@ -28,6 +28,9 @@ public class Category extends AbstractModel {
 	private String name;
 	/** The unique identification number **/
 	private int id;
+	private String creatorID;
+	private boolean isDeleted;
+	private boolean isTeamCat;
 	
 	/**
 	 * Constructor for a category object.
@@ -38,7 +41,135 @@ public class Category extends AbstractModel {
 		this.name = name;
 		this.id = id;
 	}
+	
+	/**
+	 * New, more full constructor more the category object.
+	 * Adds creatorID, team status, and deleted values to the category.
+	 * @param name a string that represents the category type.
+	 * @param id an integer that represents the object id.
+	 * @param creatorID a String that represents the creator of the category
+	 * @param isDeleted stores whether the category has been removed from the
+	 * 					display of categories or not
+	 * @param isTeamCat states whether this category will show up on a team
+	 * 					calendar or not
+	 */
+	public Category(String name, int id, String creatorID, boolean isDeleted,
+			boolean isTeamCat) {
+		this.name = name;
+		this.id = id;
+		this.setCreatorID(creatorID);
+		this.setDeleted(isDeleted);
+		this.setTeamCat(isTeamCat);
+	}
 
+	// ------------------------------------------------------------------------
+	// Getters/Setters for Category
+	
+	/**
+	 * Empty Category constructor used in the Entity Manager
+	 */
+	public Category() {
+
+	}
+
+	/**
+	 * Method getName.
+	 * 
+	 * @return name the name of the Category
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Method setName.
+	 * 
+	 * @param n the new name of the Category
+	 */
+	public void setName(String n) {
+		if (!n.equals(name)) {
+			final String originalName = name;
+			String newName = n;
+			if (newName.length() > 100) {
+				newName = newName.substring(0, 100);
+			}
+			final String message = ("Name changed from " + originalName
+					+ " to " + newName);
+			System.out.println(message);
+			// Possibly implemented later
+			// Add the message to the history (There was code here, this is what it did)
+		}
+		name = n;
+		if (name.length() > 100) {
+			name = n.substring(0, 100);
+		}
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Get the creator's ID
+	 * @return creatorID
+	 */
+	public String getCreatorID() {
+		return creatorID;
+	}
+
+	/**
+	 * Set the creator ID
+	 * @param creatorID
+	 */
+	public void setCreatorID(String creatorID) {
+		this.creatorID = creatorID;
+	}
+
+	/**
+	 * Get whether the category is deleted or not
+	 * @return isDeleted
+	 */
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	/**
+	 * Set the "deleted" status of a category
+	 * @param isDeleted
+	 */
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	/**
+	 * Get the status of whether the category is team or personal
+	 * @return isTeamCat
+	 */
+	public boolean isTeamCat() {
+		return isTeamCat;
+	}
+
+	/**
+	 * Set the privay status of the category
+	 * @param isTeamCat
+	 */
+	public void setTeamCat(boolean isTeamCat) {
+		this.isTeamCat = isTeamCat;
+	}
+	
+	// ------------------------------------------------------------------------
+	// Functionality for the Category class
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -131,66 +262,24 @@ public class Category extends AbstractModel {
 		return parser.fromJson(json, Category[].class);
 	}
 
-	/**
-	 * Method getName.
-	 * 
-	 * @return name the name of the Category
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * Method setName.
-	 * 
-	 * @param n the new name of the Category
-	 */
-	public void setName(String n) {
-		if (!n.equals(name)) {
-			final String originalName = name;
-			String newName = n;
-			if (newName.length() > 100) {
-				newName = newName.substring(0, 100);
-			}
-			final String message = ("Name changed from " + originalName
-					+ " to " + newName);
-			System.out.println(message);
-			// Possibly implemented later
-			// Add the message to the history (There was code here, this is what it did)
-		}
-		name = n;
-		if (name.length() > 100) {
-			name = n.substring(0, 100);
-		}
-	}
 
 	/**
 	 * Method createNewCategory.
 	 * 
 	 * @param name the name to give the new category
 	 * @param id the id for the new category
+	 * @param creatorID the ID of the user that created this Category
+	 * @param isTeamCat a boolean that is true if the category
+	 * 		is available to the whole team
 	 * @return cat the new category
 	 */
-	public Category createNewCategory(String name, int id) {
-		final Category cat = new Category(name, id);
+	public Category createNewCategory(String name, int id, String creatorID,
+			boolean isTeamCat) {
+		final Category cat = new Category(name, id, creatorID, false, isTeamCat);
 		System.out.println("New Category " + name + " created!");
 		return cat;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-	
 	/**
 	 * Copies all of the values from the given Category
 	 * to this Category.
@@ -200,10 +289,12 @@ public class Category extends AbstractModel {
 		id = toCopyFrom.id;
 		
 		// Descriptive Parameters
+
 		name = toCopyFrom.name;
 	}
 	
 	
+	// ------------------------------------------------------------------------
 	// Required Methods for Database Interaction //
 
 	
