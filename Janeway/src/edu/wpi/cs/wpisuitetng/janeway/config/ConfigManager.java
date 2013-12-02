@@ -10,7 +10,6 @@
  *    Chris Casola
  *    Andrew Hurle
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetng.janeway.config;
 
 import java.io.FileInputStream;

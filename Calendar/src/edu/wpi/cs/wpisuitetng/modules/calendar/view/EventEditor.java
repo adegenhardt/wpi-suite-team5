@@ -36,7 +36,9 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -251,12 +253,40 @@ public class EventEditor extends JPanel {
 				
 				List<Event> events = EventModel.getInstance().getAllEvents();
 				editorPane_1.setText(Integer.toString(events.size()));
-				
+				//
 				for(int i=0; i < events.size(); i++) {
 					String poop = editorPane_1.getText();
 					editorPane_1.setText(poop+events.get(i).getName());
 				}
 				
+				/*matt's test for system user name and entity absoluteId
+				 * ignore it if there is a merge conflict battle for other changes
+				System.out.println("vv");
+				editorPane_1.setText(ConfigManager.getConfig().getUserName());
+				
+		
+				 //Calendar cal = Calendar.getInstance();
+				// editorPane_1.setText(dateFormat.format(cal.getTime()));
+				 String test1 ="no1";
+				 String test2 ="no2";
+				 String test3 ="no3";
+				 
+				 editorPane_1.setText("point1");
+				// editorPane_1.setText(makeEvent.getCreatorId() ); works
+				// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				// editorPane_1.setText(dateFormat.format(makeEvent.getAbsoluteId().getTime())); works
+				 if(makeEvent.isActiveUserEvent()){
+					 test2="yes2"; 
+				 }
+				 if(makeEvent.isSameAbsoluteId(makeEvent) ) {
+					 test3 = "yes3";
+				 }
+				 if(makeEvent.isUserEvent("bundleOfFish")){
+					 test1 ="yes1";
+				 }
+				 
+				 editorPane_1.setText(test1+"-"+test2+"-"+test3+"-"+makeEvent.getAbsoluteIdStringFormat());
+				 */
 				
 				//Database Interaction Attempt
 				//Attempts to replace DB CalendarData with Updated Calendar Data evntCal

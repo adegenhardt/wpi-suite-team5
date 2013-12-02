@@ -11,10 +11,14 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
@@ -28,10 +32,13 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	// ID Parameters
 	private int id; // object unique ID integer
+	private Calendar absoluteId; // calendar identifying the time of original
+									// creation of the event, for unique id
+									// parameter
 	private String creatorId; // id of creating user
 	private boolean isDeleted; // object is deleted from user view
 	boolean isTeamEvent; /* Whether or not the event is a team event */
-	
+
 	// Descriptive Parameters
 	private String name; // Name of Event
 	private String description; // Description of Event
@@ -44,10 +51,10 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	private ArrayList<String> userIds; // userIds of users to participate in
 										// event
 
-	
-
 	// Potential fields for later
 	// Repeat repeat;
+	// TODO Either a projectId field is needed or we need to be certain that we
+	// are only retrieving from the current project's section of the database
 
 	/**
 	 * Default event constructor that sets invalid values to all fields
@@ -62,6 +69,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		endDate = new DateInfo(-1, -1, -1, -1);
 		category = new Category("-1", -1);
 
+		Calendar currentDateTime = Calendar.getInstance();
+		this.absoluteId = currentDateTime;
 		id = -1;
 		creatorId = "-1";
 
@@ -85,11 +94,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            List<Category> list of categories commitment is part of
 	 * @param id
 	 *            The id of the Event
-	 * @param projectId
-	 *            String id of Project that the Event is Linked to.
+	
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
+	 * @param isTeamEvent boolean
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, Category category, boolean isTeamEvent, int id,
@@ -104,6 +113,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.endDate = endDate;
 		this.category = category;
 
+		Calendar currentDateTime = Calendar.getInstance();
+		this.absoluteId = currentDateTime;
 		this.id = id;
 		this.creatorId = creatorId;
 
@@ -132,11 +143,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event ends
 	 * @param id
 	 *            The id of the Event
-	 * @param projectId
-	 *            String id of Project that the Event is Linked to.
+	
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
+	 * @param isTeamEvent boolean
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamEvent, int id, String creatorId) {
@@ -149,6 +160,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.startDate = startDate;
 		this.endDate = endDate;
 
+		Calendar currentDateTime = Calendar.getInstance();
+		this.absoluteId = currentDateTime;
 		this.id = id;// TODO auto generate unique
 		this.creatorId = creatorId;// TODO get from session
 
@@ -177,13 +190,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event starts
 	 * @param endDate
 	 *            DateInfo dateInfo parameter for holding date Event ends
-	 * @param id
-	 *            The id of the Event
-	 * @param projectId
-	 *            String id of Project that the Event is Linked to.
-	 * @param creatorId
-	 *            String id of User that the Event is Linked to (either by
-	 *            creation or by personal calendar)
+	
+	
+	
+	 * @param isTeamEvent boolean
+	 * @param category Category
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamEvent, Category category) {
@@ -196,8 +207,14 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.startDate = startDate;
 		this.endDate = endDate;
 
+		Calendar currentDateTime = Calendar.getInstance();
+		this.absoluteId = currentDateTime;
+
 		this.id = 0;// TODO auto generate unique
-		this.creatorId = "bundle of fish";// TODO get from session
+		this.creatorId = ConfigManager.getConfig().getUserName();// gets user id
+																	// from
+																	// system
+																	// configuration
 
 		this.category = category;
 
@@ -205,7 +222,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 		// create empty list of userIds and add the creator
 		userIds = new ArrayList<String>();
-		userIds.add(creatorId);
+		userIds.add(this.creatorId);
 	}
 
 	// ---------------------------------------------------------
@@ -427,8 +444,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * 
 	 * 
 	 * 
-	 * @return the Event contained in the given JSON
-	 */
+	
+	 * @return the Event contained in the given JSON */
 	public static Event fromJson(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Event.class);
@@ -443,8 +460,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * 
 	 * 
 	 * 
-	 * @return an array of Event deserialized from the given JSON string
-	 */
+	
+	 * @return an array of Event deserialized from the given JSON string */
 	public static Event[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Event[].class);
@@ -516,7 +533,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            the userID to be added
 	 */
 	public void addUserId(String newId) {
-		//TODO how to enforce that these are actual user IDS for sending out invites
+		// TODO how to enforce that these are actual user IDS for sending out
+		// invites
 		if (isTeamEvent()) {
 			userIds.add(newId);
 		}
@@ -559,6 +577,23 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 */
 	public ArrayList<String> getUserIds() {
 		return userIds;
+	}
+
+	public Calendar getAbsoluteId() {
+
+		return this.absoluteId;
+	}
+
+	private void setAbsoluteId(Calendar absoluteIdIn) {
+		this.absoluteId = absoluteIdIn;
+	}
+	/**
+	 * returns the Event's absoluteId in a string of format:yyyy/MM/dd HH:mm:ss
+	 * @return
+	 */
+	public String getAbsoluteIdStringFormat(){
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		return dateFormat.format(this.getAbsoluteId().getTime());
 	}
 
 	/**
@@ -660,6 +695,64 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		}
 	}
 
+	/**
+	 * states if an event has the same absoluteId as the given event
+	 * 
+	 * @param eventCompare
+	 *            event to compare absoluteId of with
+	
+	 * @return boolean
+	 */
+	public boolean isSameAbsoluteId(Event eventCompare) {
+		boolean out = false;
+		if (this.absoluteId == eventCompare.getAbsoluteId()) {
+			out = true;
+		}
+		return out;
+	}
+
+	/**
+	 * states if an event has the same absoluteId as the given absoluteId
+	 * 
+	
+	
+	 * @param absoluteIdCompare Calendar
+	 * @return boolean
+	 */
+	public boolean isSameAbsoluteId(Calendar absoluteIdCompare) {
+		boolean out = false;
+		if (this.absoluteId == absoluteIdCompare) {
+			out = true;
+		}
+		return out;
+	}
+/**
+ * determines if given event belongs to the current janeway session's user
+ * @return boolean
+ */
+	public boolean isActiveUserEvent(){
+		boolean out = false;
+		if(this.getCreatorId().equals(ConfigManager.getConfig().getUserName()) ) {
+			out = true;
+		}
+		
+		return out;
+	}
+	
+	/**
+	 * determines if given event belongs to the given user's userId
+	
+	 * @param userCheck String
+	 * @return boolean */
+		public boolean isUserEvent(String userCheck){
+			boolean out = false;
+			if(this.getCreatorId().equals(userCheck) ) {
+				out = true;
+			}
+			
+			return out;
+		}
+	
 	/**
 	 * Determines whether or not a user has access to this event
 	 * 
