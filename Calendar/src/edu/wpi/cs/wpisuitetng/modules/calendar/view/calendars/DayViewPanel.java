@@ -77,7 +77,7 @@ public class DayViewPanel extends JPanel {
 				dayView.refreshDay(currentDisplay);
 			}
 		});
-		prevDay = new JButton("Previous");
+		prevDay = new JButton("Previous Day");
 		prevDay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -94,7 +94,7 @@ public class DayViewPanel extends JPanel {
 		buttonsPanel.add(currentDate);
 		this.add(buttonsPanel, "cell 0 0,alignx center,aligny top");
 		
-		nextDay = new JButton("Next");
+		nextDay = new JButton("Next Day");
 		nextDay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

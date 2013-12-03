@@ -109,12 +109,12 @@ public class MonthView extends JPanel {
 		
 		panel = new JPanel();
 
-		btnPrev = new JButton("Previous");
+		btnPrev = new JButton("Previous Month");
 		panel.add(btnPrev);
 		
 		btnThisMonth = new JButton("This Month");
 		panel.add(btnThisMonth);
-		btnNext = new JButton("Next");
+		btnNext = new JButton("Next Month");
 		btnNext.setPreferredSize(btnPrev.getPreferredSize());
 		panel.add(btnNext);
 		
