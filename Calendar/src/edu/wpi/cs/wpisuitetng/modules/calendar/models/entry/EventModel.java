@@ -15,11 +15,15 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
+
 
 /**List of Calendars pulled from the server
  * 
  * @author srkodzis, adapted from RequirementModel.java
- *
+ * 
  * @version $Revision: 1.0 $
  */
 public class EventModel extends AbstractListModel<Event> {
@@ -147,6 +151,50 @@ public class EventModel extends AbstractListModel<Event> {
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 	}
 	
+	/**
+	 * Get all the categories for the team that the user can access,
+	 * and add those categories to a now empty CategoryModel.
+	 * @param userId the id of the user attempting to access the categories
+	 */
+	public void toTeamEventModel( String userId ) {
+		List< Event > teamEvents = new ArrayList< Event >();
+		
+		// Gather all of the team events from the current list of events
+		// contained in the local EventModel.
+		teamEvents = getTeamEvents( userId );
+		
+		// Empty the contents of the current version of the local EventModel.
+		// *This may cause a problem in which the view is confused because there
+		// *are now no event objects present in the model while the view is running.
+		emptyModel();
+		
+		// Proceed to add only those events to the local EventModel that
+		// are classified as "team events".
+		for ( int i = 0; i < teamEvents.size(); i++ ) {
+			events.add(teamEvents.get ( i ));
+		}
+		
+		// The local EventModel is now populated with only team events.
+	}
+	
+	/**
+	 * Get all the events that the user can access,
+	 * and add those events to a now empty EventModel.
+	 * Uses the GetEventController class and GetEventRequestObserver
+	 * classes in order to populate the local EventModel.
+	 */
+	public void toPersonalEventModel() {
+		// Empty the local EventModel so that it does not contain
+		// any duplicate events.
+		emptyModel();
+		
+		// Send HTTP request to obtain all events from server
+		// and place them in the local EventModel.
+		GetEventController.getInstance().retrieveEvents();
+		
+		// The local EventModel now possess a collection of all events.
+	}
+	
 	// ******************************************************************
 	// Getters for the events
 	
@@ -205,6 +253,29 @@ public class EventModel extends AbstractListModel<Event> {
 					currentEvent.isTeamEvent() &&
 					currentEvent.hasAccess( userId ) &&
 					currentEvent.occursOnYear( year ) ) {
+				teamEvents.add( currentEvent );
+			}
+		}
+		
+		return teamEvents;
+		
+	}
+	
+	/**
+	 * Get all the events for the team that the user can access
+	 * @param userId The id of the user attempting to access the events.
+	 * @return A list of all team events the user has access to
+	 */
+	public List< Event > getTeamEvents( String userId ) {
+		final List< Event > teamEvents = new ArrayList< Event >();
+		Event currentEvent;
+		
+		for ( int i = 0; i < events. size(); i++ ) {
+			
+			currentEvent = events.get( i );
+			if ( !currentEvent.isDeleted() &&
+					currentEvent.isTeamEvent() &&
+					currentEvent.hasAccess( userId ) ) {
 				teamEvents.add( currentEvent );
 			}
 		}

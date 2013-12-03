@@ -17,6 +17,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
 
 import javax.swing.AbstractListModel;
 
@@ -230,6 +231,50 @@ public class CategoryModel extends AbstractListModel{
 		
 		return teamCategories;
 		
+	}
+	
+	/**
+	 * Get all the categories for the team that the user can access,
+	 * and add those categories to a now empty CategoryModel.
+	 * @param userId the id of the user attempting to access the categories
+	 */
+	public void toTeamCategoryModel( String userId ) {
+		List< Category > teamCategories = new ArrayList< Category >();
+		
+		// Gather all of the team categories from the current list of categories
+		// contained in the local CategoryModel.
+		teamCategories = getTeamCategories( userId );
+		
+		// Empty the contents of the current version of the local CategoryModel.
+		// *This may cause a problem in which the view is confused because there
+		// *are now no category objects present in the model while the view is running.
+		emptyModel();
+		
+		// Proceed to add only those categories to the local CategoryModel that
+		// are classified as "team categories".
+		for ( int i = 0; i < teamCategories.size(); i++ ) {
+			categories.add(teamCategories.get ( i ));
+		}
+		
+		// The local CategoryModel is now populated with only team categories.
+	}
+	
+	/**
+	 * Get all the categories that the user can access,
+	 * and add those categories to a now empty CategoryModel.
+	 * Uses the GetCategoryController class and GetCategoryRequestObserver
+	 * classes in order to populate the local CategoryModel.
+	 */
+	public void toPersonalCategoryModel() {
+		// Empty the local CategoryModel so that it does not contain
+		// any duplicate categories.
+		emptyModel();
+		
+		// Send HTTP request to obtain all categories from server
+		// and place them in the local CategoryModel.
+		GetCategoryController.getInstance().retrieveCategory();
+		
+		// The local CategoryModel now possess a collection of all categories.
 	}
 	
 	/**

@@ -44,9 +44,11 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
@@ -305,7 +307,9 @@ public class EventEditor extends JPanel {
 		}
 		btnSubmit.addActionListener(new SubmitButtonListener());
 		add(btnSubmit, "cell 1 12 2 1,growx");
-
+		// Will updat the appropriate view
+		correctUpdateForView();
+		
 	}
 
 	// Checks for valid input and displays messages next to
@@ -345,6 +349,44 @@ public class EventEditor extends JPanel {
 			lblTimemsg.setText("");
 		}
 		return true;
+	}
+	
+	// Determines the state of the calendar view (team or personal)
+	// using the global boolean values contained in the
+	// GlobalButtonVars class, and runs the correct update method.
+	private void correctUpdateForView() {
+		if ( GlobalButtonVars.isPersonalView &&
+				!GlobalButtonVars.isTeamView) {
+			
+			// Changing the contents of local data models for
+			// event and category objects.
+			EventModel.getInstance().toPersonalEventModel();
+			CategoryModel.getInstance().toPersonalCategoryModel();
+			
+		}
+		
+		if ( GlobalButtonVars.isTeamView && 
+				!GlobalButtonVars.isPersonalView) {
+			
+			final String userId;
+			
+			// Acquire the username from the configuration class within
+			// the Janeway module and store it in a variable.
+			ConfigManager.getInstance();
+			userId = ConfigManager.getConfig().getUserName();
+			
+			// Changing the contents of local data models for
+			// event and category objects.
+			EventModel.getInstance().toTeamEventModel( userId );
+			CategoryModel.getInstance().toTeamCategoryModel( userId );
+			
+		}
+		
+		else {
+			System.out.println("Both team and personal calendar views ");
+			System.out.println("are either both selected or not selected!");
+		}
+		
 	}
 
 	// Parse the String times into ints so they can be compared

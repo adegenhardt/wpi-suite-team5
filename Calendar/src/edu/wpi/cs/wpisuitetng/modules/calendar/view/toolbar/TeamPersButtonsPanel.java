@@ -15,6 +15,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -22,7 +23,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 
 //Creates a panel in the toolbar with buttons 
 //to switch between Team and Personal calendars
@@ -39,13 +46,15 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 	// Create the buttons
 	JButton createTeamButton;
 	JButton createPersonalButton;
-
+	
 	// Methods to enable and disable these buttons
 	/**
 	 * Method disableCreateTeamButton.
 	 */
 	public void disableCreateTeamButton() {
 		createTeamButton.setEnabled(false);
+		GlobalButtonVars.isTeamView = false;
+		GlobalButtonVars.isPersonalView = true;
 	}
 	
 	/**
@@ -53,6 +62,8 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 	 */
 	public void enableCreateTeamButton() {
 		createTeamButton.setEnabled(true);
+		GlobalButtonVars.isTeamView = true;
+		GlobalButtonVars.isPersonalView = false;
 	}
 	
 	/**
@@ -60,6 +71,8 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 	 */
 	public void disableCreatePersonalButton() {
 		createTeamButton.setEnabled(false);
+		GlobalButtonVars.isTeamView = true;
+		GlobalButtonVars.isPersonalView = false;
 	}
 	
 	/**
@@ -67,6 +80,8 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 	 */
 	public void enableCreatePersonalButton() {
 		createTeamButton.setEnabled(true);
+		GlobalButtonVars.isTeamView = false;
+		GlobalButtonVars.isPersonalView = true;
 	}
 
 	// Create the panel
@@ -102,6 +117,18 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		createTeamButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				final String userId;
+				
+				// Acquire the username from the configuration class within
+				// the Janeway module and store it in a variable.
+				ConfigManager.getInstance();
+				userId = ConfigManager.getConfig().getUserName();
+				
+				// Changing the contents of local data models for
+				// event and category objects.
+				EventModel.getInstance().toTeamEventModel( userId );
+				CategoryModel.getInstance().toTeamCategoryModel( userId );
+				
 			}
 		});
 
@@ -109,7 +136,12 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		createPersonalButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
+				// Changing the contents of local data models for
+				// event and category objects.
+				EventModel.getInstance().toPersonalEventModel();
+				CategoryModel.getInstance().toPersonalCategoryModel();
+				
 			}
 		});
 		// Add the buttons to the panel
