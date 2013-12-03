@@ -252,6 +252,7 @@ public class EventEditor extends JPanel {
 				}
 
 				
+				
 				/*matt's test for system user name and entity absoluteId
 				 * ignore/remove it if there is a merge conflict battle for other changes
 				System.out.println("vv");

@@ -26,9 +26,15 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.List;
+
 import javax.swing.JComboBox;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 
 /**
  * @author Team Underscore
@@ -58,7 +64,7 @@ public class CalendarSidebar extends JPanel {
 		eventScroll.setViewportView(eventTable);
 		eventTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Test", "Nov 19, 2013", "12:00", "1:00"},
+				{null, null, null, null},
 				{null, null, null, null},
 				{null, null, null, null},
 				{null, null, null, null},
@@ -67,7 +73,7 @@ public class CalendarSidebar extends JPanel {
 				{null, null, null, null},
 			},
 			new String[] {
-				"Events", "Date", "Start Time", "End Time"
+				"Events", "Start Date", "End Date", "Description"
 			}
 		));
 		
@@ -158,6 +164,64 @@ public class CalendarSidebar extends JPanel {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				List<Event> events = EventModel.getInstance().getAllEvents();
+				for(int i=0;i<events.size();i++)
+				{
+					for(int j=0;j<4;j++)
+					{
+						if(j==0)
+						{
+							try
+							{
+								eventTable.setValueAt(events.get(i).getName(), i, j);
+							}
+							catch(IndexOutOfBoundsException e)
+							{
+								eventTable.setValueAt("caught IndexOutofBounds", i, j);
+								
+							}
+							eventTable.setValueAt(events.get(i).getName(), i, j);	
+							
+						}
+						if(j==1)
+						{	
+							try
+							{
+								eventTable.setValueAt(events.get(i).getStartDate(), i, j);
+							}
+							catch(IndexOutOfBoundsException e)
+							{
+								eventTable.setValueAt(" ", i, j);
+							}
+							eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
+						}
+						if(j==2)
+						{
+							try
+							{
+								eventTable.setValueAt(events.get(i).getEndDate(), i, j);
+							}
+							catch(IndexOutOfBoundsException e)
+							{
+								eventTable.setValueAt(" ", i, j);
+							}
+							eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
+						}
+						if(j==3)
+						{
+							try
+							{
+								eventTable.setValueAt(events.get(i).getDescription(), i, j);
+							}
+							catch(IndexOutOfBoundsException e)
+							{
+								eventTable.setValueAt(" ", i, j);
+							}
+							eventTable.setValueAt(events.get(i).getDescription(), i, j);	
+						}
+					}
+				}
+				
 			}
 		});
 		panelCatCreate.add(btnSubmit, "cell 1 3,growx");
