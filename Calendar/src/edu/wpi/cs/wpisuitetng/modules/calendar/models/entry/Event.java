@@ -14,16 +14,17 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.List;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.google.gson.Gson;
 
 
+
+
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.Session;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
@@ -693,8 +694,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @return the Event's absoluteId in a string of format:yyyy/MM/dd HH:mm:ss
 	 */
 	public String getAbsoluteIdStringFormat(){
+
+		
 		final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		return dateFormat.format(absoluteId.getTime());
+
 	}
 
 	/**

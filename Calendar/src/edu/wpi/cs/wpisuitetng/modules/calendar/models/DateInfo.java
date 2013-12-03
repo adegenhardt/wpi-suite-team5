@@ -10,7 +10,9 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * DateInfo is a form of storing time information. It contains a year, a month,
@@ -20,11 +22,18 @@ import java.util.Date;
  * @version $Revision: 1.0 $
  */
 public class DateInfo {
-	/*
-	 */
+
+	//Format
+	//year is absolute value
+	//moth is 0 = January 11 = December
+	//Day is absolute (starts at 1 to max number of given month)
+	//HalfHour is 0 based (0 to 47)
 	private final int year;
+	// month is 0-based
 	private final int month;
+	// day is 1-based
 	private final int day;
+	// half-hour is 0-based
 	private final int halfHour;
 
 	/**
@@ -160,4 +169,99 @@ public class DateInfo {
 		}
 		return true;
 	}
+	
+	/**
+	 * Converts the given DateInfo to a Calendar Object of the same parameters
+	 * @return
+	 */
+	public Calendar dateInfoToCalendar(){
+		Calendar cal = new GregorianCalendar();
+		int hourOfDay = ((this.halfHour/2));
+		int minute = 0;
+		if(this.halfHour%2 !=0){
+			minute = 30;
+		}
+		
+		cal.set(this.year, this.month, this.day, hourOfDay, minute);
+		return cal;
+	}
+
+	
+	/**
+	 * Returns a Json-encoded String of this DateInfo
+	 */
+	@Override
+	public String toString() {
+		String theYear = "" + this.year;
+		int theMonthI = this.getMonth();
+		// Initialize a blank Month string
+		String theMonthS = "";
+		// Assign a 3-letter Month String depending on the value
+		// of the month int.
+		if (theMonthI == 0){
+			theMonthS = "Jan";
+		}
+		if (theMonthI == 1){
+			theMonthS = "Feb";
+		}
+		if (theMonthI == 2){
+			theMonthS = "Mar";
+		}
+		if (theMonthI == 3){
+			theMonthS = "Apr";
+		}
+		if (theMonthI == 4){
+			theMonthS = "May";
+		}
+		if (theMonthI == 5){
+			theMonthS = "Jun";
+		}
+		if (theMonthI == 6){
+			theMonthS = "Jul";
+		}
+		if (theMonthI == 7){
+			theMonthS = "Aug";
+		}
+		if (theMonthI == 8){
+			theMonthS = "Sep";
+		}
+		if (theMonthI == 9){
+			theMonthS = "Oct";
+		}
+		if (theMonthI == 10){
+			theMonthS = "Nov";
+		}
+		else {
+			theMonthS = "Dec";
+		}
+		String theDay = "" + this.day;
+		// Deliver a time depending on the halfHour int
+		int iTime = 0;
+		String sTime = "";
+		int theTime = this.getHalfHour();
+		while (theTime > 1){
+			theTime = theTime - 2;
+			iTime++;
+		}
+		sTime = "" + iTime;
+		if (theTime == 0){
+			sTime = sTime + ":00";
+		}
+		else{
+			sTime = sTime + ":30";
+		}
+		if (iTime > 12){
+			iTime = iTime/2;
+			sTime = sTime + " PM";
+		}
+		else{
+			sTime = sTime + " AM";
+		}
+		// Collect all the info gathered above into a single string
+		// and return it
+		String theDateInfo = "" + theMonthS + "/" + theDay + "/" + theYear +
+				" at " + sTime;
+		return theDateInfo;
+	} 
+
 }
