@@ -11,7 +11,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -24,8 +23,8 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddEventController  {
 	
-	private static AddEventController instance;
-	private AddEventRequestObserver observer;
+	private static AddEventController instance = null;
+	private final AddEventRequestObserver observer;
 	
 	/**
 	 * Construct an AddEventController for the given model, view pair
@@ -56,14 +55,14 @@ public class AddEventController  {
 	{
 		// PUT == create
 		final Request request = Network.getInstance().makeRequest( "calendar/event", HttpMethod.PUT );
-		request.setBody( newEvent.toJSON() ); // put the new Event in the body of the request		
+		request.setBody( newEvent.toJSON() ); // put the new Event in the body of request		
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); 
 	}
 	
 	/**
 	 * When the new event is received back from the server, add it to the local model.
-	 * @param event, the event successfully added on the server
+	 * @param event the event successfully added on the server
 	 */
 	public void addMessageToModel( Event event ) {
 		EventModel.getInstance().addEvent( event );

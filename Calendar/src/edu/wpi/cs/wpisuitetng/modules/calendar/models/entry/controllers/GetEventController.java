@@ -27,8 +27,8 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetEventController implements ActionListener {
 
-	private GetEventRequestObserver observer;
-	private static GetEventController instance;
+	private final GetEventRequestObserver observer;
+	private static GetEventController instance = null;
 
 	/**
 	 * Constructs the controller given a EventModel
@@ -79,12 +79,12 @@ public class GetEventController implements ActionListener {
 	 * Add the given Events to the local model (they were received from the core).
 	 * This method is called by the GetEventRequestObserver
 	 * 
-	 * @param Events array of Event instances received from the server
+	 * @param events array of Event instances received from the server
 	 */
 	public void receivedEvent(Event[] events) {
 		// Make sure the response was not null
 		if (events != null) 
-		{	
+		{
 			// add the Event instances to the local model
 			EventModel.getInstance().addEvents( events );
 		}
