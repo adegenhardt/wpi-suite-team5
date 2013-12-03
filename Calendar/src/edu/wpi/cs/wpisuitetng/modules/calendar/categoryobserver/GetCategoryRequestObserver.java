@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GetCategoryRequestObserver implements RequestObserver {
 
-	private GetCategoryController controller;
+	private final GetCategoryController controller;
 	
 	/**
 	 * Constructs the observer given a GetCategoryController
@@ -39,7 +39,7 @@ public class GetCategoryRequestObserver implements RequestObserver {
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Convert the JSON array of Categories to a Category object array
-		Category[] calendarData = Category.fromJsonArray(iReq.getResponse().getBody());
+		final Category[] calendarData = Category.fromJsonArray(iReq.getResponse().getBody());
 		
 		// Pass these Categories to the controller
 		controller.receivedCategory( calendarData );
@@ -61,7 +61,7 @@ public class GetCategoryRequestObserver implements RequestObserver {
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		//TODO: generate an error form of Category
-		Category[] errorCategory = { new Category() };
+		final Category[] errorCategory = { new Category() };
 		controller.receivedCategory(errorCategory);
 	}
 }
