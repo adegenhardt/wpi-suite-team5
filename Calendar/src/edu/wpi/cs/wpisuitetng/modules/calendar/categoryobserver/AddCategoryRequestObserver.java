@@ -61,7 +61,7 @@ public class AddCategoryRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError( IRequest iReq ) {
-		System.err.println( "The request to add an Event failed." );
+		System.err.println( "The request to add a Category failed." );
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class AddCategoryRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail( IRequest iReq, Exception exception ) {
-		System.err.println( "The request to add a Event failed." );
+		System.err.println( "The request to add a Category failed." );
 	}
 	
 }
