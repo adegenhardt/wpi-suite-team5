@@ -35,6 +35,7 @@ import javax.swing.JComboBox;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
 
 /**
  * @author Team Underscore
@@ -50,11 +51,13 @@ public class CalendarSidebar extends JPanel {
 	private JTable commitmentTable;
 	private JTextField textField;
 	private JTextField filterTextField;
-
+	private boolean isUpdated = false;
+	
 	/**
 	 * Create the panel.
 	 */
 	public CalendarSidebar() {
+		
 		setLayout(new MigLayout("", "[grow][grow]", "[100.00,grow,center][100.00,grow][grow]"));
 
 		final JScrollPane eventScroll = new JScrollPane();
@@ -164,6 +167,11 @@ public class CalendarSidebar extends JPanel {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(!isUpdated)
+				{
+					isUpdated=true;
+					GetEventController.getInstance().retrieveEvents();
+				}
 				List<Event> events = EventModel.getInstance().getAllEvents();
 				for(int i=0;i<events.size();i++)
 				{
@@ -176,9 +184,7 @@ public class CalendarSidebar extends JPanel {
 								eventTable.setValueAt(events.get(i).getName(), i, j);
 							}
 							catch(IndexOutOfBoundsException e)
-							{
-								eventTable.setValueAt("caught IndexOutofBounds", i, j);
-								
+							{	
 							}
 							eventTable.setValueAt(events.get(i).getName(), i, j);	
 							
@@ -191,7 +197,6 @@ public class CalendarSidebar extends JPanel {
 							}
 							catch(IndexOutOfBoundsException e)
 							{
-								eventTable.setValueAt(" ", i, j);
 							}
 							eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
 						}
@@ -202,9 +207,7 @@ public class CalendarSidebar extends JPanel {
 								eventTable.setValueAt(events.get(i).getEndDate(), i, j);
 							}
 							catch(IndexOutOfBoundsException e)
-							{
-								eventTable.setValueAt(" ", i, j);
-							}
+							{}
 							eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
 						}
 						if(j==3)
@@ -215,7 +218,6 @@ public class CalendarSidebar extends JPanel {
 							}
 							catch(IndexOutOfBoundsException e)
 							{
-								eventTable.setValueAt(" ", i, j);
 							}
 							eventTable.setValueAt(events.get(i).getDescription(), i, j);	
 						}
