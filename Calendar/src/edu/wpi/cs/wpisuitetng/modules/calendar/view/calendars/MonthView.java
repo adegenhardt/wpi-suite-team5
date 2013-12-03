@@ -25,7 +25,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.GregorianCalendar;
 
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -33,9 +32,6 @@ import javax.swing.JComboBox;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 
 /**
@@ -49,7 +45,6 @@ public class MonthView extends JPanel {
 	JTable tblCalendar;
 	JButton btnPrev, btnNext;
 	JLabel lblMonth, lblYear;
-	JScrollPane scrlCalendar; 
 	DefaultTableModel mtblCalendar;
 	JComboBox<String> cmbYear;
 	JPanel buttonPanel;
@@ -91,7 +86,6 @@ public class MonthView extends JPanel {
 			}
 		};
 		tblCalendar = new JTable(mtblCalendar);
-		scrlCalendar = new JScrollPane(tblCalendar);
 	}
 	
 	private void registerActionListeners() {
@@ -129,7 +123,7 @@ public class MonthView extends JPanel {
 		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
 		tblCalendar.setCellSelectionEnabled(true);
-		add(scrlCalendar, BorderLayout.CENTER);
+		add(tblCalendar, BorderLayout.CENTER);
 	}
 	
 	private void createDate() {
@@ -165,6 +159,7 @@ public class MonthView extends JPanel {
 		tblCalendar.setRowHeight(62);
 		mtblCalendar.setColumnCount(7);
 		mtblCalendar.setRowCount(6);
+		tblCalendar.setModel(mtblCalendar);
 	}
 
 	private void populateTable() {
@@ -274,8 +269,6 @@ public class MonthView extends JPanel {
 	    public void componentResized(ComponentEvent e) {
 	    	// The split pane isn't resizing, but this should work when it does
 	        final Dimension newSize = e.getComponent().getBounds().getSize();
-	        // THIS NEEDS A LITTLE WORK BUT ITS SO CLOSE
-	        //Have we tried +1?
 	        tblCalendar.setRowHeight((newSize.height - 84) / 6);
 	         tblCalendar.setRowHeight(6, (((newSize.height - 84) / 6) + 
 	        		 ((newSize.height - 84) % 6)));
