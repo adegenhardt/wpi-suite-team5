@@ -23,8 +23,11 @@ public class DateInfo {
 	/*
 	 */
 	private final int year;
+	// month is 0-based
 	private final int month;
+	// day is 1-based
 	private final int day;
+	// half-hour is 0-based
 	private final int halfHour;
 
 	/**
@@ -160,4 +163,81 @@ public class DateInfo {
 		}
 		return true;
 	}
+	
+	/**
+	 * Returns a Json-encoded String of this DateInfo
+	 */
+	@Override
+	public String toString() {
+		String theYear = "" + this.year;
+		int theMonthI = this.getMonth();
+		// Initialize a blank Month string
+		String theMonthS = "";
+		// Assign a 3-letter Month String depending on the value
+		// of the month int.
+		if (theMonthI == 0){
+			theMonthS = "Jan";
+		}
+		if (theMonthI == 1){
+			theMonthS = "Feb";
+		}
+		if (theMonthI == 2){
+			theMonthS = "Mar";
+		}
+		if (theMonthI == 3){
+			theMonthS = "Apr";
+		}
+		if (theMonthI == 4){
+			theMonthS = "May";
+		}
+		if (theMonthI == 5){
+			theMonthS = "Jun";
+		}
+		if (theMonthI == 6){
+			theMonthS = "Jul";
+		}
+		if (theMonthI == 7){
+			theMonthS = "Aug";
+		}
+		if (theMonthI == 8){
+			theMonthS = "Sep";
+		}
+		if (theMonthI == 9){
+			theMonthS = "Oct";
+		}
+		if (theMonthI == 10){
+			theMonthS = "Nov";
+		}
+		else {
+			theMonthS = "Dec";
+		}
+		String theDay = "" + this.day;
+		// Deliver a time depending on the halfHour int
+		int iTime = 0;
+		String sTime = "";
+		int theTime = this.getHalfHour();
+		while (theTime > 1){
+			theTime = theTime - 2;
+			iTime++;
+		}
+		sTime = "" + iTime;
+		if (theTime == 0){
+			sTime = sTime + ":00";
+		}
+		else{
+			sTime = sTime + ":30";
+		}
+		if (iTime > 12){
+			iTime = iTime/2;
+			sTime = sTime + " PM";
+		}
+		else{
+			sTime = sTime + " AM";
+		}
+		// Collect all the info gathered above into a single string
+		// and return it
+		String theDateInfo = "" + theMonthS + "/" + theDay + "/" + theYear +
+				" at " + sTime;
+		return theDateInfo;
+	} 
 }
