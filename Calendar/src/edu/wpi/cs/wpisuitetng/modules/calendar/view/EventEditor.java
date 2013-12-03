@@ -151,11 +151,14 @@ public class EventEditor extends JPanel {
 		JLabel lblSDate = new JLabel("Start Date:");
 		add(lblSDate, "cell 0 3,alignx trailing");
 
-		// Date picker
+		// Date pickers
 		comboBoxStartMonth = new JXDatePicker();
+		comboBoxEndMonth = new JXDatePicker();
 		// Setting the date format to something more intuitive
 		comboBoxStartMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
+		comboBoxEndMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
 		add(comboBoxStartMonth, "cell 1 3 3 1,growx");
+		add(comboBoxEndMonth, "cell 1 6 3 1,growx");
 
 		comboBoxStartMonth.getEditor().addFocusListener(new FocusAdapter() {
 			@Override
@@ -165,45 +168,45 @@ public class EventEditor extends JPanel {
 			}
 		});
 				
-						lblDatemsg = new JLabel("Ex. Oct/02/1993");
-						lblDatemsg.setForeground(new Color(0, 0, 0));
-						add(lblDatemsg, "cell 4 3,alignx center");
+		// Set the example label, will change to show errors
+		lblDatemsg = new JLabel("Ex. Oct/02/1993");
+		lblDatemsg.setForeground(new Color(0, 0, 0));
+		add(lblDatemsg, "cell 4 3,alignx center");
 		
-				final JLabel lblEndTime = new JLabel("End Time:");
-				add(lblEndTime, "cell 0 5,alignx trailing");
+		final JLabel lblEndTime = new JLabel("End Time:");
+		add(lblEndTime, "cell 0 5,alignx trailing");
 				
-				comboBoxEndHour = new JComboBox<String>();
-				comboBoxEndHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
-						"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-				add(comboBoxEndHour, "cell 1 5,growx");
-				
-				comboBoxEndMinutes = new JComboBox<String>();
-				comboBoxEndMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
-				add(comboBoxEndMinutes, "cell 2 5,growx");
-				
-				comboBoxEndAMPM = new JComboBox<String>();
-				comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
-				add(comboBoxEndAMPM, "cell 3 5,growx");
-				
-				lblDateEndMsg = new JLabel("");
-				lblDateEndMsg.setForeground(Color.BLACK);
-				add(lblDateEndMsg, "cell 4 5");
-				
-				labelEDate = new JLabel("End Date:");
-				add(labelEDate, "cell 0 6,alignx trailing");
+		// Create the combo boxes for time selection
+		comboBoxEndHour = new JComboBox<String>();
+		comboBoxEndHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
+				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+		add(comboBoxEndHour, "cell 1 5,growx");
 		
-				comboBoxEndMonth = new JXDatePicker();
-				add(comboBoxEndMonth, "cell 1 6 3 1,growx");
+		comboBoxEndMinutes = new JComboBox<String>();
+		comboBoxEndMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
+		add(comboBoxEndMinutes, "cell 2 5,growx");
+				
+		comboBoxEndAMPM = new JComboBox<String>();
+		comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
+		add(comboBoxEndAMPM, "cell 3 5,growx");
+				
+		lblDateEndMsg = new JLabel("");
+		lblDateEndMsg.setForeground(Color.BLACK);
+		add(lblDateEndMsg, "cell 4 5");
+				
+		labelEDate = new JLabel("End Date:");
+		add(labelEDate, "cell 0 6,alignx trailing");
 		
-				// Set the Category picker; will be populated by current categories
-				final JLabel lblCategory = new JLabel("Category:");
-				add(lblCategory, "cell 0 8,alignx trailing");
 		
-				// TODO: Populate this with actual categories instead of this predefined list
-				final JComboBox<String> comboBoxCategory = new JComboBox<String>();
-				comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
-						"Not Important", "Even Less Important", "Party!"}));
-				add(comboBoxCategory, "cell 1 8,growx");
+		// Set the Category picker; will be populated by current categories
+		final JLabel lblCategory = new JLabel("Category:");
+		add(lblCategory, "cell 0 8,alignx trailing");
+		
+		// TODO: Populate this with actual categories instead of this predefined list
+		final JComboBox<String> comboBoxCategory = new JComboBox<String>();
+		comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
+				"Not Important", "Even Less Important", "Party!"}));
+		add(comboBoxCategory, "cell 1 8,growx");
 		
 				
 		// Create Team/Personal calendar options and group them
