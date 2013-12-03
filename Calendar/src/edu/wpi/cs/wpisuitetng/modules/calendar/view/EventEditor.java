@@ -169,6 +169,14 @@ public class EventEditor extends JPanel {
 				lblDatemsg.setForeground(new Color(0, 0, 0));
 			}
 		});
+		
+		comboBoxEndMonth.getEditor().addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				lblDatemsg.setText("Ex. Oct/02/1993");
+				lblDatemsg.setForeground(new Color(0, 0, 0));
+			}
+		});
 				
 		// Set the example label, will change to show errors
 		lblDatemsg = new JLabel("Ex. Oct/02/1993");
