@@ -104,19 +104,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            List<Category> list of categories commitment is part of
 	 * @param id
 	 *            The id of the Event
-<<<<<<< HEAD
-	
-	 * @param creatorId
-	 *            String id of User that the Event is Linked to (either by
-	 *            creation or by personal calendar)
-	 * @param isTeamEvent boolean
-=======
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
 	 * @param isTeamEvent
 	 * 			  Whether or not the event is a team event
->>>>>>> c81c011bb5c3ccff3c0324a6cc67a04e286d4e4d
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, Category category, boolean isTeamEvent, int id,
@@ -165,19 +157,13 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event ends
 	 * @param id
 	 *            The id of the Event
-<<<<<<< HEAD
-	
-	 * @param creatorId
-	 *            String id of User that the Event is Linked to (either by
-	 *            creation or by personal calendar)
-	 * @param isTeamEvent boolean
-=======
+
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
 	 * @param isTeamEvent
 	 * 			  Whether or not this event is a team event
->>>>>>> c81c011bb5c3ccff3c0324a6cc67a04e286d4e4d
+
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamEvent, int id, String creatorId) {
@@ -228,19 +214,12 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event starts
 	 * @param endDate
 	 *            DateInfo dateInfo parameter for holding date Event ends
-<<<<<<< HEAD
-	
-	
-	
-	 * @param isTeamEvent boolean
-	 * @param category Category
-=======
+
 	 * @param isTeamEvent
 	 * 			  Whether or not this is a team event
 	 * @param category
 	 * 			  The category this event is in
->>>>>>> c81c011bb5c3ccff3c0324a6cc67a04e286d4e4d
-	 */
+ */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamEvent, Category category) {
 
