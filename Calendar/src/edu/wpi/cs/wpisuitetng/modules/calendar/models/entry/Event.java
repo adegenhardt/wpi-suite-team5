@@ -25,8 +25,6 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
-import edu.wpi.cs.wpisuitetng.Session;
-
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
@@ -59,9 +57,6 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	private List<String> userIds; // userIds of users to participate in
 										// event
 
-
-	// Potential fields for later
-	// Repeat repeat;
 	// TODO Either a projectId field is needed or we need to be certain that we
 	// are only retrieving from the current project's section of the database
 
@@ -79,8 +74,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		endDate = new DateInfo(-1, -1, -1, -1);
 		category = new Category("-1", -1);
 
-		Calendar currentDateTime = Calendar.getInstance();
-		this.absoluteId = currentDateTime;
+		final Calendar currentDateTime = Calendar.getInstance();
+		absoluteId = currentDateTime;
 		id = -1;
 		creatorId = "-1";
 
@@ -104,19 +99,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            List<Category> list of categories commitment is part of
 	 * @param id
 	 *            The id of the Event
-<<<<<<< HEAD
-	
-	 * @param creatorId
-	 *            String id of User that the Event is Linked to (either by
-	 *            creation or by personal calendar)
-	 * @param isTeamEvent boolean
-=======
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
 	 * @param isTeamEvent
 	 * 			  Whether or not the event is a team event
->>>>>>> c81c011bb5c3ccff3c0324a6cc67a04e286d4e4d
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, Category category, boolean isTeamEvent, int id,
@@ -131,8 +118,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.endDate = endDate;
 		this.category = category;
 
-		Calendar currentDateTime = Calendar.getInstance();
-		this.absoluteId = currentDateTime;
+		final Calendar currentDateTime = Calendar.getInstance();
+		absoluteId = currentDateTime;
 		this.id = id;
 		this.creatorId = creatorId;
 
@@ -165,19 +152,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event ends
 	 * @param id
 	 *            The id of the Event
-<<<<<<< HEAD
-	
-	 * @param creatorId
-	 *            String id of User that the Event is Linked to (either by
-	 *            creation or by personal calendar)
-	 * @param isTeamEvent boolean
-=======
 	 * @param creatorId
 	 *            String id of User that the Event is Linked to (either by
 	 *            creation or by personal calendar)
 	 * @param isTeamEvent
 	 * 			  Whether or not this event is a team event
->>>>>>> c81c011bb5c3ccff3c0324a6cc67a04e286d4e4d
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamEvent, int id, String creatorId) {
@@ -191,8 +170,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.endDate = endDate;
 
 
-		Calendar currentDateTime = Calendar.getInstance();
-		this.absoluteId = currentDateTime;
+		final Calendar currentDateTime = Calendar.getInstance();
+		absoluteId = currentDateTime;
 
 		this.id = id;
 		this.creatorId = creatorId;
@@ -228,18 +207,10 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event starts
 	 * @param endDate
 	 *            DateInfo dateInfo parameter for holding date Event ends
-<<<<<<< HEAD
-	
-	
-	
-	 * @param isTeamEvent boolean
-	 * @param category Category
-=======
 	 * @param isTeamEvent
 	 * 			  Whether or not this is a team event
 	 * @param category
 	 * 			  The category this event is in
->>>>>>> c81c011bb5c3ccff3c0324a6cc67a04e286d4e4d
 	 */
 	public Event(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamEvent, Category category) {
@@ -253,11 +224,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.endDate = endDate;
 
 
-		Calendar currentDateTime = Calendar.getInstance();
-		this.absoluteId = currentDateTime;
+		final Calendar currentDateTime = Calendar.getInstance();
+		absoluteId = currentDateTime;
 
-		this.id = 0;// TODO auto generate unique
-		this.creatorId = ConfigManager.getConfig().getUserName();// gets user id
+		id = 0;// TODO auto generate unique
+		creatorId = ConfigManager.getConfig().getUserName();// gets user id
 																	// from
 																	// system
 																	// configuration
@@ -269,7 +240,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 		// create empty list of userIds and add the creator
 		userIds = new ArrayList<String>();
-		userIds.add(this.creatorId);
+		userIds.add(creatorId);
 	}
 
 	// ---------------------------------------------------------
@@ -715,20 +686,15 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	}
 
 	public Calendar getAbsoluteId() {
-
-		return this.absoluteId;
+		return absoluteId;
 	}
-
-	private void setAbsoluteId(Calendar absoluteIdIn) {
-		this.absoluteId = absoluteIdIn;
-	}
+	
 	/**
-	 * returns the Event's absoluteId in a string of format:yyyy/MM/dd HH:mm:ss
-	 * @return
+	 * @return the Event's absoluteId in a string of format:yyyy/MM/dd HH:mm:ss
 	 */
 	public String getAbsoluteIdStringFormat(){
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		return dateFormat.format(this.getAbsoluteId().getTime());
+		final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		return dateFormat.format(absoluteId.getTime());
 	}
 
 	/**
@@ -846,7 +812,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 */
 	public boolean isSameAbsoluteId(Event eventCompare) {
 		boolean out = false;
-		if (this.absoluteId == eventCompare.getAbsoluteId()) {
+		if (absoluteId == eventCompare.getAbsoluteId()) {
 			out = true;
 		}
 		return out;
@@ -862,7 +828,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 */
 	public boolean isSameAbsoluteId(Calendar absoluteIdCompare) {
 		boolean out = false;
-		if (this.absoluteId == absoluteIdCompare) {
+		if (absoluteId == absoluteIdCompare) {
 			out = true;
 		}
 		return out;
@@ -873,7 +839,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
  */
 	public boolean isActiveUserEvent(){
 		boolean out = false;
-		if(this.getCreatorId().equals(ConfigManager.getConfig().getUserName()) ) {
+		if (creatorId.equals(ConfigManager.getConfig().getUserName()) ) {
 			out = true;
 		}
 		
@@ -887,7 +853,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @return boolean */
 		public boolean isUserEvent(String userCheck){
 			boolean out = false;
-			if(this.getCreatorId().equals(userCheck) ) {
+			if (creatorId.equals(userCheck) ) {
 				out = true;
 			}
 			

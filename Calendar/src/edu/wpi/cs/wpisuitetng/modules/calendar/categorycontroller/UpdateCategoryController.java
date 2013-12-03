@@ -22,8 +22,8 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class UpdateCategoryController {
 	
-	private static UpdateCategoryController instance;
-	private UpdateCategoryRequestObserver observer;
+	private static UpdateCategoryController instance = null;
+	private final UpdateCategoryRequestObserver observer;
 	
 	/**
 	 * Construct an UpdateCategoryController for the given model
@@ -52,8 +52,8 @@ public class UpdateCategoryController {
 	 */
 	public void updateCategory(Category newCategory) 
 	{
-		Request request = Network.getInstance().makeRequest( "calendar/category",
-				              HttpMethod.POST); // POST == update
+		final Request request = Network.getInstance().makeRequest( "calendar/category",
+				              HttpMethod.POST); // POST == update // $codepro.audit.disable codeInComments // $codepro.audit.disable codeInComments
 		request.setBody( newCategory.toJSON() ); // put the new Event in the body of the request
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); 

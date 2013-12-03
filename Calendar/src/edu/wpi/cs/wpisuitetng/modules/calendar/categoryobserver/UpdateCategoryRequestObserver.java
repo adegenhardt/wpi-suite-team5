@@ -45,7 +45,7 @@ public class UpdateCategoryRequestObserver implements RequestObserver {
 		final ResponseModel response = iReq.getResponse();
 		
 		// Parse the Event out of the response body
-		final Category category = Category.fromJson( response.getBody() );		
+		final Category category = Category.fromJson( response.getBody() );
 	}
 	
 	/**

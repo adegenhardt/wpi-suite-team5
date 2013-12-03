@@ -25,6 +25,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -58,6 +59,9 @@ import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+import javax.swing.JTextPane;
+import javax.swing.JRadioButton;
+
 /**
  * @author Team Underscore
  * @version $Revision: 1.0$
@@ -84,14 +88,18 @@ public class EventEditor extends JPanel {
 	private final JLabel lblDatemsg;
 	private final JLabel lblDescmsg;
 	private final JLabel lblEventnamemsg;
-	private final JLabel lblTimemsg;
+	private JLabel labelEDate;
+	private JLabel lblDateEndMsg;
+	private JLabel lblTimemsg;
+	private JRadioButton rdbtnPersonal;
+	private JRadioButton rdbtnTeam;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
 	 */
 	public EventEditor() {
 		// Set the layout
-		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][40px:40px:40px][150px:150.00:150px][]", "[50.00px][125px:125:150px][25.00][][][][][][][][][100px:100:100px][]"));
+		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][100px:100:100px,grow][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -102,7 +110,7 @@ public class EventEditor extends JPanel {
 		eventName.setColumns(10);
 
 		lblEventnamemsg = new JLabel("");
-		lblEventnamemsg.setForeground(new Color(255, 0, 0));
+		lblEventnamemsg.setForeground(Color.red);
 		add(lblEventnamemsg, "cell 6 0");
 
 		// Set the description label and text editor
@@ -120,20 +128,39 @@ public class EventEditor extends JPanel {
 		lblDescmsg = new JLabel("");
 		lblDescmsg.setForeground(new Color(255, 0, 0));
 		add(lblDescmsg, "cell 6 1");
+		
+		// Set the Start and End time fields
+		final JLabel lblTime = new JLabel("Start Time:");
+		add(lblTime, "cell 0 2,alignx trailing");
+		
+		comboBoxStartHour = new JComboBox<String>();
+		comboBoxStartHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
+				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+		add(comboBoxStartHour, "cell 1 2,growx");
+		
+		comboBoxStartMinutes = new JComboBox<String>();
+		comboBoxStartMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
+		add(comboBoxStartMinutes, "cell 2 2,growx");
+		
+		comboBoxStartAMPM = new JComboBox<String>();
+		comboBoxStartAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
+		add(comboBoxStartAMPM, "cell 3 2,growx");
+		
+		lblTimemsg = new JLabel("");
+		add(lblTimemsg, "cell 4 2");
 
 		// Create the date picker
-		JLabel lblDate = new JLabel("Date:");
-		add(lblDate, "cell 0 3,alignx trailing");
+		JLabel lblSDate = new JLabel("Start Date:");
+		add(lblSDate, "cell 0 3,alignx trailing");
 
-		// Date picker
+		// Date pickers
 		comboBoxStartMonth = new JXDatePicker();
+		comboBoxEndMonth = new JXDatePicker();
 		// Setting the date format to something more intuitive
 		comboBoxStartMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
-		add(comboBoxStartMonth, "cell 1 3,growx, span 2");
-
-		lblDatemsg = new JLabel("Ex. Oct/02/1993");
-		lblDatemsg.setForeground(new Color(0, 0, 0));
-		add(lblDatemsg, "cell 3 3 2 1,alignx center");
+		comboBoxEndMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
+		add(comboBoxStartMonth, "cell 1 3 3 1,growx");
+		add(comboBoxEndMonth, "cell 1 6 3 1,growx");
 
 		comboBoxStartMonth.getEditor().addFocusListener(new FocusAdapter() {
 			@Override
@@ -142,66 +169,70 @@ public class EventEditor extends JPanel {
 				lblDatemsg.setForeground(new Color(0, 0, 0));
 			}
 		});
-
-		comboBoxEndMonth = new JXDatePicker();
-		add(comboBoxEndMonth, "cell 1 4");
-
-		// Set the Start and End time fields
-		final JLabel lblTime = new JLabel("Start Time:");
-		add(lblTime, "cell 0 6,alignx trailing");
-
-		comboBoxStartHour = new JComboBox<String>();
-		comboBoxStartHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
-				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		add(comboBoxStartHour, "cell 1 6,growx");
-
-		comboBoxStartMinutes = new JComboBox<String>();
-		comboBoxStartMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
-		add(comboBoxStartMinutes, "cell 2 6,growx");
-
-		comboBoxStartAMPM = new JComboBox<String>();
-		comboBoxStartAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
-		add(comboBoxStartAMPM, "cell 3 6,growx");
-
-		lblTimemsg = new JLabel("");
-		lblTimemsg.setForeground(new Color(255, 0, 0));
-		add(lblTimemsg, "cell 4 6");
-
+				
+		// Set the example label, will change to show errors
+		lblDatemsg = new JLabel("Ex. Oct/02/1993");
+		lblDatemsg.setForeground(new Color(0, 0, 0));
+		add(lblDatemsg, "cell 4 3,alignx center");
+		
 		final JLabel lblEndTime = new JLabel("End Time:");
-		add(lblEndTime, "cell 0 7,alignx trailing");
-
+		add(lblEndTime, "cell 0 5,alignx trailing");
+				
+		// Create the combo boxes for time selection
 		comboBoxEndHour = new JComboBox<String>();
 		comboBoxEndHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
 				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		add(comboBoxEndHour, "cell 1 7,growx");
-
+		add(comboBoxEndHour, "cell 1 5,growx");
+		
 		comboBoxEndMinutes = new JComboBox<String>();
 		comboBoxEndMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
-		add(comboBoxEndMinutes, "cell 2 7,growx");
-
+		add(comboBoxEndMinutes, "cell 2 5,growx");
+				
 		comboBoxEndAMPM = new JComboBox<String>();
 		comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
-		add(comboBoxEndAMPM, "cell 3 7,growx");
-
+		add(comboBoxEndAMPM, "cell 3 5,growx");
+				
+		lblDateEndMsg = new JLabel("");
+		lblDateEndMsg.setForeground(Color.BLACK);
+		add(lblDateEndMsg, "cell 4 5");
+				
+		labelEDate = new JLabel("End Date:");
+		add(labelEDate, "cell 0 6,alignx trailing");
+		
+		
 		// Set the Category picker; will be populated by current categories
 		final JLabel lblCategory = new JLabel("Category:");
-		add(lblCategory, "cell 0 9,alignx trailing");
-
+		add(lblCategory, "cell 0 8,alignx trailing");
+		
+		// TODO: Populate this with actual categories instead of this predefined list
 		final JComboBox<String> comboBoxCategory = new JComboBox<String>();
 		comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
 				"Not Important", "Even Less Important", "Party!"}));
-		add(comboBoxCategory, "cell 1 9 2 1,growx");
+		add(comboBoxCategory, "cell 1 8,growx");
+		
+				
+		// Create Team/Personal calendar options and group them
+		rdbtnPersonal = new JRadioButton("Personal");
+		add(rdbtnPersonal, "cell 1 9");
+		
+		rdbtnTeam = new JRadioButton("Team");
+		add(rdbtnTeam, "cell 3 9");
+		
+		//Group the radio buttons.
+        ButtonGroup calGroup = new ButtonGroup();
+        calGroup.add(rdbtnPersonal);
+        calGroup.add(rdbtnTeam);
 
 		// Label and create the Participants text editor
 		// TODO: This is a bit unintuitive; we should come up with a
 		// better way to do this
-		final JLabel lblParticipants = new JLabel("Event Information:");
-		add(lblParticipants, "cell 0 11,alignx trailing");
+		final JLabel lblParticipants = new JLabel("Participants:");
+		add(lblParticipants, "cell 0 10,alignx trailing");
 
 		final JScrollPane scrollPaneParticipants = new JScrollPane();
 		scrollPaneParticipants.setHorizontalScrollBarPolicy(
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		add(scrollPaneParticipants, "cell 1 11 4 1,grow");
+		add(scrollPaneParticipants, "cell 1 10 3 1,grow");
 
 		final JEditorPane editorPane_1 = new JEditorPane();
 		scrollPaneParticipants.setViewportView(editorPane_1);
@@ -253,6 +284,7 @@ public class EventEditor extends JPanel {
 					editorPane_1.setText(poop+events.get(i).getName());
 				}
 
+				
 				
 				/*matt's test for system user name and entity absoluteId
 				 * ignore/remove it if there is a merge conflict battle for other changes
@@ -306,10 +338,15 @@ public class EventEditor extends JPanel {
 			}
 		}
 		btnSubmit.addActionListener(new SubmitButtonListener());
+
 		add(btnSubmit, "cell 1 12 2 1,growx");
-		// Will updat the appropriate view
+		// Will update the appropriate view
 		correctUpdateForView();
 		
+
+		//add(btnSubmit, "cell 1 11 2 1,growx");
+
+
 	}
 
 	// Checks for valid input and displays messages next to
@@ -331,18 +368,25 @@ public class EventEditor extends JPanel {
 			lblDescmsg.setText("");
 		}
 		if (comboBoxStartMonth.getDate() == null) {
+			lblDatemsg.setForeground(Color.red);
 			lblDatemsg.setText("Invalid Date");
-			lblDatemsg.setForeground(new Color(255, 0, 0));
+			return false;
+		}
+		if (comboBoxEndMonth.getDate() == null) {
+			lblDateEndMsg.setForeground(Color.red);
+			lblDateEndMsg.setText("Invalid Date");
 			return false;
 		}
 		else {
 			lblDatemsg.setText("");
+			lblDateEndMsg.setText("");
 		}
 		if (parseTime((String) comboBoxStartHour.getSelectedItem(), 
 				(String) comboBoxStartMinutes.getSelectedItem(), (String) comboBoxStartAMPM.getSelectedItem()) 
 				>= parseTime((String) comboBoxEndHour.getSelectedItem(), (String) comboBoxEndMinutes.getSelectedItem(),
 						(String) comboBoxEndAMPM.getSelectedItem())) {
-			lblTimemsg.setText("Start date can't be after end date");
+			lblTimemsg.setForeground(Color.red);
+			lblTimemsg.setText("Start time can't be after end time");
 			return false;
 		}
 		else {

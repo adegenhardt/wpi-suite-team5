@@ -20,10 +20,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -88,53 +90,53 @@ public class DayView extends JPanel {
 			dayTable = new JTable(new DefaultTableModel(
 					new Object[][] {
 							{"Midnight", null},
-							{"12:30", null},
+							{"", null},
 							{"1:00", null},
-							{"1:30", null},
+							{"", null},
 							{"2:00", null},
-							{"2:30", null},
+							{"", null},
 							{"3:00", null},
-							{"3:30", null},
+							{"", null},
 							{"4:00", null},
-							{"4:30", null},
+							{"", null},
 							{"5:00", null},
-							{"5:30", null},
+							{"", null},
 							{"6:00", null},
-							{"6:30", null},
+							{"", null},
 							{"7:00", null},
-							{"7:30", null},
+							{"", null},
 							{"8:00", null},
-							{"8:30", null},
+							{"", null},
 							{"9:00", null},
-							{"9:30", null},
+							{"", null},
 							{"10:00", null},
-							{"10:30", null},
+							{"", null},
 							{"11:00", null},
-							{"11:30", null},
+							{"", null},
 							{"12:00", null},
-							{"12:30", null},
+							{"", null},
 							{"1:00", null},
-							{"1:30", null},
+							{"", null},
 							{"2:00", null},
-							{"2:30", null},
+							{"", null},
 							{"3:00", null},
-							{"3:30", null},
+							{"", null},
 							{"4:00", null},
-							{"4:30", null},
+							{"", null},
 							{"5:00", null},
-							{"5:30", null},
+							{"", null},
 							{"6:00", null},
-							{"6:30", null},
+							{"", null},
 							{"7:00", null},
-							{"7:30", null},
+							{"", null},
 							{"8:00", null},
-							{"8:30", null},
+							{"", null},
 							{"9:00", null},
-							{"9:30", null},
+							{"", null},
 							{"10:00", null},
-							{"10:30", null},
+							{"", null},
 							{"11:00", null},
-							{"11:30", null},
+							{"", null},
 						},
 						new String[] {
 							"", this.getStringDay()
@@ -235,6 +237,44 @@ public class DayView extends JPanel {
 			dayTable.getColumnModel().getColumn(0).setMaxWidth(238473);
 		}
 		dayTable.setSelectionBackground(Color.GREEN);
+		
+		dayTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+				 DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				 
+				
+				if ((row % 2) == 0 && column != 0) {
+					rendererComponent.setBackground(new Color(185, 209, 234));
+				}
+				else {
+					rendererComponent.setBackground(Color.white);
+				}
+				return rendererComponent;
+			}
+		});
+		
+		JTableHeader header = dayTable.getTableHeader();
+		
+        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public Component getTableCellRendererComponent(
+                    JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            	
+                DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                rendererComponent.setBackground(UIManager.getColor(JTableHeader.class));
+            	return rendererComponent;
+            }
+        });
+		dayTable.getColumnModel().getColumn(0).setPreferredWidth(55);
+		dayTable.getColumnModel().getColumn(0).setMinWidth(55);
+		dayTable.getColumnModel().getColumn(0).setMaxWidth(55);
 		dayScroll = new JScrollPane(dayTable);
 		
 	}
