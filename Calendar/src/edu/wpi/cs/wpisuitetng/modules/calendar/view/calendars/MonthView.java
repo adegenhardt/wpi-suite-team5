@@ -52,6 +52,7 @@ public class MonthView extends JPanel {
 	private JButton btnThisMonth;
 	private JPanel panel;
 	private JPanel panel_1;
+	private JPanel calAndHeader;
 
 	/**
 	 * Create the panel.
@@ -72,6 +73,7 @@ public class MonthView extends JPanel {
 	
 	private void createControls(){
 		buttonPanel = new JPanel();
+		calAndHeader = new JPanel();
 		
 		// Set size constraints for month label
 		
@@ -101,6 +103,8 @@ public class MonthView extends JPanel {
 		add(buttonPanel, BorderLayout.NORTH);
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
 		
+		calAndHeader.setLayout(new BorderLayout());
+		
 		panel = new JPanel();
 
 		btnPrev = new JButton("Previous Month");
@@ -123,7 +127,9 @@ public class MonthView extends JPanel {
 		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
 		tblCalendar.setCellSelectionEnabled(true);
-		add(tblCalendar, BorderLayout.CENTER);
+		calAndHeader.add(tblCalendar, BorderLayout.CENTER);
+		calAndHeader.add(tblCalendar.getTableHeader(), BorderLayout.NORTH);
+		add(calAndHeader, BorderLayout.CENTER);
 	}
 	
 	private void createDate() {
@@ -159,7 +165,6 @@ public class MonthView extends JPanel {
 		tblCalendar.setRowHeight(62);
 		mtblCalendar.setColumnCount(7);
 		mtblCalendar.setRowCount(6);
-		tblCalendar.setModel(mtblCalendar);
 	}
 
 	private void populateTable() {
