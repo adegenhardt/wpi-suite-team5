@@ -23,8 +23,8 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddCategoryController {
 	
-	private static AddCategoryController instance;
-	private AddCategoryRequestObserver observer;
+	private static AddCategoryController instance = null;
+	private AddCategoryRequestObserver observer = null;
 	
 	/**
 	 * Construct an AddCategoryController for the given model
@@ -53,16 +53,17 @@ public class AddCategoryController {
 	 */
 	public void addCategory( Category newCategory ) 
 	{
-		// PUT == create
-		final Request request = Network.getInstance().makeRequest( "calendar/category", HttpMethod.PUT );
-		request.setBody( newCategory.toJSON() ); // put the new Event in the body of the request		
+		// PUT == create // $codepro.audit.disable codeInComments
+		final Request request =
+				Network.getInstance().makeRequest( "calendar/category", HttpMethod.PUT );
+		request.setBody( newCategory.toJSON() ); // put the new Event in the body of request		
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); 
 	}
 	
 	/**
 	 * When the new category is received back from the server, add it to the local model.
-	 * @param category, the category successfully added on the server
+	 * @param category the category successfully added on the server
 	 */
 	public void addMessageToModel( Category category ) {
 		CategoryModel.getInstance().addCategory( category );

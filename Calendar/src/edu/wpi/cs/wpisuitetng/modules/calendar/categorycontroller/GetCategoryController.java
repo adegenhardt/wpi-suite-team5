@@ -9,15 +9,10 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.categoryobserver.GetCategoryRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -31,8 +26,8 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetCategoryController {
 
-	private GetCategoryRequestObserver observer;
-	private static GetCategoryController instance;
+	private final GetCategoryRequestObserver observer;
+	private static GetCategoryController instance = null;
 	
 	/**
 	 * Constructs the controller given a CategoryModel
@@ -63,7 +58,7 @@ public class GetCategoryController {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this category
-		final Request request = Network.getInstance().makeRequest("calendar/category", HttpMethod.GET); // GET == read
+		final Request request = Network.getInstance().makeRequest("calendar/category", HttpMethod.GET); // GET == read // $codepro.audit.disable codeInComments
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); // send the request
 	}
@@ -72,7 +67,7 @@ public class GetCategoryController {
 	 * Sends an HTTP request to retrieve all Category instances
 	 */
 	public void retrieveCategory() {
-		final Request request = Network.getInstance().makeRequest("calendar/calendardata", HttpMethod.GET); // GET == read
+		final Request request = Network.getInstance().makeRequest("calendar/calendardata", HttpMethod.GET); // GET == read // $codepro.audit.disable codeInComments // $codepro.audit.disable codeInComments
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); // send the request
 	}
@@ -81,12 +76,12 @@ public class GetCategoryController {
 	 * Add the given Categories to the local model (they were received from the core).
 	 * This method is called by the GetCategoryRequestObserver
 	 * 
-	 * @param Categories array of Category instances received from the server
+	 * @param categories array of Category instances received from the server
 	 */
 	public void receivedCategory(Category[] categories) {
 		// Make sure the response was not null
 		if (categories != null) 
-		{	
+		{
 			// add the Event instances to the local model
 			CategoryModel.getInstance().addcategories( categories );
 		}

@@ -12,8 +12,11 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 
+import java.util.Calendar;
+
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
@@ -28,43 +31,75 @@ public class Category extends AbstractModel {
 	private String name;
 	/** The unique identification number **/
 	private int id;
-	private String creatorID;
+	private Calendar absoluteId;
+
+	private String creatorId;
 	private boolean isDeleted;
 	private boolean isTeamCat;
-	
+
 	/**
 	 * Constructor for a category object.
-	 * @param name a string that represent the category type.
-	 * @param id an integer that represents the object id.
+	 * 
+	 * @param name
+	 *            a string that represent the category type.
+	 * @param id
+	 *            an integer that represents the object id.
 	 */
 	public Category(String name, int id) {
 		this.name = name;
 		this.id = id;
 	}
-	
+
 	/**
-	 * New, more full constructor more the category object.
-	 * Adds creatorID, team status, and deleted values to the category.
-	 * @param name a string that represents the category type.
-	 * @param id an integer that represents the object id.
-	 * @param creatorID a String that represents the creator of the category
-	 * @param isDeleted stores whether the category has been removed from the
-	 * 					display of categories or not
-	 * @param isTeamCat states whether this category will show up on a team
-	 * 					calendar or not
+	 * New, more full constructor more the category object.(for testing) Adds
+	 * creatorID, team status, and deleted values to the category.
+	 * 
+	 * @param name
+	 *            a string that represents the category type.
+	 * @param id
+	 *            an integer that represents the object id.
+	 * @param creatorID
+	 *            a String that represents the creator of the category
+	 * @param isDeleted
+	 *            stores whether the category has been removed from the display
+	 *            of categories or not
+	 * @param isTeamCat
+	 *            states whether this category will show up on a team calendar
+	 *            or not
 	 */
-	public Category(String name, int id, String creatorID, boolean isDeleted,
+	public Category(String name, int id, String creatorId, boolean isDeleted,
 			boolean isTeamCat) {
 		this.name = name;
 		this.id = id;
-		this.setCreatorID(creatorID);
+		this.setCreatorID(creatorId);
 		this.setDeleted(isDeleted);
 		this.setTeamCat(isTeamCat);
 	}
 
+	/**
+	 * (FOR ACTUAL USE) Constructor for a category object.
+	 * 
+	 * @param name
+	 *            a string that represent the category type.
+	 * @param id
+	 *            an integer that represents the object id.
+	 */
+	public Category(String name, boolean isTeamCat) {
+		this.name = name;
+		this.id = 0;
+		this.creatorId = ConfigManager.getConfig().getUserName();// gets user id
+																				// from
+																							// system
+																												// configuration
+		this.isTeamCat = isTeamCat;
+		Calendar currentDateTime = Calendar.getInstance();
+		this.absoluteId = currentDateTime;
+		this.isDeleted = false;
+	}
+
 	// ------------------------------------------------------------------------
 	// Getters/Setters for Category
-	
+
 	/**
 	 * Empty Category constructor used in the Entity Manager
 	 */
@@ -84,7 +119,8 @@ public class Category extends AbstractModel {
 	/**
 	 * Method setName.
 	 * 
-	 * @param n the new name of the Category
+	 * @param n
+	 *            the new name of the Category
 	 */
 	public void setName(String n) {
 		if (!n.equals(name)) {
@@ -97,7 +133,8 @@ public class Category extends AbstractModel {
 					+ " to " + newName);
 			System.out.println(message);
 			// Possibly implemented later
-			// Add the message to the history (There was code here, this is what it did)
+			// Add the message to the history (There was code here, this is what
+			// it did)
 		}
 		name = n;
 		if (name.length() > 100) {
@@ -113,7 +150,8 @@ public class Category extends AbstractModel {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -121,22 +159,25 @@ public class Category extends AbstractModel {
 
 	/**
 	 * Get the creator's ID
+	 * 
 	 * @return creatorID
 	 */
 	public String getCreatorID() {
-		return creatorID;
+		return creatorId;
 	}
 
 	/**
 	 * Set the creator ID
+	 * 
 	 * @param creatorID
 	 */
-	public void setCreatorID(String creatorID) {
-		this.creatorID = creatorID;
+	public void setCreatorID(String creatorId) {
+		this.creatorId = creatorId;
 	}
 
 	/**
 	 * Get whether the category is deleted or not
+	 * 
 	 * @return isDeleted
 	 */
 	public boolean isDeleted() {
@@ -145,6 +186,7 @@ public class Category extends AbstractModel {
 
 	/**
 	 * Set the "deleted" status of a category
+	 * 
 	 * @param isDeleted
 	 */
 	public void setDeleted(boolean isDeleted) {
@@ -153,6 +195,7 @@ public class Category extends AbstractModel {
 
 	/**
 	 * Get the status of whether the category is team or personal
+	 * 
 	 * @return isTeamCat
 	 */
 	public boolean isTeamCat() {
@@ -161,15 +204,16 @@ public class Category extends AbstractModel {
 
 	/**
 	 * Set the privay status of the category
+	 * 
 	 * @param isTeamCat
 	 */
 	public void setTeamCat(boolean isTeamCat) {
 		this.isTeamCat = isTeamCat;
 	}
-	
+
 	// ------------------------------------------------------------------------
 	// Functionality for the Category class
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -203,74 +247,80 @@ public class Category extends AbstractModel {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Method toJSON.
-	 * @return String * 
-	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() * 
+	 * 
+	 * @return String *
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON() *
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
 
 	/**
-	 * This returns a JSON encoded String 
-	 * representation of this requirement object.
-	 * @return a JSON encoded String representation
-	 * of this requirement
+	 * This returns a JSON encoded String representation of this requirement
+	 * object.
+	 * 
+	 * @return a JSON encoded String representation of this requirement
 	 */
 	public String toJSON() {
 		return new Gson().toJson(this, Category.class);
 	}
-	
+
 	/**
 	 * Method toString.
-	 * @return String 
-	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString() 
+	 * 
+	 * @return String
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
 	 */
 	/**
-	 * This returns a Json encoded String representation
-	 * of this requirement object.
-	 * @return a Json encoded String representation of
-	 * this Event
+	 * This returns a Json encoded String representation of this requirement
+	 * object.
+	 * 
+	 * @return a Json encoded String representation of this Event
 	 */
 	@Override
 	public String toString() {
 		return name;
 	}
-	
+
 	/**
-	 * Returns an instance of Category constructed 
-	 * using the given Category encoded as a JSON string.
-	 * @param json JSON-encoded Category to deserialize
+	 * Returns an instance of Category constructed using the given Category
+	 * encoded as a JSON string.
+	 * 
+	 * @param json
+	 *            JSON-encoded Category to deserialize
 	 * @return the Event contained in the given JSON
 	 */
 	public static Category fromJson(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Category.class);
 	}
-	
+
 	/**
-	 * Returns an array of Category parsed from 
-	 * the given JSON-encoded string.
-	 * @param json string containing a JSON-encoded
-	 * array of Category
-	 * @return an array of Event deserialized
-	 * from the given JSON string 
+	 * Returns an array of Category parsed from the given JSON-encoded string.
+	 * 
+	 * @param json
+	 *            string containing a JSON-encoded array of Category
+	 * @return an array of Event deserialized from the given JSON string
 	 */
 	public static Category[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Category[].class);
 	}
 
-
 	/**
 	 * Method createNewCategory.
 	 * 
-	 * @param name the name to give the new category
-	 * @param id the id for the new category
-	 * @param creatorID the ID of the user that created this Category
-	 * @param isTeamCat a boolean that is true if the category
-	 * 		is available to the whole team
+	 * @param name
+	 *            the name to give the new category
+	 * @param id
+	 *            the id for the new category
+	 * @param creatorID
+	 *            the ID of the user that created this Category
+	 * @param isTeamCat
+	 *            a boolean that is true if the category is available to the
+	 *            whole team
 	 * @return cat the new category
 	 */
 	public Category createNewCategory(String name, int id, String creatorID,
@@ -281,34 +331,35 @@ public class Category extends AbstractModel {
 	}
 
 	/**
-	 * Copies all of the values from the given Category
-	 * to this Category.
-	 * @param toCopyFrom the Category to copy from.
+	 * Copies all of the values from the given Category to this Category.
+	 * 
+	 * @param toCopyFrom
+	 *            the Category to copy from.
 	 */
 	public void copyFrom(Category toCopyFrom) {
 		id = toCopyFrom.id;
-		
+
 		// Descriptive Parameters
 
 		name = toCopyFrom.name;
 	}
-	
-	
+
 	// ------------------------------------------------------------------------
 	// Required Methods for Database Interaction //
 
-	
 	/**
 	 * Method save.
+	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
 	 */
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub	
+		// TODO Auto-generated method stub
 	}
 
 	/**
 	 * Method delete.
+	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
 	 */
 	@Override
@@ -318,9 +369,11 @@ public class Category extends AbstractModel {
 
 	/**
 	 * Method identify.
-	 * @param o Object
+	 * 
+	 * @param o
+	 *            Object
 	 * @return Boolean
-	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object) 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(Object)
 	 */
 	@Override
@@ -328,4 +381,13 @@ public class Category extends AbstractModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/**
+	 * @return the absoluteId
+	 */
+	public Calendar getAbsoluteId() {
+		return absoluteId;
+	}
+
+	
 }
