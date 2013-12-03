@@ -27,7 +27,9 @@ import javax.swing.AbstractListModel;
  *
  * @version $Revision: 1.0 $
  */
-public class CategoryModel extends AbstractListModel{
+public class CategoryModel extends AbstractListModel<Category>{
+	
+	private static final long serialVersionUID = 8555534911453497404L;
 
 	// ********************************************************************
 	// Construct the Calendar Model
@@ -42,7 +44,7 @@ public class CategoryModel extends AbstractListModel{
 	private int nextID; // the next available ID number for the calendar data
 						// that are added
 	// the static object that allows the calendar data model to be
-	private static CategoryModel instance;
+	private static CategoryModel instance = null;
 	
 	/**
 	 * Constructs an empty list of calendar data
@@ -175,7 +177,7 @@ public class CategoryModel extends AbstractListModel{
 	 * @param index The index of the calendar data to be returned
 	 * @return the calendar data associated with the given index
 	 */
-	public Object getElementAt(int index) {
+	public Category getElementAt(int index) {
 		return categories.get(categories.size() - 1 - index);
 	}
 		
