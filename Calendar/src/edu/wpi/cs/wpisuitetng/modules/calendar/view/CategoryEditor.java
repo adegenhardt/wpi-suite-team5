@@ -79,18 +79,7 @@ public class CategoryEditor extends JPanel {
 	
 	class CatSubmitButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			//if(!isValid())
 			
-			/* TODO:
-			 * Team vs Personal categories needs to be implemented!
-			 */
-			Category newCat = new Category(textFieldCat.getText(), true);
-			newCat.setId(CategoryModel.getInstance().getNextID());
-			
-			System.out.println(CategoryModel.getInstance().getSize());
-			AddCategoryController.getInstance().addCategory(newCat);
-			System.out.print("");
-			System.out.println(CategoryModel.getInstance().getSize());
 		}
 	}
 }
