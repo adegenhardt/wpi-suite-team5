@@ -255,10 +255,6 @@ public class MonthView extends JPanel {
 		}
 	}
 	
-	// This can help resize the calendar component
-	// I'm more or less sleepily trying out random
-	// Numbers until it works I hope someone has
-	// A better idea than me
 	/**
 	 * @author Team Underscore
 	 * @version $Revision: 1.0$
@@ -272,11 +268,10 @@ public class MonthView extends JPanel {
 	    public void componentShown(ComponentEvent e) {}
 
 	    public void componentResized(ComponentEvent e) {
-	    	// The split pane isn't resizing, but this should work when it does
 	        final Dimension newSize = e.getComponent().getBounds().getSize();
-	        tblCalendar.setRowHeight((newSize.height - 84) / 6);
-	         tblCalendar.setRowHeight(6, (((newSize.height - 84) / 6) + 
-	        		 ((newSize.height - 84) % 6)));
+	        tblCalendar.setRowHeight((newSize.height - 105) / 6);
+	        tblCalendar.setRowHeight(6, (((newSize.height - 105) / 6) + 
+	        		 ((newSize.height - 105) % 6)));
 	    }
 	}
 

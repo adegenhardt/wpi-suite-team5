@@ -212,16 +212,10 @@ public class CalendarSidebar extends JPanel {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/* TODO:
-				 * Team vs Personal categories needs to be implemented!
-				 */
 				Category newCat = new Category(textField.getText(), rdbtnTeam.isSelected());
 				newCat.setId(CategoryModel.getInstance().getNextID());
 				
-				System.out.println(CategoryModel.getInstance().getSize());
 				AddCategoryController.getInstance().addCategory(newCat);
-				System.out.print("");
-				System.out.println(CategoryModel.getInstance().getSize());
 			}
 		});
 		panelCatCreate.add(btnSubmit, "cell 1 3,growx");
