@@ -105,10 +105,6 @@ public class CalendarSidebar extends JPanel {
 				return columnEditables[column];
 			}
 		});
-		eventTable.getColumnModel().getColumn(0).setResizable(false);
-		eventTable.getColumnModel().getColumn(1).setResizable(false);
-		eventTable.getColumnModel().getColumn(2).setResizable(false);
-		eventTable.getColumnModel().getColumn(3).setResizable(false);
 		
 		final JScrollPane commitScroll = new JScrollPane();
 		add(commitScroll, "cell 0 2 2 1,grow");
@@ -135,10 +131,6 @@ public class CalendarSidebar extends JPanel {
 				return columnEditables[column];
 			}
 		});
-		commitmentTable.getColumnModel().getColumn(0).setResizable(false);
-		commitmentTable.getColumnModel().getColumn(1).setResizable(false);
-		commitmentTable.getColumnModel().getColumn(2).setResizable(false);
-		commitmentTable.getColumnModel().getColumn(3).setResizable(false);
 		commitScroll.setViewportView(commitmentTable);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -223,6 +215,14 @@ public class CalendarSidebar extends JPanel {
 	}
 	
 	private void populateTable() {
+		this.repaint();
+		
+		for(int i=0; i < 6; i++) {
+			for(int k=0; k < 4; k++) {
+				eventTable.setValueAt(null, i, k);
+			}
+		}
+		
 		if(!isUpdated)
 		{
 			isUpdated=true;
@@ -239,7 +239,7 @@ public class CalendarSidebar extends JPanel {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getTeamEvents(userId);
 		}
-		for(int i=0;i < events.size();i++)
+		for(int i=0;i < 6;i++)
 		{
 			for(int j=0;j<4;j++)
 			{

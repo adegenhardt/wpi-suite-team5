@@ -347,14 +347,15 @@ public class EventModel extends AbstractListModel<Event> {
 	 * @param userId The id of the user attempting to access the events
 	 * @return A list of all events the user has access to
 	 */
-	public List<Event> getPersonalEvents( String userId ) {
+	public List< Event > getPersonalEvents( String userId ) {
 		final List< Event > personalEvents = new ArrayList< Event >();
 		Event currentEvent;
 		
-		for ( int i = 0; i < events.size(); i++ ) {
+		for ( int i = 0; i < events. size(); i++ ) {
 			
 			currentEvent = events.get( i );
-			if  ( !currentEvent.isDeleted() && 
+			if ( !currentEvent.isDeleted() &&
+					!currentEvent.isTeamEvent() &&
 					currentEvent.hasAccess( userId ) ) {
 				personalEvents.add( currentEvent );
 			}
