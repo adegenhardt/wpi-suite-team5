@@ -78,6 +78,7 @@ public class ManagerLayer {
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
 		map.put( "calendar" + "event", new EventEntityManager( data ) );
+		map.put( "calendar" + "category", new CategoryEntityManager( data ) );
 
 		//add just your module to this list
 		String[] fullModuleList = {"core","defecttracker","postboard","requirementmanager","calendar"};
