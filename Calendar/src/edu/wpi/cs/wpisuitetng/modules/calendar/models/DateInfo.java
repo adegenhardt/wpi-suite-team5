@@ -166,6 +166,10 @@ public class DateInfo {
 		}
 		return true;
 	}
+	/**
+	 * Converts the given DateInfo to a Calendar Object of the same parameters
+	 * @return
+	 */
 	public Calendar dateInfoToCalendar(){
 		Calendar cal = new GregorianCalendar();
 		int hourOfDay = ((this.halfHour/2));
