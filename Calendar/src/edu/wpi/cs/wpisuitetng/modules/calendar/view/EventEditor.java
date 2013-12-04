@@ -291,7 +291,6 @@ public class EventEditor extends JPanel {
 					String poop = editorPane_1.getText();
 					editorPane_1.setText(poop+events.get(i).getName());
 				}
-
 				
 				
 				/*matt's test for system user name and entity absoluteId

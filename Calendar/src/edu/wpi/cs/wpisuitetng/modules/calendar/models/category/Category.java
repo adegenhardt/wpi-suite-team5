@@ -12,8 +12,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 
-import java.util.Calendar;
-
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -31,8 +29,7 @@ public class Category extends AbstractModel {
 	private String name;
 	/** The unique identification number **/
 	private int id;
-	private Calendar absoluteId;
-
+	
 	private String creatorId;
 	private boolean isDeleted;
 	private boolean isTeamCat;
@@ -81,8 +78,9 @@ public class Category extends AbstractModel {
 	 * 
 	 * @param name
 	 *            a string that represent the category type.
-	 * @param id
-	 *            an integer that represents the object id.
+	 * @param isTeamCat
+	 *            states whether this category will show up on a team calendar
+	 *            or not
 	 */
 	public Category(String name, boolean isTeamCat) {
 		this.name = name;
@@ -92,8 +90,6 @@ public class Category extends AbstractModel {
 																							// system
 																												// configuration
 		this.isTeamCat = isTeamCat;
-		Calendar currentDateTime = Calendar.getInstance();
-		this.absoluteId = currentDateTime;
 		this.isDeleted = false;
 	}
 
@@ -203,7 +199,7 @@ public class Category extends AbstractModel {
 	}
 
 	/**
-	 * Set the privay status of the category
+	 * Set the privacy status of the category
 	 * 
 	 * @param isTeamCat
 	 */
@@ -381,13 +377,5 @@ public class Category extends AbstractModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	/**
-	 * @return the absoluteId
-	 */
-	public Calendar getAbsoluteId() {
-		return absoluteId;
-	}
-
 	
 }
