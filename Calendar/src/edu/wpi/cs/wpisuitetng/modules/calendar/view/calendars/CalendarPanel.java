@@ -81,6 +81,6 @@ public class CalendarPanel extends JPanel {
 		}
 	
 	public CalendarTab getCalendarTab () {
-		return this.tabs;
+		return tabs;
 	}
 }

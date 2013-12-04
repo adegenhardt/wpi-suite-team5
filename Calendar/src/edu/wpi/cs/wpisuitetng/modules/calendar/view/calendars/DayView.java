@@ -239,9 +239,12 @@ public class DayView extends JPanel {
 		dayTable.setSelectionBackground(Color.GREEN);
 		
 		dayTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+			private static final long serialVersionUID = -6561816808930289515L;
+
 			@Override
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-				 DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				 final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 				 
 				
 				if ((row % 2) == 0 && column != 0) {
@@ -254,7 +257,7 @@ public class DayView extends JPanel {
 			}
 		});
 		
-		JTableHeader header = dayTable.getTableHeader();
+		final JTableHeader header = dayTable.getTableHeader();
 		
         header.setDefaultRenderer(new DefaultTableCellRenderer() {
 
@@ -267,7 +270,7 @@ public class DayView extends JPanel {
             public Component getTableCellRendererComponent(
                     JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             	
-                DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 rendererComponent.setBackground(UIManager.getColor(JTableHeader.class));
             	return rendererComponent;
             }
