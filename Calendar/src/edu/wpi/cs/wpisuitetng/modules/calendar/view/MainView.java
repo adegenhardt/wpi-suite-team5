@@ -40,6 +40,6 @@ public class MainView extends JPanel {
 	}
 	
 	public CalendarPanel getCalendarPanel() {
-		return this.calendarPanel;
+		return calendarPanel;
 	}
 }
