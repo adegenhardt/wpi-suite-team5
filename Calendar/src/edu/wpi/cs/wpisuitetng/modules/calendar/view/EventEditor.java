@@ -26,6 +26,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -93,6 +94,8 @@ public class EventEditor extends JPanel {
 	private JLabel lblTimemsg;
 	private JRadioButton rdbtnPersonal;
 	private JRadioButton rdbtnTeam;
+
+	private ButtonGroup calGroup;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
@@ -226,8 +229,7 @@ public class EventEditor extends JPanel {
 		rdbtnTeam = new JRadioButton("Team");
 		add(rdbtnTeam, "cell 3 9");
 		
-		//Group the radio buttons.
-        ButtonGroup calGroup = new ButtonGroup();
+		calGroup = new ButtonGroup();
         calGroup.add(rdbtnPersonal);
         calGroup.add(rdbtnTeam);
 
@@ -271,9 +273,18 @@ public class EventEditor extends JPanel {
 				Date end = (Date) comboBoxEndMonth.getDate().clone();
 				DateInfo endDate = new DateInfo(end.getYear(), end.getMonth(),
 						end.getDay(), endHalfHours);
+				
+				boolean isTeamEvent;
+				
+				if (rdbtnPersonal.isSelected()) {
+					isTeamEvent = false;
+				}
+				else {
+					isTeamEvent = true;
+				}
 
 				final Event makeEvent = new Event(eventName.getText(),
-						descriptionPane.getText(), startDate, endDate, false,
+						descriptionPane.getText(), startDate, endDate, isTeamEvent,
 						new Category("Place", 5));
 
 				//GetEventController.getInstance().retrieveEvent();
@@ -399,6 +410,13 @@ public class EventEditor extends JPanel {
 		}
 		else {
 			lblTimemsg.setText("");
+		}
+		if (calGroup.getSelection() instanceof ButtonModel) {
+			
+		}
+		else {
+			System.out.println("Select Team/Personal");
+			return false;
 		}
 		return true;
 	}
