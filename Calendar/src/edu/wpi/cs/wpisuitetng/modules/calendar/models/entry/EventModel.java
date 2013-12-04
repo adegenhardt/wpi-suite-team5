@@ -159,13 +159,18 @@ public class EventModel extends AbstractListModel<Event> {
 	public void toTeamEventModel( String userId ) {
 		List< Event > teamEvents = new ArrayList< Event >();
 		
+		// Empty the contents of the current version of the local EventModel.
+		emptyModel();
+		
+		// Send HTTP request to obtain all events from server
+		// and place them in the local EventModel.
+		GetEventController.getInstance().retrieveEvents();
+		
 		// Gather all of the team events from the current list of events
 		// contained in the local EventModel.
 		teamEvents = getTeamEvents( userId );
 		
 		// Empty the contents of the current version of the local EventModel.
-		// *This may cause a problem in which the view is confused because there
-		// *are now no event objects present in the model while the view is running.
 		emptyModel();
 		
 		// Proceed to add only those events to the local EventModel that
@@ -336,6 +341,29 @@ public class EventModel extends AbstractListModel<Event> {
 		return teamEvents;
 		
 	}
+	
+	/**
+	 * Get all the personal events that the user can access
+	 * @param userId The id of the user attempting to access the events
+	 * @return A list of all events the user has access to
+	 */
+	public List<Event> getPersonalEvents( String userId ) {
+		final List< Event > personalEvents = new ArrayList< Event >();
+		Event currentEvent;
+		
+		for ( int i = 0; i < events.size(); i++ ) {
+			
+			currentEvent = events.get( i );
+			if  ( !currentEvent.isDeleted() && 
+					currentEvent.hasAccess( userId ) ) {
+				personalEvents.add( currentEvent );
+			}
+		}
+		
+		return personalEvents;
+		
+	}
+	
 	
 	/**
 	 * Get all the events for the user that the user can access

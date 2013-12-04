@@ -127,14 +127,15 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 				
 				// Acquire the username from the configuration class within
 				// the Janeway module and store it in a variable.
-				ConfigManager.getInstance();
-				userId = ConfigManager.getConfig().getUserName();
+				// ConfigManager.getInstance();
+				// userId = ConfigManager.getConfig().getUserName();
 				
 				// Changing the contents of local data models for
 				// event and category objects.
-				EventModel.getInstance().toTeamEventModel( userId );
-				CategoryModel.getInstance().toTeamCategoryModel( userId );
-				
+				// EventModel.getInstance().toTeamEventModel( userId );
+				// CategoryModel.getInstance().toTeamCategoryModel( userId );
+				GlobalButtonVars.isPersonalView = false;
+				GlobalButtonVars.isTeamView = true;
 			}
 		});
 
@@ -145,8 +146,10 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 				
 				// Changing the contents of local data models for
 				// event and category objects.
-				EventModel.getInstance().toPersonalEventModel();
-				CategoryModel.getInstance().toPersonalCategoryModel();
+				// EventModel.getInstance().toPersonalEventModel();
+				// CategoryModel.getInstance().toPersonalCategoryModel();
+				GlobalButtonVars.isPersonalView = true;
+				GlobalButtonVars.isTeamView = false;
 				
 			}
 		});

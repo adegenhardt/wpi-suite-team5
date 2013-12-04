@@ -194,7 +194,7 @@ public class CategoryModel extends AbstractListModel<Category>{
 	 * @param userId The id of the user attempting to access the categories
 	 * @return A list of all categories the user has access to
 	 */
-	public List<Category> getTeamCategories( String userId) {
+	public List<Category> getTeamCategories( String userId ) {
 		final List< Category > teamCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
@@ -218,7 +218,7 @@ public class CategoryModel extends AbstractListModel<Category>{
 	 * @param month the month to check (0-11)
 	 * @return A list of all categories the user has access to
 	 */
-	public List<Category> getTeamCategories( String userId, int year, int month) {
+	public List<Category> getTeamCategories( String userId, int year, int month ) {
 		final List< Category > teamCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
@@ -243,13 +243,18 @@ public class CategoryModel extends AbstractListModel<Category>{
 	public void toTeamCategoryModel( String userId ) {
 		List< Category > teamCategories = new ArrayList< Category >();
 		
+		// Empty the contents of the current version of the local CategoryModel.
+		emptyModel();
+		
+		// Send HTTP request to obtain all categories from server
+		// and place them in the local CategoryModel.
+		GetCategoryController.getInstance().retrieveCategory();
+		
 		// Gather all of the team categories from the current list of categories
 		// contained in the local CategoryModel.
 		teamCategories = getTeamCategories( userId );
 		
 		// Empty the contents of the current version of the local CategoryModel.
-		// *This may cause a problem in which the view is confused because there
-		// *are now no category objects present in the model while the view is running.
 		emptyModel();
 		
 		// Proceed to add only those categories to the local CategoryModel that
@@ -287,7 +292,7 @@ public class CategoryModel extends AbstractListModel<Category>{
 	 * @param day the day to check (0-30, depending on month)
 	 * @return A list of all categories the user has access to
 	 */
-	public List<Category> getTeamCategories( String userId, int year, int month, int day) {
+	public List<Category> getTeamCategories( String userId, int year, int month, int day ) {
 		final List< Category > teamCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
@@ -311,7 +316,7 @@ public class CategoryModel extends AbstractListModel<Category>{
 	 * @param year the year to check
 	 * @return A list of all categories the user has access to
 	 */
-	public List<Category> getuserCategories( String userId, int year) {
+	public List<Category> getuserCategories( String userId, int year ) {
 		final List< Category > userCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
@@ -335,7 +340,7 @@ public class CategoryModel extends AbstractListModel<Category>{
 	 * @param month the month to check (0-11)
 	 * @return A list of all categories the user has access to
 	 */
-	public List<Category> getuserCategories( String userId, int year, int month) {
+	public List<Category> getuserCategories( String userId, int year, int month ) {
 		final List< Category > userCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
