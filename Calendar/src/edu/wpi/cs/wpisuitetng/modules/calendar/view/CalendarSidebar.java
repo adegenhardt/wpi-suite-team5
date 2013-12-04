@@ -210,6 +210,14 @@ public class CalendarSidebar extends JPanel {
 	}
 	
 	private void populateTable() {
+		this.repaint();
+		
+		for(int i=0; i < 6; i++) {
+			for(int k=0; k < 4; k++) {
+				eventTable.setValueAt(null, i, k);
+			}
+		}
+		
 		if(!isUpdated)
 		{
 			isUpdated=true;
@@ -226,7 +234,7 @@ public class CalendarSidebar extends JPanel {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getTeamEvents(userId);
 		}
-		for(int i=0;i < events.size();i++)
+		for(int i=0;i < 6;i++)
 		{
 			for(int j=0;j<4;j++)
 			{

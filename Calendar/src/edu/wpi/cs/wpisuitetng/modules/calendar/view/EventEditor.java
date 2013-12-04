@@ -224,6 +224,7 @@ public class EventEditor extends JPanel {
 				
 		// Create Team/Personal calendar options and group them
 		rdbtnPersonal = new JRadioButton("Personal");
+		rdbtnPersonal.setSelected(true);
 		add(rdbtnPersonal, "cell 1 9");
 		
 		rdbtnTeam = new JRadioButton("Team");
@@ -277,9 +278,11 @@ public class EventEditor extends JPanel {
 				boolean isTeamEvent;
 				
 				if (rdbtnPersonal.isSelected()) {
+					System.out.println("Personal event");
 					isTeamEvent = false;
 				}
 				else {
+					System.out.println("Team Event");
 					isTeamEvent = true;
 				}
 
@@ -294,14 +297,6 @@ public class EventEditor extends JPanel {
 				AddEventController.getInstance().addEvent(makeEvent);
 
 				//GetEventController.getInstance().retrieveEvent();
-
-				List<Event> events = EventModel.getInstance().getAllEvents();
-				editorPane_1.setText(Integer.toString(events.size()));
-
-				for(int i=0; i < events.size(); i++) {
-					String poop = editorPane_1.getText();
-					editorPane_1.setText(poop+events.get(i).getName());
-				}
 
 				
 				
