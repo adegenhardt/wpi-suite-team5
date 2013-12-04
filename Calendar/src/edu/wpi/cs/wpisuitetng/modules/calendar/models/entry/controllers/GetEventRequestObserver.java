@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GetEventRequestObserver implements RequestObserver {
 	
-	private GetEventController controller;
+	private final GetEventController controller;
 	
 	/**
 	 * Constructs the observer given a GetEventController
@@ -39,7 +39,7 @@ public class GetEventRequestObserver implements RequestObserver {
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Convert the JSON array of Events to a Event object array
-		Event[] calendarData = Event.fromJsonArray(iReq.getResponse().getBody());
+		final Event[] calendarData = Event.fromJsonArray(iReq.getResponse().getBody());
 		
 		// Pass these Events to the controller
 		controller.receivedEvent( calendarData );
@@ -61,7 +61,7 @@ public class GetEventRequestObserver implements RequestObserver {
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		//TODO: generate an error form of Event
-		Event[] errorEvent = { new Event() };
+		final Event[] errorEvent = { new Event() };
 		controller.receivedEvent(errorEvent);
 	}
 
