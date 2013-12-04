@@ -10,7 +10,9 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * DateInfo is a form of storing time information. It contains a year, a month,
@@ -20,8 +22,12 @@ import java.util.Date;
  * @version $Revision: 1.0 $
  */
 public class DateInfo {
-	/*
-	 */
+
+	//Format
+	//year is absolute value
+	//moth is 0 = January 11 = December
+	//Day is absolute (starts at 1 to max number of given month)
+	//HalfHour is 0 based (0 to 47)
 	private final int year;
 	private final int month;
 	private final int day;
@@ -159,5 +165,16 @@ public class DateInfo {
 			return false;
 		}
 		return true;
+	}
+	public Calendar dateInfoToCalendar(){
+		Calendar cal = new GregorianCalendar();
+		int hourOfDay = ((this.halfHour/2));
+		int minute = 0;
+		if(this.halfHour%2 !=0){
+			minute = 30;
+		}
+		
+		cal.set(this.year, this.month, this.day, hourOfDay, minute);
+		return cal;
 	}
 }
