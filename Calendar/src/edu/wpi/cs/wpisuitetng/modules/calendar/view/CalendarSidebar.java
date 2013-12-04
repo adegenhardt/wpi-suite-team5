@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -34,10 +35,14 @@ import java.util.List;
 import javax.swing.JComboBox;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.AddCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -56,6 +61,7 @@ public class CalendarSidebar extends JPanel {
 	private JTextField textField;
 	private JTextField filterTextField;
 	private boolean isUpdated = false;
+	private ButtonGroup radioGroup;
 	
 	/**
 	 * Create the panel.
@@ -193,16 +199,29 @@ public class CalendarSidebar extends JPanel {
 		panelCatCreate.add(textField, "cell 1 2,growx");
 		textField.setColumns(10);
 		
-		JRadioButton rdbtnTeam = new JRadioButton("Team");
+		final JRadioButton rdbtnTeam = new JRadioButton("Team");
 		panelCatCreate.add(rdbtnTeam, "flowx,cell 1 3");
 		
-		JRadioButton rdbtnPersonal = new JRadioButton("Personal");
+		final JRadioButton rdbtnPersonal = new JRadioButton("Personal", true);
 		panelCatCreate.add(rdbtnPersonal, "cell 1 3");
+		
+		radioGroup = new ButtonGroup();
+		radioGroup.add(rdbtnTeam);
+		radioGroup.add(rdbtnPersonal);
 		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				/* TODO:
+				 * Team vs Personal categories needs to be implemented!
+				 */
+				Category newCat = new Category(textField.getText(), rdbtnTeam.isSelected());
+				newCat.setId(CategoryModel.getInstance().getNextID());
 				
+				System.out.println(CategoryModel.getInstance().getSize());
+				AddCategoryController.getInstance().addCategory(newCat);
+				System.out.print("");
+				System.out.println(CategoryModel.getInstance().getSize());
 			}
 		});
 		panelCatCreate.add(btnSubmit, "cell 1 3,growx");

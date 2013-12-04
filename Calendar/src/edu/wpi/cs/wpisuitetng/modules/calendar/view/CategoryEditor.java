@@ -13,12 +13,23 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.AddCategoryController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
 
 /**
  * @author Team Underscore
@@ -64,7 +75,11 @@ public class CategoryEditor extends JPanel {
 		
 		final JButton btnSubmitEdit = new JButton("Submit");
 		add(btnSubmitEdit, "cell 1 5");
-
 	}
-
+	
+	class CatSubmitButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			
+		}
+	}
 }
