@@ -39,7 +39,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	// ID Parameters
 	private int id; // object unique ID integer
-	private Calendar absoluteId; // calendar identifying the time of original
+	//private Calendar absoluteId; // calendar identifying the time of original
 									// creation of the event, for unique id
 									// parameter
 	private String creatorId; // id of creating user
@@ -75,8 +75,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		endDate = new DateInfo(-1, -1, -1, -1);
 		category = new Category("-1", -1);
 
-		final Calendar currentDateTime = Calendar.getInstance();
-		absoluteId = currentDateTime;
+		//final Calendar currentDateTime = Calendar.getInstance();
+		//absoluteId = currentDateTime;
 		id = -1;
 		creatorId = "-1";
 
@@ -119,8 +119,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.endDate = endDate;
 		this.category = category;
 
-		final Calendar currentDateTime = Calendar.getInstance();
-		absoluteId = currentDateTime;
+		//final Calendar currentDateTime = Calendar.getInstance();
+		//absoluteId = currentDateTime;
 		this.id = id;
 		this.creatorId = creatorId;
 
@@ -171,8 +171,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.endDate = endDate;
 
 
-		final Calendar currentDateTime = Calendar.getInstance();
-		absoluteId = currentDateTime;
+		//final Calendar currentDateTime = Calendar.getInstance();
+		//absoluteId = currentDateTime;
 
 		this.id = id;
 		this.creatorId = creatorId;
@@ -225,8 +225,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.endDate = endDate;
 
 
-		final Calendar currentDateTime = Calendar.getInstance();
-		absoluteId = currentDateTime;
+		//final Calendar currentDateTime = Calendar.getInstance();
+		//absoluteId = currentDateTime;
 
 		id = 0;// TODO auto generate unique
 		creatorId = ConfigManager.getConfig().getUserName();// gets user id
@@ -686,20 +686,20 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		return userIds;
 	}
 
-	public Calendar getAbsoluteId() {
-		return absoluteId;
-	}
+//	public Calendar getAbsoluteId() {
+//		return absoluteId;
+//	}
 	
 	/**
 	 * @return the Event's absoluteId in a string of format:yyyy/MM/dd HH:mm:ss
 	 */
-	public String getAbsoluteIdStringFormat(){
-
-		
-		final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		return dateFormat.format(absoluteId.getTime());
-
-	}
+//	public String getAbsoluteIdStringFormat(){
+//
+//		
+//		final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//		return dateFormat.format(absoluteId.getTime());
+//
+//	}
 
 	/**
 	 * Determines whether or not an event occurs on a given year
@@ -814,13 +814,13 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	
 	 * @return boolean
 	 */
-	public boolean isSameAbsoluteId(Event eventCompare) {
-		boolean out = false;
-		if (absoluteId == eventCompare.getAbsoluteId()) {
-			out = true;
-		}
-		return out;
-	}
+//	public boolean isSameAbsoluteId(Event eventCompare) {
+//		boolean out = false;
+//		if (absoluteId == eventCompare.getAbsoluteId()) {
+//			out = true;
+//		}
+//		return out;
+//	}
 
 	/**
 	 * states if an event has the same absoluteId as the given absoluteId
@@ -830,13 +830,13 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @param absoluteIdCompare Calendar
 	 * @return boolean
 	 */
-	public boolean isSameAbsoluteId(Calendar absoluteIdCompare) {
-		boolean out = false;
-		if (absoluteId == absoluteIdCompare) {
-			out = true;
-		}
-		return out;
-	}
+//	public boolean isSameAbsoluteId(Calendar absoluteIdCompare) {
+//		boolean out = false;
+//		if (absoluteId == absoluteIdCompare) {
+//			out = true;
+//		}
+//		return out;
+//	}
 /**
  * determines if given event belongs to the current janeway session's user
  * @return boolean
