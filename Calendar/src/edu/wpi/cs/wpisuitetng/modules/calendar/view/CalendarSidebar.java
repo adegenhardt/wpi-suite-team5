@@ -105,10 +105,6 @@ public class CalendarSidebar extends JPanel {
 				return columnEditables[column];
 			}
 		});
-		eventTable.getColumnModel().getColumn(0).setResizable(false);
-		eventTable.getColumnModel().getColumn(1).setResizable(false);
-		eventTable.getColumnModel().getColumn(2).setResizable(false);
-		eventTable.getColumnModel().getColumn(3).setResizable(false);
 		
 		final JScrollPane commitScroll = new JScrollPane();
 		add(commitScroll, "cell 0 2 2 1,grow");
@@ -135,10 +131,6 @@ public class CalendarSidebar extends JPanel {
 				return columnEditables[column];
 			}
 		});
-		commitmentTable.getColumnModel().getColumn(0).setResizable(false);
-		commitmentTable.getColumnModel().getColumn(1).setResizable(false);
-		commitmentTable.getColumnModel().getColumn(2).setResizable(false);
-		commitmentTable.getColumnModel().getColumn(3).setResizable(false);
 		commitScroll.setViewportView(commitmentTable);
 		
 		JScrollPane scrollPane = new JScrollPane();
