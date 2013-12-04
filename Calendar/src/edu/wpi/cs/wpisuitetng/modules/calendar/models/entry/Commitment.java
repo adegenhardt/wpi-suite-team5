@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Calendar;
 
 import com.google.gson.Gson;
@@ -38,7 +39,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 								 * Whether or not the Commitment is a team
 								 * Commitment
 								 */
-	private Calendar absoluteId;
+	private final Calendar absoluteId;
 	
 	// Descriptive Parameters
 	private String name; // Name of Commitment
@@ -47,13 +48,9 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	// These two could be regulated to sets of start/end year, month, day,
 	// halfHour
 	private DateInfo dueDate; // StartDate of Commitment
-	// private DateInfo endDate; // End Date of Commitment
 	private Category category; // Category describing the Commitment
-	private ArrayList<String> userIds; // userIds of users to participate in
+	private List<String> userIds; // userIds of users to participate in
 										// Commitment
-
-	// Potential fields for later
-	// Repeat repeat;
 
 	/**
 	 * Default Commitment constructor that sets invalid values to all fields
@@ -68,8 +65,8 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 
 		category = new Category("-1", -1);
 
-		Calendar currentDateTime = Calendar.getInstance();
-		this.absoluteId = currentDateTime;
+		final Calendar currentDateTime = Calendar.getInstance();
+		absoluteId = currentDateTime;
 		id = -1;
 		creatorId = "-1";
 
@@ -104,17 +101,17 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 			DateInfo endDate, Category category, boolean isTeamCommitment,
 			int id, String creatorId) {
 
-		this.isDeleted = false;
+		isDeleted = false;
 
 		// Descriptive Parameters
 		this.name = name;
 		this.description = description;
-		this.dueDate = startDate;
+		dueDate = startDate;
 
 		this.category = category;
 
-		Calendar currentDateTime = Calendar.getInstance();
-		this.absoluteId = currentDateTime;
+		final Calendar currentDateTime = Calendar.getInstance();
+		absoluteId = currentDateTime;
 		this.id = id;
 		this.creatorId = creatorId;
 
@@ -154,15 +151,15 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 			DateInfo endDate, boolean isTeamCommitment, int id,
 			String creatorId) {
 
-		this.isDeleted = false;
+		isDeleted = false;
 
 		// Descriptive Parameters
 		this.name = name;
 		this.description = description;
-		this.dueDate = startDate;
+		dueDate = startDate;
 
-		Calendar currentDateTime = Calendar.getInstance();
-		this.absoluteId = currentDateTime;
+		final Calendar currentDateTime = Calendar.getInstance();
+		absoluteId = currentDateTime;
 		
 		this.id = id;// TODO auto generate unique
 		this.creatorId = creatorId;// TODO get from session
@@ -203,18 +200,18 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	public Commitment(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamCommitment, Category category) {
 
-		this.isDeleted = false;
+		isDeleted = false;
 
 		// Descriptive Parameters
 		this.name = name;
 		this.description = description;
-		this.dueDate = startDate;
+		dueDate = startDate;
 
-		this.id = 0;// TODO auto generate unique
-		this.creatorId = ConfigManager.getConfig().getUserName();
+		id = 0;// TODO auto generate unique
+		creatorId = ConfigManager.getConfig().getUserName();
 
-		Calendar currentDateTime = Calendar.getInstance();
-		this.absoluteId = currentDateTime;
+		final Calendar currentDateTime = Calendar.getInstance();
+		absoluteId = currentDateTime;
 		this.category = category;
 
 		this.isTeamCommitment = isTeamCommitment;
@@ -248,7 +245,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 * @return The starting date and time of Commitment as a DateInfo object
 	 */
 	public DateInfo getStartDate() {
-		return this.dueDate;
+		return dueDate;
 	}
 
 	public String getCreatorId() {
@@ -261,7 +258,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 *            the Commitment's new ID
 	 */
 	public void setAbsoluteId(int absoluteId) {
-		this.id = absoluteId;
+		id = absoluteId;
 	}
 
 	/**
@@ -269,7 +266,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 * @param idUser
 	 */
 	public void setCreatorId(String idUser) {
-		this.creatorId = idUser;
+		creatorId = idUser;
 	}
 
 	/**
@@ -387,10 +384,10 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 */
 	@Override
 	public String toString() {
-		return this.getName();
+		return name;
 	}
 
-	public void setUserIds(ArrayList<String> userIds) {
+	public void setUserIds(List<String> userIds) {
 		this.userIds = userIds;
 	}
 
@@ -458,19 +455,19 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 */
 
 	public void copyFrom(Commitment toCopyFrom) {
-		this.id = toCopyFrom.id;
-		this.creatorId = toCopyFrom.creatorId;
-		this.isDeleted = toCopyFrom.isDeleted;
+		id = toCopyFrom.id;
+		creatorId = toCopyFrom.creatorId;
+		isDeleted = toCopyFrom.isDeleted;
 
 		// Descriptive Parameters
-		this.name = toCopyFrom.name;
-		this.description = toCopyFrom.description;
-		this.dueDate = toCopyFrom.dueDate;
+		name = toCopyFrom.name;
+		description = toCopyFrom.description;
+		dueDate = toCopyFrom.dueDate;
 
-		this.category = (toCopyFrom.category);
-		this.userIds = toCopyFrom.userIds;
+		category = (toCopyFrom.category);
+		userIds = toCopyFrom.userIds;
 
-		this.isTeamCommitment = toCopyFrom.isTeamCommitment;
+		isTeamCommitment = toCopyFrom.isTeamCommitment;
 	}
 
 	/**
@@ -490,23 +487,104 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 		this.id = id;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((absoluteId == null) ? 0 : absoluteId.hashCode());
+		result = prime * result
+				+ ((category == null) ? 0 : category.hashCode());
+		result = prime * result
+				+ ((creatorId == null) ? 0 : creatorId.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
+		result = prime * result + id;
+		result = prime * result + (isDeleted ? 1231 : 1237);
+		result = prime * result + (isTeamCommitment ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((userIds == null) ? 0 : userIds.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
-		boolean out = false;
-
-		if (obj instanceof Commitment) {
-			out = (this.id == (((Commitment) obj).id))
-					&& this.creatorId.equals(((Commitment) obj).creatorId)
-					&& this.isDeleted == ((Commitment) obj).isDeleted &&
-
-					this.name.equals(((Commitment) obj).name)
-					&& this.description.equals(((Commitment) obj).description)
-					&& this.dueDate.equals(((Commitment) obj).dueDate)
-
-					&& this.category.equals(((Commitment) obj).category)
-					&& this.userIds.equals(((Commitment) obj).userIds);
+		if (this == obj) {
+			return true;
 		}
-		return out;
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Commitment other = (Commitment) obj;
+		if (absoluteId == null) {
+			if (other.absoluteId != null) {
+				return false;
+			}
+		} else if (!absoluteId.equals(other.absoluteId)) {
+			return false;
+		}
+		if (category == null) {
+			if (other.category != null) {
+				return false;
+			}
+		} else if (!category.equals(other.category)) {
+			return false;
+		}
+		if (creatorId == null) {
+			if (other.creatorId != null) {
+				return false;
+			}
+		} else if (!creatorId.equals(other.creatorId)) {
+			return false;
+		}
+		if (description == null) {
+			if (other.description != null) {
+				return false;
+			}
+		} else if (!description.equals(other.description)) {
+			return false;
+		}
+		if (dueDate == null) {
+			if (other.dueDate != null) {
+				return false;
+			}
+		} else if (!dueDate.equals(other.dueDate)) {
+			return false;
+		}
+		if (id != other.id) {
+			return false;
+		}
+		if (isDeleted != other.isDeleted) {
+			return false;
+		}
+		if (isTeamCommitment != other.isTeamCommitment) {
+			return false;
+		}
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		if (userIds == null) {
+			if (other.userIds != null) {
+				return false;
+			}
+		} else if (!userIds.equals(other.userIds)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -559,21 +637,20 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 * 
 	 * @return the user ids of all people involved in the Commitment
 	 */
-	public ArrayList<String> getUserIds() {
+	public List<String> getUserIds() {
 		return userIds;
 	}
 
 	private Calendar getAbsoluteId() {
-		return this.absoluteId;
+		return absoluteId;
 	}
 	
 	/**
-	 * returns the Commitment's absoluteId in a string of format:yyyy/MM/dd HH:mm:ss
-	 * @return
+	 * @return the Commitment's absoluteId in a string of format:yyyy/MM/dd HH:mm:ss
 	 */
 	public String getAbsoluteIdStringFormat(){
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		return dateFormat.format(this.getAbsoluteId().getTime());
+		final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		return dateFormat.format(absoluteId.getTime());
 	}
 
 	/**
@@ -584,13 +661,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 */
 	@Override
 	public boolean occursOnYear(int year) {
-		if (dueDate.getYear() == year) {
-			return true;
-		}
-
-		else {
-			return false;
-		}
+		return (dueDate.getYear() == year);
 	}
 
 	/**
@@ -605,12 +676,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 		// TODO: Error handling for invalid months (< 0, > 11 )
 
 		if (dueDate.getYear() == year) {
-
-			if (dueDate.getMonth() == month) {
-				return true;
-			} else {
-				return false;
-			}
+			return (dueDate.getMonth() == month);
 		} else {
 			return false;
 		}
@@ -632,11 +698,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 
 			if (dueDate.getMonth() == month) {
 
-				if (dueDate.getDay() == day) {
-					return true;
-				} else {
-					return false;
-				}
+				return (dueDate.getDay() == day);
 
 			} else {
 				return false;
@@ -657,7 +719,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 */
 	public boolean isSameAbsoluteId(Commitment CommitmentCompare) {
 		boolean out = false;
-		if (this.absoluteId == CommitmentCompare.getAbsoluteId()) {
+		if (absoluteId == CommitmentCompare.getAbsoluteId()) {
 			out = true;
 		}
 		return out;
@@ -674,7 +736,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 */
 	public boolean isSameAbsoluteId(Calendar absoluteIdCompare) {
 		boolean out = false;
-		if (this.absoluteId == absoluteIdCompare) {
+		if (absoluteId == absoluteIdCompare) {
 			out = true;
 		}
 		return out;
@@ -685,7 +747,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 */
 		public boolean isActiveUserCommitment(){
 			boolean out = false;
-			if(this.getCreatorId().equals(ConfigManager.getConfig().getUserName()) ) {
+			if(creatorId.equals(ConfigManager.getConfig().getUserName()) ) {
 				out = true;
 			}
 			
@@ -699,7 +761,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 		 * @return boolean */
 			public boolean isUserCommitment(String userCheck){
 				boolean out = false;
-				if(this.getCreatorId().equals(userCheck) ) {
+				if(creatorId.equals(userCheck) ) {
 					out = true;
 				}
 				
