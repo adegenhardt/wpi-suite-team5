@@ -33,6 +33,8 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
@@ -172,8 +174,18 @@ public class CalendarSidebar extends JPanel {
 					isUpdated=true;
 					GetEventController.getInstance().retrieveEvents();
 				}
-				List<Event> events = EventModel.getInstance().getAllEvents();
-				for(int i=0;i<events.size();i++)
+				
+				List<Event> events;
+				
+				if (GlobalButtonVars.isPersonalView) {
+					String userId = ConfigManager.getConfig().getUserName();
+					events = EventModel.getInstance().getPersonalEvents(userId);
+				}
+				else {
+					String userId = ConfigManager.getConfig().getUserName();
+					events = EventModel.getInstance().getTeamEvents(userId);
+				}
+				for(int i=0;i < events.size();i++)
 				{
 					for(int j=0;j<4;j++)
 					{

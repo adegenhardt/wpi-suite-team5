@@ -402,10 +402,8 @@ public class EventEditor extends JPanel {
 		if ( GlobalButtonVars.isPersonalView &&
 				!GlobalButtonVars.isTeamView) {
 			
-			// Changing the contents of local data models for
-			// event and category objects.
+			// Changing the contents of local data model for event.
 			EventModel.getInstance().toPersonalEventModel();
-			CategoryModel.getInstance().toPersonalCategoryModel();
 			
 		}
 		
@@ -419,10 +417,8 @@ public class EventEditor extends JPanel {
 			ConfigManager.getInstance();
 			userId = ConfigManager.getConfig().getUserName();
 			
-			// Changing the contents of local data models for
-			// event and category objects.
+			// Changing the contents of local data model for event.
 			EventModel.getInstance().toTeamEventModel( userId );
-			CategoryModel.getInstance().toTeamCategoryModel( userId );
 			
 		}
 		
