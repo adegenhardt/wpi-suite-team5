@@ -202,77 +202,80 @@ public class CalendarSidebar extends JPanel {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(!isUpdated)
-				{
-					isUpdated=true;
-					GetEventController.getInstance().retrieveEvents();
-				}
-				
-				List<Event> events;
-				
-				if (GlobalButtonVars.isPersonalView) {
-					String userId = ConfigManager.getConfig().getUserName();
-					events = EventModel.getInstance().getPersonalEvents(userId);
-				}
-				else {
-					String userId = ConfigManager.getConfig().getUserName();
-					events = EventModel.getInstance().getTeamEvents(userId);
-				}
-				for(int i=0;i < events.size();i++)
-				{
-					for(int j=0;j<4;j++)
-					{
-						if(j==0)
-						{
-							try
-							{
-								eventTable.setValueAt(events.get(i).getName(), i, j);
-							}
-							catch(IndexOutOfBoundsException e)
-							{	
-							}
-							eventTable.setValueAt(events.get(i).getName(), i, j);	
-							
-						}
-						if(j==1)
-						{	
-							try
-							{
-								eventTable.setValueAt(events.get(i).getStartDate(), i, j);
-							}
-							catch(IndexOutOfBoundsException e)
-							{
-							}
-							eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
-						}
-						if(j==2)
-						{
-							try
-							{
-								eventTable.setValueAt(events.get(i).getEndDate(), i, j);
-							}
-							catch(IndexOutOfBoundsException e)
-							{}
-							eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
-						}
-						if(j==3)
-						{
-							try
-							{
-								eventTable.setValueAt(events.get(i).getDescription(), i, j);
-							}
-							catch(IndexOutOfBoundsException e)
-							{
-							}
-							eventTable.setValueAt(events.get(i).getDescription(), i, j);	
-						}
-					}
-				}
 				
 			}
 		});
 		panelCatCreate.add(btnSubmit, "cell 1 3,growx");
 
+	}
+	
+	private void populateTable() {
+		if(!isUpdated)
+		{
+			isUpdated=true;
+			GetEventController.getInstance().retrieveEvents();
+		}
+		
+		List<Event> events;
+		
+		if (GlobalButtonVars.isPersonalView) {
+			String userId = ConfigManager.getConfig().getUserName();
+			events = EventModel.getInstance().getPersonalEvents(userId);
+		}
+		else {
+			String userId = ConfigManager.getConfig().getUserName();
+			events = EventModel.getInstance().getTeamEvents(userId);
+		}
+		for(int i=0;i < events.size();i++)
+		{
+			for(int j=0;j<4;j++)
+			{
+				if(j==0)
+				{
+					try
+					{
+						eventTable.setValueAt(events.get(i).getName(), i, j);
+					}
+					catch(IndexOutOfBoundsException e)
+					{	
+					}
+					eventTable.setValueAt(events.get(i).getName(), i, j);	
+					
+				}
+				if(j==1)
+				{	
+					try
+					{
+						eventTable.setValueAt(events.get(i).getStartDate(), i, j);
+					}
+					catch(IndexOutOfBoundsException e)
+					{
+					}
+					eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
+				}
+				if(j==2)
+				{
+					try
+					{
+						eventTable.setValueAt(events.get(i).getEndDate(), i, j);
+					}
+					catch(IndexOutOfBoundsException e)
+					{}
+					eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
+				}
+				if(j==3)
+				{
+					try
+					{
+						eventTable.setValueAt(events.get(i).getDescription(), i, j);
+					}
+					catch(IndexOutOfBoundsException e)
+					{
+					}
+					eventTable.setValueAt(events.get(i).getDescription(), i, j);	
+				}
+			}
+		}
 	}
 
 	public JTable getEventTable() {
