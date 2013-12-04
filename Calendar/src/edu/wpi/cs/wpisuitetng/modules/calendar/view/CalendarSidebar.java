@@ -36,6 +36,8 @@ import javax.swing.JComboBox;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Team Underscore
@@ -58,10 +60,19 @@ public class CalendarSidebar extends JPanel {
 	 */
 	public CalendarSidebar() {
 		
-		setLayout(new MigLayout("", "[grow][grow]", "[100.00,grow,center][100.00,grow][grow]"));
+		setLayout(new MigLayout("", "[grow][grow]", "[][100.00,grow,center][100.00,grow][grow]"));
+		
+		JButton btnRefreshEvents = new JButton("Refresh Events");
+		btnRefreshEvents.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				populateTable();
+			}
+		});
+		add(btnRefreshEvents, "cell 0 0 2097051 1,growx");
 
 		final JScrollPane eventScroll = new JScrollPane();
-		add(eventScroll, "cell 0 0 2 1,grow");
+		add(eventScroll, "cell 0 1 2 1,grow");
 		
 		eventTable = new JTable();
 		eventScroll.setViewportView(eventTable);
@@ -78,10 +89,21 @@ public class CalendarSidebar extends JPanel {
 			new String[] {
 				"Events", "Start Date", "End Date", "Description"
 			}
-		));
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		eventTable.getColumnModel().getColumn(0).setResizable(false);
+		eventTable.getColumnModel().getColumn(1).setResizable(false);
+		eventTable.getColumnModel().getColumn(2).setResizable(false);
+		eventTable.getColumnModel().getColumn(3).setResizable(false);
 		
 		final JScrollPane commitScroll = new JScrollPane();
-		add(commitScroll, "cell 0 1 2 1,grow");
+		add(commitScroll, "cell 0 2 2 1,grow");
 		
 		commitmentTable = new JTable();
 		commitmentTable.setModel(new DefaultTableModel(
@@ -97,11 +119,22 @@ public class CalendarSidebar extends JPanel {
 			new String[] {
 				"Commitment", "Date", "Category ", "Description"
 			}
-		));
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		commitmentTable.getColumnModel().getColumn(0).setResizable(false);
+		commitmentTable.getColumnModel().getColumn(1).setResizable(false);
+		commitmentTable.getColumnModel().getColumn(2).setResizable(false);
+		commitmentTable.getColumnModel().getColumn(3).setResizable(false);
 		commitScroll.setViewportView(commitmentTable);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "cell 0 2 2 1,grow");
+		add(scrollPane, "cell 0 3 2 1,grow");
 		
 		JPanel filtersCatsPanel = new JPanel();
 		scrollPane.setViewportView(filtersCatsPanel);
