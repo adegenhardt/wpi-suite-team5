@@ -441,13 +441,6 @@ public class EventEditor extends JPanel {
 			System.out.println("END DAY WAS A LATER TIME");
 			lblTimemsg.setText("");
 		}
-		if (calGroup.getSelection() instanceof ButtonModel) {
-			
-		}
-		else {
-			System.out.println("Select Team/Personal");
-			return false;
-		}
 		return true;
 	}
 	
