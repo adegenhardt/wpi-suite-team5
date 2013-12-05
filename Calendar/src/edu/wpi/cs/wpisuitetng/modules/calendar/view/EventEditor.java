@@ -17,14 +17,6 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JLabel;
-import javax.swing.JPopupMenu;
-
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JComboBox;
@@ -38,26 +30,23 @@ import org.jdesktop.swingx.JXDatePicker;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -90,11 +79,11 @@ public class EventEditor extends JPanel {
 	private final JLabel lblDatemsg;
 	private final JLabel lblDescmsg;
 	private final JLabel lblEventnamemsg;
-	private JLabel labelEDate;
-	private JLabel lblDateEndMsg;
-	private JLabel lblTimemsg;
-	private JRadioButton rdbtnPersonal;
-	private JRadioButton rdbtnTeam;
+	private final JLabel labelEDate;
+	private final JLabel lblDateEndMsg;
+	private final JLabel lblTimemsg;
+	private final JRadioButton rdbtnPersonal;
+	private final JRadioButton rdbtnTeam;
 
 	private ButtonGroup calGroup;
 	
@@ -139,7 +128,7 @@ public class EventEditor extends JPanel {
 		scrollPaneDesc.setViewportView(descriptionPane);
 
 		lblDescmsg = new JLabel("");
-		lblDescmsg.setForeground(new Color(255, 0, 0));
+		lblDescmsg.setForeground(Color.red);
 		add(lblDescmsg, "cell 6 1");
 		
 		// Set the Start and End time fields
@@ -163,7 +152,7 @@ public class EventEditor extends JPanel {
 		add(lblTimemsg, "cell 4 2");
 
 		// Create the date picker
-		JLabel lblSDate = new JLabel("Start Date:");
+		final JLabel lblSDate = new JLabel("Start Date:");
 		add(lblSDate, "cell 0 3,alignx trailing");
 
 		// Date pickers
@@ -179,7 +168,7 @@ public class EventEditor extends JPanel {
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				lblDatemsg.setText("Ex. Oct/02/1993");
-				lblDatemsg.setForeground(new Color(0, 0, 0));
+				lblDatemsg.setForeground(Color.black);
 			}
 		});
 		
@@ -187,13 +176,13 @@ public class EventEditor extends JPanel {
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				lblDatemsg.setText("Ex. Oct/02/1993");
-				lblDatemsg.setForeground(new Color(0, 0, 0));
+				lblDatemsg.setForeground(Color.black);
 			}
 		});
 				
 		// Set the example label, will change to show errors
 		lblDatemsg = new JLabel("Ex. Oct/02/1993");
-		lblDatemsg.setForeground(new Color(0, 0, 0));
+		lblDatemsg.setForeground(Color.black);
 		add(lblDatemsg, "cell 4 3,alignx center");
 		
 		final JLabel lblEndTime = new JLabel("End Time:");
@@ -240,7 +229,8 @@ public class EventEditor extends JPanel {
 		rdbtnTeam = new JRadioButton("Team");
 		add(rdbtnTeam, "cell 3 9");
 		
-		calGroup = new ButtonGroup();
+		//Group the radio buttons.
+        final ButtonGroup calGroup = new ButtonGroup();
         calGroup.add(rdbtnPersonal);
         calGroup.add(rdbtnTeam);
 
@@ -260,6 +250,12 @@ public class EventEditor extends JPanel {
 
 		final JButton btnSubmit = new JButton("Submit");
 		
+		/**
+		 * 
+		 * @author Team_
+		 * @version 1.0
+		 *
+		 */
 		class SubmitButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				// Check for validity of input
@@ -267,22 +263,22 @@ public class EventEditor extends JPanel {
 					return;
 				}
 
-				int startHalfHours = parseTime((String) comboBoxStartHour.getSelectedItem(),
+				final int startHalfHours = parseTime((String) comboBoxStartHour.getSelectedItem(),
 						(String) comboBoxStartMinutes.getSelectedItem(),
 						(String) comboBoxStartAMPM.getSelectedItem());
 
 				// TODO: Replace code with something using new data model
-				Date start = (Date) comboBoxStartMonth.getDate().clone();
-				DateInfo startDate = new DateInfo(start.getYear(), start.getMonth(),
+				final Date start = (Date) comboBoxStartMonth.getDate().clone();
+				final DateInfo startDate = new DateInfo(start.getYear(), start.getMonth(),
 						start.getDay(), startHalfHours);
 
-				int endHalfHours = parseTime((String) comboBoxEndHour.getSelectedItem(),
+				final int endHalfHours = parseTime((String) comboBoxEndHour.getSelectedItem(),
 						(String) comboBoxEndMinutes.getSelectedItem(),
 						(String) comboBoxEndAMPM.getSelectedItem());
 
 				// TODO: Replace code with something using new data model
-				Date end = (Date) comboBoxEndMonth.getDate().clone();
-				DateInfo endDate = new DateInfo(end.getYear(), end.getMonth(),
+				final Date end = (Date) comboBoxEndMonth.getDate().clone();
+				final DateInfo endDate = new DateInfo(end.getYear(), end.getMonth(),
 						end.getDay(), endHalfHours);
 				
 				boolean isTeamEvent;
@@ -300,17 +296,23 @@ public class EventEditor extends JPanel {
 						descriptionPane.getText(), startDate, endDate, isTeamEvent,
 						new Category("Place", 5));
 
-				//GetEventController.getInstance().retrieveEvent();
-
 				makeEvent.setId(EventModel.getInstance().getNextID());
 
 				AddEventController.getInstance().addEvent(makeEvent);
 				
+
 				parent.remove(thisInstance);
 
-				//GetEventController.getInstance().retrieveEvent();
+				/*
+				final List<Event> events = EventModel.getInstance().getAllEvents();
+				editorPane_1.setText(Integer.toString(events.size()));
 
 
+				for(int i=0; i < events.size(); i++) {
+					String deprecatedDefecation = editorPane_1.getText();
+					editorPane_1.setText(deprecatedDefecation + events.get(i).getName());
+				}
+				*/
 				
 				/*matt's test for system user name and entity absoluteId
 				 * ignore/remove it if there is a merge conflict battle for other changes

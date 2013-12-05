@@ -55,7 +55,7 @@ public class Category extends AbstractModel {
 	 *            a string that represents the category type.
 	 * @param id
 	 *            an integer that represents the object id.
-	 * @param creatorID
+	 * @param creatorId
 	 *            a String that represents the creator of the category
 	 * @param isDeleted
 	 *            stores whether the category has been removed from the display
@@ -84,13 +84,11 @@ public class Category extends AbstractModel {
 	 */
 	public Category(String name, boolean isTeamCat) {
 		this.name = name;
-		this.id = 0;
-		this.creatorId = ConfigManager.getConfig().getUserName();// gets user id
-																				// from
-																							// system
-																												// configuration
+		id = 0;
+		creatorId = ConfigManager.getConfig().getUserName(); // gets user id
+															 // from system configuration
 		this.isTeamCat = isTeamCat;
-		this.isDeleted = false;
+		isDeleted = false;
 	}
 
 	// ------------------------------------------------------------------------

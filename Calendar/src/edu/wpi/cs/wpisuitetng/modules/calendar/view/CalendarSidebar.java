@@ -58,8 +58,8 @@ public class CalendarSidebar extends JPanel {
 	 */
 	private JTable eventTable;
 	private JTable commitmentTable;
-	private JTextField textField;
-	private JTextField filterTextField;
+	private final JTextField textField;
+	private final JTextField filterTextField;
 	private boolean isUpdated = false;
 	private ButtonGroup radioGroup;
 	
@@ -133,19 +133,19 @@ public class CalendarSidebar extends JPanel {
 		});
 		commitScroll.setViewportView(commitmentTable);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "cell 0 3 2 1,grow");
+		final JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, "cell 0 2 2 1,grow");
 		
-		JPanel filtersCatsPanel = new JPanel();
+		final JPanel filtersCatsPanel = new JPanel();
 		scrollPane.setViewportView(filtersCatsPanel);
 		filtersCatsPanel.setLayout(new MigLayout("", "[grow]", "[][]"));
 		
-		JPanel panelFilter = new JPanel();
+		final JPanel panelFilter = new JPanel();
 		filtersCatsPanel.add(panelFilter, "cell 0 0,grow");
 		panelFilter.setBorder(new TitledBorder(null, "Filters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelFilter.setLayout(new MigLayout("", "[grow][grow]", "[85.00px][][]"));
 		
-		JList list = new JList();
+		final JList list = new JList();
 		panelFilter.add(list, "cell 0 0,grow");
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Team", "Personal", "Things"};
@@ -157,34 +157,34 @@ public class CalendarSidebar extends JPanel {
 			}
 		});
 		
-		JButton btnApply = new JButton("Apply");
+		final JButton btnApply = new JButton("Apply");
 		panelFilter.add(btnApply, "flowx,cell 0 1,alignx left");
 		
 		filterTextField = new JTextField();
 		panelFilter.add(filterTextField, "cell 0 2,growx");
 		filterTextField.setColumns(10);
 		
-		JButton btnNewFilter = new JButton("New Filter");
+		final JButton btnNewFilter = new JButton("New Filter");
 		panelFilter.add(btnNewFilter, "cell 1 2,alignx left");
 		
-		JButton btnDelete = new JButton("Delete");
+		final JButton btnDelete = new JButton("Delete");
 		panelFilter.add(btnDelete, "cell 0 1,alignx left");
 		
-		JPanel panelCatCreate = new JPanel();
+		final JPanel panelCatCreate = new JPanel();
 		filtersCatsPanel.add(panelCatCreate, "cell 0 1,grow");
 		panelCatCreate.setBorder(new TitledBorder(null, "Categories", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelCatCreate.setLayout(new MigLayout("", "[80.00,grow][100px,grow][]", "[][][][]"));
 		
-		JLabel lblCurrentCategories = new JLabel("Categories:");
+		final JLabel lblCurrentCategories = new JLabel("Categories:");
 		panelCatCreate.add(lblCurrentCategories, "cell 0 0,alignx right");
 		
-		JComboBox comboBox = new JComboBox();
+		final JComboBox comboBox = new JComboBox();
 		panelCatCreate.add(comboBox, "cell 1 0,growx");
 		
-		JButton btnDelete_1 = new JButton("Delete");
+		final JButton btnDelete_1 = new JButton("Delete");
 		panelCatCreate.add(btnDelete_1, "cell 1 1,alignx left");
 		
-		JLabel lblCategory = new JLabel("New Category:");
+		final JLabel lblCategory = new JLabel("New Category:");
 		panelCatCreate.add(lblCategory, "cell 0 2,alignx trailing");
 		
 		textField = new JTextField();
@@ -201,7 +201,7 @@ public class CalendarSidebar extends JPanel {
 		radioGroup.add(rdbtnTeam);
 		radioGroup.add(rdbtnPersonal);
 		
-		JButton btnSubmit = new JButton("Submit");
+		final JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Category newCat = new Category(textField.getText(), rdbtnTeam.isSelected());
@@ -266,16 +266,54 @@ public class CalendarSidebar extends JPanel {
 					}
 					//eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
 				}
-				if(j==2)
+				
+				/*
+				final List<Event> events = EventModel.getInstance().getAllEvents();
+				for(int i = 0; i < events.size(); i++)
 				{
-					try
+					for(int j = 0; j < 4; j++)
 					{
-						eventTable.setValueAt(events.get(i).getEndDate(), i, j);
+						if(j == 0)
+						{
+							try
+							{
+								eventTable.setValueAt(events.get(i).getName(), i, j);
+							}
+							catch(IndexOutOfBoundsException e) {}
+							eventTable.setValueAt(events.get(i).getName(), i, j);
+							
+						}
+						if(j == 1)
+						{
+							try
+							{
+								eventTable.setValueAt(events.get(i).getStartDate(), i, j);
+							}
+							catch(IndexOutOfBoundsException e) {}
+							eventTable.setValueAt(events.get(i).getStartDate(), i, j);
+						}
+						if(j == 2)
+						{
+							try
+							{
+								eventTable.setValueAt(events.get(i).getEndDate(), i, j);
+							}
+							catch(IndexOutOfBoundsException e) {}
+							eventTable.setValueAt(events.get(i).getEndDate(), i, j);
+						}
+						if(j == 3)
+						{
+							try
+							{
+								eventTable.setValueAt(events.get(i).getDescription(), i, j);
+							}
+							catch(IndexOutOfBoundsException e) {}
+							eventTable.setValueAt(events.get(i).getDescription(), i, j);
+						}
 					}
-					catch(IndexOutOfBoundsException e)
-					{}
 					//eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
 				}
+				*/
 				if(j==3)
 				{
 					try
