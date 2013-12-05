@@ -134,7 +134,7 @@ public class CalendarSidebar extends JPanel {
 		commitScroll.setViewportView(commitmentTable);
 		
 		final JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "cell 0 2 2 1,grow");
+		add(scrollPane, "cell 0 3 2 1,grow");
 		
 		final JPanel filtersCatsPanel = new JPanel();
 		scrollPane.setViewportView(filtersCatsPanel);
