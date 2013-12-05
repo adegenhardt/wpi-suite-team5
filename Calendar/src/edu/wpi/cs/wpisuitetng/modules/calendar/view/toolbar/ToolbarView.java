@@ -61,16 +61,7 @@ public class ToolbarView extends DefaultToolbarView {
 		eventPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				/*
-				final JDialog eventWindow  = new JDialog();
-				final EventEditor eventTab = new EventEditor(); 
-				eventWindow.setContentPane(eventTab);
-				eventWindow.setBounds(0, 0, 680, 480);
-				eventWindow.setLocationRelativeTo(null);
-				eventWindow.setTitle("Create Event");
-				eventWindow.setVisible(true);
-				/*pane.setTabComponentAt(i, new ButtonTabComponent(pane)); */
-				final EventEditor eventTab = new EventEditor();
+				final EventEditor eventTab = new EventEditor(tabCreator.getTabbedPane());
 				tabCreator.addClosableTab(eventTab, "Create Event");
 			}
 		});
@@ -78,15 +69,6 @@ public class ToolbarView extends DefaultToolbarView {
 		eventPanel.getCreateCommitButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				/*
-				final JDialog commitWindow  = new JDialog();
-				final CommitEditor commitTab = new CommitEditor(); 
-				commitWindow.setContentPane(commitTab);
-				commitWindow.setBounds(0, 0, 680, 480);
-				commitWindow.setLocationRelativeTo(null);
-				commitWindow.setTitle("Create Commitment");
-				commitWindow.setVisible(true);
-				/*pane.setTabComponentAt(i, new ButtonTabComponent(pane)); */
 				final CommitEditor commitTab = new CommitEditor();
 				tabCreator.addClosableTab(commitTab, "Create Commitment");
 			}

@@ -30,6 +30,7 @@ import javax.swing.ButtonModel;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.ScrollPaneConstants;
 
 import org.jdesktop.swingx.JXDatePicker;
@@ -96,11 +97,20 @@ public class EventEditor extends JPanel {
 	private JRadioButton rdbtnTeam;
 
 	private ButtonGroup calGroup;
+	
+	private JTabbedPane parent;
+	private JPanel thisInstance;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
 	 */
-	public EventEditor() {
+	public EventEditor(JTabbedPane _parent) {
+		
+		// Set the parent tabbed pane for this closable tab
+		// Set itself to be called later in the tabbed pane
+		this.parent = _parent; 
+		thisInstance = this;
+		
 		// Set the layout
 		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][100px:100:100px,grow][]"));
 
@@ -295,6 +305,8 @@ public class EventEditor extends JPanel {
 				makeEvent.setId(EventModel.getInstance().getNextID());
 
 				AddEventController.getInstance().addEvent(makeEvent);
+				
+				parent.remove(thisInstance);
 
 				//GetEventController.getInstance().retrieveEvent();
 
@@ -395,15 +407,36 @@ public class EventEditor extends JPanel {
 			lblDatemsg.setText("");
 			lblDateEndMsg.setText("");
 		}
-		if (parseTime((String) comboBoxStartHour.getSelectedItem(), 
-				(String) comboBoxStartMinutes.getSelectedItem(), (String) comboBoxStartAMPM.getSelectedItem()) 
-				>= parseTime((String) comboBoxEndHour.getSelectedItem(), (String) comboBoxEndMinutes.getSelectedItem(),
-						(String) comboBoxEndAMPM.getSelectedItem())) {
+		// This is a rather risky check, it should be ok for this
+		// Dates will not be equal if they aren't the same down to
+		// Milliseconds, but should be no problem since it will always
+		// Generate dates from the beginning of the selected day
+		if (comboBoxStartMonth.getDate().getTime() == comboBoxEndMonth
+				.getDate().getTime()) {
+			if (parseTime((String) comboBoxStartHour.getSelectedItem(),
+					(String) comboBoxStartMinutes.getSelectedItem(),
+					(String) comboBoxStartAMPM.getSelectedItem()) >= parseTime(
+					(String) comboBoxEndHour.getSelectedItem(),
+					(String) comboBoxEndMinutes.getSelectedItem(),
+					(String) comboBoxEndAMPM.getSelectedItem())) {
+				lblTimemsg.setForeground(Color.red);
+				lblTimemsg.setText("Start time can't be after or equal to end time");
+				System.out.println("SAME DAYS: END TIME BEFORE START");
+				return false;
+			}
+			else {
+				System.out.println("SAME DAYS: VALID TIMES");
+				lblTimemsg.setText("");
+			}
+		}
+		else if (comboBoxStartMonth.getDate().getTime() > comboBoxEndMonth.getDate().getTime()) {
 			lblTimemsg.setForeground(Color.red);
-			lblTimemsg.setText("Start time can't be after end time");
+			lblTimemsg.setText("Start day can't be after end day");
+			System.out.println("END DAY IS BEFORE START DAY");
 			return false;
 		}
 		else {
+			System.out.println("END DAY WAS A LATER TIME");
 			lblTimemsg.setText("");
 		}
 		if (calGroup.getSelection() instanceof ButtonModel) {
