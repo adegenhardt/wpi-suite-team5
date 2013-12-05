@@ -57,7 +57,7 @@ public class UpdateCategoryRequestObserver implements RequestObserver {
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err.println(iReq.getResponse().getStatusMessage());
-		System.err.println("The request to update a Category failed.");
+		System.err.println("The request to update a Category failed. rE");
 	}
 	
 	/**
@@ -69,6 +69,6 @@ public class UpdateCategoryRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to update a Category failed.");
+		System.err.println("The request to update a Category failed. f");
 	}
 }

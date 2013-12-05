@@ -59,7 +59,7 @@ public class AddCategoryRequestObserver implements RequestObserver {
 	 * @param iReq IRequest
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(IRequest) 
 	 */
-	@Override
+	@Override //
 	public void responseError( IRequest iReq ) {
 		System.err.println( "The request to add a Category failed." );
 	}
