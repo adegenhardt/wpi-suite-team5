@@ -17,10 +17,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.OverlayLayout;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -28,6 +29,7 @@ import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -46,8 +48,8 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class DayView extends JPanel {
-//HEAD
+public class DayView extends JLayeredPane {
+
 	private JScrollPane dayScroll;
 	private JTable dayTable;
 	private Calendar currentDay;
@@ -172,8 +174,8 @@ public class DayView extends JPanel {
 
 	// Add a scroll bar
 	private void addElements() {
-		setLayout(new BorderLayout(0, 0));
-		this.add(dayScroll);
+		setLayout(new OverlayLayout( this ) );
+		this.add(dayScroll, 0 );
 	}
 
 	// Set the bounds
@@ -365,5 +367,14 @@ public class DayView extends JPanel {
 	public List<Event> getRealDayEvents() {
 		return realDayEvents;
 	}
-
+	
+	/**
+	 * Paint function. Draws components and events on top
+	 */
+	@Override
+	public void paint( Graphics g ) {
+		super.paint( g );			// draw table
+		g.fillRect( 10, 10, 10, 10);		// draw the rectangle on top of the table
+		// TODO: Draw events in their appropriate spaces
+	}
 }
