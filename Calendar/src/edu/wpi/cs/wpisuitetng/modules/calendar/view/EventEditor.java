@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
@@ -19,7 +19,6 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -32,7 +31,6 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.util.List;
 import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
@@ -41,7 +39,6 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
@@ -51,7 +48,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-import javax.swing.JTextPane;
 import javax.swing.JRadioButton;
 import javax.swing.JList;
 import javax.swing.event.DocumentEvent;
@@ -65,9 +61,7 @@ import javax.swing.event.DocumentListener;
  * Creates the event editor tab
  */
 public class EventEditor extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private final JTextField eventName;
@@ -89,15 +83,13 @@ public class EventEditor extends JPanel {
 	private final JLabel lblTimemsg;
 	private final JRadioButton rdbtnPersonal;
 	private final JRadioButton rdbtnTeam;
-
-	private ButtonGroup calGroup;
 	
 	private JTabbedPane parent;
 	private JPanel thisInstance;
 	private JTextField textFieldPartic;
 	private JButton btnAddPartic;
 	private JScrollPane scrollPanePartics;
-	private JList listPartics;
+	private JList<String> listPartics;
 	private JButton btnRemovePartic;
 	private JLabel lblParterror;
 	
@@ -148,6 +140,7 @@ public class EventEditor extends JPanel {
 		final JLabel lblTime = new JLabel("Start Time:");
 		add(lblTime, "cell 0 2,alignx trailing");
 		
+		// Create the ComboBoxes for time selection
 		comboBoxStartHour = new JComboBox<String>();
 		comboBoxStartHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
 				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
@@ -201,7 +194,7 @@ public class EventEditor extends JPanel {
 		final JLabel lblEndTime = new JLabel("End Time:");
 		add(lblEndTime, "cell 0 5,alignx trailing");
 				
-		// Create the combo boxes for time selection
+		// Create the combo boxes and labels for time selection
 		comboBoxEndHour = new JComboBox<String>();
 		comboBoxEndHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
 				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
@@ -247,27 +240,20 @@ public class EventEditor extends JPanel {
         calGroup.add(rdbtnPersonal);
         calGroup.add(rdbtnTeam);
 
-		// Label and create the Participants text editor
-		// TODO: This is a bit unintuitive; we should come up with a
-		// better way to do this
+		// Label the Participants text editor
 		final JLabel lblParticipants = new JLabel("Participants:");
 		add(lblParticipants, "cell 0 10,alignx trailing");
 
 		final JButton btnSubmit = new JButton("Submit");
 		
-		/**
-		 * 
-		 * @author Team_
-		 * @version 1.0
-		 *
-		 */
+		// Create a listener for the Submit button
 		class SubmitButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				// Check for validity of input
 				if (!checkValid()) {
 					return;
 				}
-
+				// Parse the start time
 				final int startHalfHours = parseTime((String) comboBoxStartHour.getSelectedItem(),
 						(String) comboBoxStartMinutes.getSelectedItem(),
 						(String) comboBoxStartAMPM.getSelectedItem());
@@ -286,8 +272,8 @@ public class EventEditor extends JPanel {
 				final DateInfo endDate = new DateInfo(end.getYear(), end.getMonth(),
 						end.getDay(), endHalfHours);
 				
+				// Check whether this is a team or personal event
 				boolean isTeamEvent;
-				
 				if (rdbtnPersonal.isSelected()) {
 					System.out.println("Personal event");
 					isTeamEvent = false;
@@ -296,16 +282,13 @@ public class EventEditor extends JPanel {
 					System.out.println("Team Event");
 					isTeamEvent = true;
 				}
-
+				// Create an event
 				final Event makeEvent = new Event(eventName.getText(),
 						descriptionPane.getText(), startDate, endDate, isTeamEvent,
 						new Category("Place", 5));
-
 				makeEvent.setId(EventModel.getInstance().getNextID());
-
 				AddEventController.getInstance().addEvent(makeEvent);
 				
-
 				parent.remove(thisInstance);
 
 				/*
@@ -443,15 +426,10 @@ public class EventEditor extends JPanel {
 				else btnAddPartic.setEnabled(true);
 			}
 		});
-		
-
-		//add(btnSubmit, "cell 1 11 2 1,growx");
-
-
 	}
 
 	// Checks for valid input and displays messages next to
-	// Fields that may need correcting, right now only checks 
+	// TODO: Fields that may need correcting, right now only checks 
 	// For blank fields,I'll add some more sophisticated checks
 	private boolean checkValid() {
 		if (eventName.getText().trim().length() == 0) {

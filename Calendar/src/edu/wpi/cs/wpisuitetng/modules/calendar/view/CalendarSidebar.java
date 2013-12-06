@@ -273,42 +273,32 @@ public class CalendarSidebar extends JPanel {
 				
 				/*
 				final List<Event> events = EventModel.getInstance().getAllEvents();
-				for(int i = 0; i < events.size(); i++)
-				{
-					for(int j = 0; j < 4; j++)
-					{
-						if(j == 0)
-						{
-							try
-							{
+				for(int i = 0; i < events.size(); i++) {
+					for(int j = 0; j < 4; j++) {
+						if(j == 0) {
+							try {
 								eventTable.setValueAt(events.get(i).getName(), i, j);
 							}
 							catch(IndexOutOfBoundsException e) {}
 							eventTable.setValueAt(events.get(i).getName(), i, j);
 							
 						}
-						if(j == 1)
-						{
-							try
-							{
+						if(j == 1) {
+							try {
 								eventTable.setValueAt(events.get(i).getStartDate(), i, j);
 							}
 							catch(IndexOutOfBoundsException e) {}
 							eventTable.setValueAt(events.get(i).getStartDate(), i, j);
 						}
-						if(j == 2)
-						{
-							try
-							{
+						if(j == 2) {
+							try {
 								eventTable.setValueAt(events.get(i).getEndDate(), i, j);
 							}
 							catch(IndexOutOfBoundsException e) {}
 							eventTable.setValueAt(events.get(i).getEndDate(), i, j);
 						}
-						if(j == 3)
-						{
-							try
-							{
+						if(j == 3) {
+							try {
 								eventTable.setValueAt(events.get(i).getDescription(), i, j);
 							}
 							catch(IndexOutOfBoundsException e) {}
@@ -318,14 +308,11 @@ public class CalendarSidebar extends JPanel {
 					//eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
 				}
 				*/
-				if(j==3)
-				{
-					try
-					{
+				if(j == 3) {
+					try {
 						eventTable.setValueAt(events.get(i).getDescription(), i, j);
 					}
-					catch(IndexOutOfBoundsException e)
-					{
+					catch(IndexOutOfBoundsException e) {
 					}
 					//eventTable.setValueAt(events.get(i).getDescription(), i, j);	
 				}
