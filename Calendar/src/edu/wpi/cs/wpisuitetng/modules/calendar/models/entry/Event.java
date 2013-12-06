@@ -12,8 +12,10 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 
+import java.awt.Color;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.google.gson.Gson;
 
@@ -53,9 +55,10 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	private List<String> userIds; // userIds of users to participate in
 										// event
 
+	private Color color;		// The color to draw the event on the calendar views
+	
 	// TODO Either a projectId field is needed or we need to be certain that we
 	// are only retrieving from the current project's section of the database
-
 
 	/**
 	 * Default event constructor that sets invalid values to all fields
@@ -517,6 +520,57 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	/**
+	 * 
+	 * @return the color that displays the event on the calendar view
+	 */
+	public Color getColor() {
+		
+		if ( color == null ) {
+			color = generateRandomColor();
+		}
+		
+		return color;
+	}
+
+	/**
+	 * 
+	 * @param color the color to display the event
+	 */
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
+	/**
+	 * Generates a random light color for the event to use
+	 * @return the generated color
+	 */
+	public Color generateRandomColor() {
+		
+		Random rand = new Random();
+		
+		final int minimumRGB = 400;			// combined RGB values must equal at least this much
+		final int minimumGreen = 100;		// The green value must be at least this much
+		
+		// generated RBG values
+		int r = rand.nextInt( 250 );
+		int g = rand.nextInt( 250 );
+		int b = rand.nextInt( 250 );
+		
+		while ( g < minimumGreen ) {
+			g = rand.nextInt( 250 );
+		}
+		
+		while ( r + g + b < minimumRGB ) {
+			r = rand.nextInt( 250 );
+			b = rand.nextInt( 250 );
+		}
+		
+		return new Color( r, g, b );
+		
+	}
+	
 	
 	@Override
 	public int hashCode() {
