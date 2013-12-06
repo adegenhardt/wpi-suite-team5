@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -52,6 +53,10 @@ import java.awt.event.FocusEvent;
 
 import javax.swing.JTextPane;
 import javax.swing.JRadioButton;
+import javax.swing.JList;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 
 /**
  * @author Team Underscore
@@ -89,6 +94,14 @@ public class EventEditor extends JPanel {
 	
 	private JTabbedPane parent;
 	private JPanel thisInstance;
+	private JTextField textFieldPartic;
+	private JButton btnAddPartic;
+	private JScrollPane scrollPanePartics;
+	private JList listPartics;
+	private JButton btnRemovePartic;
+	private JLabel lblParterror;
+	
+	private DefaultListModel<String> particsListModel;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
@@ -101,7 +114,7 @@ public class EventEditor extends JPanel {
 		thisInstance = this;
 		
 		// Set the layout
-		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][100px:100:100px,grow][]"));
+		setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -240,14 +253,6 @@ public class EventEditor extends JPanel {
 		final JLabel lblParticipants = new JLabel("Participants:");
 		add(lblParticipants, "cell 0 10,alignx trailing");
 
-		final JScrollPane scrollPaneParticipants = new JScrollPane();
-		scrollPaneParticipants.setHorizontalScrollBarPolicy(
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		add(scrollPaneParticipants, "cell 1 10 3 1,grow");
-
-		final JEditorPane editorPane_1 = new JEditorPane();
-		scrollPaneParticipants.setViewportView(editorPane_1);
-
 		final JButton btnSubmit = new JButton("Submit");
 		
 		/**
@@ -365,11 +370,79 @@ public class EventEditor extends JPanel {
 				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());			
 			}
 		}
-		btnSubmit.addActionListener(new SubmitButtonListener());
+		
+		// Clicking Add will add a participant to the list below
+		class ParticAddButtonListener implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				particsListModel.addElement(textFieldPartic.getText());
+				textFieldPartic.setText(null);
+			}
+		}
+				
+		// Clicking Remove will remove the selected participant from the list
+		class ParticRemoveButtonListener implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				particsListModel.removeElement(listPartics.getSelectedValue());
+			}
+		}
+		
+		// Text field to enter a participant to add
+		textFieldPartic = new JTextField();
+		add(textFieldPartic, "cell 1 10 3 1,growx");
+		textFieldPartic.setColumns(10);
+		
+		// Button to add a participant to the list, disabled until text is present
+		btnAddPartic = new JButton("Add");
+		add(btnAddPartic, "cell 4 10,growx");
+		btnAddPartic.setEnabled(false);
+		
+		// Error label for adding participants
+		lblParterror = new JLabel("");
+		add(lblParterror, "cell 5 10");
+		
+		// Scroll pane for participants list
+		scrollPanePartics = new JScrollPane();
+		add(scrollPanePartics, "cell 1 11 3 1,grow");
+		
+		// List of participants to add to the event
+		particsListModel = new DefaultListModel<String>();
+		listPartics = new JList<String>(particsListModel);
+		scrollPanePartics.setViewportView(listPartics);
+		
+		// Button to remove participants
+		btnRemovePartic = new JButton("Remove");
+		add(btnRemovePartic, "cell 4 11,growx,aligny top");
 
 		add(btnSubmit, "cell 1 12 2 1,growx");
 		// Will update the appropriate view
 		correctUpdateForView();
+		
+		// Button listeners
+		btnSubmit.addActionListener(new SubmitButtonListener());
+		btnAddPartic.addActionListener(new ParticAddButtonListener());
+		btnRemovePartic.addActionListener(new ParticRemoveButtonListener());
+
+		
+		// If the participants text field is not empty, allow the Add button to be pressed
+		// Uses a DocumentListener to check for changes, specifically to check if empty
+		textFieldPartic.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				enableAdd();
+			}
+			public void removeUpdate(DocumentEvent e) {
+				enableAdd();
+			}
+			public void insertUpdate(DocumentEvent e) {
+				enableAdd();
+			}
+			
+			private void enableAdd(){
+				if ((textFieldPartic.getText().equals(""))){
+					btnAddPartic.setEnabled(false);
+				}
+				else btnAddPartic.setEnabled(true);
+			}
+		});
 		
 
 		//add(btnSubmit, "cell 1 11 2 1,growx");
