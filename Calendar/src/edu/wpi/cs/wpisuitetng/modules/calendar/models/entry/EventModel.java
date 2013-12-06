@@ -149,55 +149,6 @@ public class EventModel extends AbstractListModel<Event> {
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 	}
 	
-	/**
-	 * Get all the categories for the team that the user can access,
-	 * and add those categories to a now empty CategoryModel.
-	 * @param userId the id of the user attempting to access the categories
-	 */
-	public void toTeamEventModel( String userId ) {
-		List< Event > teamEvents = new ArrayList< Event >();
-		
-		// Empty the contents of the current version of the local EventModel.
-		emptyModel();
-		
-		// Send HTTP request to obtain all events from server
-		// and place them in the local EventModel.
-		GetEventController.getInstance().retrieveEvents();
-		
-		// Gather all of the team events from the current list of events
-		// contained in the local EventModel.
-		teamEvents = getTeamEvents( userId );
-		
-		// Empty the contents of the current version of the local EventModel.
-		emptyModel();
-		
-		// Proceed to add only those events to the local EventModel that
-		// are classified as "team events".
-		for ( int i = 0; i < teamEvents.size(); i++ ) {
-			events.add(teamEvents.get ( i ));
-		}
-		
-		// The local EventModel is now populated with only team events.
-	}
-	
-	/**
-	 * Get all the events that the user can access,
-	 * and add those events to a now empty EventModel.
-	 * Uses the GetEventController class and GetEventRequestObserver
-	 * classes in order to populate the local EventModel.
-	 */
-	public void toPersonalEventModel() {
-		// Empty the local EventModel so that it does not contain
-		// any duplicate events.
-		emptyModel();
-		
-		// Send HTTP request to obtain all events from server
-		// and place them in the local EventModel.
-		GetEventController.getInstance().retrieveEvents();
-		
-		// The local EventModel now possess a collection of all events.
-	}
-	
 	// ******************************************************************
 	// Getters for the events
 	
@@ -439,6 +390,36 @@ public class EventModel extends AbstractListModel<Event> {
 		}
 		
 		return userEvents;
+		
+	}
+	
+	/**
+	 * Determine whether one event is already contained in the list maintained
+	 * by the local model of event data.
+	 * 
+	 * @param userId The id of the user attempting to determine if any of their events
+	 * are the same as the one that they are intending to add (relevant to event creation).
+	 * 
+	 * @param event The event to be checked against the contents of the local model.
+	 * 
+	 * @return true or false depending on whether or not the event is the same as another
+	 * event already contained within the local model.
+	 */
+	public boolean similarEventFound( String userId, Event event ) {
+		Event currentEvent;
+		boolean isEventFound = false;
+		
+		// Loop through the list of events for the local model and determine whether
+		// the event being passed as input is the same as any event within the local
+		// model.
+		for ( int i = 0; i < events.size(); i++ ) {
+			currentEvent = events.get( i );
+			
+			// checking the fields of each local model event against the input event
+			isEventFound = isEventFound || event.everythingEquivalentButUniqueID( currentEvent );
+		}
+		
+		return isEventFound;
 		
 	}
 	

@@ -84,6 +84,7 @@ public class EventEditor extends JPanel {
 	private final JLabel lblDatemsg;
 	private final JLabel lblDescmsg;
 	private final JLabel lblEventnamemsg;
+	private JLabel lblDuplicateEventmsg;
 	private final JLabel labelEDate;
 	private final JLabel lblDateEndMsg;
 	private final JLabel lblTimemsg;
@@ -200,7 +201,12 @@ public class EventEditor extends JPanel {
 		
 		final JLabel lblEndTime = new JLabel("End Time:");
 		add(lblEndTime, "cell 0 5,alignx trailing");
-				
+		
+		// Set the duplicate label, will appear if a duplicate has been created.
+		lblDuplicateEventmsg = new JLabel("");
+		lblDuplicateEventmsg.setForeground(Color.black);
+		add(lblDuplicateEventmsg, "cell 2 12,alignx center");
+		
 		// Create the combo boxes for time selection
 		comboBoxEndHour = new JComboBox<String>();
 		comboBoxEndHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
@@ -296,15 +302,30 @@ public class EventEditor extends JPanel {
 					System.out.println("Team Event");
 					isTeamEvent = true;
 				}
+				
+				// Retrieve the user name from Janeway's configuration storage
+				// and place it in the userId variable.
+				String userId = ConfigManager.getConfig().getUserName();
 
 				final Event makeEvent = new Event(eventName.getText(),
 						descriptionPane.getText(), startDate, endDate, isTeamEvent,
 						new Category("Place", 5));
 
 				makeEvent.setId(EventModel.getInstance().getNextID());
-
-				AddEventController.getInstance().addEvent(makeEvent);
 				
+				// If the user creates an event similar in all fields but unique ID,
+				// then do not add it to the local model or the server.
+				if (EventModel.getInstance().similarEventFound(userId, makeEvent)) {
+					lblDuplicateEventmsg = new JLabel("Duplicate event present: will not create.");
+					lblDuplicateEventmsg.setForeground(Color.red);
+					add(lblDuplicateEventmsg, "cell 3 12,alignx center");
+					System.out.println("Duplicate event present: will not create event.");
+					return;
+				}
+
+				else {
+				AddEventController.getInstance().addEvent(makeEvent);
+				}
 
 				parent.remove(thisInstance);
 
@@ -551,7 +572,7 @@ public class EventEditor extends JPanel {
 		
 	}
 
-	// Parse the String times into ints so they can be compared
+	// Parse the String times into integers so they can be compared
 	// Used to check if the start time and end times are valid
 	private int parseTime(String hour, String minutes, String AMPM) {
 		int time;

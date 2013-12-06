@@ -627,6 +627,99 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	}
 
 	/**
+	 * Determines whether or not two events are equivalent with the
+	 * exception of their unique IDs.
+	 * 
+	 * @param obj any object that is passed for input to compare against.
+	 * 
+	 * @return true or false depending upon whether or not the object passed in is
+	 * equivalent with the exception of its unique ID.
+	 */
+	public boolean everythingEquivalentButUniqueID(Object obj) {
+		
+		if ( !( obj instanceof Event ) ||
+				!( obj instanceof ICalendarEntry ) ){
+			return false;
+		}
+		
+		if (this == obj) {
+			return true;
+		}
+		
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		
+		final Event other = (Event) obj;
+		
+		if (category == null) {
+			if (other.category != null) {
+				return false;
+			}
+		} else if (!category.equals(other.category)) {
+			return false;
+		}
+		
+		if (creatorId == null) {
+			if (other.creatorId != null) {
+				return false;
+			}
+		} else if (!creatorId.equals(other.creatorId)) {
+			return false;
+		}
+		
+		if (description == null) {
+			if (other.description != null) {
+				return false;
+			}
+		} else if (!description.equals(other.description)) {
+			return false;
+		}
+		
+		if (endDate == null) {
+			if (other.endDate != null) {
+				return false;
+			}
+		} else if (!endDate.equals(other.endDate)) {
+			return false;
+		}
+		
+		if (isDeleted != other.isDeleted) {
+			return false;
+		}
+		
+		if (isTeamEvent != other.isTeamEvent) {
+			return false;
+		}
+		
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		
+		if (startDate == null) {
+			if (other.startDate != null) {
+				return false;
+			}
+		} else if (!startDate.equals(other.startDate)) {
+			return false;
+		}
+		
+		if (userIds == null) {
+			if (other.userIds != null) {
+				return false;
+			}
+		} else if (!userIds.equals(other.userIds)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * Add a user to the collection of users that are involved in an event
 	 * 
 	 * @param newId
