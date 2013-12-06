@@ -26,7 +26,7 @@ import java.awt.BorderLayout;
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
 
-	/** The panel containing the post board */
+	/** The panel containing the calendar module */
 	private final CalendarPanel calendarPanel;
 	
 	/**

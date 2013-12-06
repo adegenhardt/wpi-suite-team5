@@ -29,9 +29,7 @@ import java.awt.event.MouseEvent;
  * Creates the event viewer
  */
 public class EventViewer extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	/**
 	 * Create the panel. Created using WindowBuilder

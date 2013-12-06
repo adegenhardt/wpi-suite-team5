@@ -4,6 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team _
+ *  
  *********************************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.categoryobserver;
@@ -20,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * to the server to add an instance of Category.
  *
  * @version $Revision: 1.0 $
- * @author awitt
+ * @author Team Underscore
  */
 public class AddCategoryRequestObserver implements RequestObserver {
 

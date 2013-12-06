@@ -6,10 +6,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: Team _
+ * 
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars;
-
+// Global variables to check whether the calendar should display
+// Team or Personal events (or both)
 public class GlobalButtonVars {
 	
 	public static boolean isTeamView = false;
