@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.toolbar;
@@ -25,25 +25,23 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 
-//Creates a panel in the toolbar with buttons 
-//to switch between Team and Personal calendars
 /**
  * @author Team Underscore
  * @version $Revision: 1.0$
  * 
- * Creates the team member button panel
+ * Create the Team and Personal calendar toggles
+ * in the toolbar
  */
+@SuppressWarnings("serial")
 public class TeamPersButtonsPanel extends ToolbarGroupView{
-	private static final long serialVersionUID = 1L;
+	
 	private final JPanel contentPanel = new JPanel();
 	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
 	// Create the buttons
@@ -51,36 +49,21 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 	JButton createPersonalButton;
 	
 	// Methods to enable and disable these buttons
-	/**
-	 * Method disableCreateTeamButton.
-	 */
 	public void disableCreateTeamButton() {
 		createTeamButton.setEnabled(false);
 		GlobalButtonVars.isTeamView = false;
 		GlobalButtonVars.isPersonalView = true;
 	}
-	
-	/**
-	 * Method enableCreateTeamButton.
-	 */
 	public void enableCreateTeamButton() {
 		createTeamButton.setEnabled(true);
 		GlobalButtonVars.isTeamView = true;
 		GlobalButtonVars.isPersonalView = false;
 	}
-	
-	/**
-	 * Method disableCreatePersonalButton.
-	 */
 	public void disableCreatePersonalButton() {
 		createTeamButton.setEnabled(false);
 		GlobalButtonVars.isTeamView = true;
 		GlobalButtonVars.isPersonalView = false;
 	}
-	
-	/**
-	 * Method enableCreatePersonalButton.
-	 */
 	public void enableCreatePersonalButton() {
 		createTeamButton.setEnabled(true);
 		GlobalButtonVars.isTeamView = false;
@@ -88,25 +71,21 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 	}
 
 	// Create the panel
-	/**
-	 * Constructor for TeamPersButtonsPanel.
-	 */
 	public TeamPersButtonsPanel(){
 		super("");
 		
 		// Set the text
 		createTeamButton = new JButton("<html>Team <br/>Calendar</html>");
 		createPersonalButton = new JButton("<html>Personal <br/>Calendar</html>");
+		
 		// Set the size and layout
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		this.setPreferredWidth(350);
-		
 		createTeamButton.setPreferredSize(new Dimension(175, 40));
 		createPersonalButton.setPreferredSize(new Dimension(175, 40));
-		
 		createTeamButton.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		// Set the icons
-		// TODO: New icons
 		try {
 			final Image imgT = ImageIO.read(getClass().getResource("team_calendar.png"));
 		    createTeamButton.setIcon(new ImageIcon(imgT));
@@ -116,6 +95,7 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		    
 		} catch (IOException ex) {}
 		
+		// Set these buttons visible by default
 		createTeamButton.setVisible(true);
 		createPersonalButton.setVisible(true);
 		
@@ -128,18 +108,10 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		this.add(contentPanel);
 	}
 	
-	/**
-	 * Method getCreateButton.
-	
-	 * @return JButton */
+	// Getters
 	public JButton getCreateTeamButton() {
 		return createTeamButton;
 	}
-
-	/**
-	 * Method getCreateIterationButton.
-	
-	 * @return JButton */
 	public JButton getCreatePersonalButton() {
 		return createPersonalButton;
 	}

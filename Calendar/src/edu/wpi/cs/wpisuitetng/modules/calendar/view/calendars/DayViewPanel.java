@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
@@ -15,14 +15,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
 import java.awt.Rectangle;
 import java.awt.GridLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 
 /**
@@ -31,16 +30,12 @@ import java.awt.FlowLayout;
  * 
  * Creates the Day View tab
  */
+@SuppressWarnings("serial")
 public class DayViewPanel extends JPanel {
 	
-	/**
-	 * 
-	 */
 	// Millis for day in Calendar class
 	private static final long ONE_DAY = 86400000; 
 	
-	private static final long serialVersionUID = 1L;
-
 	private final DayView dayView;
 	
 	private final JPanel buttonsPanel;
@@ -57,11 +52,11 @@ public class DayViewPanel extends JPanel {
 	public DayViewPanel() {
 		
 		// This makes the blue highlighting work for some reason
-		// Thanks Calendar class, your the best
+		// Thanks Calendar class, you're the best
 		currentDateCal = Calendar.getInstance(); 
 		
 		buttonsPanel = new JPanel();
-		
+		// Set the view constraints
 		dayView = new DayView();
 		dayView.refreshDay(currentDateCal);
 		dayView.setMaximumSize(new Dimension(1000, 1000));
@@ -69,6 +64,8 @@ public class DayViewPanel extends JPanel {
 		dayView.setMinimumSize(new Dimension(5, 5));
 		dayView.setBounds(new Rectangle(0, 0, 1000, 1000));
 		
+		// Create a button that displays the current date.
+		// Clicking it will reset the view to the current date
 		currentDate = new JButton("Today");
 		currentDate.addMouseListener(new MouseAdapter() {
 			@Override
@@ -77,6 +74,7 @@ public class DayViewPanel extends JPanel {
 				dayView.refreshDay(currentDisplay);
 			}
 		});
+		// Create a button to move the view back one day
 		prevDay = new JButton("Previous Day");
 		prevDay.addMouseListener(new MouseAdapter() {
 			@Override
@@ -86,14 +84,7 @@ public class DayViewPanel extends JPanel {
 				dayView.refreshDay(currentDisplay);
 			}
 		});
-		setLayout(new MigLayout("", "[600px,grow 1000,center]", "[pref!][600px,grow 1000,fill]"));
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-		
-		buttonsPanel.add(prevDay);
-		buttonsPanel.add(currentDate);
-		this.add(buttonsPanel, "cell 0 0,alignx center,aligny top");
-		
+		// Create a button to move the view forward one day
 		nextDay = new JButton("Next Day");
 		nextDay.addMouseListener(new MouseAdapter() {
 			@Override
@@ -103,8 +94,15 @@ public class DayViewPanel extends JPanel {
 				dayView.refreshDay(currentDisplay);
 			}
 		});
-		
+		// Create a panel for the buttons
+		setLayout(new MigLayout("", "[600px,grow 1000,center]", "[pref!][600px,grow 1000,fill]"));
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		buttonsPanel.add(prevDay);
+		buttonsPanel.add(currentDate);
 		buttonsPanel.add(nextDay);
+		
+		// Add the button panel and the view
+		this.add(buttonsPanel, "cell 0 0,alignx center,aligny top");
 		this.add(dayView, "cell 0 1,grow");
 		dayView.setLayout(new GridLayout(1, 0, 0, 0));
 	}
