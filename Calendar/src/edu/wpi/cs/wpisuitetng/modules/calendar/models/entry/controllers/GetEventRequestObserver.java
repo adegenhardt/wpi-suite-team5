@@ -6,6 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: Team _
+ * 
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers;
 
@@ -17,7 +18,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  * This observer handles responses to requests for all Event instance
  *
  * @version $Revision: 1.0 $
- * @author srkodzis
+ * @author Team Underscore
  */
 public class GetEventRequestObserver implements RequestObserver {
 	
@@ -54,7 +55,7 @@ public class GetEventRequestObserver implements RequestObserver {
 	}
 
 	/**
-	 * Put an error Event in the PostBoardPanel if the request fails.
+	 * Put an error Event in the Calendar Panel if the request fails.
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */

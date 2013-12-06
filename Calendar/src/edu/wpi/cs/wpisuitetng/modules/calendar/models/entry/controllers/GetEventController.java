@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * from the server.
  *
  * @version $Revision: 1.0 $
- * @author srkodzis
+ * @author Team Underscore
  */
 public class GetEventController implements ActionListener {
 

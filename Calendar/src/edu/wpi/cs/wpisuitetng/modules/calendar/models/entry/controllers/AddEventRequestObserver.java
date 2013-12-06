@@ -6,6 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: Team _
+ * 
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers;
@@ -22,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * to the server to add an instance of Event.
  *
  * @version $Revision: 1.0 $
- * @author srkodzis
+ * @author Team Underscore
  */
 public class AddEventRequestObserver implements RequestObserver {
 	

@@ -6,6 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: Team _
+ * 
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers;
 
@@ -19,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the user creates a new project,
  * creating an empty Calendar with it.
  * @version $Revision: 1.0 $
- * @author srkodzis
+ * @author Team Underscore
  */
 public class AddEventController  {
 	

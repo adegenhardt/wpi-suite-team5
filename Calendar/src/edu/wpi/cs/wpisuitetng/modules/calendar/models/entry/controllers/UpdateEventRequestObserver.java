@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * to the server to add a Event.
  *
  * @version $Revision: 1.0 $
- * @author justinhess
+ * @author Team Underscore
  */
 public class UpdateEventRequestObserver implements RequestObserver {
 	

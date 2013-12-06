@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * adding the contents of the Event text fields to the model as a new
  * Event.
  * @version $Revision: 1.0 $
- * @author srkodzis
+ * @author Team Underscore
  */
 public class UpdateEventController{
 	

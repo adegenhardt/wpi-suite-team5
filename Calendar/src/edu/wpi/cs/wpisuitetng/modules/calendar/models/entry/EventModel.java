@@ -6,6 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: Team _
+ * 
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
@@ -20,15 +21,12 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEvent
 
 /**List of Calendars pulled from the server
  * 
- * @author srkodzis, adapted from RequirementModel.java
+ * @author Team Underscore
  * 
  * @version $Revision: 1.0 $
  */
 public class EventModel extends AbstractListModel<Event> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8998701695357104361L;
 
 	// ********************************************************************
