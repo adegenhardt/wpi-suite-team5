@@ -487,9 +487,6 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 		this.id = id;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;

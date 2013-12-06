@@ -188,7 +188,7 @@ public class WeekView extends JPanel {
                 DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             	String thisDay = getStringDay(currentDay);
             	
-            	if (column != 0 && weekDays[column-1].equals(thisDay)) {
+            	if (column != 0 && weekDays[column - 1].equals(thisDay)) {
             		rendererComponent.setBorder(BorderFactory.createCompoundBorder(rendererComponent.getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
             		rendererComponent.setBackground(new Color(138, 173, 209));
             	}
@@ -298,7 +298,7 @@ public class WeekView extends JPanel {
 	
 	private void updateHeaders() {
 		for(int i=0; i < weekDays.length; i++) {
-			dayTable.getTableHeader().getColumnModel().getColumn(i+1).setHeaderValue(weekDays[i]);
+			dayTable.getTableHeader().getColumnModel().getColumn(i + 1).setHeaderValue(weekDays[i]);
 		}
 	}
 	

@@ -98,7 +98,7 @@ public class CalendarSidebar extends JPanel {
 				"Events", "Start Date", "End Date", "Description"
 			}
 		) {
-			boolean[] columnEditables = new boolean[] {
+			public boolean[] columnEditables = new boolean[] {
 				false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
@@ -145,9 +145,9 @@ public class CalendarSidebar extends JPanel {
 		panelFilter.setBorder(new TitledBorder(null, "Filters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelFilter.setLayout(new MigLayout("", "[grow][grow]", "[85.00px][][]"));
 		
-		final JList list = new JList();
+		final JList<Object> list = new JList<Object>();
 		panelFilter.add(list, "cell 0 0,grow");
-		list.setModel(new AbstractListModel() {
+		list.setModel(new AbstractListModel<Object>() {
 			String[] values = new String[] {"Team", "Personal", "Things"};
 			public int getSize() {
 				return values.length;
@@ -178,7 +178,7 @@ public class CalendarSidebar extends JPanel {
 		final JLabel lblCurrentCategories = new JLabel("Categories:");
 		panelCatCreate.add(lblCurrentCategories, "cell 0 0,alignx right");
 		
-		final JComboBox comboBox = new JComboBox();
+		final JComboBox<?> comboBox = new JComboBox<Object>();
 		panelCatCreate.add(comboBox, "cell 1 0,growx");
 		
 		final JButton btnDelete_1 = new JButton("Delete");
@@ -241,9 +241,9 @@ public class CalendarSidebar extends JPanel {
 		}
 		for(int i=0;i < 6;i++)
 		{
-			for(int j=0;j<4;j++)
+			for(int j=0;j < 4;j++)
 			{
-				if(j==0)
+				if(j == 0)
 				{
 					try
 					{
@@ -255,7 +255,7 @@ public class CalendarSidebar extends JPanel {
 					// eventTable.setValueAt(events.get(i).getName(), i, j);	
 					
 				}
-				if(j==1)
+				if(j == 1)
 				{	
 					try
 					{

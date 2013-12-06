@@ -86,7 +86,7 @@ public class GetEventController implements ActionListener {
 		if (events != null) 
 		{
 			// add the Event instances to the local model
-			EventModel.getInstance().addEvents( events );
+			EventModel.getInstance().addAllEvents( events );
 		}
 	}
 }

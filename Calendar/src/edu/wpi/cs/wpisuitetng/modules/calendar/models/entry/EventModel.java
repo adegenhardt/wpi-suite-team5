@@ -137,7 +137,7 @@ public class EventModel extends AbstractListModel<Event> {
 	 * Adds the given array of events to the list
 	 * @param events the array of data to add
 	 */
-	public void addEvents(Event[] events){
+	public void addAllEvents(Event[] events){
 		// iterate through the added array, adding each element to 
 		// the model and assigning each element a unique ID as it is added.
 		for (int i = 0; i < events.length; i++) {

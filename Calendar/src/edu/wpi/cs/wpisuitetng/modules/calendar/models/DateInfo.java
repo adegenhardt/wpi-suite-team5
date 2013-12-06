@@ -176,9 +176,9 @@ public class DateInfo {
 	 */
 	public Calendar dateInfoToCalendar(){
 		Calendar cal = new GregorianCalendar();
-		int hourOfDay = ((this.halfHour/2));
+		int hourOfDay = ((this.halfHour / 2));
 		int minute = 0;
-		if(this.halfHour%2 !=0){
+		if(this.halfHour % 2 != 0){
 			minute = 30;
 		}
 		
@@ -216,7 +216,7 @@ public class DateInfo {
 			sTime = sTime + ":30";
 		}
 		if (iTime > 12){
-			iTime = iTime/2;
+			iTime = iTime / 2;
 			sTime = sTime + " PM";
 		}
 		else{
