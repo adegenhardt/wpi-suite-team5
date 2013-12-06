@@ -46,7 +46,7 @@ public class UpdateEventRequestObserver implements RequestObserver {
 		final ResponseModel response = iReq.getResponse();
 		
 		// Parse the Event out of the response body
-		final Event event = Event.fromJson( response.getBody() );		
+		final Event event = Event.fromJson( response.getBody() );	
 	}
 	
 	/**

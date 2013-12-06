@@ -60,7 +60,7 @@ public class CalendarSidebar extends JPanel {
 	private final JTextField textField;
 	private final JTextField filterTextField;
 	private boolean isUpdated = false;
-	private ButtonGroup radioGroup;
+	private final ButtonGroup radioGroup;
 	
 	// Create the sidebar panel
 	@SuppressWarnings("unchecked")
@@ -70,7 +70,7 @@ public class CalendarSidebar extends JPanel {
 		// Create a button to refres the list of events
 		// TODO: Incorporate this functionality into Event/Commitment Submit buttons
 		// and the Team/Personal View buttons
-		JButton btnRefreshEvents = new JButton("Refresh Events");
+		final JButton btnRefreshEvents = new JButton("Refresh Events");
 		btnRefreshEvents.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -101,7 +101,7 @@ public class CalendarSidebar extends JPanel {
 			}
 		){
 			// Do not allow the table to be manually editable
-			public boolean[] columnEditables = new boolean[] {
+			private final boolean[] columnEditables = new boolean[] {
 				false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
@@ -128,7 +128,7 @@ public class CalendarSidebar extends JPanel {
 				"Commitment", "Date", "Category ", "Description"
 			}
 		) {
-			boolean[] columnEditables = new boolean[] {
+			private final boolean[] columnEditables = new boolean[] {
 				false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
@@ -156,7 +156,7 @@ public class CalendarSidebar extends JPanel {
 		final JList<Object> list = new JList<Object>();
 		panelFilter.add(list, "cell 0 0,grow");
 		list.setModel(new AbstractListModel<Object>() {
-			String[] values = new String[] {"Team", "Personal", "Things"};
+			private final String[] values = new String[] {"Team", "Personal", "Things"};
 			public int getSize() {
 				return values.length;
 			}
@@ -214,7 +214,7 @@ public class CalendarSidebar extends JPanel {
 		final JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Category newCat = new Category(textField.getText(), rdbtnTeam.isSelected());
+				final Category newCat = new Category(textField.getText(), rdbtnTeam.isSelected());
 				newCat.setId(CategoryModel.getInstance().getNextID());
 				AddCategoryController.getInstance().addCategory(newCat);
 			}
@@ -242,32 +242,30 @@ public class CalendarSidebar extends JPanel {
 		
 		// Get either personal or team events depending on the current view
 		if (GlobalButtonVars.isPersonalView) {
-			String userId = ConfigManager.getConfig().getUserName();
+			final String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getPersonalEvents(userId);
 		}
 		else {
-			String userId = ConfigManager.getConfig().getUserName();
+			final String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getTeamEvents(userId);
 		}
 		
 		// Populate the table with the list of events
-		for(int i=0;i < 6;i++){
-			for(int j=0;j < 4;j++){
-				if(j == 0){
-					try{
+		for (int i = 0; i < 6; i++){
+			for (int j = 0; j < 4; j++){
+				if (j == 0){
+					try {
 						eventTable.setValueAt(events.get(i).getName(), i, j);
 					}
-					catch(IndexOutOfBoundsException e){	
-					}
+					catch (IndexOutOfBoundsException e) {}
 					// eventTable.setValueAt(events.get(i).getName(), i, j);	
 					
 				}
-				if(j == 1){	
-					try{
+				if (j == 1) {
+					try {
 						eventTable.setValueAt(events.get(i).getStartDate(), i, j);
 					}
-					catch(IndexOutOfBoundsException e){
-					}
+					catch (IndexOutOfBoundsException e) {}
 					//eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
 				}
 				
@@ -308,12 +306,11 @@ public class CalendarSidebar extends JPanel {
 					//eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
 				}
 				*/
-				if(j == 3) {
+				if (j == 3) {
 					try {
 						eventTable.setValueAt(events.get(i).getDescription(), i, j);
 					}
-					catch(IndexOutOfBoundsException e) {
-					}
+					catch(IndexOutOfBoundsException e) {}
 					//eventTable.setValueAt(events.get(i).getDescription(), i, j);	
 				}
 			}

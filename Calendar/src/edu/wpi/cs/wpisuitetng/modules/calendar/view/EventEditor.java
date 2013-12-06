@@ -85,25 +85,26 @@ public class EventEditor extends JPanel {
 	private final JRadioButton rdbtnPersonal;
 	private final JRadioButton rdbtnTeam;
 	
-	private JTabbedPane parent;
-	private JPanel thisInstance;
-	private JTextField textFieldPartic;
-	private JButton btnAddPartic;
-	private JScrollPane scrollPanePartics;
-	private JList<String> listPartics;
-	private JButton btnRemovePartic;
-	private JLabel lblParterror;
+	private final JTabbedPane parent;
+	private final JPanel thisInstance;
+	private final JTextField textFieldPartic;
+	private final JButton btnAddPartic;
+	private final JScrollPane scrollPanePartics;
+	private final JList listPartics;
+	private final JButton btnRemovePartic;
+	private final JLabel lblParterror;
 	
-	private DefaultListModel<String> particsListModel;
+	private final DefaultListModel<String> particsListModel;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
+	 * @param _parent the parent
 	 */
 	public EventEditor(JTabbedPane _parent) {
 		
 		// Set the parent tabbed pane for this closable tab
 		// Set itself to be called later in the tabbed pane
-		this.parent = _parent; 
+		parent = _parent; 
 		thisInstance = this;
 		
 		// Set the layout
@@ -383,6 +384,12 @@ public class EventEditor extends JPanel {
 		}
 		
 		// Clicking Add will add a participant to the list below
+		/**
+		 * 
+		 * @author Team_
+		 * @version 1.0
+		 *
+		 */
 		class ParticAddButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				particsListModel.addElement(textFieldPartic.getText());
@@ -391,6 +398,12 @@ public class EventEditor extends JPanel {
 		}
 				
 		// Clicking Remove will remove the selected participant from the list
+		/**
+		 * 
+		 * @author Team_
+		 * @version 1.0
+		 *
+		 */
 		class ParticRemoveButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				particsListModel.removeElement(listPartics.getSelectedValue());

@@ -173,17 +173,17 @@ public class DateInfo {
 	
 	/**
 	 * Converts the given DateInfo to a Calendar Object of the same parameters
-	 * @return
+	 * @return Calendar object
 	 */
 	public Calendar dateInfoToCalendar(){
-		Calendar cal = new GregorianCalendar();
-		int hourOfDay = ((this.halfHour / 2));
+		final Calendar cal = new GregorianCalendar();
+		final int hourOfDay = ((halfHour / 2));
 		int minute = 0;
-		if(this.halfHour % 2 != 0){
+		if(halfHour % 2 != 0){
 			minute = 30;
 		}
 		//added plus 1 to day for if now use 0 base
-		cal.set(this.year, this.month, this.day +1, hourOfDay, minute);
+		cal.set(year, month, day, hourOfDay, minute);
 		return cal;
 	}
 
@@ -193,18 +193,18 @@ public class DateInfo {
 	 */
 	@Override
 	public String toString() {
-		String theYear = "" + this.year;
-		int theMonthI = this.getMonth();
+		final String theYear = "" + year;
+		final int theMonthI = month;
 		// Initialize a blank Month string
 		String theMonthS = "";
 		// Assign an MM Month String depending on the value
 		// of the month int.
 		theMonthS = theMonthS + theMonthI;
-		String theDay = "" + this.day;
+		final String theDay = "" + day;
 		// Deliver a time depending on the halfHour int
 		int iTime = 0;
 		String sTime = "";
-		int theTime = this.getHalfHour();
+		int theTime = halfHour;
 		while (theTime > 1){
 			theTime = theTime - 2;
 			iTime++;
@@ -225,7 +225,7 @@ public class DateInfo {
 		}
 		// Collect all the info gathered above into a single string
 		// and return it
-		String theDateInfo = "" + sTime + ", " + theMonthS + "/" + theDay + "/" + theYear;
+		final String theDateInfo = "" + sTime + ", " + theMonthS + "/" + theDay + "/" + theYear;
 		return theDateInfo;
 	} 
 

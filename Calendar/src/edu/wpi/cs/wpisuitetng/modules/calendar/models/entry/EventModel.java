@@ -222,7 +222,7 @@ public class EventModel extends AbstractListModel<Event> {
 		final List< Event > teamEvents = new ArrayList< Event >();
 		Event currentEvent;
 		
-		for ( int i = 0; i < events. size(); i++ ) {
+		for ( int i = 0; i < events.size(); i++ ) {
 			
 			currentEvent = events.get( i );
 			if ( !currentEvent.isDeleted() &&
@@ -298,7 +298,7 @@ public class EventModel extends AbstractListModel<Event> {
 		final List< Event > personalEvents = new ArrayList< Event >();
 		Event currentEvent;
 		
-		for ( int i = 0; i < events. size(); i++ ) {
+		for ( int i = 0; i < events.size(); i++ ) {
 			
 			currentEvent = events.get( i );
 			if ( !currentEvent.isDeleted() &&
