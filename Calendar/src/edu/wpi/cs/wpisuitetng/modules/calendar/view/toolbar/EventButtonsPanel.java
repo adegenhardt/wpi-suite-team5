@@ -1,20 +1,18 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.toolbar;
 
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -26,48 +24,37 @@ import javax.swing.SwingConstants;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
-import javax.swing.JRadioButton;
-
 /**
  * @author Team Underscore
  * @version $Revision: 1.0$
  * 
- * Create the event buttons
+ * Create the New Event and New Commitment buttons
+ * in the toolbar
  */
+@SuppressWarnings("serial")
 public class EventButtonsPanel extends ToolbarGroupView{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	
+	// Create a panel for these buttons
 	private final JPanel contentPanel = new JPanel();
-	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
 	JButton createEventButton;
 	JButton createCommitButton;
 
-	/**
-	 * Method disableCreateEventButton.
-	 */
+	// Disable the Event button if need be
 	public void disableCreateEventButton() {
 		createEventButton.setEnabled(false);
 	}
 	
-	/**
-	 * Method enableCreateEventButton.
-	 */
+	// Enable the Event button
 	public void enableCreateEventButton() {
 		createEventButton.setEnabled(true);
 	}
 	
-	/**
-	 * Method disableCreateCommitButton.
-	 */
+	// Disable the Commitment button if need be
 	public void disableCreateCommitButton() {
 		createEventButton.setEnabled(false);
 	}
 	
-	/**
-	 * Method enableCreateCommitButton.
-	 */
+	//Enable the Commitment button
 	public void enableCreateCommitButton() {
 		createEventButton.setEnabled(true);
 	}
@@ -77,18 +64,18 @@ public class EventButtonsPanel extends ToolbarGroupView{
 	 */
 	public EventButtonsPanel(){
 		super("");
-		
+		// Create two buttons
 		createEventButton = new JButton("<html>Create <br/>Event</html>");
 		createCommitButton = new JButton("<html>Create <br/>Commitment</html>");
 		
+		// Set panel and button constraints and alignment
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		this.setPreferredWidth(350);
-		
 		createCommitButton.setPreferredSize(new Dimension(175, 40));
 		createEventButton.setPreferredSize(new Dimension(175, 40));
-		
 		createEventButton.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		// Set the icons for the buttons
 		try {
 			final Image imgE = ImageIO.read(getClass().getResource("new_event.png"));
 		    createEventButton.setIcon(new ImageIcon(imgE));
@@ -98,24 +85,11 @@ public class EventButtonsPanel extends ToolbarGroupView{
 		    
 		} catch (IOException ex) {}
 		
+		// Make sure these buttons are visible by default
 		createEventButton.setVisible(true);
 		createCommitButton.setVisible(true);
 		
-		// the action listener for the Create Event Button
-		createEventButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-				
-		// action listener for the Create Commit Button
-		createCommitButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
+		// Add the buttons, set the panel
 		contentPanel.add(createCommitButton);
 		contentPanel.add(createEventButton);
 		contentPanel.setOpaque(false);
@@ -123,18 +97,10 @@ public class EventButtonsPanel extends ToolbarGroupView{
 		this.add(contentPanel);
 	}
 	
-	/**
-	 * Method getCreateButton.
-	
-	 * @return JButton */
+	// Getters
 	public JButton getCreateEventButton() {
 		return createEventButton;
 	}
-
-	/**
-	 * Method getCreateIterationButton.
-	
-	 * @return JButton */
 	public JButton getCreateCommitButton() {
 		return createCommitButton;
 	}

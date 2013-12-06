@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore
+ * Contributors: Team _
  *    
  *******************************************************************************/
 
@@ -38,10 +38,11 @@ import javax.swing.BoxLayout;
  * @author Team Underscore
  * @version $Revision: 1.0$
  * 
- * MonthView creates the Month Tab in the Calendar module
+ * MonthView creates the Month tab in the Calendar module
  */
+@SuppressWarnings("serial")
 public class MonthView extends JPanel {
-	private static final long serialVersionUID = 1L;
+
 	JTable tblCalendar;
 	JButton btnPrev, btnNext;
 	JLabel lblMonth, lblYear;
@@ -50,12 +51,12 @@ public class MonthView extends JPanel {
 	JPanel buttonPanel;
 	int realYear, realMonth, realDay, currentYear, currentMonth;
 	private JButton btnThisMonth;
-	private JPanel panel;
-	private JPanel panel_1;
+	private JPanel navPanel;
+	private JPanel labelPanel;
 	private JPanel calAndHeader;
 
 	/**
-	 * Create the panel.
+	 * Create the Month mainPanel.
 	 */
 	public MonthView() {
 		setLayout(new BorderLayout());
@@ -70,33 +71,30 @@ public class MonthView extends JPanel {
 		refreshCalendar(realMonth, realYear);
 		this.addComponentListener(new ResizeListener());
 	}
-	
+	// Build the various GUI aspects of the Month view
 	private void createControls(){
 		buttonPanel = new JPanel();
 		calAndHeader = new JPanel();
 		
 		// Set size constraints for month label
-		
 		cmbYear = new JComboBox<String>();
 		lblYear = new JLabel("Change year:");
+		// The Month view is essentially a table
 		mtblCalendar = new DefaultTableModel() {
-
-			private static final long serialVersionUID = 1L;
-
 			public boolean isCellEditable(int rowIndex, int mColIndex) {
 				return false;
 			}
 		};
 		tblCalendar = new JTable(mtblCalendar);
 	}
-	
+	// Create the action listeners, to be defined
 	private void registerActionListeners() {
 		btnPrev.addActionListener(new btnPrev_Action());
 		btnNext.addActionListener(new btnNext_Action());
 		cmbYear.addActionListener(new cmbYear_Action());
 		btnThisMonth.addActionListener(new thisMonth_Action());
 	}
-	
+	// Add the various controls and constraints to the GUI
 	private void addControls() {
 		final Dimension mlabelDim = new Dimension(115, 15);
 		
@@ -105,25 +103,26 @@ public class MonthView extends JPanel {
 		
 		calAndHeader.setLayout(new BorderLayout());
 		
-		panel = new JPanel();
-
-		btnPrev = new JButton("Previous Month");
-		panel.add(btnPrev);
+		navPanel = new JPanel();
 		
+		// Create the buttons for Previous, This, and Next month navigation
+		btnPrev = new JButton("Previous Month");
+		navPanel.add(btnPrev);
 		btnThisMonth = new JButton("This Month");
-		panel.add(btnThisMonth);
+		navPanel.add(btnThisMonth);
 		btnNext = new JButton("Next Month");
 		btnNext.setPreferredSize(btnPrev.getPreferredSize());
-		panel.add(btnNext);
-		
-		panel_1 = new JPanel();
-		buttonPanel.add(panel_1);
-		buttonPanel.add(panel);
+		navPanel.add(btnNext);
+		// Set the various panels and labels
+		labelPanel = new JPanel();
+		buttonPanel.add(labelPanel);
+		buttonPanel.add(navPanel);
 		lblMonth = new JLabel("January", JLabel.CENTER);
-		panel_1.add(lblMonth);
+		labelPanel.add(lblMonth);
 		lblMonth.setMinimumSize(mlabelDim);
 		lblMonth.setPreferredSize(mlabelDim);
 		lblMonth.setMaximumSize(mlabelDim);
+		// Set layout constraints
 		add(cmbYear, BorderLayout.SOUTH);
 		tblCalendar.setBackground(Color.WHITE);
 		tblCalendar.setCellSelectionEnabled(true);
@@ -131,7 +130,7 @@ public class MonthView extends JPanel {
 		calAndHeader.add(tblCalendar.getTableHeader(), BorderLayout.NORTH);
 		add(calAndHeader, BorderLayout.CENTER);
 	}
-	
+	// Find the date
 	private void createDate() {
 		final GregorianCalendar cal = new GregorianCalendar(); // Create calendar
 		realDay = cal.get(GregorianCalendar.DAY_OF_MONTH); // Get day
@@ -140,17 +139,19 @@ public class MonthView extends JPanel {
 		currentMonth = realMonth; // Match month and year
 		currentYear = realYear;
 	}
-
+	// Add labels for the days of the week
 	private void addHeaders() {
 		final String[] headers = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 		for (int i = 0; i < 7; i++) {
 			mtblCalendar.addColumn(headers[i]);
 		}
 	}
+	// Set a background
 	private void createBackground() {
 		tblCalendar.getParent().setBackground(tblCalendar.getBackground());
 	}
-
+	
+	// Set constraints for the table
 	private void createTableProperties() {
 		// No resize/reorder
 		tblCalendar.getTableHeader().setResizingAllowed(true);
@@ -166,7 +167,7 @@ public class MonthView extends JPanel {
 		mtblCalendar.setColumnCount(7);
 		mtblCalendar.setRowCount(6);
 	}
-
+	// Fill the table with the days of the month
 	private void populateTable() {
 		for (int i = realYear - 100; i <= realYear + 100; i++) {
 			cmbYear.addItem(String.valueOf(i));
@@ -196,7 +197,7 @@ public class MonthView extends JPanel {
 		cmbYear.setSelectedItem(String.valueOf(year)); 
 
 		// Clear table
-		// THIS NEEDS MODIFICATION TO SUPPORT BUTTON CELLS IN THE CALENDAR 
+		// TODO: THIS NEEDS MODIFICATION TO SUPPORT BUTTON CELLS IN THE CALENDAR 
 		// MAKE CHANGES HERE TO REMOVE BUTTONS 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
@@ -210,14 +211,14 @@ public class MonthView extends JPanel {
 		som = cal.get(GregorianCalendar.DAY_OF_WEEK);
 
 		// Draw calendar
-		// THIS NEEDS MODIFICATION TO ADD BUTTONS TO THE CALENDAR 
+		// TODO: THIS NEEDS MODIFICATION TO ADD BUTTONS TO THE CALENDAR 
 		for (int i = 1; i <= nod; i++) {
 			int row = new Integer((i + som - 2) / 7);
 			int column = (i + som - 2) % 7;
 			tblCalendar.setValueAt(i, row, column);
 		}
 
-		// Apply renderers
+		// Apply renderer
 		tblCalendar.setDefaultRenderer(tblCalendar.getColumnClass(0), new tblCalendarRenderer());
 	}
 
