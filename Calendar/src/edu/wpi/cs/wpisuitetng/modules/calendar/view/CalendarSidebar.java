@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore
+ * Contributors: Team _
  * 
  *    
  *******************************************************************************/
@@ -49,13 +49,12 @@ import java.awt.event.MouseEvent;
 /**
  * @author Team Underscore
  * @version $Revision: 1.0$
- * CalendarSidebar creates the list of events next to the calendar views
+ * CalendarSidebar creates the list of events as well as
+ * the Filter and Category managers next to the calendar view
  */
 @SuppressWarnings("serial")
 public class CalendarSidebar extends JPanel {
-	/**
-	 * 
-	 */
+
 	private JTable eventTable;
 	private JTable commitmentTable;
 	private final JTextField textField;
@@ -63,13 +62,14 @@ public class CalendarSidebar extends JPanel {
 	private boolean isUpdated = false;
 	private ButtonGroup radioGroup;
 	
-	/**
-	 * Create the panel.
-	 */
+	// Create the sidebar panel
+	@SuppressWarnings("unchecked")
 	public CalendarSidebar() {
-		
 		setLayout(new MigLayout("", "[grow][grow]", "[][100.00,grow,center][100.00,grow][grow]"));
 		
+		// Create a button to refres the list of events
+		// TODO: Incorporate this functionality into Event/Commitment Submit buttons
+		// and the Team/Personal View buttons
 		JButton btnRefreshEvents = new JButton("Refresh Events");
 		btnRefreshEvents.addMouseListener(new MouseAdapter() {
 			@Override
@@ -79,9 +79,10 @@ public class CalendarSidebar extends JPanel {
 		});
 		add(btnRefreshEvents, "cell 0 0 2097051 1,growx");
 
+		// Create a scroll pane for the Events table
 		final JScrollPane eventScroll = new JScrollPane();
 		add(eventScroll, "cell 0 1 2 1,grow");
-		
+		// Create a table, initially empty, of upcoming Events
 		eventTable = new JTable();
 		eventScroll.setViewportView(eventTable);
 		eventTable.setModel(new DefaultTableModel(
@@ -94,10 +95,12 @@ public class CalendarSidebar extends JPanel {
 				{null, null, null, null},
 				{null, null, null, null},
 			},
+			// Column titles
 			new String[] {
 				"Events", "Start Date", "End Date", "Description"
 			}
-		) {
+		){
+			// Do not allow the table to be manually editable
 			public boolean[] columnEditables = new boolean[] {
 				false, false, false, false
 			};
@@ -106,6 +109,7 @@ public class CalendarSidebar extends JPanel {
 			}
 		});
 		
+		// Create a table for commitments, nearly identical to the Events table
 		final JScrollPane commitScroll = new JScrollPane();
 		add(commitScroll, "cell 0 2 2 1,grow");
 		
@@ -133,18 +137,22 @@ public class CalendarSidebar extends JPanel {
 		});
 		commitScroll.setViewportView(commitmentTable);
 		
-		final JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "cell 0 3 2 1,grow");
-		
+		// Create a scroll pane to hold the Filter and Category managers
+		final JScrollPane scrollPaneManagers = new JScrollPane();
+		add(scrollPaneManagers, "cell 0 3 2 1,grow");
+		// Create a panel within this scroll pane
 		final JPanel filtersCatsPanel = new JPanel();
-		scrollPane.setViewportView(filtersCatsPanel);
+		scrollPaneManagers.setViewportView(filtersCatsPanel);
 		filtersCatsPanel.setLayout(new MigLayout("", "[grow]", "[][]"));
 		
+		// Create a panel within filterCatsPanel to hold the Filter manager
 		final JPanel panelFilter = new JPanel();
 		filtersCatsPanel.add(panelFilter, "cell 0 0,grow");
 		panelFilter.setBorder(new TitledBorder(null, "Filters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelFilter.setLayout(new MigLayout("", "[grow][grow]", "[85.00px][][]"));
 		
+		// Create a list of current filters
+		// TODO: This is a predefined list until we implement this feature
 		final JList<Object> list = new JList<Object>();
 		panelFilter.add(list, "cell 0 0,grow");
 		list.setModel(new AbstractListModel<Object>() {
@@ -157,80 +165,82 @@ public class CalendarSidebar extends JPanel {
 			}
 		});
 		
+		// Create a button to Apply a Filter
 		final JButton btnApply = new JButton("Apply");
 		panelFilter.add(btnApply, "flowx,cell 0 1,alignx left");
-		
+		// Create a text field to Add a filter
 		filterTextField = new JTextField();
 		panelFilter.add(filterTextField, "cell 0 2,growx");
 		filterTextField.setColumns(10);
-		
+		// Button to Add a new Filter
 		final JButton btnNewFilter = new JButton("New Filter");
 		panelFilter.add(btnNewFilter, "cell 1 2,alignx left");
-		
+		// Button to Delete a Filter
 		final JButton btnDelete = new JButton("Delete");
 		panelFilter.add(btnDelete, "cell 0 1,alignx left");
 		
+		// Create a panel for the Category manager
 		final JPanel panelCatCreate = new JPanel();
 		filtersCatsPanel.add(panelCatCreate, "cell 0 1,grow");
 		panelCatCreate.setBorder(new TitledBorder(null, "Categories", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelCatCreate.setLayout(new MigLayout("", "[80.00,grow][100px,grow][]", "[][][][]"));
-		
+		// Label for the category list
 		final JLabel lblCurrentCategories = new JLabel("Categories:");
 		panelCatCreate.add(lblCurrentCategories, "cell 0 0,alignx right");
 		
-		final JComboBox<?> comboBox = new JComboBox<Object>();
+		// ComboBox to select existing Categories
+		final JComboBox<Object> comboBox = new JComboBox<Object>();
 		panelCatCreate.add(comboBox, "cell 1 0,growx");
-		
-		final JButton btnDelete_1 = new JButton("Delete");
-		panelCatCreate.add(btnDelete_1, "cell 1 1,alignx left");
-		
+		// Button to Delete a category
+		final JButton btnDeleteCat = new JButton("Delete");
+		panelCatCreate.add(btnDeleteCat, "cell 1 1,alignx left");
+		// Label for New Category
 		final JLabel lblCategory = new JLabel("New Category:");
 		panelCatCreate.add(lblCategory, "cell 0 2,alignx trailing");
-		
+		// Text Field to create a new category or edit an existing one
 		textField = new JTextField();
 		panelCatCreate.add(textField, "cell 1 2,growx");
 		textField.setColumns(10);
-		
+		// Radio Buttons for Team or Personal calendar choice
 		final JRadioButton rdbtnTeam = new JRadioButton("Team");
 		panelCatCreate.add(rdbtnTeam, "flowx,cell 1 3");
-		
 		final JRadioButton rdbtnPersonal = new JRadioButton("Personal", true);
 		panelCatCreate.add(rdbtnPersonal, "cell 1 3");
-		
+		// Add these buttons to a radio group so only one can be selected
 		radioGroup = new ButtonGroup();
 		radioGroup.add(rdbtnTeam);
 		radioGroup.add(rdbtnPersonal);
-		
+		// Button to Submit changes to a Category
 		final JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Category newCat = new Category(textField.getText(), rdbtnTeam.isSelected());
 				newCat.setId(CategoryModel.getInstance().getNextID());
-				
 				AddCategoryController.getInstance().addCategory(newCat);
 			}
 		});
 		panelCatCreate.add(btnSubmit, "cell 1 3,growx");
 
 	}
-	
+	// Populates the table of Events in the side bar
+	// TODO: Expand to work with Commitments once required
 	private void populateTable() {
 		this.repaint();
-		
+		// Iterate through the table, emptying it
 		for(int i=0; i < 6; i++) {
 			for(int k=0; k < 4; k++) {
 				eventTable.setValueAt(null, i, k);
 			}
 		}
-		
-		if(!isUpdated)
-		{
+		// If the events list has changed, get the events
+		if(!isUpdated){
 			isUpdated=true;
 			GetEventController.getInstance().retrieveEvents();
 		}
-		
+		// Create a list of Events
 		List<Event> events;
 		
+		// Get either personal or team events depending on the current view
 		if (GlobalButtonVars.isPersonalView) {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getPersonalEvents(userId);
@@ -239,30 +249,24 @@ public class CalendarSidebar extends JPanel {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getTeamEvents(userId);
 		}
-		for(int i=0;i < 6;i++)
-		{
-			for(int j=0;j < 4;j++)
-			{
-				if(j == 0)
-				{
-					try
-					{
+		
+		// Populate the table with the list of events
+		for(int i=0;i < 6;i++){
+			for(int j=0;j < 4;j++){
+				if(j == 0){
+					try{
 						eventTable.setValueAt(events.get(i).getName(), i, j);
 					}
-					catch(IndexOutOfBoundsException e)
-					{	
+					catch(IndexOutOfBoundsException e){	
 					}
 					// eventTable.setValueAt(events.get(i).getName(), i, j);	
 					
 				}
-				if(j == 1)
-				{	
-					try
-					{
+				if(j == 1){	
+					try{
 						eventTable.setValueAt(events.get(i).getStartDate(), i, j);
 					}
-					catch(IndexOutOfBoundsException e)
-					{
+					catch(IndexOutOfBoundsException e){
 					}
 					//eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
 				}
@@ -328,7 +332,7 @@ public class CalendarSidebar extends JPanel {
 			}
 		}
 	}
-
+	// Getters and setters
 	public JTable getEventTable() {
 		return eventTable;
 	}
