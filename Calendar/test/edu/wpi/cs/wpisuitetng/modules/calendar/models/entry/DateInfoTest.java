@@ -36,7 +36,7 @@ public class DateInfoTest {
 	 */
 	public void testDateInfo1ToString(){
 		assertEquals(dateTest1S, dateTest1.toString());
-		assertNotEquals(dateTest1SOld, dateTest1.toString());
+		assertNotSame(dateTest1SOld, dateTest1.toString());
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class DateInfoTest {
 	 */
 	public void testDateInfo2ToString(){
 		assertEquals(dateTest2S, dateTest2.toString());
-		assertNotEquals(dateTest2SOld, dateTest2.toString());
+		assertNotSame(dateTest2SOld, dateTest2.toString());
 	}
 	
 	/**
@@ -54,6 +54,6 @@ public class DateInfoTest {
 	 */
 	public void testDateInfo3ToString(){
 		assertEquals(dateTest3S, dateTest3.toString());
-		assertNotEquals(dateTest3SOld, dateTest3.toString());
+		assertNotSame(dateTest3SOld, dateTest3.toString());
 	}
 }
