@@ -13,16 +13,11 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.OverlayLayout;
 import javax.swing.UIManager;
@@ -30,30 +25,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import java.awt.Adjustable;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import java.awt.BorderLayout;
-
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
  * Panel for the Day View tab of the calendar
@@ -74,8 +47,6 @@ public class DayView extends JLayeredPane {
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 	
-	private JLayeredPane thisInstance; 
-	
 	/**
 	 * Create the panel.
 	 * 
@@ -93,12 +64,6 @@ public class DayView extends JLayeredPane {
 		createTableProperties();
 		colorCurrentDate();
 		
-		dayScroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent e) {
-				repaint();
-			}
-		});
 	}
 
 	// Create the table of DayView
