@@ -59,10 +59,15 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
  */
 @SuppressWarnings("serial")
 public class DayView extends JLayeredPane {
+	
+	// One day in milliseconds
+	private static final long ONE_DAY = 86400000;
 
 	private JScrollPane dayScroll;
 	private JTable dayTable;
+	// Current day signifies the day of today
 	private Calendar currentDay;
+	// Real day is for the day being displayed
 	private Calendar realDay;
 
 	// String date format that the Day View will give
@@ -239,6 +244,11 @@ public class DayView extends JLayeredPane {
 
 	private void initDay() {
 		currentDay = Calendar.getInstance();
+		// Set all hours/minutes/seconds/ms to zero (for comparisons)
+        currentDay.set(Calendar.HOUR_OF_DAY, 0);
+        currentDay.set(Calendar.MINUTE, 0);
+        currentDay.set(Calendar.SECOND, 0);
+        currentDay.set(Calendar.MILLISECOND, 0);
 		realDay = currentDay;
 		// function call of filter by Current day
 		this.setRealDayEventsByRealDay();
@@ -438,6 +448,15 @@ public class DayView extends JLayeredPane {
 			endDate = e.getEndDate();
 			
 			//TODO: check if date starts before current day
+			// Also I'm assuming checking if the event date is after the current day
+			// Would be silly since it shouldn't be in the event list
+			// Sorry I couldn't do more, I'm not too sure what to do with these cases
+			if (e.getStartDate().dateInfoToCalendar().getTimeInMillis() < realDay.getTimeInMillis()) {
+				System.out.println("The Event begins before this day");
+			}
+			else {
+				System.out.println("The Event begins on this day");
+			}
 			y = Y_OFFSET + ( startDate.getHalfHour() * ROW_HEIGHT );
 			
 			// TODO: handle counting events that start prior to the day
@@ -473,6 +492,15 @@ public class DayView extends JLayeredPane {
 					( width * j );
 				
 				//TODO: check if date ends after current day
+				// Again I'm assuming checking for if the date ends
+				// Before today would be silly
+				if (e.getEndDate().dateInfoToCalendar().getTimeInMillis() > (realDay.getTimeInMillis() + ONE_DAY)) {
+					System.out.println("The Event ends after this day");
+				}
+				else {
+					System.out.println("The Event ends on this day");
+				}
+				
 				height = ( Y_OFFSET + ( endDate.getHalfHour() * ROW_HEIGHT ) ) -
 						y;
 
