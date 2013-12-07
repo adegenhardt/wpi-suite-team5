@@ -8,6 +8,8 @@
  * List of Category pulled from the server
  * 
  * Adapted from RequirementModel.java by Team Underscore Database Crew
+ * 
+ * Contributors: Team _
  *
  *********************************************************************************************/
 
@@ -24,7 +26,7 @@ import javax.swing.AbstractListModel;
 
 /**List of Categories pulled from the server
  * 
- * @author Joe Hill, adapted from EventModel.java
+ * @author Team Underscore
  *
  * @version $Revision: 1.0 $
  */

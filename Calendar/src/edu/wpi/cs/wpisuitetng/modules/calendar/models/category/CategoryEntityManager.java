@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 
@@ -27,8 +27,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * 
- * @author Team_
+ * Primary EntityManager for the Calendar database
+ * @author Team Underscore
  * @version 1.0
  *
  */

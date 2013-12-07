@@ -5,16 +5,20 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Team _
+ * Sorts the events of a given Day by start time.
+ * When it is fully implemented, feel free to move it wherever you like.
  * 
+ * @author Connor Porell
+ * 
+ * Contributors: Team _
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars;
-// Global variables to check whether the calendar should display
-// Team or Personal events (or both)
-public class GlobalButtonVars {
-	
-	public static boolean isTeamView = false;
-	public static boolean isPersonalView = true;
-	
+package edu.wpi.cs.wpisuitetng.modules.calendar.models;
+
+public class SortEvents {
+	// This method is solely for sorting events.
+	// When it is fully implemented
+	public void sortEvents(){
+		return;
+	}
 }

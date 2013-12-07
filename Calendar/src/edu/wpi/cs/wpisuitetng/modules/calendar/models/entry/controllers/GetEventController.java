@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * from the server.
  *
  * @version $Revision: 1.0 $
- * @author srkodzis
+ * @author Team Underscore
  */
 public class GetEventController implements ActionListener {
 
@@ -86,7 +86,7 @@ public class GetEventController implements ActionListener {
 		if (events != null) 
 		{
 			// add the Event instances to the local model
-			EventModel.getInstance().addEvents( events );
+			EventModel.getInstance().addAllEvents( events );
 		}
 	}
 }

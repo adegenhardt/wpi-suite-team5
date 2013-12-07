@@ -5,9 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * This observer is called when a response is received from a request to
- * the server to add a piece of calendar data.
- * Adapted from AddRequirementRequestObserver.java by Team Underscore Database Crew
+ * Contributors: Team _
  *
  *********************************************************************************************/
 
@@ -25,8 +23,12 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.toolbar.ToolbarView;
 
 /**
+ * This observer is called when a response is received from a request to
+ * the server to add a piece of calendar data.
+ * Adapted from AddRequirementRequestObserver from WPISuite 
+ * Requirements Manager Module
  * 
- * @author Team_
+ * @author Team Underscore
  * @version 1.0
  *
  */

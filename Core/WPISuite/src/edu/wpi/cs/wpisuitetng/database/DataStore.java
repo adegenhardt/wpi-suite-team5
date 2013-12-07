@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class DataStore implements Data {
 
-	static String WPI_TNG_DB ="The_Under_Base!";
+	static String WPI_TNG_DB ="The_Under_Base.db";
 	private static DataStore myself = null;
 	static ObjectContainer theDB;
 	static ObjectServer server;

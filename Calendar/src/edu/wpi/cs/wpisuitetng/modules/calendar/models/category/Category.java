@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 
@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 /**
  * Category class that contains all the fields required to create a category
  * 
- * @author Joe Hill
+ * @author Team Underscore
  * 
  * @version $Revision: 1.0 $
  */

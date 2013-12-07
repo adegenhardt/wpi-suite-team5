@@ -18,16 +18,16 @@ import java.util.GregorianCalendar;
  * DateInfo is a form of storing time information. It contains a year, a month,
  * a day, and a half hour from 0-47
  * 
- * @author Inferno505
+ * @author Team Underscore
  * @version $Revision: 1.0 $
  */
 public class DateInfo {
 
-	//Format
-	//year is absolute value
-	//moth is 0 = January 11 = December
-	//Day is absolute (starts at 1 to max number of given month)
-	//HalfHour is 0 based (0 to 47)
+	//Format:
+	//	Year  	 - absolute value
+	//	Month 	 - 0 = January 11 = December
+	//	Day   	 - absolute (starts at 1 to max number of given month)
+	//	HalfHour - 0 based (0 to 47)
 	private final int year;
 	// month is 0-based
 	private final int month;
@@ -176,9 +176,9 @@ public class DateInfo {
 	 */
 	public Calendar dateInfoToCalendar(){
 		Calendar cal = new GregorianCalendar();
-		int hourOfDay = ((this.halfHour/2));
+		int hourOfDay = ((this.halfHour / 2));
 		int minute = 0;
-		if(this.halfHour%2 !=0){
+		if(this.halfHour % 2 != 0){
 			minute = 30;
 		}
 		
@@ -216,7 +216,7 @@ public class DateInfo {
 			sTime = sTime + ":30";
 		}
 		if (iTime > 12){
-			iTime = iTime/2;
+			iTime = iTime / 2;
 			sTime = sTime + " PM";
 		}
 		else{

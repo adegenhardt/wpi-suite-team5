@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
@@ -29,9 +29,7 @@ import java.awt.event.MouseEvent;
  * Creates the event viewer
  */
 public class EventViewer extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	/**
 	 * Create the panel. Created using WindowBuilder
