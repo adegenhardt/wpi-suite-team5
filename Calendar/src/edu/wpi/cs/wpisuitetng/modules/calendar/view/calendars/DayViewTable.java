@@ -17,8 +17,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -38,7 +36,7 @@ public class DayViewTable extends JTable {
 	boolean isUpdated;					/* whether or not the event list is updated */
 	DayView dayView;					/* instance of dayview for updating current events */
 	
-	private List< EventRectangle > rectangles;
+	private List<EventRectangle> rectangles;   
 	
 	public DayViewTable(DefaultTableModel defaultTableModel) {
 		super( defaultTableModel );
@@ -450,6 +448,15 @@ public class DayViewTable extends JTable {
 	 */
 	public void setDayView(DayView dayView) {
 		this.dayView = dayView;
+	}
+	
+	public EventRectangle getRectangle(int _x, int _y) {
+		for (int i=rectangles.size()-1; i >= 0; i--) {
+			if (rectangles.get(i).isAtPoint(_x, _y)) {
+				return rectangles.get(i);
+			}
+		}
+		return null;
 	}
 	
 	

@@ -79,8 +79,8 @@ public class DayView extends JLayeredPane {
 		timeEvent = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("X:" + lastX);
-				System.out.println("Y:"+ lastY);
+				EventRectangle thisTangle = dayTable.getRectangle(lastX, lastY);
+				System.out.println(thisTangle.getEvent().getName());
 			}
 		});
 		
