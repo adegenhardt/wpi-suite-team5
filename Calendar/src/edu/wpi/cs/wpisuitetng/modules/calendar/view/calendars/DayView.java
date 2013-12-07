@@ -28,11 +28,16 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import java.awt.Adjustable;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -60,16 +65,14 @@ public class DayView extends JLayeredPane {
 	private Calendar currentDay;
 	private Calendar realDay;
 
-	// Variables used to disallow time column selection
-	private final int disabledColumn = 0;
-	private int currentColumn = 1;
-
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 
 	private List< Event > events;		/* current day's events to display */
 	boolean isUpdated;					/* whether or not the event list is updated */
-
+	
+	private JLayeredPane thisInstance; 
+	
 	/**
 	 * Create the panel.
 	 * 
@@ -77,6 +80,9 @@ public class DayView extends JLayeredPane {
 	 *            boolean
 	 */
 	public DayView() {
+		
+		thisInstance = this;
+		
 		// Run these methods to create this view
 		initDay();
 		createControls();
@@ -84,8 +90,8 @@ public class DayView extends JLayeredPane {
 		createBounds();
 		createBackground();
 		createTableProperties();
-		createUnselectableCol();
 		colorCurrentDate();
+		updateEventRects();
 		
 		isUpdated = false;
 	}
@@ -123,9 +129,13 @@ public class DayView extends JLayeredPane {
 		dayTable.getColumnModel().getColumn(0).setMaxWidth(43);
 		dayTable.getColumnModel().getColumn(1).setResizable(false);
 		dayTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-		dayTable.setSelectionBackground(Color.GREEN);
-		dayTable.setDefaultRenderer(Object.class,
-				new DefaultTableCellRenderer() {
+		dayTable.setFocusable(false);
+		dayTable.setRowSelectionAllowed(false);
+		dayTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+				final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
 					@Override
 					public Component getTableCellRendererComponent(
@@ -135,16 +145,16 @@ public class DayView extends JLayeredPane {
 								(DefaultTableCellRenderer) super
 								.getTableCellRendererComponent(table, value,
 										isSelected, hasFocus, row, column);
-
-						if ((row % 2) == 0 && column != 0) {
-							rendererComponent.setBackground(new Color(185, 209,
-									234));
-						} else {
-							rendererComponent.setBackground(Color.white);
-						}
-						return rendererComponent;
-					}
-				});
+				if ((row % 2) == 0 && column != 0) {
+					rendererComponent.setBackground(new Color(185, 209, 234));
+				}
+				else {
+					rendererComponent.setBackground(Color.white);
+				}
+				this.repaint();
+				return rendererComponent;
+			}
+		});
 
 		final JTableHeader header = dayTable.getTableHeader();
 
@@ -205,24 +215,6 @@ public class DayView extends JLayeredPane {
 		dayTable.setRowHeight(15);
 	}
 
-	private void createUnselectableCol() {
-		final ListSelectionModel sel = dayTable.getColumnModel()
-				.getSelectionModel();
-		sel.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// If the column is disabled, reselect previous column
-				if (sel.isSelectedIndex(disabledColumn)) {
-					sel.setSelectionInterval(currentColumn, currentColumn);
-				}
-				// Set current selection
-				else {
-					currentColumn = sel.getMaxSelectionIndex();
-				}
-			}
-		});
-	}
-
 	// Method to color in today's date if the view
 	// Is currently on today's date
 	// For some reason this doesn't work with the
@@ -250,6 +242,15 @@ public class DayView extends JLayeredPane {
 		realDay = currentDay;
 		// function call of filter by Current day
 		this.setRealDayEventsByRealDay();
+	}
+	
+	private void updateEventRects() {
+		dayScroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent e) {
+				thisInstance.repaint();
+			}
+		});
 	}
 
 	/**
