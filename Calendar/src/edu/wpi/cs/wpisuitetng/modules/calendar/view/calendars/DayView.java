@@ -14,12 +14,14 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimerTask;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.OverlayLayout;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +29,10 @@ import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.ActionListener;
 
 /**
  * Panel for the Day View tab of the calendar
@@ -47,6 +53,12 @@ public class DayView extends JLayeredPane {
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 	
+	// Last listened mouse coordinates
+	private int lastX = 0;
+	private int lastY = 0;
+	
+	private Timer timeEvent;
+	
 	/**
 	 * Create the panel.
 	 * 
@@ -63,6 +75,27 @@ public class DayView extends JLayeredPane {
 		createBackground();
 		createTableProperties();
 		colorCurrentDate();
+		
+		timeEvent = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("X:" + lastX);
+				System.out.println("Y:"+ lastY);
+			}
+		});
+		
+		timeEvent.setRepeats(false);
+		
+		
+		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				lastX = e.getX();
+				lastY = e.getY();
+				timeEvent.restart();
+			}
+		});
+		
 		
 	}
 
