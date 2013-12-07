@@ -196,44 +196,9 @@ public class DateInfo {
 		int theMonthI = this.getMonth();
 		// Initialize a blank Month string
 		String theMonthS = "";
-		// Assign a 3-letter Month String depending on the value
+		// Assign an MM Month String depending on the value
 		// of the month int.
-		if (theMonthI == 0){
-			theMonthS = "Jan";
-		}
-		if (theMonthI == 1){
-			theMonthS = "Feb";
-		}
-		if (theMonthI == 2){
-			theMonthS = "Mar";
-		}
-		if (theMonthI == 3){
-			theMonthS = "Apr";
-		}
-		if (theMonthI == 4){
-			theMonthS = "May";
-		}
-		if (theMonthI == 5){
-			theMonthS = "Jun";
-		}
-		if (theMonthI == 6){
-			theMonthS = "Jul";
-		}
-		if (theMonthI == 7){
-			theMonthS = "Aug";
-		}
-		if (theMonthI == 8){
-			theMonthS = "Sep";
-		}
-		if (theMonthI == 9){
-			theMonthS = "Oct";
-		}
-		if (theMonthI == 10){
-			theMonthS = "Nov";
-		}
-		else {
-			theMonthS = "Dec";
-		}
+		theMonthS = theMonthS + theMonthI;
 		String theDay = "" + this.day;
 		// Deliver a time depending on the halfHour int
 		int iTime = 0;
@@ -259,8 +224,7 @@ public class DateInfo {
 		}
 		// Collect all the info gathered above into a single string
 		// and return it
-		String theDateInfo = "" + theMonthS + "/" + theDay + "/" + theYear +
-				" at " + sTime;
+		String theDateInfo = "" + sTime + ", " + theMonthS + "/" + theDay + "/" + theYear;
 		return theDateInfo;
 	} 
 

@@ -252,7 +252,7 @@ public class CalendarSidebar extends JPanel {
 					catch(IndexOutOfBoundsException e)
 					{	
 					}
-					eventTable.setValueAt(events.get(i).getName(), i, j);	
+					// eventTable.setValueAt(events.get(i).getName(), i, j);	
 					
 				}
 				if(j==1)
@@ -264,7 +264,7 @@ public class CalendarSidebar extends JPanel {
 					catch(IndexOutOfBoundsException e)
 					{
 					}
-					eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
+					//eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
 				}
 				if(j==2)
 				{
@@ -274,7 +274,7 @@ public class CalendarSidebar extends JPanel {
 					}
 					catch(IndexOutOfBoundsException e)
 					{}
-					eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
+					//eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
 				}
 				if(j==3)
 				{
@@ -285,7 +285,7 @@ public class CalendarSidebar extends JPanel {
 					catch(IndexOutOfBoundsException e)
 					{
 					}
-					eventTable.setValueAt(events.get(i).getDescription(), i, j);	
+					//eventTable.setValueAt(events.get(i).getDescription(), i, j);	
 				}
 			}
 		}
