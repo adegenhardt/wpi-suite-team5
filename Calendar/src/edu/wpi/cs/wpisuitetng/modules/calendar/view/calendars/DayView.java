@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,6 +30,8 @@ import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 
 import javax.swing.event.ListSelectionEvent;
@@ -40,6 +43,8 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
  * Panel for the Day View tab of the calendar
@@ -62,9 +67,8 @@ public class DayView extends JLayeredPane {
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 
-	// List of events that take place on the current realDay, 
-	// sorted according to TODO Connor's sorting method specifications
-	private List<Event> realDayEvents = new ArrayList<Event>();
+	private List< Event > events;		/* current day's events to display */
+	boolean isUpdated;					/* whether or not the event list is updated */
 
 	/**
 	 * Create the panel.
@@ -82,9 +86,8 @@ public class DayView extends JLayeredPane {
 		createTableProperties();
 		createUnselectableCol();
 		colorCurrentDate();
-
-		// additions
-		// call refresh function for currentDay to build list
+		
+		isUpdated = false;
 	}
 
 	// Create the table of DayView
@@ -370,11 +373,284 @@ public class DayView extends JLayeredPane {
 	
 	/**
 	 * Paint function. Draws components and events on top
+	 * @see javax.swing.JLayeredPane#paint(Graphics)
 	 */
 	@Override
 	public void paint( Graphics g ) {
 		super.paint( g );			// draw table
-		g.fillRect( 10, 10, 10, 10);		// draw the rectangle on top of the table
-		// TODO: Draw events in their appropriate spaces
+		
+		if ( !isUpdated ) {
+			updateEvents();
+			isUpdated = true;
+		}
+		
+		paintEvents( g );
+	}
+	
+	/**
+	 * Draw the events onto the table
+	 * Note: Events should be sorted with ascending start time,
+	 * and descending end time (for events with the same start time)
+	 * for this to work
+	 * @param g A graphics object to render the events
+	 */
+	public void paintEvents( Graphics g ) {
+		
+		// TODO: Make sure the events don't disappear when scrolling
+		
+		final java.awt.Insets insets = getInsets();
+		final int X_OFFSET = insets.left + dayTable.getColumnModel().getColumn(0 ).getWidth();
+		final int Y_OFFSET = insets.top + dayTable.getRowHeight() + 4;
+		
+		// Maximum width an event can be
+		final int MAX_WIDTH = getWidth() - X_OFFSET -
+				insets.right - dayScroll.getVerticalScrollBar().getWidth() - 2;
+		final int ROW_HEIGHT = dayTable.getRowHeight();
+		int x;
+		int y;
+		
+		// Actual height and width values for the current event
+		int width;
+		int height;
+		
+		/* number of events already occuring in a given slot */
+		int numPriorEvents[] = new int[ 48 ];
+		final int PRIOR_EVENT_WIDTH = 4;	/* Number of pixels to reserve for each prior event */
+		
+		
+		// Set number of prior events to 0 for all slots
+		for ( int i = 0; i < numPriorEvents.length; i++ ) {
+			numPriorEvents[ i ] = 0;
+		}
+		
+		Event e;			/* the current event */
+		DateInfo startDate;
+		DateInfo endDate;
+		int numEventsInRow; 	/* Number of events in current row */
+		int stringWidth;		/* width of string being printed */
+		int stringHeight;		/* height of string being printed */
+		String printString;		/* string to print for Event */
+		for ( int i = 0; i < events.size(); i++ ) {
+			e = events.get( i );
+			
+			startDate = e.getStartDate();
+			endDate = e.getEndDate();
+			
+			//TODO: check if date starts before current day
+			y = Y_OFFSET + ( startDate.getHalfHour() * ROW_HEIGHT );
+			
+			// TODO: handle counting events that start prior to the day
+			// Determine the number of events with the same starting time
+			numEventsInRow = 1;
+			for ( int j = i + 1; j < events.size(); j++ ) {
+				if ( events.get( j ).getStartDate().equals( startDate ) ) {
+					numEventsInRow++;
+				} else {		// since events are sorted, break
+								// at the first different start time
+					break;
+				}
+			}
+			
+			width = ( MAX_WIDTH - ( numPriorEvents[ i ] * PRIOR_EVENT_WIDTH ) ) /
+					numEventsInRow;
+			
+			// Add 1 to each row that this event occupies for future events
+			for ( int j = i + 1; j < endDate.getHalfHour(); j++ ) {
+				numPriorEvents[ j ]++;
+			}
+			
+			// draw all events in row
+			for ( int j = 0; j < numEventsInRow; j++ ) {
+				e = events.get( i + j );
+				
+				endDate = e.getEndDate();
+				
+				// Calculate offset of x depending on number of prior events
+				// and also which event in the row this is
+				x = X_OFFSET +
+					( numPriorEvents[ startDate.getHalfHour() ] * PRIOR_EVENT_WIDTH ) +
+					( width * j );
+				
+				//TODO: check if date ends after current day
+				height = ( Y_OFFSET + ( endDate.getHalfHour() * ROW_HEIGHT ) ) -
+						y;
+
+				// draw the event rectangle
+				g.setColor( e.getColor() );
+				g.fillRect( x, y, width, height );
+				g.setColor( Color.BLACK );
+				g.drawRect( x, y, width, height );
+				
+				// calculate and height of Event name
+				stringWidth = g.getFontMetrics().stringWidth( e.getName() );
+				stringHeight = g.getFontMetrics().getMaxAscent();
+				
+				// trim event name to fit as necessary
+				printString = trimString( e.getName(),
+						g.getFontMetrics(),
+						width );
+				
+				g.drawString( printString, x + 2, y + stringHeight );
+			}
+			
+			// increment i to skip over the drawn events
+			i += numEventsInRow - 1;
+			
+		}
+		
+	}
+	
+	/**
+	 * Trim a string into a fitting length and append '...' to the end
+	 * @param s the Original unedited string
+	 * @param metric the statistics of the font being used
+	 * @param maxWidth the maximum width allowed in pixels
+	 * @return the trimmed string
+	 */
+	public String trimString( String s, FontMetrics metric, int maxWidth ) {
+		
+		// If string already fits, return it
+		if ( metric.stringWidth( s ) < maxWidth ) {
+			return s;
+		}
+		
+		int i;
+		// one by one, trim the last characters off until the string fits
+		for ( i = s.length() - 1; i > 0; i-- ) {
+			
+			if ( metric.stringWidth( s.substring( 0, i ) ) < maxWidth ) {
+				break;
+			}
+			
+		}
+		
+		// if < 3 characters trimmed, replace last 3 characters with "..."
+		if ( i > s.length() - 3 ) {
+			return ( s.substring( 0, s.length() - 3 ) + "..." );
+		} else {
+			return ( s.substring( 0, i - 3 ) + "..." );
+		}
+	}
+	
+	/**
+	 * Update the stored events by retrieving and sorting them
+	 */
+	public void updateEvents() {
+		// TODO: Replace this with actual functionality after testing
+		
+		events = generateSampleEvents();
+	}
+	
+	/**
+	 * Generate sample events for testing
+	 * @return
+	 */
+	public List<Event> generateSampleEvents() {
+		ArrayList<Event> sampleEvents = new ArrayList<Event>();
+		
+		// For testing, create start times based on the current date
+		Calendar cal = Calendar.getInstance();
+		DateInfo time0 = new DateInfo( cal.get( Calendar.YEAR ),
+											cal.get( Calendar.MONTH ),
+											cal.get( Calendar.DATE ) - 1,
+											0 );
+		
+		DateInfo time2 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				2 );
+		
+		DateInfo time4 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				4 );
+		
+		DateInfo time6 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				6 );
+		
+		DateInfo time7 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				7 );
+		
+		DateInfo time8 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				8 );
+		
+		DateInfo time10 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				10 );
+		
+		DateInfo time12 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				12 );
+		
+		DateInfo time13 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				13 );
+		
+		DateInfo time18 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				18 );
+		
+		Event e1 = new Event();
+		e1.setName( "event 1 - aka the incredibly long name to test my trimmming capability;" +
+				"It keeps going on and on without any rhyme or reason. Oh why won't it stop?" +
+				"Who knows? Probably the elders, but they're so old. I guess we'll never know." );
+		e1.setStartDate( time0 );
+		e1.setEndDate( time12 );
+		
+		Event e2 = new Event();
+		e2.setName( "event 2" );
+		e2.setStartDate( time2 );
+		e2.setEndDate( time7 );
+		
+		Event e3 = new Event();
+		e3.setName( "event 3" );
+		e3.setStartDate( time2 );
+		e3.setEndDate( time7 );
+		
+		Event e4 = new Event();
+		e4.setName( "event 4" );
+		e4.setStartDate( time4 );
+		e4.setEndDate( time6 );
+		
+		Event e5 = new Event();
+		e5.setName( "event 5" );
+		e5.setStartDate( time7 );
+		e5.setEndDate( time18 );
+		
+		Event e6 = new Event();
+		e6.setName( "event 6" );
+		e6.setStartDate( time7 );
+		e6.setEndDate( time12 );
+		
+		Event e7 = new Event();
+		e7.setName( "event 7" );
+		e7.setStartDate( time7 );
+		e7.setEndDate( time8 );
+		
+		Event e8 = new Event();
+		e8.setName( "event 8" );
+		e8.setStartDate( time10 );
+		e8.setEndDate( time13 );
+		
+		sampleEvents.add( e1 );
+		sampleEvents.add( e2 );
+		sampleEvents.add( e3 );
+		sampleEvents.add( e4 );
+		sampleEvents.add( e5 );
+		sampleEvents.add( e6 );
+		sampleEvents.add( e7 );
+		sampleEvents.add( e8 );
+		
+		return sampleEvents;
 	}
 }
