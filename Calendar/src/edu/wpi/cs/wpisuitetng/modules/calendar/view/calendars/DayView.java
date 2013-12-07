@@ -17,10 +17,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.OverlayLayout;
 import javax.swing.UIManager;
@@ -34,6 +36,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
@@ -259,6 +263,7 @@ public class DayView extends JLayeredPane {
 			@Override
 			public void adjustmentValueChanged(AdjustmentEvent e) {
 				thisInstance.repaint();
+				System.out.println(isCellVisible(1));
 			}
 		});
 	}
@@ -452,10 +457,10 @@ public class DayView extends JLayeredPane {
 			// Would be silly since it shouldn't be in the event list
 			// Sorry I couldn't do more, I'm not too sure what to do with these cases
 			if (e.getStartDate().dateInfoToCalendar().getTimeInMillis() < realDay.getTimeInMillis()) {
-				System.out.println("The Event begins before this day");
+				//System.out.println("The Event begins before this day");
 			}
 			else {
-				System.out.println("The Event begins on this day");
+				//System.out.println("The Event begins on this day");
 			}
 			y = Y_OFFSET + ( startDate.getHalfHour() * ROW_HEIGHT );
 			
@@ -495,10 +500,10 @@ public class DayView extends JLayeredPane {
 				// Again I'm assuming checking for if the date ends
 				// Before today would be silly
 				if (e.getEndDate().dateInfoToCalendar().getTimeInMillis() > (realDay.getTimeInMillis() + ONE_DAY)) {
-					System.out.println("The Event ends after this day");
+					//System.out.println("The Event ends after this day");
 				}
 				else {
-					System.out.println("The Event ends on this day");
+					//System.out.println("The Event ends on this day");
 				}
 				
 				height = ( Y_OFFSET + ( endDate.getHalfHour() * ROW_HEIGHT ) ) -
@@ -681,5 +686,19 @@ public class DayView extends JLayeredPane {
 		sampleEvents.add( e8 );
 		
 		return sampleEvents;
+	}
+	
+	// Returns true if the index of the cell is visible
+	// False otherwise, this could be useful to decide
+	// When to render event data if in view/or not
+	public boolean isCellVisible(int rowIndex) {
+		if (!(dayTable.getParent() instanceof JViewport)) {
+			return false;
+		}
+		JViewport viewport = (JViewport) dayTable.getParent();
+		Rectangle rect = dayTable.getCellRect(rowIndex, 1, true);
+		Point pt = viewport.getViewPosition();
+		rect.setLocation(rect.x - pt.x, rect.y - pt.y);
+		return new Rectangle(viewport.getExtentSize()).contains(rect);
 	}
 }
