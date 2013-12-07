@@ -25,16 +25,16 @@ public class DateInfo {
 
 	//Format:
 	//	Year  	 - absolute value
-	//	Month 	 - 0 = January 11 = December
-	//	Day   	 - apparently Samson has been using 0 base, so we have to check what has been used and set everything to a conformed method//absolute (starts at 1 to max number of given month)
+	//	Month 	 - 0 = January; 11 = December
+	//	Day   	 - absolute (starts at 1 to max number of given month)
 	//	HalfHour - 0 based (0 to 47)
-	private final int year;
+	private int year;
 	// month is 0-based
-	private final int month;
+	private int month;
 	// day is 1-based
-	private final int day;
+	private int day;
 	// half-hour is 0-based
-	private final int halfHour;
+	private int halfHour;
 
 	/**
 	 * Constructor for DateInfo.
@@ -55,6 +55,18 @@ public class DateInfo {
 		this.halfHour = halfHour;
 	}
 
+	/**
+	 * Construct a DateInfo object from a Calendar
+	 * @param cal
+	 */
+	public DateInfo( Calendar cal ) {
+		year = cal.get( Calendar.YEAR );
+		month = cal.get( Calendar.MONTH );
+		day = cal.get( Calendar.DATE ) - 1;
+		halfHour = ( 2 * cal.get( Calendar.HOUR_OF_DAY ) ) +
+				( cal.get( Calendar.MINUTE ) / 30 );
+	}
+	
 	/**
 	 * Construct a DateInfo from the Java Date class
 	 * 
@@ -99,6 +111,39 @@ public class DateInfo {
 	 */
 	public int getHalfHour() {
 		return halfHour;
+	}
+
+	
+	/**
+	 * 
+	 * @param year the DateInfo's year
+	 */
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	/**
+	 * 
+	 * @param month the DateInfo's month from 0-11
+	 */
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+	/**
+	 * 
+	 * @param day the DateInfo's day from 0-28
+	 */
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+	/**
+	 * 
+	 * @param halfHour the DateInfo's halfhour from 0-47
+	 */
+	public void setHalfHour(int halfHour) {
+		this.halfHour = halfHour;
 	}
 
 	/**
@@ -229,4 +274,45 @@ public class DateInfo {
 		return theDateInfo;
 	} 
 
+	/**
+	 * Compare two DateInfo objects
+	 * @param other the other DateInfo object
+	 * @return -1 if this DateInfo is earlier than other,
+	 * 1 if this DateInfo is after the other,
+	 * or 0 if both are the same
+	 */
+	public int compareTo( DateInfo other ) {
+		
+		// Start by comparing years
+		if ( year < other.year ) {
+			return -1;
+		} else if ( year > other.year ) {
+			return 1;
+		}
+		
+		// If years are equal, look at months
+		if ( month < other.month ) {
+			return -1;
+		} else if ( month > other.month ) {
+			return 1;
+		}
+		
+		// The move on to days...
+		if ( day < other.day ) {
+			return -1;
+		} else if ( day > other.day ) {
+			return 1;
+		}
+		
+		// And finally half-hours
+		if ( halfHour < other.halfHour ) {
+			return -1;
+		} else if ( halfHour > other.halfHour ) {
+			return 1;
+		}
+		
+		// If nothing has returned by now, then both are the same
+		return 0;
+	}
+	
 }

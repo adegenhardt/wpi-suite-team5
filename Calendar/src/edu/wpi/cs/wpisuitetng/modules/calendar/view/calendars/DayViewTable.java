@@ -1,0 +1,408 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Team _ 
+ *    
+ *******************************************************************************/
+
+package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
+
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.swing.JTable;
+import javax.swing.JViewport;
+import javax.swing.table.DefaultTableModel;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+
+public class DayViewTable extends JTable {
+	
+	private static final long serialVersionUID = -4325747905323115241L;
+	
+	private List< Event > events;		/* current day's events to display */
+	boolean isUpdated;					/* whether or not the event list is updated */
+	DayView dayView;					/* instance of dayview for updating current events */
+	
+	public DayViewTable(DefaultTableModel defaultTableModel) {
+		super( defaultTableModel );
+		
+		isUpdated = false;
+	}
+
+	/**
+	 * Paint the DayViewTable with events on top
+	 * @see javax.swing.JTable#paintComponents(Graphics)
+	 */
+	@Override
+	public void paintComponent( Graphics g ) {
+		
+		super.paintComponent( g );
+		
+		if ( !isUpdated ) {
+			updateEvents();
+			isUpdated = true;
+		}
+		paintEvents( g );
+	}
+	
+	/**
+	 * Draw the events onto the table
+	 * Note: Events should be sorted with ascending start time,
+	 * and descending end time (for events with the same start time)
+	 * for this to work
+	 * @param g A graphics object to render the events
+	 */
+	public void paintEvents( Graphics g ) {
+		
+		// Convert Calendar to DateInfo
+		DateInfo displayedDay = new DateInfo( dayView.getRealDay() );
+		
+		// Set the half-hour field to 0 to signify the beginning of the day
+		displayedDay.setHalfHour( 0 );
+		
+		final java.awt.Insets insets = getInsets();
+		final int X_OFFSET = insets.left + getColumnModel().getColumn( 0 ).getWidth();
+		final int Y_OFFSET = 0;
+		
+		// Maximum width an event can be
+		final int MAX_WIDTH = getWidth() - X_OFFSET -
+				insets.right;
+		final int ROW_HEIGHT = getRowHeight() + getRowMargin();
+		int x;
+		int y;
+		
+		// Actual height and width values for the current event
+		int width;
+		int height;
+		
+		/* number of events already occuring in a given slot */
+		int numPriorEvents[] = new int[ 48 ];
+		final int PRIOR_EVENT_WIDTH = 4;	/* Number of pixels to reserve for each prior event */
+		
+		
+		// Set number of prior events to 0 for all slots
+		for ( int i = 0; i < numPriorEvents.length; i++ ) {
+			numPriorEvents[ i ] = 0;
+		}
+		
+		Event e;			/* the current event */
+		DateInfo startDate;
+		DateInfo endDate;
+		int numEventsInRow; 	/* Number of events in current row */
+		int stringHeight;		/* height of string being printed */
+		String printString;		/* string to print for Event */
+		Color textColor;		/* color to print text for an event */
+		for ( int i = 0; i < events.size(); i++ ) {
+			e = events.get( i );
+			
+			startDate = e.getStartDate();
+			endDate = e.getEndDate();
+			
+			// if event started before today, begin drawing at the top
+			if ( e.getStartDate().compareTo( displayedDay ) < 0 ) {
+				y = Y_OFFSET;
+			} else {
+				y = Y_OFFSET + ( startDate.getHalfHour() * ROW_HEIGHT );
+			}
+			
+			numEventsInRow = 1;
+			for ( int j = i + 1; j < events.size(); j++ ) {
+				// check if date has same start time, or begins before the current day
+				if ( events.get( j ).getStartDate().equals( startDate ) ||
+						e.getStartDate().compareTo( displayedDay ) < 0 ) {
+					numEventsInRow++;
+				} else {		// since events are sorted, break
+								// at the first different start time
+					break;
+				}
+			}
+			
+			// calculate the width of all events in the row
+			width = ( MAX_WIDTH - ( numPriorEvents[ i ] * PRIOR_EVENT_WIDTH ) ) /
+					numEventsInRow;
+			
+			// Add 1 to each row that this event occupies for future events
+			// If this runs into the next day, it's the same as occupying all remaining rows
+			if ( e.getEndDate().compareTo( displayedDay ) >= 0 ) {
+				for ( int j = i + 1; j < 48; j++ ) {
+					numPriorEvents[ j ]++;
+				}
+			} else {
+				for ( int j = i + 1; j < endDate.getHalfHour(); j++ ) {
+					numPriorEvents[ j ]++;
+				}
+			}
+			
+			// draw all events in row
+			for ( int j = 0; j < numEventsInRow; j++ ) {
+				e = events.get( i + j );
+				
+				endDate = e.getEndDate();
+				
+				// Calculate offset of x depending on number of prior events
+				// and also which event in the row this is
+				x = X_OFFSET +
+					( numPriorEvents[ startDate.getHalfHour() ] * PRIOR_EVENT_WIDTH ) +
+					( width * j );
+				
+				// if event ends after current day, draw to the bottom
+				displayedDay.setHalfHour( 48 );
+				if ( e.getEndDate().compareTo( displayedDay ) >= 0 ) {
+					height = Y_OFFSET + ( 48 * ROW_HEIGHT ) - y;
+				}
+				else {
+					height = ( Y_OFFSET + ( endDate.getHalfHour() * ROW_HEIGHT ) ) -
+							y;
+				}
+
+				// draw the event rectangle
+				g.setColor( e.getColor() );
+				g.fillRect( x, y, width, height );
+				
+				// Determine and set text/border color
+				textColor = new Color( Math.max( e.getColor().getRed() - 150, 0 ),
+						Math.max( e.getColor().getGreen() - 150, 0 ),
+						Math.max( e.getColor().getBlue() - 150, 0 ) );
+				
+				g.setColor( textColor );
+				g.drawRect( x, y, width, height );
+				
+				stringHeight = g.getFontMetrics().getMaxAscent();
+				
+				printString = e.getName();
+				
+				// if event started before today, preface the string with (cont'd)
+				displayedDay.setHalfHour( 0 );
+				if (e.getStartDate().compareTo( displayedDay ) < 0) {
+					printString = "(cont'd) " + printString;
+				}
+				
+				// trim event name to fit as necessary
+				printString = trimString( printString,
+						g.getFontMetrics(),
+						width );
+				
+				// TODO: Have some way of displaying when an event continues
+				// into the next day
+				
+				g.drawString( printString, x + 2, y + stringHeight );
+			}
+			
+			// increment i to skip over the drawn events
+			i += numEventsInRow - 1;
+			
+		}
+		
+	}
+	
+	/**
+	 * Trim a string into a fitting length and append '...' to the end
+	 * @param s the Original unedited string
+	 * @param metric the statistics of the font being used
+	 * @param maxWidth the maximum width allowed in pixels
+	 * @return the trimmed string
+	 */
+	public String trimString( String s, FontMetrics metric, int maxWidth ) {
+		
+		// If string already fits, return it
+		if ( metric.stringWidth( s ) < maxWidth ) {
+			return s;
+		}
+		
+		int i;
+		// one by one, trim the last characters off until the string fits
+		for ( i = s.length() - 1; i > 0; i-- ) {
+			
+			if ( metric.stringWidth( s.substring( 0, i ) ) < maxWidth ) {
+				break;
+			}
+			
+		}
+		
+		// if < 3 characters trimmed, replace last 3 characters with "..."
+		if ( i > s.length() - 3 ) {
+			return ( s.substring( 0, s.length() - 3 ) + "..." );
+		} else {
+			return ( s.substring( 0, i - 3 ) + "..." );
+		}
+	}
+	
+	/**
+	 * 
+	 * @return the day's events
+	 */
+	public List<Event> getEvents() {
+		return events;
+	}
+	
+	/**
+	 * 
+	 * @param isUpdated true if the DayView is updated, false otherwise
+	 */
+	public void setUpdated(boolean isUpdated) {
+		this.isUpdated = isUpdated;
+	}
+	/**
+	 * Update the stored events by retrieving and sorting them
+	 */
+	public void updateEvents() {
+		// TODO: Replace this with actual functionality after testing
+		
+		events = generateSampleEvents();
+	}
+	
+	/**
+	 * Generate sample events for testing
+	 * @return
+	 */
+	public List<Event> generateSampleEvents() {
+		ArrayList<Event> sampleEvents = new ArrayList<Event>();
+		
+		// For testing, create start times based on the current date
+		Calendar cal = Calendar.getInstance();
+		DateInfo time0 = new DateInfo( cal.get( Calendar.YEAR ),
+											cal.get( Calendar.MONTH ),
+											cal.get( Calendar.DATE ) - 1,
+											0 );
+		
+		DateInfo time2 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				2 );
+		
+		DateInfo time4 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				4 );
+		
+		DateInfo time6 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				6 );
+		
+		DateInfo time7 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				7 );
+		
+		DateInfo time8 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				8 );
+		
+		DateInfo time10 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				10 );
+		
+		DateInfo time12 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				12 );
+		
+		DateInfo time13 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				13 );
+		
+		DateInfo time18 = new DateInfo( cal.get( Calendar.YEAR ),
+				cal.get( Calendar.MONTH ),
+				cal.get( Calendar.DATE ) - 1,
+				18 );
+		
+		Event e1 = new Event();
+		e1.setName( "event 1 - aka the incredibly long name to test my trimmming capability;" +
+				"It keeps going on and on without any rhyme or reason. Oh why won't it stop?" +
+				"Who knows? Probably the elders, but they're so old. I guess we'll never know." );
+		e1.setStartDate( time0 );
+		e1.setEndDate( time12 );
+		
+		Event e2 = new Event();
+		e2.setName( "event 2" );
+		e2.setStartDate( time2 );
+		e2.setEndDate( time7 );
+		
+		Event e3 = new Event();
+		e3.setName( "event 3" );
+		e3.setStartDate( time2 );
+		e3.setEndDate( time7 );
+		
+		Event e4 = new Event();
+		e4.setName( "event 4" );
+		e4.setStartDate( time4 );
+		e4.setEndDate( time6 );
+		
+		Event e5 = new Event();
+		e5.setName( "event 5" );
+		e5.setStartDate( time7 );
+		e5.setEndDate( time18 );
+		
+		Event e6 = new Event();
+		e6.setName( "event 6" );
+		e6.setStartDate( time7 );
+		e6.setEndDate( time12 );
+		
+		Event e7 = new Event();
+		e7.setName( "event 7" );
+		e7.setStartDate( time7 );
+		e7.setEndDate( time8 );
+		
+		Event e8 = new Event();
+		e8.setName( "event 8" );
+		e8.setStartDate( time10 );
+		e8.setEndDate( time13 );
+		
+		sampleEvents.add( e1 );
+		sampleEvents.add( e2 );
+		sampleEvents.add( e3 );
+		sampleEvents.add( e4 );
+		sampleEvents.add( e5 );
+		sampleEvents.add( e6 );
+		sampleEvents.add( e7 );
+		sampleEvents.add( e8 );
+		
+		return sampleEvents;
+	}
+	
+	/**
+	 * Determines whether or not the index of a cell is visible
+	 * @param rowIndex the index of the cell in question
+	 * @return true if the cell is visible, false otherwise
+	 */
+	public boolean isCellVisible(int rowIndex) {
+		if (!(getParent() instanceof JViewport)) {
+			return false;
+		}
+		JViewport viewport = (JViewport) getParent();
+		Rectangle rect = getCellRect(rowIndex, 1, true);
+		Point pt = viewport.getViewPosition();
+		rect.setLocation(rect.x - pt.x, rect.y - pt.y);
+		return new Rectangle(viewport.getExtentSize()).contains(rect);
+	}
+
+
+	/**
+	 * 
+	 * @param dayView the instance of the day view holding this table
+	 */
+	public void setDayView(DayView dayView) {
+		this.dayView = dayView;
+	}
+	
+	
+}
