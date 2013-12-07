@@ -27,11 +27,16 @@ public class SortEvents {
 	/**
 	 * This method is solely for sorting events.
 	 * When it is fully implemented
-	 * @param events list to sort
+	 * @param l list to sort
 	 * @return sorted list
 	 */
-	public List<Event> sortEvents(List<Event> events){
-		List<Event> sorted = new ArrayList<Event>();
+	public ArrayList<Event> sortEvents(ArrayList<Event> l){
+		ArrayList<Event> sorted = new ArrayList<Event>();
+		sorted = l;
+		boolean flag = false; //A flag telling the method whether to
+							  //continue iterating or not
+		//First sort the events in alphabetical order,
+		//using a wonderfully efficient bubble sort!
 		return sorted;
 	}
 }

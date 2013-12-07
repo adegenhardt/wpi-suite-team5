@@ -15,12 +15,15 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
+import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
@@ -45,7 +48,9 @@ public class SortEventsTest {
 			time2, cat, true, 0, "SamuelOak");
 	Event event2 = new Event("Become Champion", "Beat the Elite Four", time3,
 			time4, cat2, true, 1, "Red");
-	List<Event> testList1;
+	
+	ArrayList<Event> testList1 = new ArrayList<Event>();
+	SortEvents s = new SortEvents();
 	
 	/**
 	 * Note to self: ArrayLists can only be initialized within a method.
@@ -55,11 +60,9 @@ public class SortEventsTest {
 	 * @return list
 	 */
 	@Before
-	public List<Event> createTestList1(Event event1, Event event2,
-			List<Event> testList1){
-		this.testList1.add(event2);
-		this.testList1.add(event1);
-		return testList1;
+	public void createTestList1(){
+		testList1.add(event2);
+		testList1.add(event1);
 	}
 
 	/**
@@ -68,10 +71,22 @@ public class SortEventsTest {
 	 * @return sorted list
 	 */
 	@Test
-	public boolean testSimpleSort(List<Event> testList){
-		final List<Event> sorted = testList1;
-		return true;
+	public void testSameEvent(){
+		ArrayList<Event> l = new ArrayList<Event>();
+		l.add(event1);
+		assertEquals(l, s.sortEvents(l));
 	}
 	
+	@Test
+	public void testMakeSureSortDetectionWorks(){
+		ArrayList<Event> sorted = new ArrayList<Event>();
+		sorted.add(event1);
+		sorted.add(event2);
+		assertFalse(sorted.equals(s.sortEvents(testList1)));
+	}
 	
+	@Test
+	public void testSimpleAlphabeticalSort(){
+		
+	}
 }
