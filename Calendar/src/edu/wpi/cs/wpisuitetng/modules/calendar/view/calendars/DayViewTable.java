@@ -79,10 +79,12 @@ public class DayViewTable extends JTable {
 		final int X_OFFSET = insets.left + getColumnModel().getColumn( 0 ).getWidth();
 		final int Y_OFFSET = 0;
 		
+		final int CURVE_SIZE = 16;			/* Size of curves for rounded rectangles */
+		
 		// Maximum width an event can be
 		final int MAX_WIDTH = getWidth() - X_OFFSET -
 				insets.right;
-		final int ROW_HEIGHT = getRowHeight() + getRowMargin();
+		final int ROW_HEIGHT = getRowHeight();
 		int x;
 		int y;
 		
@@ -92,7 +94,7 @@ public class DayViewTable extends JTable {
 		
 		/* number of events already occuring in a given slot */
 		int numPriorEvents[] = new int[ 48 ];
-		final int PRIOR_EVENT_WIDTH = 4;	/* Number of pixels to reserve for each prior event */
+		final int PRIOR_EVENT_WIDTH = 8;	/* Number of pixels to reserve for each prior event */
 		
 		
 		// Set number of prior events to 0 for all slots
@@ -172,15 +174,17 @@ public class DayViewTable extends JTable {
 
 				// draw the event rectangle
 				g.setColor( e.getColor() );
-				g.fillRect( x, y, width, height );
+				g.fillRoundRect( x, y,
+						width, height, CURVE_SIZE, CURVE_SIZE );
 				
 				// Determine and set text/border color
-				textColor = new Color( Math.max( e.getColor().getRed() - 150, 0 ),
-						Math.max( e.getColor().getGreen() - 150, 0 ),
-						Math.max( e.getColor().getBlue() - 150, 0 ) );
+				textColor = new Color( Math.max( e.getColor().getRed() - 120, 0 ),
+						Math.max( e.getColor().getGreen() - 120, 0 ),
+						Math.max( e.getColor().getBlue() - 120, 0 ) );
 				
 				g.setColor( textColor );
-				g.drawRect( x, y, width, height );
+				g.drawRoundRect( x, y,
+						width, height, CURVE_SIZE, CURVE_SIZE );
 				
 				stringHeight = g.getFontMetrics().getMaxAscent();
 				
