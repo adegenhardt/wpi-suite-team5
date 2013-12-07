@@ -11,7 +11,7 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
  * 

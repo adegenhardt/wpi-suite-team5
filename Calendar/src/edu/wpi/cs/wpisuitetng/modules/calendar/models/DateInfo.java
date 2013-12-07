@@ -31,7 +31,7 @@ public class DateInfo {
 	private int year;
 	// month is 0-based
 	private int month;
-	// day is 1-based
+	// day is 0-based
 	private int day;
 	// half-hour is 0-based
 	private int halfHour;
