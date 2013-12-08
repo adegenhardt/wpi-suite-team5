@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.OverlayLayout;
 import javax.swing.Timer;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +30,8 @@ import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -42,6 +45,12 @@ import java.awt.event.ActionListener;
  */
 @SuppressWarnings("serial")
 public class DayView extends JLayeredPane {
+	
+	// Strings defining what to be displayed in the tooltip
+	// Useful for getting some nice spacing as well
+	private static final String NAME = "Name: ";
+	private static final String DESC = "Description: ";
+	private static final String CATEG = "Category: ";
 
 	private JScrollPane dayScroll;
 	private DayViewTable dayTable;
@@ -52,13 +61,13 @@ public class DayView extends JLayeredPane {
 
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
-	
+
 	// Last listened mouse coordinates
 	private int lastX = 0;
 	private int lastY = 0;
-	
+
 	private Timer timeEvent;
-	
+
 	/**
 	 * Create the panel.
 	 * 
@@ -66,7 +75,7 @@ public class DayView extends JLayeredPane {
 	 *            boolean
 	 */
 	public DayView() {
-		
+
 		// Run these methods to create this view
 		initDay();
 		createControls();
@@ -75,87 +84,64 @@ public class DayView extends JLayeredPane {
 		createBackground();
 		createTableProperties();
 		colorCurrentDate();
+		/*
+		 * timeEvent = new Timer(200, new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) { EventRectangle
+		 * thisTangle = dayTable.getRectangle(lastX, lastY); if (thisTangle ==
+		 * null) { dayTable.setToolTipText(null); } else {
+		 * dayTable.setToolTipText(thisTangle.getEvent().getName());
+		 * System.out.println(thisTangle.getEvent().getName()); } } });
+		 * 
+		 * timeEvent.setRepeats(false);
+		 */
 		
-		timeEvent = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				EventRectangle thisTangle = dayTable.getRectangle(lastX, lastY);
-				System.out.println(thisTangle.getEvent().getName());
-			}
-		});
-		
-		timeEvent.setRepeats(false);
-		
+		// Setting the dismiss delay to max seems to be as close to
+		// Keeping the tool tip on for as long as the user desires
+		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+		// Initial delay for tool tip
+		// Set to 0 for testing
+		ToolTipManager.sharedInstance().setInitialDelay(0);
 		
 		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
+				EventRectangle thisTangle = dayTable.getRectangle(lastX, lastY);
+				if (thisTangle == null) {
+					dayTable.setToolTipText(null);
+				} else {
+					dayTable.setToolTipText("<html>" + NAME
+							+ formatString(thisTangle.getEvent().getName(), 30) + "<br><br>"
+							+ DESC
+							+ formatString(thisTangle.getEvent().getDescription(), 30) + "<br><br>"
+							+ CATEG
+							+ thisTangle.getEvent().getCategory());
+				}
 				lastX = e.getX();
 				lastY = e.getY();
-				timeEvent.restart();
+				// timeEvent.restart();
 			}
 		});
-		
-		
+
 	}
 
 	// Create the table of DayView
 	private void createControls() {
-		dayTable = new DayViewTable(new DefaultTableModel(
-				new Object[][] {
-						{"Midnight", null},
-						{"", null},
-						{"1:00", null},
-						{"", null},
-						{"2:00", null},
-						{"", null},
-						{"3:00", null},
-						{"", null},
-						{"4:00", null},
-						{"", null},
-						{"5:00", null},
-						{"", null},
-						{"6:00", null},
-						{"", null},
-						{"7:00", null},
-						{"", null},
-						{"8:00", null},
-						{"", null},
-						{"9:00", null},
-						{"", null},
-						{"10:00", null},
-						{"", null},
-						{"11:00", null},
-						{"", null},
-						{"12:00", null},
-						{"", null},
-						{"1:00", null},
-						{"", null},
-						{"2:00", null},
-						{"", null},
-						{"3:00", null},
-						{"", null},
-						{"4:00", null},
-						{"", null},
-						{"5:00", null},
-						{"", null},
-						{"6:00", null},
-						{"", null},
-						{"7:00", null},
-						{"", null},
-						{"8:00", null},
-						{"", null},
-						{"9:00", null},
-						{"", null},
-						{"10:00", null},
-						{"", null},
-						{"11:00", null},
-						{"", null},
-				},
-				new String[] {
-						"", this.getStringDay()
-				}
-				) {
+		dayTable = new DayViewTable(new DefaultTableModel(new Object[][] {
+				{ "Midnight", null }, { "", null }, { "1:00", null },
+				{ "", null }, { "2:00", null }, { "", null }, { "3:00", null },
+				{ "", null }, { "4:00", null }, { "", null }, { "5:00", null },
+				{ "", null }, { "6:00", null }, { "", null }, { "7:00", null },
+				{ "", null }, { "8:00", null }, { "", null }, { "9:00", null },
+				{ "", null }, { "10:00", null }, { "", null },
+				{ "11:00", null }, { "", null }, { "12:00", null },
+				{ "", null }, { "1:00", null }, { "", null }, { "2:00", null },
+				{ "", null }, { "3:00", null }, { "", null }, { "4:00", null },
+				{ "", null }, { "5:00", null }, { "", null }, { "6:00", null },
+				{ "", null }, { "7:00", null }, { "", null }, { "8:00", null },
+				{ "", null }, { "9:00", null }, { "", null },
+				{ "10:00", null }, { "", null }, { "11:00", null },
+				{ "", null }, }, new String[] { "", this.getStringDay() }) {
 			// Do not allow the cells to be editable
 			private final boolean[] columnEditables = new boolean[] { false,
 					false };
@@ -164,9 +150,9 @@ public class DayView extends JLayeredPane {
 				return columnEditables[column];
 			}
 		});
-		
-		dayTable.setDayView( this );
-		
+
+		dayTable.setDayView(this);
+
 		// Set the view constraints and appearance
 		dayTable.setAutoCreateColumnsFromModel(false);
 		dayTable.getColumnModel().getColumn(0).setResizable(false);
@@ -177,30 +163,28 @@ public class DayView extends JLayeredPane {
 		dayTable.getColumnModel().getColumn(1).setPreferredWidth(100);
 		dayTable.setFocusable(false);
 		dayTable.setRowSelectionAllowed(false);
-		dayTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-				final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		dayTable.setDefaultRenderer(Object.class,
+				new DefaultTableCellRenderer() {
 
 					@Override
 					public Component getTableCellRendererComponent(
 							JTable table, Object value, boolean isSelected,
 							boolean hasFocus, int row, int column) {
-						final DefaultTableCellRenderer rendererComponent = 
-								(DefaultTableCellRenderer) super
+						
+						final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
 								.getTableCellRendererComponent(table, value,
 										isSelected, hasFocus, row, column);
-				if ((row % 2) == 0 && column != 0) {
-					rendererComponent.setBackground(new Color(185, 209, 234));
-				}
-				else {
-					rendererComponent.setBackground(Color.white);
-				}
-				this.repaint();
-				return rendererComponent;
-			}
-		});
+
+						if ((row % 2) == 0 && column != 0) {
+							rendererComponent.setBackground(new Color(185, 209,
+									234));
+						} else {
+							rendererComponent.setBackground(Color.white);
+						}
+						this.repaint();
+						return rendererComponent;
+					}
+				});
 
 		final JTableHeader header = dayTable.getTableHeader();
 
@@ -233,8 +217,8 @@ public class DayView extends JLayeredPane {
 
 	// Add a scroll bar
 	private void addElements() {
-		setLayout(new OverlayLayout( this ) );
-		this.add(dayScroll, 0 );
+		setLayout(new OverlayLayout(this));
+		this.add(dayScroll, 0);
 	}
 
 	// Set the bounds
@@ -286,10 +270,10 @@ public class DayView extends JLayeredPane {
 	private void initDay() {
 		currentDay = Calendar.getInstance();
 		// Set all hours/minutes/seconds/ms to zero (for comparisons)
-        currentDay.set(Calendar.HOUR_OF_DAY, 0);
-        currentDay.set(Calendar.MINUTE, 0);
-        currentDay.set(Calendar.SECOND, 0);
-        currentDay.set(Calendar.MILLISECOND, 0);
+		currentDay.set(Calendar.HOUR_OF_DAY, 0);
+		currentDay.set(Calendar.MINUTE, 0);
+		currentDay.set(Calendar.SECOND, 0);
+		currentDay.set(Calendar.MILLISECOND, 0);
 		realDay = currentDay;
 		// function call of filter by Current day
 		this.setRealDayEventsByRealDay();
@@ -300,7 +284,6 @@ public class DayView extends JLayeredPane {
 	 * 
 	 * @param newDay
 	 *            Calendar Changes the day on the column and the stored date
-	 *            Changes the list of current view events
 	 */
 	public void refreshDay(Calendar newDay) {
 		realDay = newDay;
@@ -342,76 +325,20 @@ public class DayView extends JLayeredPane {
 	public void resetCurrent() {
 		refreshDay(currentDay);
 	}
-
-	/**
-	 * Builds realDayEvents list of events filtered based on the DayView's
-	 * current real day
-	 */
-	private void setRealDayEventsByRealDay() {
-		final List<Event> holdEvents = new ArrayList<Event>();
-
-		// fun filter
-		// if current state is team calendar
-		System.out.println("personal: " + GlobalButtonVars.isPersonalView);
-		System.out.println("team: " + GlobalButtonVars.isTeamView);
-		
-		// if current state is Personal View
-		if (!GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
-			holdEvents.addAll(EventModel.getInstance().getUserEvents(
-					ConfigManager.getConfig().getUserName(),
-					realDay.get(Calendar.YEAR),
-					realDay.get(Calendar.MONTH),
-					realDay.get(Calendar.DATE)));
-			System.out
-					.println("Built realDayEvents from Personal Calendar for day: "
-							+ this.getRealDayString());
-			System.out.println("size: " + holdEvents.size());
-		}
-
-		// if current state is Team calendar
-		else if (GlobalButtonVars.isTeamView
-				&& !GlobalButtonVars.isPersonalView) {
-			holdEvents.addAll(EventModel.getInstance().getTeamEvents(
-					ConfigManager.getConfig().getUserName(),
-					realDay.get(Calendar.YEAR),
-					realDay.get(Calendar.MONTH),
-					realDay.get(Calendar.DATE)));
-			System.out
-					.println("Built realDayEvents from Team Calendar for day: "
-							+ this.getRealDayString());
-			System.out.println("size: " + holdEvents.size());
-		}
-		
-		// if current state is both calendar
-		else if (GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
-			holdEvents.addAll(EventModel.getInstance().getUserEvents(
-					ConfigManager.getConfig().getUserName(),
-					realDay.get(Calendar.YEAR),
-					realDay.get(Calendar.MONTH),
-					realDay.get(Calendar.DATE)));
-			holdEvents.addAll(EventModel.getInstance().getTeamEvents(
-					ConfigManager.getConfig().getUserName(),
-					realDay.get(Calendar.YEAR),
-					realDay.get(Calendar.MONTH),
-					realDay.get(Calendar.DATE)));
-			System.out
-					.println("Built realDayEvents from Both Calendars for day: "
-							+ this.getRealDayString());
-			System.out.println("size: " + holdEvents.size());
-
-		}
-		// set returns to realDayEvents
-		//TODO CONNER add functionality that will sort holdEvents to the 
-		// desired order HERE, using the sort methods you have created
-		realDayEvents = holdEvents;
-
-	}
-
-	/**
-	 * @return the realDayEvents
-	 */
-	public List<Event> getRealDayEvents() {
-		return realDayEvents;
-	}
 	
+	// Helper method to format the strings within the tooltips
+	private String formatString(String str, int len) {
+		str = str.trim();
+		if (str.length() < len)
+			return str;
+		if (str.substring(0, len).contains("<br>"))
+			return str.substring(0, str.indexOf("<br>")).trim() + "<br><br>"
+					+ formatString(str.substring(str.indexOf("<br>") + 1), len);
+		int place = Math
+				.max(Math.max(str.lastIndexOf(" ", len),
+						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));
+		return str.substring(0, place).trim() + "<br>"
+				+ formatString(str.substring(place), len);
+	}
+
 }
