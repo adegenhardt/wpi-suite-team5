@@ -117,7 +117,7 @@ public class MonthView extends JPanel {
 		labelPanel = new JPanel();
 		buttonPanel.add(labelPanel);
 		buttonPanel.add(navPanel);
-		lblMonth = new JLabel("January", JLabel.CENTER);
+		lblMonth = new JLabel("January", javax.swing.SwingConstants.CENTER);
 		labelPanel.add(lblMonth);
 		lblMonth.setMinimumSize(mlabelDim);
 		lblMonth.setPreferredSize(mlabelDim);
@@ -133,9 +133,9 @@ public class MonthView extends JPanel {
 	// Find the date
 	private void createDate() {
 		final GregorianCalendar cal = new GregorianCalendar(); // Create calendar
-		realDay = cal.get(GregorianCalendar.DAY_OF_MONTH); // Get day
-		realMonth = cal.get(GregorianCalendar.MONTH); // Get month
-		realYear = cal.get(GregorianCalendar.YEAR); // Get year
+		realDay = cal.get(java.util.Calendar.DAY_OF_MONTH); // Get day
+		realMonth = cal.get(java.util.Calendar.MONTH); // Get month
+		realYear = cal.get(java.util.Calendar.YEAR); // Get year
 		currentMonth = realMonth; // Match month and year
 		currentYear = realYear;
 	}
@@ -207,8 +207,8 @@ public class MonthView extends JPanel {
 
 		// Get first day of month and number of days
 		final GregorianCalendar cal = new GregorianCalendar(year, month, 1);
-		nod = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-		som = cal.get(GregorianCalendar.DAY_OF_WEEK);
+		nod = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+		som = cal.get(java.util.Calendar.DAY_OF_WEEK);
 
 		// Draw calendar
 		// TODO: THIS NEEDS MODIFICATION TO ADD BUTTONS TO THE CALENDAR 
@@ -330,6 +330,12 @@ public class MonthView extends JPanel {
 		}
 	}
 	
+	/**
+	 * 
+	 * @author Team_
+	 * @version 1.0
+	 *
+	 */
 	class thisMonth_Action implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if ((currentMonth != realMonth) || (currentYear != realYear)) {

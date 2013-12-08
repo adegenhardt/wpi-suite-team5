@@ -51,7 +51,7 @@ public class WeekView extends JPanel {
 	private Calendar firstDayOfWeek;
 	
 	// Days of the week
-	private String[] weekDays = new String[7];
+	private final String[] weekDays = new String[7];
 
 	// Variables used to disallow time column selection
 	private final int disabledColumn = 0;
@@ -125,7 +125,8 @@ public class WeekView extends JPanel {
 				{ "", null, null, null, null, null, null, null },
 				{ "11:00", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null }, },
-				new String[] { "", weekDays[0], weekDays[1], weekDays[2], weekDays[3], weekDays[4], weekDays[5], weekDays[6] }) {
+				new String[] { "", weekDays[0], weekDays[1], weekDays[2], weekDays[3], 
+								   weekDays[4], weekDays[5], weekDays[6] }) {
 
 			// Do not allow editing of this table
 			private final boolean[] columnEditables = new boolean[] { false,
@@ -136,14 +137,17 @@ public class WeekView extends JPanel {
 			}
 		});
 		
-		JTableHeader header = dayTable.getTableHeader();
+		final JTableHeader header = dayTable.getTableHeader();
 		
 		// Set up the custom table renderers
 		dayTable.setSelectionBackground(Color.GREEN);
 		dayTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-				 DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			public Component getTableCellRendererComponent(JTable table, Object value, 
+							boolean isSelected, boolean hasFocus, int row, int column) {
+				 final DefaultTableCellRenderer rendererComponent = 
+						 (DefaultTableCellRenderer)super.getTableCellRendererComponent(
+								 				table, value, isSelected, hasFocus, row, column);
 				 
 				// Make every second row blue
 				if ((row % 2) == 0 && column != 0) {
@@ -160,17 +164,33 @@ public class WeekView extends JPanel {
 
 			@Override
             public Component getTableCellRendererComponent(
-                    JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    JTable table, 
+                    Object value, 
+                    boolean isSelected,
+                    boolean hasFocus, 
+                    int row, 
+                    int column) {
             	
-                DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            	String thisDay = getStringDay(currentDay);
+                final DefaultTableCellRenderer rendererComponent = 
+                		(DefaultTableCellRenderer)super.getTableCellRendererComponent(
+                				table, 
+                				value, 
+                				isSelected, 
+                				hasFocus, 
+                				row, 
+                				column);
+            	final String thisDay = getStringDay(currentDay);
             	
             	if (column != 0 && weekDays[column - 1].equals(thisDay)) {
-            		rendererComponent.setBorder(BorderFactory.createCompoundBorder(rendererComponent.getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
+            		rendererComponent.setBorder(
+            				BorderFactory.createCompoundBorder(rendererComponent.getBorder(), 
+            				BorderFactory.createEmptyBorder(0, 5, 0, 0)));
             		rendererComponent.setBackground(new Color(138, 173, 209));
             	}
             	else {
-            		rendererComponent.setBorder(BorderFactory.createCompoundBorder(rendererComponent.getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 0)));
+            		rendererComponent.setBorder(
+            				BorderFactory.createCompoundBorder(rendererComponent.getBorder(), 
+            				BorderFactory.createEmptyBorder(0, 5, 0, 0)));
             		rendererComponent.setBackground(UIManager.getColor(JTableHeader.class));
             	}
             	
@@ -226,8 +246,9 @@ public class WeekView extends JPanel {
 					sel.setSelectionInterval(currentColumn, currentColumn);
 				}
 				// Set current selection
-				else
+				else {
 					currentColumn = sel.getMaxSelectionIndex();
+				}
 			}
 		});
 	}
@@ -236,7 +257,7 @@ public class WeekView extends JPanel {
 	private void initWeek() {
 		currentDay = Calendar.getInstance();
 		
-		Calendar shiftWeek = Calendar.getInstance();
+		final Calendar shiftWeek = Calendar.getInstance();
 		
 	    while(shiftWeek.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 	         shiftWeek.setTimeInMillis(shiftWeek.getTimeInMillis() - ONE_DAY);
@@ -261,14 +282,18 @@ public class WeekView extends JPanel {
 		dayTable.getSelectionModel().clearSelection();
 	}
 
-	// Get the day in a nice string format declared
-	// At the top of this file
+	/**
+	 * Get the day in a nice string format declared
+	 * At the top of this file
+	 * @param theDay to convert to a string
+	 * @return the string
+	 */
 	public String getStringDay(Calendar theDay) {
 		return dayFormat.format(theDay.getTime());
 	}
 	
 	private void changeWeekArray(Calendar firstDay) {
-		Calendar tempDay = (Calendar) firstDay.clone();
+		final Calendar tempDay = (Calendar) firstDay.clone();
 		weekDays[0] = this.getStringDay(firstDay);
 		for(int i=1; i < weekDays.length; i++) {
 			tempDay.add(Calendar.DATE, 1);
@@ -281,22 +306,31 @@ public class WeekView extends JPanel {
 			dayTable.getTableHeader().getColumnModel().getColumn(i + 1).setHeaderValue(weekDays[i]);
 		}
 	}
-	// Move the week forward or back or move back to the current week
+	
+	/**
+	 * Move the week forward
+	 */
 	public void forwardWeek() {
 		firstDayOfWeek.add(Calendar.DATE, 7);
-		refreshWeek((Calendar) firstDayOfWeek);
+		refreshWeek(firstDayOfWeek);
 	}
+	/**
+	 * Move the week back
+	 */
 	public void backWeek() {
 		firstDayOfWeek.add(Calendar.DATE, -7);
-		refreshWeek((Calendar) firstDayOfWeek);
+		refreshWeek(firstDayOfWeek);
 	}
+	/**
+	 * Move the week to the current week
+	 */
 	public void currentWeek() {
-		Calendar resetWeek = Calendar.getInstance();
+		final Calendar resetWeek = Calendar.getInstance();
 		
 	    while(resetWeek.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 	         resetWeek.setTimeInMillis(resetWeek.getTimeInMillis() - ONE_DAY);
 	    }
 	    
-	    refreshWeek((Calendar) resetWeek);
+	    refreshWeek(resetWeek);
 	}
 }

@@ -11,7 +11,6 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -30,7 +29,8 @@ import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 @SuppressWarnings("serial")
 public class YearViewCalendar extends JXMonthView {
 	
-	/* TODO: Don't know how, but possibly distinguish Events and Commitments marked as different colors
+	/* TODO: Don't know how, but possibly distinguish Events 
+	 * and Commitments marked as different colors
 	 * Read up on this, but it seems like its a hidden incomplete feature as of now
 	 * I found the renderer to do so, not entirely sure how to use it may add later */
 	//private static final Color EVENT_DAY  = Color.green;

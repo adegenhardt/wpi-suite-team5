@@ -41,27 +41,46 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 	JToggleButton displayPersonalButton;
 	JToggleButton displayBothButton;
 	
-	// Methods to enable and disable these buttons
+	/**
+	 * Disable display team button
+	 */
 	public void disableDisplayTeamButton() {
 		displayTeamButton.setEnabled(false);
 	}
+	/**
+	 * Enable display team button
+	 */
 	public void enableDisplayTeamButton() {
 		displayTeamButton.setEnabled(true);
 	}
+	/**
+	 * Disable display personal button
+	 */
 	public void disableDisplayPersonalButton() {
 		displayPersonalButton.setEnabled(false);
 	}
+	/**
+	 * Enable display personal button
+	 */
 	public void enableDisplayPersonalButton() {
 		displayPersonalButton.setEnabled(true);
 	}
+	/**
+	 * Disable display both button
+	 */
 	public void disableDisplayBothButton() {
 		displayBothButton.setEnabled(false);
 	}
+	/**
+	 * Enable display both button
+	 */
 	public void enableDisplayBothButton() {
 		displayBothButton.setEnabled(true);
 	}
 
-	// Create the panel
+	/**
+	 * Create the panel
+	 */
 	public TeamPersButtonsPanel(){
 		super("");
 		
