@@ -15,7 +15,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.junit.Before;
@@ -24,6 +24,12 @@ import org.junit.Test;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
+/**
+ * 
+ * @author Team_
+ * @version 1.0
+ *
+ */
 public class SortEventsTest {
 	/**
 	 * Sample objects for test cases to draw from
@@ -39,20 +45,31 @@ public class SortEventsTest {
 			time2, cat, true, 0, "SamuelOak");
 	Event event2 = new Event("Become Champion", "Beat the Elite Four", time3,
 			time4, cat2, true, 1, "Red");
-	ArrayList<Event> testList1;
+	List<Event> testList1;
 	
-	//Note to self: ArrayLists can only be initialized within a method.
+	/**
+	 * Note to self: ArrayLists can only be initialized within a method.
+	 * @param event1 one event to add to list
+	 * @param event2 another event to add to list
+	 * @param testList1 list to add events to
+	 * @return list
+	 */
 	@Before
-	public ArrayList<Event> createTestList1(Event event1, Event event2,
-			ArrayList<Event> testList1){
+	public List<Event> createTestList1(Event event1, Event event2,
+			List<Event> testList1){
 		this.testList1.add(event2);
 		this.testList1.add(event1);
 		return testList1;
 	}
-	
+
+	/**
+	 * 
+	 * @param testList list to sort
+	 * @return sorted list
+	 */
 	@Test
-	public boolean testSimpleSort(ArrayList<Event> testList){
-		ArrayList<Event> sorted = this.testList1;
+	public boolean testSimpleSort(List<Event> testList){
+		final List<Event> sorted = testList1;
 		return true;
 	}
 	

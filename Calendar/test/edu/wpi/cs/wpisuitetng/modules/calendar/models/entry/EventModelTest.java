@@ -25,6 +25,12 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
+/**
+ * 
+ * @author Team_
+ * @version 1.0
+ *
+ */
 public class EventModelTest {
 
 	DateInfo startDate1 = new DateInfo( 1984, 1, 11, 1 );
@@ -139,7 +145,7 @@ public class EventModelTest {
 		EventModel.getInstance().addEvent( indEvent1 );
 		EventModel.getInstance().addEvent( indEvent2 );
 		
-		ArrayList <Event> desiredEvents = new ArrayList<Event>();
+		final List<Event> desiredEvents = new ArrayList<Event>();
 		desiredEvents.add( indEvent1 );
 		desiredEvents.add( indEvent2 );
 		
@@ -161,7 +167,7 @@ public class EventModelTest {
 		EventModel.getInstance().addEvent( teamEventOdds );
 		EventModel.getInstance().addEvent( teamEventEvens );
 		
-		List< Event > events = EventModel.getInstance().getTeamEvents( "111", 1985 );
+		final List< Event > events = EventModel.getInstance().getTeamEvents( "111", 1985 );
 		
 		// test an event that exists and the user has access to
 		assertTrue( events.contains( teamEventOdds ) );
@@ -196,7 +202,7 @@ public class EventModelTest {
 		EventModel.getInstance().addEvent( teamEventOdds );
 		EventModel.getInstance().addEvent( teamEventEvens );
 		
-		List< Event > events = EventModel.getInstance().getTeamEvents( "111", 1984, 1 );
+		final List< Event > events = EventModel.getInstance().getTeamEvents( "111", 1984, 1 );
 		
 		// test an event that exists and the user has access to
 		assertTrue( events.contains( teamEventOdds ) );
@@ -230,7 +236,7 @@ public class EventModelTest {
 		EventModel.getInstance().addEvent( teamEventOdds );
 		EventModel.getInstance().addEvent( teamEventEvens );
 		
-		List< Event > events = EventModel.getInstance().getTeamEvents( "111", 1984, 1, 11 );
+		final List< Event > events = EventModel.getInstance().getTeamEvents( "111", 1984, 1, 11 );
 		
 		// test an event that exists and the user has access to
 		assertTrue( events.contains( teamEventOdds ) );
@@ -264,7 +270,7 @@ public class EventModelTest {
 		EventModel.getInstance().addEvent( teamEventOdds );
 		EventModel.getInstance().addEvent( teamEventEvens );
 		
-		List< Event > events = EventModel.getInstance().getUserEvents( "111", 1985 );
+		final List< Event > events = EventModel.getInstance().getUserEvents( "111", 1985 );
 		
 		// test an event that exists and the user has access to
 		assertTrue( events.contains( teamEventOdds ) );
@@ -298,7 +304,7 @@ public class EventModelTest {
 		EventModel.getInstance().addEvent( teamEventOdds );
 		EventModel.getInstance().addEvent( teamEventEvens );
 		
-		List< Event > events = EventModel.getInstance().getUserEvents( "111", 1984, 1 );
+		final List< Event > events = EventModel.getInstance().getUserEvents( "111", 1984, 1 );
 		
 		// test an event that exists and the user has access to
 		assertTrue( events.contains( teamEventOdds ) );
@@ -331,7 +337,7 @@ public class EventModelTest {
 		EventModel.getInstance().addEvent( teamEventOdds );
 		EventModel.getInstance().addEvent( teamEventEvens );
 		
-		List< Event > events = EventModel.getInstance().getUserEvents( "111", 1984, 1, 11 );
+		final List< Event > events = EventModel.getInstance().getUserEvents( "111", 1984, 1, 11 );
 		
 		// test an event that exists and the user has access to
 		assertTrue( events.contains( teamEventOdds ) );

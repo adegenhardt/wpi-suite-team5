@@ -69,7 +69,7 @@ public class EventTest {
 		assertNotNull( event2 );
 	}
 	
-	/*
+	/**
 	 * Test get and set for id field
 	 */
 	@Test
@@ -80,7 +80,7 @@ public class EventTest {
 		assertEquals( 4, event1.getId() );
 	}
 	
-	/*
+	/**
 	 * Test get and set for project id field
 	 */
 	@Test
@@ -90,7 +90,7 @@ public class EventTest {
 		assertTrue( event2.isTeamEvent() );
 	}
 	
-	/*
+	/**
 	 * Test get and set for creator id field
 	 */
 	@Test
@@ -160,7 +160,7 @@ public class EventTest {
 	 */
 	@Test
 	public void testGetSetCategory() {
-		Category newCategory = new Category( "newName", 3 );
+		final Category newCategory = new Category( "newName", 3 );
 		assertEquals( testCategory, event1.getCategory() );
 		assertNotSame( newCategory, event1.getCategory() );
 		event1.setCategory( newCategory );
@@ -177,7 +177,7 @@ public class EventTest {
 		assertTrue( event1.hasAccess( "111" ) );
 		
 		// Test setting a list of users
-		ArrayList< String > testUsers = new ArrayList< String >();
+		final List<String> testUsers = new ArrayList< String >();
 		testUsers.add( "10" );
 		testUsers.add( "20" );
 		testUsers.add( "30" );
@@ -312,8 +312,8 @@ public class EventTest {
 	 */
 	@Test
 	public void testJsonConversion() {
-		String convertedEvent = event1.toJSON();
-		Event eventFromJson = Event.fromJson( convertedEvent );
+		final String convertedEvent = event1.toJSON();
+		final Event eventFromJson = Event.fromJson( convertedEvent );
 		assertEquals( event1, eventFromJson );
 	}
 	
