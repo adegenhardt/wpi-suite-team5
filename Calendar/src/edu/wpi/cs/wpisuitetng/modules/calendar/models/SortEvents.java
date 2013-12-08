@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
  */
 public class SortEvents {
 	// This method is solely for sorting events.
-	// When it is fully implemented
+	// When it is fully implemented, you can move it wherever you like.
 	public ArrayList<Event> sortEventsByName(ArrayList<Event> events){
 		//First sort the events in alphabetical order,
 		//using a wonderfully efficient bubble sort! :)		
@@ -42,7 +42,7 @@ public class SortEvents {
 		return events;
 	}
 
-	public ArrayList<Event> sortEventsByStartDate(ArrayList<Event> events){
+	public ArrayList<Event> sortEventsByDate(ArrayList<Event> events){
 		//Using our beautiful bubble sort, we now sort the events by
 		//start date!
 		for(int i = 1; i < events.size(); i++){

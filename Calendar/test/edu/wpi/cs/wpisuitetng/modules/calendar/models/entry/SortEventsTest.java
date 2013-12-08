@@ -49,10 +49,10 @@ public class SortEventsTest {
 	DateInfo time8 = new DateInfo(2013, 12, 7, 38);
 	DateInfo time9 = new DateInfo(2013, 12, 7, 40);
 
-	Event event1 = new Event("Team Meeting", "Meet the co-workers", time1,
-			time2, cat, true, 0, "SamuelOak");
-	Event event2 = new Event("Become Champion", "Beat the Elite Four", time3,
-			time4, cat2, true, 1, "Red");
+	Event event1 = new Event("Team Meeting", null, time1, time2, cat, true,
+			0, "SamuelOak");
+	Event event2 = new Event("Become Champion", null, time3, time4, cat2, true, 
+			1, "Red");
 	Event event3 = new Event("Do a Thing", null, time1, time2, cat, true, 2,
 			"Guy Person");
 	Event event4 = new Event("Do this Thing", null, time3, time4, cat, true,
@@ -67,6 +67,8 @@ public class SortEventsTest {
 			7, "Reggie");
 	Event event9 = new Event("Hunt Vaults", null, time8, time1, cat2, true, 8,
 			"Maya");
+	Event event10 = new Event("Geronimo!", null, time8, time1, cat2, true, 9,
+			"The Doctor");
 	
 	ArrayList<Event> testList1 = new ArrayList<Event>();
 	SortEvents s = new SortEvents();
@@ -140,6 +142,17 @@ public class SortEventsTest {
 		ArrayList<Event> sorted = new ArrayList<Event>();
 		sorted.add(event7);
 		sorted.add(event5);
-		assertEquals(sorted, s.sortEventsByStartDate(toSort));
+		assertEquals(sorted, s.sortEventsByDate(toSort));
+	}
+	
+	@Test
+	public void testSortTwoEventsWithSameTimesButDiffNames(){
+		ArrayList<Event> toSort = new ArrayList<Event>();
+		toSort.add(event9);
+		toSort.add(event10);
+		ArrayList<Event> sorted = new ArrayList<Event>();
+		sorted.add(event10);
+		sorted.add(event9);
+		assertEquals(sorted, s.sortEventsByDate(toSort));
 	}
 }
