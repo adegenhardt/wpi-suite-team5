@@ -266,8 +266,8 @@ public class EventEditor extends JPanel {
 
 				// TODO: Replace code with something using new data model
 				final Date start = (Date) comboBoxStartMonth.getDate().clone();
-				final DateInfo startDate = new DateInfo(start.getYear(), start.getMonth(),
-						start.getDay(), startHalfHours);
+				final DateInfo startDate = new DateInfo(start.getYear()+1900, start.getMonth(),
+						start.getDate(), startHalfHours);
 
 				final int endHalfHours = parseTime((String) comboBoxEndHour.getSelectedItem(),
 						(String) comboBoxEndMinutes.getSelectedItem(),
@@ -275,9 +275,13 @@ public class EventEditor extends JPanel {
 
 				// TODO: Replace code with something using new data model
 				final Date end = (Date) comboBoxEndMonth.getDate().clone();
-				final DateInfo endDate = new DateInfo(end.getYear(), end.getMonth(),
-						end.getDay(), endHalfHours);
-				
+				final DateInfo endDate = new DateInfo(end.getYear()+1900, end.getMonth(),
+						end.getDate(), endHalfHours);
+				System.out.println("Event Date Data:");
+				System.out.println(end.getYear()+1900);
+				System.out.println(end.getMonth());
+				System.out.println(end.getDate());
+				System.out.println(startHalfHours);
 				// Check whether this is a team or personal event
 				boolean isTeamEvent;
 				if (rdbtnPersonal.isSelected()) {

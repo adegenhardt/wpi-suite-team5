@@ -46,7 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
  */
 @SuppressWarnings("serial")
 public class DayView extends JPanel {
-
+//HEAD
 	private JScrollPane dayScroll;
 	private JTable dayTable;
 	private Calendar currentDay;
@@ -59,7 +59,7 @@ public class DayView extends JPanel {
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 
-	// List of events that take place on the current realDay
+	// List of events that take place on the current realDay, sorted according to TODO Connor's sorting method specifications
 	private ArrayList<Event> realDayEvents = new ArrayList<Event>();
 
 	/**
@@ -348,8 +348,9 @@ public class DayView extends JPanel {
 			System.out.println("size: "+holdEvents.size());
 
 		}
-		//System.out.println(holdEvents.get(0).getName());
+		//System.out.println(EventModel.getInstance().getAllEvents().get(0).getName());
 		// set returns to realDayEvents
+		//TODO CONNER add functionality that will sort holdEvents to the desired order HERE, using the sort methods you have created
 		this.realDayEvents = holdEvents;
 
 	}
