@@ -67,7 +67,7 @@ public class CalendarSidebar extends JPanel {
 	public CalendarSidebar() {
 		setLayout(new MigLayout("", "[grow][grow]", "[][100.00,grow,center][100.00,grow][grow]"));
 		
-		// Create a button to refres the list of events
+		// Create a button to refresh the list of events
 		// TODO: Incorporate this functionality into Event/Commitment Submit buttons
 		// and the Team/Personal View buttons
 		JButton btnRefreshEvents = new JButton("Refresh Events");
@@ -238,19 +238,40 @@ public class CalendarSidebar extends JPanel {
 			GetEventController.getInstance().retrieveEvents();
 		}
 		// Create a list of Events
-		List<Event> events;
+		List<Event> events = null;
 		
-		// Get either personal or team events depending on the current view
-		if (GlobalButtonVars.isPersonalView) {
+		// Get personal, team, or both views according to the state that was selected
+		// by the user upon using the Calendar module.
+		
+		// View only those events that are personal.
+		if (GlobalButtonVars.isStatePersonalView()) {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getPersonalEvents(userId);
 		}
-		else {
+		
+		// View only those events that are team.
+		if (GlobalButtonVars.isStateTeamView()) {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getTeamEvents(userId);
 		}
 		
-		// Populate the table with the list of events
+		// View all events that are classified as being both team and personal.
+		if (GlobalButtonVars.isStateBothView()) {
+			String userId = ConfigManager.getConfig().getUserName();
+			events = EventModel.getInstance().getAllEvents();
+		}
+		
+		// Inform the user via the console in the case that no state was selected.
+		// This should never happen, but if it does, this is the warning.
+		if (!GlobalButtonVars.isStateTeamView() 
+				&& !GlobalButtonVars.isStatePersonalView()
+				&& !GlobalButtonVars.isStateBothView())
+		{
+			System.out.println("No state (team or personal) has been selected!");
+		}
+		
+		// Populate the table with the appropriate list of events according to the state
+		// that the user has selected (team, personal, or both).
 		for(int i=0;i < 6;i++){
 			for(int j=0;j < 4;j++){
 				if(j == 0){
@@ -269,6 +290,15 @@ public class CalendarSidebar extends JPanel {
 					catch(IndexOutOfBoundsException e){
 					}
 					//eventTable.setValueAt(events.get(i).getStartDate(), i, j);	
+				}
+				// NEW JUST ADDED
+				if(j == 2){
+					try{
+						eventTable.setValueAt(events.get(i).getEndDate(), i, j);
+					}
+					catch(IndexOutOfBoundsException e){
+						//eventTable.setValueAt(events.get(i).getEndDate(), i, j);
+					}
 				}
 				
 				/*

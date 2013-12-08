@@ -235,10 +235,11 @@ public class EventEditor extends JPanel {
 				
 		// Create Team/Personal calendar options and group them
 		rdbtnPersonal = new JRadioButton("Personal");
-		rdbtnPersonal.setSelected(true);
+		rdbtnPersonal.setSelected(!GlobalButtonVars.isStateTeamView());
 		add(rdbtnPersonal, "cell 1 9");
 		
 		rdbtnTeam = new JRadioButton("Team");
+		rdbtnTeam.setSelected(GlobalButtonVars.isStateTeamView());
 		add(rdbtnTeam, "cell 3 9");
 		
 		//Group the radio buttons.

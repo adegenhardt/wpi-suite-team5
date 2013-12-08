@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.Session;
+import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
@@ -29,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.MockData;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryEntityManager;
+import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 
 /**
  * Test for the CategoryEntityManager class structured according to the
@@ -50,6 +52,7 @@ public class CategoryEntityManagerTest {
 	CategoryEntityManager manager;
 	Category category1;
 	Category category2;
+	Category category3;
 	
 	Category testCategory = new Category( "name", 10 );
 	
@@ -70,6 +73,7 @@ public class CategoryEntityManagerTest {
 
 		category1 = new Category( "name1", 10, "12345", false, false );
 		category2 = new Category( "name2", 11, "123456", false, false );
+		category3 = new Category( "name3", 12, "1234567", false, false );
 		
 		defaultSession = new Session(existingUser, testProject, mockSsid);
 		
@@ -193,6 +197,20 @@ public class CategoryEntityManagerTest {
 	}
 	
 	/**
+	 * Method updateCategoryTestBadRequestException
+	 * @throws WPISuiteException, BadRequestException 
+	 */
+	@Test
+	public void updateCategoryTestBadRequestException() throws WPISuiteException, BadRequestException {
+		try {
+			Category updatedCategory = manager.update(defaultSession, category3.toJSON());
+		}
+		catch (BadRequestException e) {
+			assertTrue(true);
+		}
+	}
+	
+	/**
 	 * Test that all Category entities are returned
 	 */
 	@Test
@@ -203,5 +221,48 @@ public class CategoryEntityManagerTest {
 		manager.save(defaultSession, category2);
 		Category returnedCategoryList[] = manager.getAll( defaultSession );
 		assertEquals(2, returnedCategoryList.length);
+	}
+	
+	/**
+	 * Test that advancedGet is not implemented
+	 */
+	@Test
+	public void advancedGetTest() throws NotImplementedException {
+		try {
+		String[] testString = null;
+		manager.advancedGet(adminSession, testString);
+		}
+		catch (NotImplementedException e) {
+			assertTrue(true);
+		}
+	}
+	
+	/**
+	 * Test that advancedPut is not implemented
+	 */
+	@Test
+	public void advancedPutTest() throws NotImplementedException {
+		try {
+		String[] testString1 = null;
+		String testString2 = null;
+		manager.advancedPut(adminSession, testString1, testString2);
+		}
+		catch (NotImplementedException e) {
+			assertTrue(true);
+		}
+	}
+	
+	/**
+	 * Test that advancedPost is not implemented
+	 */
+	@Test
+	public void advancedPostTest() throws NotImplementedException {
+		try {
+		String testString = null;
+		manager.advancedPost(adminSession, testString, testString);
+		}
+		catch (NotImplementedException e) {
+			assertTrue(true);
+		}
 	}
 }

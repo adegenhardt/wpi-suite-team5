@@ -19,19 +19,19 @@ public class GlobalButtonVars {
 	
 	
 	
-	public boolean isStateTeamView(){
+	public static boolean isStateTeamView(){
 		return isTeamView && !isPersonalView;
 		
 	}
 	
-	public boolean isStatePersonalView(){
+	public static boolean isStatePersonalView(){
 		return !isTeamView && isPersonalView;
 		
 	}
 	
-	public boolean isStateBothView(){
+	public static boolean isStateBothView(){
 		return isTeamView && isPersonalView;
 	}
 	
-	//TODO add function that asks for state and returns an enum of the state
+	//TODO add function that asks for state and returns an enumeration of the state
 }
