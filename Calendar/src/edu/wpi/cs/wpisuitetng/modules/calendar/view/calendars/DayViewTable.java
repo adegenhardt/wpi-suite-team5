@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 
@@ -149,6 +150,7 @@ public class DayViewTable extends JTable {
 		else if (GlobalButtonVars.isTeamView) {
 			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
 		}
+		events = SortEvents.sortEventsByDate(events);
 	}
 	
 	/**
@@ -307,11 +309,6 @@ public class DayViewTable extends JTable {
 				x = X_OFFSET +
 					( numPriorEvents[ startDate.getHalfHour() ] * PRIOR_EVENT_WIDTH ) +
 					( width * j );
-				
-				System.out.println( "Num Prior Events: " + numPriorEvents[ startDate.getHalfHour() ] );
-				System.out.println( "Start Date: " + startDate );
-				System.out.println( "End Date: " + endDate );
-				System.out.println( "Displayed Day"+ displayedDay );
 				
 				// if event ends after current day, draw to the bottom
 				displayedDay.setHalfHour( 48 );

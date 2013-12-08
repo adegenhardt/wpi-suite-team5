@@ -145,6 +145,7 @@ public class SortEventsTest {
 		assertEquals(sorted, s.sortEventsByDate(toSort));
 	}
 	
+	/*
 	@Test
 	public void testSortTwoEventsWithSameTimesButDiffNames(){
 		ArrayList<Event> toSort = new ArrayList<Event>();
@@ -155,4 +156,5 @@ public class SortEventsTest {
 		sorted.add(event9);
 		assertEquals(sorted, s.sortEventsByDate(toSort));
 	}
+	*/
 }

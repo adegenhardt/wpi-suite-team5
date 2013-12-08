@@ -14,14 +14,12 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.TimerTask;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.OverlayLayout;
-import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -30,12 +28,8 @@ import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.ActionListener;
 
 /**
  * Panel for the Day View tab of the calendar
