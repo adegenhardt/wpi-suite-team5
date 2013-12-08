@@ -852,7 +852,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *      year, int month, int day)
 	 */
 	@Override
-	public boolean occursOnDate(int year, int month, int day) throws ArrayIndexOutOfBoundsException {
+	public boolean occursOnDate(int year, int month, int day) 
+			throws ArrayIndexOutOfBoundsException {
 
 		if ( month < 0 || month > 11 ) {
 			throw new ArrayIndexOutOfBoundsException( "Valid months are in the range 0 - 11" );

@@ -51,7 +51,10 @@ public class CommitEditor extends JPanel {
 	 */
 	public CommitEditor() {
 		// Set the layout
-		setLayout(new MigLayout("", "[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][40px:40px:40px][150px:150.00:150px]", "[50.00px][125px:125:150px][][25.00][][][][]"));
+		setLayout(new MigLayout(
+				"", 
+				"[114px][50px:125.00:50px][50px:60.00:50px][60px:75.00px:60px][40px:40px:40px][150px:150.00:150px]", 
+				"[50.00px][125px:125:150px][][25.00][][][][]"));
 		
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Commitment Name:");

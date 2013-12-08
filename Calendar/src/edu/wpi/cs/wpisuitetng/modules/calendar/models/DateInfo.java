@@ -199,29 +199,29 @@ public class DateInfo {
 		String theMonthS = "";
 		// Assign an MM Month String depending on the value
 		// of the month int.
-		theMonthS = theMonthS + theMonthI;
+		theMonthS += theMonthI;
 		final String theDay = "" + day;
 		// Deliver a time depending on the halfHour int
 		int iTime = 0;
 		String sTime = "";
 		int theTime = halfHour;
 		while (theTime > 1){
-			theTime = theTime - 2;
+			theTime -= 2;
 			iTime++;
 		}
 		sTime = "" + iTime;
 		if (theTime == 0){
-			sTime = sTime + ":00";
+			sTime += ":00";
 		}
 		else{
-			sTime = sTime + ":30";
+			sTime += ":30";
 		}
 		if (iTime > 12){
-			iTime = iTime / 2;
-			sTime = sTime + " PM";
+			iTime /= 2;
+			sTime += " PM";
 		}
 		else{
-			sTime = sTime + " AM";
+			sTime += " AM";
 		}
 		// Collect all the info gathered above into a single string
 		// and return it

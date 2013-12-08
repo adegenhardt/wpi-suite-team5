@@ -20,14 +20,16 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
- * @param events A list of Events for the given day
- * @return The sorted list of events
  * @author cporell
- *
+ * @version 1.0
  */
 public class SortEvents {
-	// This method is solely for sorting events.
-	// When it is fully implemented
+	/**
+	 * This method is solely for sorting events.
+	 * When it is fully implemented
+	 * @param events list to sort
+	 * @return sorted list
+	 */
 	public List<Event> sortEvents(List<Event> events){
 		List<Event> sorted = new ArrayList<Event>();
 		return sorted;

@@ -148,7 +148,13 @@ public class CalendarSidebar extends JPanel {
 		// Create a panel within filterCatsPanel to hold the Filter manager
 		final JPanel panelFilter = new JPanel();
 		filtersCatsPanel.add(panelFilter, "cell 0 0,grow");
-		panelFilter.setBorder(new TitledBorder(null, "Filters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelFilter.setBorder(new TitledBorder(
+				null, 
+				"Filters", 
+				TitledBorder.LEADING,
+				TitledBorder.TOP, 
+				null, 
+				null));
 		panelFilter.setLayout(new MigLayout("", "[grow][grow]", "[85.00px][][]"));
 		
 		// Create a list of current filters
@@ -182,7 +188,13 @@ public class CalendarSidebar extends JPanel {
 		// Create a panel for the Category manager
 		final JPanel panelCatCreate = new JPanel();
 		filtersCatsPanel.add(panelCatCreate, "cell 0 1,grow");
-		panelCatCreate.setBorder(new TitledBorder(null, "Categories", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelCatCreate.setBorder(new TitledBorder(
+				null,
+				"Categories",
+				TitledBorder.LEADING,
+				TitledBorder.TOP,
+				null,
+				null));
 		panelCatCreate.setLayout(new MigLayout("", "[80.00,grow][100px,grow][]", "[][][][]"));
 		// Label for the category list
 		final JLabel lblCurrentCategories = new JLabel("Categories:");
