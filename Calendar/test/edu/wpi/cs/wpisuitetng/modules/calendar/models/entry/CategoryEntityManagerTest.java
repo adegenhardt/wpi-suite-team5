@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockData;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryEntityManager;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
@@ -58,11 +58,10 @@ public class CategoryEntityManagerTest {
 	
 	/**
 	 * Set up objects and create a mock session for testing
-	 * @throws Exception 
 	 */
 	@Before
-	public void setUp() throws Exception {
-		User admin = new User("admin", "admin", "4321", 27);
+	public void setUp() {
+		final User admin = new User("admin", "admin", "4321", 27);
 		admin.setRole(Role.ADMIN);
 		testProject = new Project("test", "1");
 		otherProject = new Project("other", "2");
@@ -93,7 +92,7 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		Category created = manager.makeEntity(defaultSession, category1.toJSON());
+		final Category created = manager.makeEntity(defaultSession, category1.toJSON());
 		assertEquals( 10, created.getId() ); // IDs are unique across projects
 		assertEquals( created, category1 );
 	}
@@ -104,7 +103,7 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void testGetEntity() throws NotFoundException {
-		Category[] gotten = manager.getEntity( defaultSession, "10" );
+		final Category[] gotten = manager.getEntity( defaultSession, "10" );
 		assertSame( category1, gotten[0] );
 	}
 
@@ -155,7 +154,7 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void testDeleteAll() throws WPISuiteException {
-		Category anotherCategory = new Category();
+		final Category anotherCategory = new Category();
 		manager.makeEntity(defaultSession, anotherCategory.toJSON());
 		assertEquals(2, db.retrieveAll(new Category(), testProject).size());
 		manager.deleteAll(adminSession);
@@ -180,7 +179,7 @@ public class CategoryEntityManagerTest {
 	 * @throws WPISuiteException 
 	 */
 	@Test
-	public void testCount() throws WPISuiteException {
+	public void testCount() {
 		assertEquals(2, manager.Count());
 	}
 
@@ -191,7 +190,7 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void updateCategoryTest() throws WPISuiteException {
-		Category updatedCategory = manager.update(defaultSession,category1.toJSON());
+		final Category updatedCategory = manager.update(defaultSession, category1.toJSON());
 		assertEquals(category1.getName(), updatedCategory.getName());
 		assertEquals(category1.getId(), updatedCategory.getId());
 	}
@@ -215,11 +214,11 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void getAllTest() {
-		Category reqList[] = new Category[2];
+		final Category reqList[] = new Category[2];
 		reqList[0] = category1;
 		reqList[1] = category2;
 		manager.save(defaultSession, category2);
-		Category returnedCategoryList[] = manager.getAll( defaultSession );
+		final Category returnedCategoryList[] = manager.getAll( defaultSession );
 		assertEquals(2, returnedCategoryList.length);
 	}
 	

@@ -16,9 +16,15 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
 
+
+
+/**
+ * 
+ * @author Team_
+ * @version 1.0
+ *
+ */
 public class DateInfoTest {
 	DateInfo dateTest1 = new DateInfo(2013, 2, 8, 22);
 	DateInfo dateTest2 = new DateInfo(1977, 5, 6, 35);

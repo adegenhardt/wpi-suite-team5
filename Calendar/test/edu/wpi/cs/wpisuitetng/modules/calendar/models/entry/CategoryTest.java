@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2012 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Team Underscore 
+ *    
+ *******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 import static org.junit.Assert.*;
@@ -10,6 +22,12 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
+/**
+ * 
+ * @author Team_
+ * @version 1.0
+ *
+ */
 public class CategoryTest {
 
 	Category category1;
@@ -67,8 +85,8 @@ public class CategoryTest {
 	 */
 	@Test
 	public void testJsonConversion() {
-		String convertedCategory = category1.toJSON();
-		Category categoryFromJson = Category.fromJson( convertedCategory );
+		final String convertedCategory = category1.toJSON();
+		final Category categoryFromJson = Category.fromJson( convertedCategory );
 		assertEquals( category1, categoryFromJson );
 	}
 	
