@@ -238,14 +238,14 @@ public class DateInfo {
 	 */
 	@Override
 	public String toString() {
-		final String theYear = "" + year;
-		final int theMonthI = month + 1;
+		String theYear = "" + year;
+		int theMonthI = month + 1;
 		// Initialize a blank Month string
 		String theMonthS = "";
 		// Assign an MM Month String depending on the value
 		// of the month int.
 		theMonthS += theMonthI;
-		final String theDay = "" + day;
+		String theDay = "" + (day + 1);
 		// Deliver a time depending on the halfHour int
 		int iTime = 0;
 		String sTime = "";

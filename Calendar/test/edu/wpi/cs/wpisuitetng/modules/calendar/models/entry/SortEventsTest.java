@@ -45,6 +45,9 @@ public class SortEventsTest {
 	DateInfo time4 = new DateInfo(2013, 12, 14, 31);
 	DateInfo time5 = new DateInfo(2014, 1, 3, 00);
 	DateInfo time6 = new DateInfo(2014, 1, 4, 00);
+	DateInfo time7 = new DateInfo(2014, 1, 5, 00);
+	DateInfo time8 = new DateInfo(2013, 12, 7, 38);
+	DateInfo time9 = new DateInfo(2013, 12, 7, 40);
 
 	Event event1 = new Event("Team Meeting", "Meet the co-workers", time1,
 			time2, cat, true, 0, "SamuelOak");
@@ -54,10 +57,16 @@ public class SortEventsTest {
 			"Guy Person");
 	Event event4 = new Event("Do this Thing", null, time3, time4, cat, true,
 			3, "Dude Guy");
-	Event event5 = new Event("Rescue Zelda", null, time5, time6, cat2, true,
+	Event event5 = new Event("Rescue Zelda", null, time5, time7, cat2, true,
 			4, "Link");
 	Event event6 = new Event("Slay the World-Eater", null, time3, time4, cat,
 			true, 5, "Dovahkiin");
+	Event event7 = new Event("Keep Exploring the Map", null, time5, time6, cat2,
+			true, 6, "Scout");
+	Event event8 = new Event("Troll everyone!", null, time8, time9, cat, true,
+			7, "Reggie");
+	Event event9 = new Event("Hunt Vaults", null, time8, time1, cat2, true, 8,
+			"Maya");
 	
 	ArrayList<Event> testList1 = new ArrayList<Event>();
 	SortEvents s = new SortEvents();
@@ -84,7 +93,7 @@ public class SortEventsTest {
 	public void testSameEvent(){
 		ArrayList<Event> l = new ArrayList<Event>();
 		l.add(event1);
-		assertEquals(l, s.sortEvents(l));
+		assertEquals(l, s.sortEventsByName(l));
 	}
 	
 	@Test
@@ -92,7 +101,7 @@ public class SortEventsTest {
 		ArrayList<Event> sorted = new ArrayList<Event>();
 		sorted.add(event1);
 		sorted.add(event2);
-		assertFalse(sorted.equals(s.sortEvents(testList1)));
+		assertFalse(sorted.equals(s.sortEventsByName(testList1)));
 	}
 	
 	@Test
@@ -103,7 +112,7 @@ public class SortEventsTest {
 		ArrayList<Event> sorted = new ArrayList<Event>();
 		sorted.add(event3);
 		sorted.add(event4);
-		assertEquals(sorted, s.sortEvents(toSort));
+		assertEquals(sorted, s.sortEventsByName(toSort));
 	}
 	
 	@Test
@@ -120,6 +129,17 @@ public class SortEventsTest {
 		sorted.add(event5);
 		sorted.add(event6);
 		sorted.add(event1);
-		assertEquals(sorted, s.sortEvents(toSort));
+		assertEquals(sorted, s.sortEventsByName(toSort));
+	}
+	
+	@Test
+	public void testSortTwoEqualStartDates(){
+		ArrayList<Event> toSort = new ArrayList<Event>();
+		toSort.add(event5);
+		toSort.add(event7);
+		ArrayList<Event> sorted = new ArrayList<Event>();
+		sorted.add(event7);
+		sorted.add(event5);
+		assertEquals(sorted, s.sortEventsByStartDate(toSort));
 	}
 }
