@@ -30,6 +30,18 @@ public class EventRectangle {
 	/**
 	 * 
 	 * @param _event The event stored for this rectangle
+	 */
+	public EventRectangle( Event _event ) {
+		event = _event;
+		x = 0;
+		y = 0;
+		width = 1;
+		height = 1;
+	}
+	
+	/**
+	 * 
+	 * @param _event The event stored for this rectangle
 	 * @param _x X position
 	 * @param _y Y position
 	 * @param _width Width of the rectangle 

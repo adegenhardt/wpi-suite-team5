@@ -56,11 +56,20 @@ public class DayViewTable extends JTable {
 		super.paintComponent( g );
 		
 		if ( !isUpdated ) {
-			// TODO: Remove variable for list of events and obtain event list from DayView
 			updateEvents();
-			updateRectangles( events );
+			
+			// Take updated events and put them in rectangles
+			if ( rectangles.size() > 0 ) {
+				rectangles.clear();
+			}
+			
+			for ( int i = 0; i < events.size(); i++ ) {
+				rectangles.add( new EventRectangle( events.get( i ) ) );
+			}
+			
 			isUpdated = true;
 		}
+		updateRectangles();
 		paintRectangles( g );
 	}
 	
@@ -102,7 +111,7 @@ public class DayViewTable extends JTable {
 		if ( i > s.length() - 3 ) {
 			return ( s.substring( 0, s.length() - 3 ) + "..." );
 		} else {
-			return ( s.substring( 0, i - 3 ) + "..." );
+			return ( s.substring( 0, Math.max( 1, i - 3 ) ) + "..." );
 		}
 	}
 	
@@ -191,29 +200,23 @@ public class DayViewTable extends JTable {
 	
 	/**
 	 * Update the list of rectangles according to updated events
-	 * @param events the list of events to use
+	 * Important: rectangles and events should have a 1:1 correspondance
+	 * before entering this function
 	 */
-	public void updateRectangles( List< Event > events ) {
+	public void updateRectangles() {
 		
-		if ( rectangles.size() > 0 ) {
-			rectangles.clear();
-		}
-		
-
 		// Convert Calendar to DateInfo
 		DateInfo displayedDay = new DateInfo( dayView.getRealDay() );
 		
 		// Set the half-hour field to 0 to signify the beginning of the day
 		displayedDay.setHalfHour( 0 );
 		
-		final java.awt.Insets insets = getInsets();
-		final int X_OFFSET = insets.left + getColumnModel().getColumn( 0 ).getWidth();
+		final int X_OFFSET = getColumnModel().getColumn( 0 ).getWidth();
 		final int Y_OFFSET = 0;
 		
 		
 		// Maximum width an event can be
-		final int MAX_WIDTH = getWidth() - X_OFFSET -
-				insets.right;
+		final int MAX_WIDTH = getWidth() - X_OFFSET;
 		final int ROW_HEIGHT = getRowHeight();
 		int x;
 		int y;
@@ -236,6 +239,7 @@ public class DayViewTable extends JTable {
 		DateInfo startDate;
 		DateInfo endDate;
 		int numEventsInRow; 	/* Number of events in current row */
+		EventRectangle r;
 		for ( int i = 0; i < events.size(); i++ ) {
 			e = events.get( i );
 			
@@ -283,6 +287,7 @@ public class DayViewTable extends JTable {
 			// draw all events in row
 			for ( int j = 0; j < numEventsInRow; j++ ) {
 				e = events.get( i + j );
+				r = rectangles.get( i + j );
 				
 				endDate = e.getEndDate();
 				
@@ -294,7 +299,7 @@ public class DayViewTable extends JTable {
 				
 				// if event ends after current day, draw to the bottom
 				displayedDay.setHalfHour( 48 );
-				if ( e.getEndDate().compareTo( displayedDay ) >= 0 ) {
+				if ( endDate.compareTo( displayedDay ) >= 0 ) {
 					height = Y_OFFSET + ( 48 * ROW_HEIGHT ) - y;
 				}
 				else {
@@ -302,8 +307,12 @@ public class DayViewTable extends JTable {
 							y;
 				}
 				
-				rectangles.add( new EventRectangle( e, x, y, width, height ) );
-				
+				// Apply the calculated bounds to the selected rectangle
+				r.setX( x );
+				r.setY( y );
+				r.setWidth( width );
+				r.setHeight( height );
+				rectangles.set( i + j, r );
 			}
 			
 			// increment i to skip over the drawn events
