@@ -280,7 +280,7 @@ public class EventEditor extends JPanel {
 				// TODO: Replace code with something using new data model
 				final Date start = (Date) comboBoxStartMonth.getDate().clone();
 				final DateInfo startDate = new DateInfo(start.getYear() + 1900, start.getMonth(),
-						start.getDate(), startHalfHours);
+						start.getDate() - 1, startHalfHours);
 
 				final int endHalfHours = parseTime((String) comboBoxEndHour.getSelectedItem(),
 						(String) comboBoxEndMinutes.getSelectedItem(),
@@ -289,7 +289,7 @@ public class EventEditor extends JPanel {
 				// TODO: Replace code with something using new data model
 				final Date end = (Date) comboBoxEndMonth.getDate().clone();
 				final DateInfo endDate = new DateInfo(end.getYear() + 1900, end.getMonth(),
-						end.getDate(), endHalfHours);
+						end.getDate() - 1, endHalfHours);
 				
 				// Check whether this is a team or personal event
 				boolean isTeamEvent;

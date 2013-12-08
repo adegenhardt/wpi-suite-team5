@@ -138,19 +138,16 @@ public class DayViewTable extends JTable {
 	 * Update the stored events by retrieving and sorting them
 	 */
 	public void updateEvents() {
-		// TODO: Replace this with actual functionality after testing
-		
-		// events = generateSampleEvents();
-		Calendar eventDay = dayView.getRealDay();
+		DateInfo eventDay = new DateInfo(dayView.getRealDay());
 		if (GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView) {
-			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.get(Calendar.YEAR) , eventDay.get(Calendar.MONTH), eventDay.get(Calendar.DATE));
+			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
 		}
 		else if (GlobalButtonVars.isPersonalView) {
-			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.get(Calendar.YEAR) , eventDay.get(Calendar.MONTH), eventDay.get(Calendar.DATE));
+			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
 
 		}
 		else if (GlobalButtonVars.isTeamView) {
-			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.get(Calendar.YEAR) , eventDay.get(Calendar.MONTH), eventDay.get(Calendar.DATE));
+			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
 		}
 	}
 	
@@ -310,6 +307,11 @@ public class DayViewTable extends JTable {
 				x = X_OFFSET +
 					( numPriorEvents[ startDate.getHalfHour() ] * PRIOR_EVENT_WIDTH ) +
 					( width * j );
+				
+				System.out.println( "Num Prior Events: " + numPriorEvents[ startDate.getHalfHour() ] );
+				System.out.println( "Start Date: " + startDate );
+				System.out.println( "End Date: " + endDate );
+				System.out.println( "Displayed Day"+ displayedDay );
 				
 				// if event ends after current day, draw to the bottom
 				displayedDay.setHalfHour( 48 );

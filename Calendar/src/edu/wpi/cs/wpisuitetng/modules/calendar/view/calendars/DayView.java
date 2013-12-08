@@ -90,11 +90,7 @@ public class DayView extends JLayeredPane {
 		// Initial delay for tool tip
 		// Set to 0 for testing
 		ToolTipManager.sharedInstance().setInitialDelay(0);
-<<<<<<< HEAD
 		// ReShowDelay is also something we can use if need be
-=======
-		// ReShowDelay is also something we can see if need be
->>>>>>> Audits and Refactoring
 		
 		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override

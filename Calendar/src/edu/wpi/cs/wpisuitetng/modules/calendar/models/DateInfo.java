@@ -254,19 +254,38 @@ public class DateInfo {
 			theTime -= 2;
 			iTime++;
 		}
-		sTime = "" + iTime;
-		if (theTime == 0){
-			sTime += ":00";
-		}
-		else{
-			sTime += ":30";
-		}
+		
 		if (iTime > 12){
-			iTime /= 2;
-			sTime += " PM";
+			iTime -= 12;
+			
+			sTime = "" + iTime;
+			
+			if (theTime == 0){
+				sTime = sTime + ":00";
+			}
+			else{
+				sTime = sTime + ":30";
+			}
+			
+			sTime = sTime + " PM";
 		}
 		else{
-			sTime += " AM";
+			
+			// If midnight...
+			if ( iTime == 0 ) {
+				iTime = 12;
+			}
+			
+			sTime = "" + iTime;
+			
+			if (theTime == 0){
+				sTime = sTime + ":00";
+			}
+			else{
+				sTime = sTime + ":30";
+			}
+			
+			sTime = sTime + " AM";
 		}
 		// Collect all the info gathered above into a single string
 		// and return it
