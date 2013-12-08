@@ -26,7 +26,7 @@ public class DateInfo {
 	//Format:
 	//	Year  	 - absolute value
 	//	Month 	 - 0 = January 11 = December
-	//	Day   	 - absolute (starts at 1 to max number of given month)
+	//	Day   	 - apparently Samson has been using 0 base, so we have to check what has been used and set everything to a conformed method//absolute (starts at 1 to max number of given month)
 	//	HalfHour - 0 based (0 to 47)
 	private final int year;
 	// month is 0-based
@@ -109,6 +109,7 @@ public class DateInfo {
 	 *            The date in its original format
 	 * @return a DateInfo object with the updated information
 	 */
+	//DOES NOT WORK
 	@SuppressWarnings("deprecation")
 	public static DateInfo convertToDateInfo(Date date) {
 		final int year = date.getYear();
@@ -181,8 +182,8 @@ public class DateInfo {
 		if(this.halfHour % 2 != 0){
 			minute = 30;
 		}
-		
-		cal.set(this.year, this.month, this.day, hourOfDay, minute);
+		//added plus 1 to day for if now use 0 base
+		cal.set(this.year, this.month, this.day +1, hourOfDay, minute);
 		return cal;
 	}
 
