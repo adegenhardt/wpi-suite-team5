@@ -24,18 +24,14 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendarPa
  * @version $Revision: 1.0$
  * Creates the CalendarView tabs
  */
+@SuppressWarnings("serial")
 public class CalendarTab extends JTabbedPane {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 	private final MonthView monthPanel;
 	private final YearViewCalendarPanel yearPanel;
 	private final DayViewPanel dayPanel;
 	private final WeekViewPanel weekPanel;
-	
-	
-	
+
 	/**
 	 * Constructor for CalendarTab.
 	 */

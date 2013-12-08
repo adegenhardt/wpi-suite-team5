@@ -266,11 +266,20 @@ public class DayView extends JPanel {
 	public String getStringDay() {
 		return dayFormat.format(realDay.getTime());
 	}
-
+/**
+ * 
+ * @return the current day in string format
+ */
 	public String getToday() {
 		return dayFormat.format(currentDay.getTime());
 	}
-
+/**
+ * 
+ * @return the real date in string format
+ */
+	public String getRealDayString(){
+		return dayFormat.format(realDay.getTime());
+	}
 	public Calendar getRealDay() {
 		return realDay;
 	}
@@ -291,6 +300,10 @@ public class DayView extends JPanel {
 
 		// fun filter
 		// if current state is team calendar
+		System.out.println("personal: "+GlobalButtonVars.isPersonalView);
+		System.out.println("team: "+GlobalButtonVars.isTeamView);
+		
+		// if current state is Personal View
 		if (!GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
 			holdEvents.addAll(EventModel.getInstance().getUserEvents(
 					ConfigManager.getConfig().getUserName(),
@@ -298,11 +311,12 @@ public class DayView extends JPanel {
 					this.getRealDay().get(Calendar.MONTH),
 					this.getRealDay().get(Calendar.DATE)));
 			System.out
-					.println("Built realDayEvents from Team Calendar for day: "
-							+ this.getToday());
+					.println("Built realDayEvents from Personal Calendar for day: "
+							+ this.getRealDayString());
+			System.out.println("size: "+holdEvents.size());
 		}
 
-		// if current state is personal calendar
+		// if current state is Team calendar
 		else if (GlobalButtonVars.isTeamView
 				&& !GlobalButtonVars.isPersonalView) {
 			holdEvents.addAll(EventModel.getInstance().getTeamEvents(
@@ -311,9 +325,11 @@ public class DayView extends JPanel {
 					this.getRealDay().get(Calendar.MONTH),
 					this.getRealDay().get(Calendar.DATE)));
 			System.out
-					.println("Built realDayEvents from Personal Calendar for day: "
-							+ this.getToday());
+					.println("Built realDayEvents from Team Calendar for day: "
+							+ this.getRealDayString());
+			System.out.println("size: "+holdEvents.size());
 		}
+		
 		// if current state is both calendar
 		else if (GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
 			holdEvents.addAll(EventModel.getInstance().getUserEvents(
@@ -328,9 +344,11 @@ public class DayView extends JPanel {
 					this.getRealDay().get(Calendar.DATE)));
 			System.out
 					.println("Built realDayEvents from Both Calendars for day: "
-							+ this.getToday());
+							+ this.getRealDayString());
+			System.out.println("size: "+holdEvents.size());
 
 		}
+		//System.out.println(holdEvents.get(0).getName());
 		// set returns to realDayEvents
 		this.realDayEvents = holdEvents;
 
