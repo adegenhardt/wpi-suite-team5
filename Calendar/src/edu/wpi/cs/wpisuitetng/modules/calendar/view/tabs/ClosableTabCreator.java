@@ -93,4 +93,10 @@ public class ClosableTabCreator {
 		tabbedPane.setSelectedComponent(c);
 	}
 
+	/**
+	 * @return the tabbedPane
+	 */
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
 }

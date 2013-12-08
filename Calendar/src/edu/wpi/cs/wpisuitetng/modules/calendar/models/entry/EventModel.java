@@ -6,6 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: Team _
+ * 
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
@@ -15,22 +16,17 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
 
 
 /**List of Calendars pulled from the server
  * 
- * @author srkodzis, adapted from RequirementModel.java
+ * @author Team Underscore
  * 
  * @version $Revision: 1.0 $
  */
 public class EventModel extends AbstractListModel<Event> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8998701695357104361L;
 
 	// ********************************************************************
@@ -139,7 +135,7 @@ public class EventModel extends AbstractListModel<Event> {
 	 * Adds the given array of events to the list
 	 * @param events the array of data to add
 	 */
-	public void addEvents(Event[] events){
+	public void addAllEvents(Event[] events){
 		// iterate through the added array, adding each element to 
 		// the model and assigning each element a unique ID as it is added.
 		for (int i = 0; i < events.length; i++) {

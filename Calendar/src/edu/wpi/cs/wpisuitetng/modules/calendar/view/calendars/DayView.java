@@ -1,18 +1,19 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JPanel;
@@ -32,295 +33,187 @@ import javax.swing.event.ListSelectionListener;
 
 import java.awt.BorderLayout;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
+
 /**
+ * Panel for the Day View tab of the calendar
+ * 
  * @author Team Underscore
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public class DayView extends JPanel {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 	private JScrollPane dayScroll;
 	private JTable dayTable;
-	// This may very well be useless
-	// I don't want to break anything now so just leave it
-	
-	// Not sure what I want to do with the date values right now
-	// Pretty sure they will be handy later (highlighting events maybe)
-	
-	// Perhaps the use of the Date class would be better
-	// Nevermind, Date is deprecated Calendar is better
-	// WHY DID I EVER THINK CALENDAR WAS BETTER JODA-TIME PLEASE
 	private Calendar currentDay;
 	private Calendar realDay;
 
 	// Variables used to disallow time column selection
 	private final int disabledColumn = 0;
 	private int currentColumn = 1;
-	
+
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
-	
-	// Will this component be used in the week view? 
-	private final boolean isWeekView; 
+
+	// List of events that take place on the current realDay
+	private ArrayList<Event> realDayEvents = new ArrayList<Event>();
 
 	/**
-	 * Create the panel. 
-	
-	 * @param isWeek boolean
+	 * Create the panel.
+	 * 
+	 * @param isWeek
+	 *            boolean
 	 */
-	public DayView(boolean isWeek) {
-		
-		isWeekView = isWeek;
+	public DayView() {
+		// Run these methods to create this view
 		initDay();
 		createControls();
 		addElements();
-		createBounds(); 
+		createBounds();
 		createBackground();
 		createTableProperties();
 		createUnselectableCol();
 		colorCurrentDate();
-		
+
+		// additions
+		// call refresh function for currentDay to build list
 	}
-	
+
+	// Create the table of DayView
 	private void createControls() {
-		if(isWeekView) {
-			dayTable = new JTable(new DefaultTableModel(
-					new Object[][] {
-							{"Midnight", null},
-							{"", null},
-							{"1:00", null},
-							{"", null},
-							{"2:00", null},
-							{"", null},
-							{"3:00", null},
-							{"", null},
-							{"4:00", null},
-							{"", null},
-							{"5:00", null},
-							{"", null},
-							{"6:00", null},
-							{"", null},
-							{"7:00", null},
-							{"", null},
-							{"8:00", null},
-							{"", null},
-							{"9:00", null},
-							{"", null},
-							{"10:00", null},
-							{"", null},
-							{"11:00", null},
-							{"", null},
-							{"12:00", null},
-							{"", null},
-							{"1:00", null},
-							{"", null},
-							{"2:00", null},
-							{"", null},
-							{"3:00", null},
-							{"", null},
-							{"4:00", null},
-							{"", null},
-							{"5:00", null},
-							{"", null},
-							{"6:00", null},
-							{"", null},
-							{"7:00", null},
-							{"", null},
-							{"8:00", null},
-							{"", null},
-							{"9:00", null},
-							{"", null},
-							{"10:00", null},
-							{"", null},
-							{"11:00", null},
-							{"", null},
-						},
-						new String[] {
-							"", this.getStringDay()
-						}
-					) {
-						/**
-						 * 
-						 */
-						private static final long serialVersionUID = 1L;
-						private final boolean[] columnEditables = new boolean[] {
-								false, false
-						};
-						public boolean isCellEditable(int row, int column) {
-							return columnEditables[column];
-						}
-					});
+		dayTable = new JTable(new DefaultTableModel(new Object[][] {
+				{ "Midnight", null }, { "", null }, { "1:00", null },
+				{ "", null }, { "2:00", null }, { "", null }, { "3:00", null },
+				{ "", null }, { "4:00", null }, { "", null }, { "5:00", null },
+				{ "", null }, { "6:00", null }, { "", null }, { "7:00", null },
+				{ "", null }, { "8:00", null }, { "", null }, { "9:00", null },
+				{ "", null }, { "10:00", null }, { "", null },
+				{ "11:00", null }, { "", null }, { "12:00", null },
+				{ "", null }, { "1:00", null }, { "", null }, { "2:00", null },
+				{ "", null }, { "3:00", null }, { "", null }, { "4:00", null },
+				{ "", null }, { "5:00", null }, { "", null }, { "6:00", null },
+				{ "", null }, { "7:00", null }, { "", null }, { "8:00", null },
+				{ "", null }, { "9:00", null }, { "", null },
+				{ "10:00", null }, { "", null }, { "11:00", null },
+				{ "", null }, }, new String[] { "", this.getStringDay() }) {
+			// Do not allow the cells to be editable
+			private final boolean[] columnEditables = new boolean[] { false,
+					false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
-		else {
-			dayTable = new JTable(new DefaultTableModel(
-					new Object[][] {
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-							{null},
-						},
-						new String[] {
-							this.getStringDay()
-						}
-					) {
-						/**
-						 * 
-						 */
-						private static final long serialVersionUID = 1L;
-						private final boolean[] columnEditables = new boolean[] {
-								false
-						};
-						public boolean isCellEditable(int row, int column) {
-							return columnEditables[column];
-						}
-					});
-			}
+		});
+		// Set the view constraints and appearance
 		dayTable.setAutoCreateColumnsFromModel(false);
 		dayTable.getColumnModel().getColumn(0).setResizable(false);
 		dayTable.getColumnModel().getColumn(0).setPreferredWidth(43);
 		dayTable.getColumnModel().getColumn(0).setMinWidth(30);
 		dayTable.getColumnModel().getColumn(0).setMaxWidth(43);
-		if (isWeekView) {
-			dayTable.getColumnModel().getColumn(1).setResizable(false);
-			dayTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-		}
-		else {
-			dayTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-			dayTable.getColumnModel().getColumn(0).setMinWidth(10);
-			dayTable.getColumnModel().getColumn(0).setMaxWidth(238473);
-		}
+		dayTable.getColumnModel().getColumn(1).setResizable(false);
+		dayTable.getColumnModel().getColumn(1).setPreferredWidth(100);
 		dayTable.setSelectionBackground(Color.GREEN);
-		
-		dayTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-				 DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				 
-				
-				if ((row % 2) == 0 && column != 0) {
-					rendererComponent.setBackground(new Color(185, 209, 234));
-				}
-				else {
-					rendererComponent.setBackground(Color.white);
-				}
-				return rendererComponent;
-			}
-		});
-		
-		JTableHeader header = dayTable.getTableHeader();
-		
-        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+		dayTable.setDefaultRenderer(Object.class,
+				new DefaultTableCellRenderer() {
 
-            /**
+					@Override
+					public Component getTableCellRendererComponent(
+							JTable table, Object value, boolean isSelected,
+							boolean hasFocus, int row, int column) {
+						final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
+								.getTableCellRendererComponent(table, value,
+										isSelected, hasFocus, row, column);
+
+						if ((row % 2) == 0 && column != 0) {
+							rendererComponent.setBackground(new Color(185, 209,
+									234));
+						} else {
+							rendererComponent.setBackground(Color.white);
+						}
+						return rendererComponent;
+					}
+				});
+
+		final JTableHeader header = dayTable.getTableHeader();
+
+		header.setDefaultRenderer(new DefaultTableCellRenderer() {
+
+			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
-            public Component getTableCellRendererComponent(
-                    JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            	
-                DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                rendererComponent.setBackground(UIManager.getColor(JTableHeader.class));
-            	return rendererComponent;
-            }
-        });
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+
+				final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
+						.getTableCellRendererComponent(table, value,
+								isSelected, hasFocus, row, column);
+				rendererComponent.setBackground(UIManager
+						.getColor(JTableHeader.class));
+				return rendererComponent;
+			}
+		});
 		dayTable.getColumnModel().getColumn(0).setPreferredWidth(55);
 		dayTable.getColumnModel().getColumn(0).setMinWidth(55);
 		dayTable.getColumnModel().getColumn(0).setMaxWidth(55);
 		dayScroll = new JScrollPane(dayTable);
-		
+
 	}
-	
+
+	// Add a scroll bar
 	private void addElements() {
 		setLayout(new BorderLayout(0, 0));
 		this.add(dayScroll);
 	}
-	
-    private void createBounds() {
-	this.setBounds(0, 0, 626, 600);
-    }
-	
+
+	// Set the bounds
+	private void createBounds() {
+		this.setBounds(0, 0, 626, 600);
+	}
+
+	// Set a background
 	private void createBackground() {
 		dayTable.getParent().setBackground(dayTable.getBackground());
 	}
-	
+
 	private void createTableProperties() {
-		// No resize or reorder 
+		// No resize or reorder
 		dayTable.getTableHeader().setResizingAllowed(true);
 		dayTable.getTableHeader().setReorderingAllowed(false);
-		
+
 		// Multiple cell selection
 		dayTable.setColumnSelectionAllowed(true);
 		dayTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		
+
 		// Set no row and single column count
 		// Should I be setting the row height here?
 		dayTable.setRowHeight(15);
 	}
-	
+
 	private void createUnselectableCol() {
-        final ListSelectionModel sel = dayTable.getColumnModel().getSelectionModel();
-        sel.addListSelectionListener(new ListSelectionListener(){
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // If the column is disabled, reselect previous column
-                if (sel.isSelectedIndex(disabledColumn) && isWeekView) {
-                    sel.setSelectionInterval(currentColumn, currentColumn);
-                }
-                // Set current selection
-                else currentColumn = sel.getMaxSelectionIndex();
-            }
-        });
-    }
-	
+		final ListSelectionModel sel = dayTable.getColumnModel()
+				.getSelectionModel();
+		sel.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// If the column is disabled, reselect previous column
+				if (sel.isSelectedIndex(disabledColumn)) {
+					sel.setSelectionInterval(currentColumn, currentColumn);
+				}
+				// Set current selection
+				else
+					currentColumn = sel.getMaxSelectionIndex();
+			}
+		});
+	}
+
 	// Method to color in today's date if the view
 	// Is currently on today's date
 	// For some reason this doesn't work with the
@@ -330,7 +223,7 @@ public class DayView extends JPanel {
 		final JTableHeader header = dayTable.getTableHeader();
 		// thisDay and displayDay get the respective integer day values
 		// So they can be compared because Calendar.equals is garbage
-		// Have to compare every individual value because 
+		// Have to compare every individual value because
 		// CALENDAR IS COMPLETE GARBAGE
 		final int thisYear = currentDay.get(Calendar.YEAR);
 		final int displayYear = realDay.get(Calendar.YEAR);
@@ -338,55 +231,116 @@ public class DayView extends JPanel {
 		final int displayDay = realDay.get(Calendar.DAY_OF_YEAR);
 		if ((thisDay == displayDay) && (thisYear == displayYear)) {
 			header.setBackground(new Color(138, 173, 209));
-		}
-		else {
+		} else {
 			header.setBackground(UIManager.getColor(JTableHeader.class));
 		}
 	}
-	
+
 	private void initDay() {
 		currentDay = Calendar.getInstance();
 		realDay = currentDay;
+		// function call of filter by Current day
+		this.setRealDayEventsByRealDay();
 	}
-	
+
 	/**
 	 * Method refreshDay.
-	 * @param newDay Calendar
-	 * Changes the day on the column and the stored date
+	 * 
+	 * @param newDay
+	 *            Calendar Changes the day on the column and the stored date
+	 *            Changes the list of current view events
 	 */
 	public void refreshDay(Calendar newDay) {
 		realDay = newDay;
-		if(isWeekView) {
-			dayTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(
-					this.getStringDay());
-		}
-		else {
-			dayTable.getTableHeader().getColumnModel().getColumn(0).setHeaderValue(
-					this.getStringDay());
-		}
+		dayTable.getTableHeader().getColumnModel().getColumn(1)
+				.setHeaderValue(this.getStringDay());
 		repaint();
 		dayTable.getSelectionModel().clearSelection();
 		colorCurrentDate();
+		// function call of filter by Current day
+		this.setRealDayEventsByRealDay();
 	}
-	
+
 	// Get the day in a nice string format declared
 	// At the top of this file
 	public String getStringDay() {
 		return dayFormat.format(realDay.getTime());
 	}
-	
+
 	public String getToday() {
 		return dayFormat.format(currentDay.getTime());
 	}
-	
+
 	public Calendar getRealDay() {
 		return realDay;
 	}
-	
+
 	/**
 	 * Method resetCurrent.
 	 */
 	public void resetCurrent() {
-		refreshDay(currentDay); 
+		refreshDay(currentDay);
 	}
+
+	/**
+	 * Builds realDayEvents list of events filtered based on the DayView's
+	 * current real day
+	 */
+	private void setRealDayEventsByRealDay() {
+		ArrayList<Event> holdEvents = new ArrayList<Event>();
+
+		// fun filter
+		// if current state is team calendar
+		if (!GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
+			holdEvents.addAll(EventModel.getInstance().getUserEvents(
+					ConfigManager.getConfig().getUserName(),
+					this.getRealDay().get(Calendar.YEAR),
+					this.getRealDay().get(Calendar.MONTH),
+					this.getRealDay().get(Calendar.DATE)));
+			System.out
+					.println("Built realDayEvents from Team Calendar for day: "
+							+ this.getToday());
+		}
+
+		// if current state is personal calendar
+		else if (GlobalButtonVars.isTeamView
+				&& !GlobalButtonVars.isPersonalView) {
+			holdEvents.addAll(EventModel.getInstance().getTeamEvents(
+					ConfigManager.getConfig().getUserName(),
+					this.getRealDay().get(Calendar.YEAR),
+					this.getRealDay().get(Calendar.MONTH),
+					this.getRealDay().get(Calendar.DATE)));
+			System.out
+					.println("Built realDayEvents from Personal Calendar for day: "
+							+ this.getToday());
+		}
+		// if current state is both calendar
+		else if (GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
+			holdEvents.addAll(EventModel.getInstance().getUserEvents(
+					ConfigManager.getConfig().getUserName(),
+					this.getRealDay().get(Calendar.YEAR),
+					this.getRealDay().get(Calendar.MONTH),
+					this.getRealDay().get(Calendar.DATE)));
+			holdEvents.addAll(EventModel.getInstance().getTeamEvents(
+					ConfigManager.getConfig().getUserName(),
+					this.getRealDay().get(Calendar.YEAR),
+					this.getRealDay().get(Calendar.MONTH),
+					this.getRealDay().get(Calendar.DATE)));
+			System.out
+					.println("Built realDayEvents from Both Calendars for day: "
+							+ this.getToday());
+
+		}
+		// set returns to realDayEvents
+		this.realDayEvents = holdEvents;
+
+	}
+
+	/**
+	 * @return the realDayEvents
+	 */
+	public ArrayList<Event> getRealDayEvents() {
+		return realDayEvents;
+	}
+
 }

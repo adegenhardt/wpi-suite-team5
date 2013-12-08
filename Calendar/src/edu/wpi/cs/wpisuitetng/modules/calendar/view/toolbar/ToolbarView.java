@@ -20,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
 
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CommitEditor;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventEditor;
@@ -32,6 +33,9 @@ import javax.swing.JDialog;
 
 
 
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -61,16 +65,7 @@ public class ToolbarView extends DefaultToolbarView {
 		eventPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				/*
-				final JDialog eventWindow  = new JDialog();
-				final EventEditor eventTab = new EventEditor(); 
-				eventWindow.setContentPane(eventTab);
-				eventWindow.setBounds(0, 0, 680, 480);
-				eventWindow.setLocationRelativeTo(null);
-				eventWindow.setTitle("Create Event");
-				eventWindow.setVisible(true);
-				/*pane.setTabComponentAt(i, new ButtonTabComponent(pane)); */
-				final EventEditor eventTab = new EventEditor();
+				final EventEditor eventTab = new EventEditor(tabCreator.getTabbedPane());
 				tabCreator.addClosableTab(eventTab, "Create Event");
 			}
 		});
@@ -78,15 +73,6 @@ public class ToolbarView extends DefaultToolbarView {
 		eventPanel.getCreateCommitButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				/*
-				final JDialog commitWindow  = new JDialog();
-				final CommitEditor commitTab = new CommitEditor(); 
-				commitWindow.setContentPane(commitTab);
-				commitWindow.setBounds(0, 0, 680, 480);
-				commitWindow.setLocationRelativeTo(null);
-				commitWindow.setTitle("Create Commitment");
-				commitWindow.setVisible(true);
-				/*pane.setTabComponentAt(i, new ButtonTabComponent(pane)); */
 				final CommitEditor commitTab = new CommitEditor();
 				tabCreator.addClosableTab(commitTab, "Create Commitment");
 			}
@@ -94,12 +80,38 @@ public class ToolbarView extends DefaultToolbarView {
 		
 		this.addGroup(eventPanel);
 		
+		
+		// the mouse listener for the Team Calendar Button
 		teamPanel.getCreateTeamButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				final String userId;
+				// Acquire the username from the configuration class within
+				// the Janeway module and store it in a variable.
+				// ConfigManager.getInstance();
+				// userId = ConfigManager.getConfig().getUserName();
+						
+				// Changing the contents of local data models for
+				// event and category objects.
+				// EventModel.getInstance().toTeamEventModel( userId );
+				// CategoryModel.getInstance().toTeamCategoryModel( userId );
+				GlobalButtonVars.isPersonalView = false;
+				GlobalButtonVars.isTeamView = true;
+			}
+		});
+
+		// mouse listener for the Personal Calendar Button
+		teamPanel.getCreatePersonalButton().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
 				
-				/*pane.setTabComponentAt(i,
-                 new ButtonTabComponent(pane)); */
+				// Changing the contents of local data models for
+				// event and category objects.
+				// EventModel.getInstance().toPersonalEventModel();
+				// CategoryModel.getInstance().toPersonalCategoryModel();
+				GlobalButtonVars.isPersonalView = true;
+				GlobalButtonVars.isTeamView = false;
+				
 			}
 		});
 		
@@ -125,7 +137,5 @@ public class ToolbarView extends DefaultToolbarView {
 	public EventButtonsPanel getCommitButton(){
 		return eventPanel;
 	}
-	
-	
 	
 }

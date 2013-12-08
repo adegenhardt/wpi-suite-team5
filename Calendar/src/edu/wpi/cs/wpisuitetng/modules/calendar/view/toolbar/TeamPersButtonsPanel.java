@@ -119,40 +119,7 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		createTeamButton.setVisible(true);
 		createPersonalButton.setVisible(true);
 		
-		// the action listener for the Team Calendar Button
-		createTeamButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				final String userId;
-				
-				// Acquire the username from the configuration class within
-				// the Janeway module and store it in a variable.
-				// ConfigManager.getInstance();
-				// userId = ConfigManager.getConfig().getUserName();
-				
-				// Changing the contents of local data models for
-				// event and category objects.
-				// EventModel.getInstance().toTeamEventModel( userId );
-				// CategoryModel.getInstance().toTeamCategoryModel( userId );
-				GlobalButtonVars.isPersonalView = false;
-				GlobalButtonVars.isTeamView = true;
-			}
-		});
-
-		// action listener for the Personal Calendar Button
-		createPersonalButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				// Changing the contents of local data models for
-				// event and category objects.
-				// EventModel.getInstance().toPersonalEventModel();
-				// CategoryModel.getInstance().toPersonalCategoryModel();
-				GlobalButtonVars.isPersonalView = true;
-				GlobalButtonVars.isTeamView = false;
-				
-			}
-		});
+		
 		// Add the buttons to the panel
 		contentPanel.add(createPersonalButton);
 		contentPanel.add(createTeamButton);

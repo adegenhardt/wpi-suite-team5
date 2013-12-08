@@ -6,32 +6,27 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import com.google.gson.Gson;
 
-
-
-
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.Session;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 /**
- * @author Inferno505
+ * Event class: Users can add, modify, and remove events
+ * from their calendar(s)
+ * @author Team Underscore
  * @version $Revision: 1.0 $
  */
 
@@ -544,6 +539,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		return result;
 	}
 
+	// Error checking
 	@Override
 	public boolean equals(Object obj) {
 		

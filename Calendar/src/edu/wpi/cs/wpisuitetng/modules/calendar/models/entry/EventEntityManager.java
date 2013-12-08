@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * This is the entity manager for events in the Calendar module.
  *
  * @version $Revision: 1.0 $
- * @author srkodzis, adapted from RequirementEntityManager.java
+ * @author Team Underscore
  */
 public class EventEntityManager implements EntityManager<Event> {
 

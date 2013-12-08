@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
@@ -26,7 +26,7 @@ import java.awt.BorderLayout;
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
 
-	/** The panel containing the post board */
+	/** The panel containing the calendar module */
 	private final CalendarPanel calendarPanel;
 	
 	/**
@@ -40,6 +40,6 @@ public class MainView extends JPanel {
 	}
 	
 	public CalendarPanel getCalendarPanel() {
-		return this.calendarPanel;
+		return calendarPanel;
 	}
 }

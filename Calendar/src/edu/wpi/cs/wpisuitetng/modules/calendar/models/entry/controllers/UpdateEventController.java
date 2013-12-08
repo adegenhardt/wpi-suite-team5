@@ -19,12 +19,12 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * adding the contents of the Event text fields to the model as a new
  * Event.
  * @version $Revision: 1.0 $
- * @author srkodzis
+ * @author Team Underscore
  */
 public class UpdateEventController{
 	
-	private static UpdateEventController instance;
-	private UpdateEventRequestObserver observer;
+	private static UpdateEventController instance = null;
+	private final UpdateEventRequestObserver observer;
 	
 	/**
 	 * Construct an UpdateEventController for the given model, view pair
@@ -55,7 +55,7 @@ public class UpdateEventController{
 	 */
 	public void updateEvent(Event newEvent) 
 	{
-		Request request = Network.getInstance().makeRequest( "calendar/event",
+		final Request request = Network.getInstance().makeRequest( "calendar/event",
 				              HttpMethod.POST); // POST == update
 		request.setBody( newEvent.toJSON() ); // put the new Event in the body of the request
 		request.addObserver( observer ); // add an observer to process the response

@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: Team Underscore 
+ * Contributors: Team _ 
  *    
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
@@ -30,8 +30,6 @@ import javax.swing.ScrollPaneConstants;
 
 import org.jdesktop.swingx.JXDatePicker;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
 
@@ -100,7 +98,7 @@ public class CommitEditor extends JPanel {
 		final JXDatePicker comboBoxMonth = new JXDatePicker();
 		add(comboBoxMonth, "cell 1 4 3 1,growx");
 		
-		JLabel label = new JLabel("Ex. Oct/02/1993");
+		final JLabel label = new JLabel("Ex. Oct/02/1993");
 		label.setForeground(Color.BLACK);
 		add(label, "cell 4 4");
 		
