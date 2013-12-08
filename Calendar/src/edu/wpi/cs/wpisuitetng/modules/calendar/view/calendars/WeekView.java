@@ -40,7 +40,7 @@ import java.awt.BorderLayout;
 @SuppressWarnings("serial")
 public class WeekView extends JPanel {
 
-	// Millis for day in Calendar class
+	// Milliseconds for day in Calendar class
 	// Used to calculate first day of week
 	private static final long ONE_DAY = 86400000;
 	
@@ -222,7 +222,7 @@ public class WeekView extends JPanel {
 	}
 
 	private void createTableProperties() {
-		// No resize or reorder
+		// Resizing allowed, no reorder
 		dayTable.getTableHeader().setResizingAllowed(true);
 		dayTable.getTableHeader().setReorderingAllowed(false);
 
@@ -230,11 +230,11 @@ public class WeekView extends JPanel {
 		dayTable.setColumnSelectionAllowed(true);
 		dayTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-		// Set no row and single column count
-		// Should I be setting the row height here?
+		// Sets row height at 15
 		dayTable.setRowHeight(15);
 	}
-
+	
+	// Creates an unselectable column!
 	private void createUnselectableCol() {
 		final ListSelectionModel sel = dayTable.getColumnModel()
 				.getSelectionModel();

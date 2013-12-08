@@ -33,7 +33,7 @@ import java.awt.FlowLayout;
 @SuppressWarnings("serial")
 public class DayViewPanel extends JPanel {
 	
-	// Millis for day in Calendar class
+	// Milliseconds for day in Calendar class
 	private static final long ONE_DAY = 86400000; 
 	
 	private final DayView dayView;

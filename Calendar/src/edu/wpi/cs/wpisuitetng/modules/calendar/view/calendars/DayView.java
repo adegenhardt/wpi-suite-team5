@@ -67,8 +67,6 @@ public class DayView extends JLayeredPane {
 	private int lastX = 0;
 	private int lastY = 0;
 
-	private Timer timeEvent;
-
 	/**
 	 * Create the panel.
 	 * 
@@ -92,7 +90,11 @@ public class DayView extends JLayeredPane {
 		// Initial delay for tool tip
 		// Set to 0 for testing
 		ToolTipManager.sharedInstance().setInitialDelay(0);
+<<<<<<< HEAD
 		// ReShowDelay is also something we can use if need be
+=======
+		// ReShowDelay is also something we can see if need be
+>>>>>>> Audits and Refactoring
 		
 		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -112,7 +114,6 @@ public class DayView extends JLayeredPane {
 				}
 				lastX = e.getX();
 				lastY = e.getY();
-				// timeEvent.restart();
 			}
 		});
 
@@ -224,8 +225,9 @@ public class DayView extends JLayeredPane {
 		dayTable.getParent().setBackground(dayTable.getBackground());
 	}
 
+	// Set the table properties
 	private void createTableProperties() {
-		// No resize or reorder
+		// Resizing is allowed, no reorder
 		dayTable.getTableHeader().setResizingAllowed(true);
 		dayTable.getTableHeader().setReorderingAllowed(false);
 
@@ -243,12 +245,13 @@ public class DayView extends JLayeredPane {
 	// For some reason this doesn't work with the
 	// Day view panel, I'll look into this when it
 	// Isn't 2:00AM
+	// It is no longer 2:00AM
 	private void colorCurrentDate() {
 		final JTableHeader header = dayTable.getTableHeader();
 		// thisDay and displayDay get the respective integer day values
 		// So they can be compared because Calendar.equals is garbage
 		// Have to compare every individual value because
-		// CALENDAR IS COMPLETE GARBAGE
+		// CALENDAR IS COMPLETE GARBAGE -Johnny <3
 		final int thisYear = currentDay.get(Calendar.YEAR);
 		final int displayYear = realDay.get(Calendar.YEAR);
 		final int thisDay = currentDay.get(Calendar.DAY_OF_YEAR);
