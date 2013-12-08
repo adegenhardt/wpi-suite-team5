@@ -26,15 +26,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-// Creates closable JPanel tabs
+/**
+ * Creates closable JPanel tabs
+ * @author Team_
+ * @version 1.0
+ */
 public class ClosableTabCreator {
 
 	private final JTabbedPane tabbedPane;
 
+	/**
+	 * @param _tabbedPane
+	 */
 	public ClosableTabCreator(JTabbedPane _tabbedPane) {
 		tabbedPane = _tabbedPane;
 	}
 
+	/**
+	 * @param c
+	 * @param title
+	 */
 	public void addClosableTab(final JComponent c, final String title) {
 		// Add the tab to the pane without any label
 		tabbedPane.addTab(null, c);
