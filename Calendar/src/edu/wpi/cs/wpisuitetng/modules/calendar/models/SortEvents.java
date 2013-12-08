@@ -20,23 +20,25 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 /**
- * @author cporell
- * @version 1.0
+ * @param events A list of Events for the given block of time
+ * @return The sorted list of events
  */
 public class SortEvents {
-	/**
-	 * This method is solely for sorting events.
-	 * When it is fully implemented
-	 * @param l list to sort
-	 * @return sorted list
-	 */
-	public ArrayList<Event> sortEvents(ArrayList<Event> l){
-		ArrayList<Event> sorted = new ArrayList<Event>();
-		sorted = l;
-		boolean flag = false; //A flag telling the method whether to
-							  //continue iterating or not
+	// This method is solely for sorting events.
+	// When it is fully implemented
+	public ArrayList<Event> sortEvents(ArrayList<Event> events){
 		//First sort the events in alphabetical order,
-		//using a wonderfully efficient bubble sort!
-		return sorted;
+		//using a wonderfully efficient bubble sort! :)		
+		for(int i = 1; i < events.size(); i++){
+			for(int j = 0; j < events.size() - i; j++){
+				if(((events.get(j).getName())
+						.compareTo(events.get(j+1).getName()) > 0) ){
+					Event temp = events.get(j);
+					events.set(j, events.get(j+1));
+					events.set(j+1, temp);
+				}
+			}
+		}
+		return events;
 	}
 }

@@ -43,11 +43,21 @@ public class SortEventsTest {
 	DateInfo time2 = new DateInfo(2013, 12, 10, 28);
 	DateInfo time3 = new DateInfo(2013, 12, 14, 30);
 	DateInfo time4 = new DateInfo(2013, 12, 14, 31);
+	DateInfo time5 = new DateInfo(2014, 1, 3, 00);
+	DateInfo time6 = new DateInfo(2014, 1, 4, 00);
 
 	Event event1 = new Event("Team Meeting", "Meet the co-workers", time1,
 			time2, cat, true, 0, "SamuelOak");
 	Event event2 = new Event("Become Champion", "Beat the Elite Four", time3,
 			time4, cat2, true, 1, "Red");
+	Event event3 = new Event("Do a Thing", null, time1, time2, cat, true, 2,
+			"Guy Person");
+	Event event4 = new Event("Do this Thing", null, time3, time4, cat, true,
+			3, "Dude Guy");
+	Event event5 = new Event("Rescue Zelda", null, time5, time6, cat2, true,
+			4, "Link");
+	Event event6 = new Event("Slay the World-Eater", null, time3, time4, cat,
+			true, 5, "Dovahkiin");
 	
 	ArrayList<Event> testList1 = new ArrayList<Event>();
 	SortEvents s = new SortEvents();
@@ -87,6 +97,29 @@ public class SortEventsTest {
 	
 	@Test
 	public void testSimpleAlphabeticalSort(){
-		
+		ArrayList<Event> toSort = new ArrayList<Event>();
+		toSort.add(event4);
+		toSort.add(event3);
+		ArrayList<Event> sorted = new ArrayList<Event>();
+		sorted.add(event3);
+		sorted.add(event4);
+		assertEquals(sorted, s.sortEvents(toSort));
+	}
+	
+	@Test
+	public void testLargerAlphabeticalSort(){
+		ArrayList<Event> toSort = new ArrayList<Event>();
+		toSort.add(event6);
+		toSort.add(event1);
+		toSort.add(event3);
+		toSort.add(event4);
+		toSort.add(event5);
+		ArrayList<Event> sorted = new ArrayList<Event>();
+		sorted.add(event3);
+		sorted.add(event4);
+		sorted.add(event5);
+		sorted.add(event6);
+		sorted.add(event1);
+		assertEquals(sorted, s.sortEvents(toSort));
 	}
 }
