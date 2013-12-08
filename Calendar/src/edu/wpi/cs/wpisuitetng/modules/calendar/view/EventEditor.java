@@ -36,7 +36,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.DefaultComboBoxModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
@@ -254,6 +254,12 @@ public class EventEditor extends JPanel {
 		final JButton btnSubmit = new JButton("Submit");
 		
 		// Create a listener for the Submit button
+		/**
+		 * 
+		 * @author Team_
+		 * @version 1.0
+		 *
+		 */
 		class SubmitButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				// Check for validity of input
@@ -267,7 +273,7 @@ public class EventEditor extends JPanel {
 
 				// TODO: Replace code with something using new data model
 				final Date start = (Date) comboBoxStartMonth.getDate().clone();
-				final DateInfo startDate = new DateInfo(start.getYear()+1900, start.getMonth(),
+				final DateInfo startDate = new DateInfo(start.getYear() + 1900, start.getMonth(),
 						start.getDate(), startHalfHours);
 
 				final int endHalfHours = parseTime((String) comboBoxEndHour.getSelectedItem(),
@@ -276,10 +282,10 @@ public class EventEditor extends JPanel {
 
 				// TODO: Replace code with something using new data model
 				final Date end = (Date) comboBoxEndMonth.getDate().clone();
-				final DateInfo endDate = new DateInfo(end.getYear()+1900, end.getMonth(),
+				final DateInfo endDate = new DateInfo(end.getYear() + 1900, end.getMonth(),
 						end.getDate(), endHalfHours);
 				System.out.println("Event Date Data:");
-				System.out.println(end.getYear()+1900);
+				System.out.println(end.getYear() + 1900);
 				System.out.println(end.getMonth());
 				System.out.println(end.getDate());
 				System.out.println(startHalfHours);
@@ -296,7 +302,7 @@ public class EventEditor extends JPanel {
 				
 				// Retrieve the user name from Janeway's configuration storage
 				// and place it in the userId variable.
-				String userId = ConfigManager.getConfig().getUserName();
+				final String userId = ConfigManager.getConfig().getUserName();
 
 				// Create an event
 				final Event makeEvent = new Event(eventName.getText(),

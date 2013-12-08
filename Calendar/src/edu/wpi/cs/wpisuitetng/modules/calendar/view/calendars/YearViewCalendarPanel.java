@@ -23,8 +23,14 @@ import javax.swing.JScrollPane;
 import java.awt.Component;
 import net.miginfocom.swing.MigLayout;
 
-// YearViewCalendarPanel: A JPanel to display an entire year in
-// a traditional calendar format
+/**
+ * 
+ * YearViewCalendarPanel: A JPanel to display an entire year in
+ * a traditional calendar format
+ * @author Team_
+ * @version 1.0
+ *
+ */
 public class YearViewCalendarPanel extends JScrollPane {
 	private static final long serialVersionUID = 1L;
 
@@ -98,7 +104,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 			public void actionPerformed(ActionEvent e) {
 				today();
 			}
-		});		
+		});
 	}
 	
 	// Moves the calendar in the view back by one year

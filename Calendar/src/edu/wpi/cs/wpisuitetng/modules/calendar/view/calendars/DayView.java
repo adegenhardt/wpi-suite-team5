@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -59,8 +60,9 @@ public class DayView extends JPanel {
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 
-	// List of events that take place on the current realDay, sorted according to TODO Connor's sorting method specifications
-	private ArrayList<Event> realDayEvents = new ArrayList<Event>();
+	// List of events that take place on the current realDay, 
+	// sorted according to TODO Connor's sorting method specifications
+	private List<Event> realDayEvents = new ArrayList<Event>();
 
 	/**
 	 * Create the panel.
@@ -124,7 +126,8 @@ public class DayView extends JPanel {
 					public Component getTableCellRendererComponent(
 							JTable table, Object value, boolean isSelected,
 							boolean hasFocus, int row, int column) {
-						final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
+						final DefaultTableCellRenderer rendererComponent = 
+								(DefaultTableCellRenderer) super
 								.getTableCellRendererComponent(table, value,
 										isSelected, hasFocus, row, column);
 
@@ -208,8 +211,9 @@ public class DayView extends JPanel {
 					sel.setSelectionInterval(currentColumn, currentColumn);
 				}
 				// Set current selection
-				else
+				else {
 					currentColumn = sel.getMaxSelectionIndex();
+				}
 			}
 		});
 	}
@@ -296,24 +300,24 @@ public class DayView extends JPanel {
 	 * current real day
 	 */
 	private void setRealDayEventsByRealDay() {
-		ArrayList<Event> holdEvents = new ArrayList<Event>();
+		final List<Event> holdEvents = new ArrayList<Event>();
 
 		// fun filter
 		// if current state is team calendar
-		System.out.println("personal: "+GlobalButtonVars.isPersonalView);
-		System.out.println("team: "+GlobalButtonVars.isTeamView);
+		System.out.println("personal: " + GlobalButtonVars.isPersonalView);
+		System.out.println("team: " + GlobalButtonVars.isTeamView);
 		
 		// if current state is Personal View
 		if (!GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
 			holdEvents.addAll(EventModel.getInstance().getUserEvents(
 					ConfigManager.getConfig().getUserName(),
-					this.getRealDay().get(Calendar.YEAR),
-					this.getRealDay().get(Calendar.MONTH),
-					this.getRealDay().get(Calendar.DATE)));
+					realDay.get(Calendar.YEAR),
+					realDay.get(Calendar.MONTH),
+					realDay.get(Calendar.DATE)));
 			System.out
 					.println("Built realDayEvents from Personal Calendar for day: "
 							+ this.getRealDayString());
-			System.out.println("size: "+holdEvents.size());
+			System.out.println("size: " + holdEvents.size());
 		}
 
 		// if current state is Team calendar
@@ -321,44 +325,44 @@ public class DayView extends JPanel {
 				&& !GlobalButtonVars.isPersonalView) {
 			holdEvents.addAll(EventModel.getInstance().getTeamEvents(
 					ConfigManager.getConfig().getUserName(),
-					this.getRealDay().get(Calendar.YEAR),
-					this.getRealDay().get(Calendar.MONTH),
-					this.getRealDay().get(Calendar.DATE)));
+					realDay.get(Calendar.YEAR),
+					realDay.get(Calendar.MONTH),
+					realDay.get(Calendar.DATE)));
 			System.out
 					.println("Built realDayEvents from Team Calendar for day: "
 							+ this.getRealDayString());
-			System.out.println("size: "+holdEvents.size());
+			System.out.println("size: " + holdEvents.size());
 		}
 		
 		// if current state is both calendar
 		else if (GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
 			holdEvents.addAll(EventModel.getInstance().getUserEvents(
 					ConfigManager.getConfig().getUserName(),
-					this.getRealDay().get(Calendar.YEAR),
-					this.getRealDay().get(Calendar.MONTH),
-					this.getRealDay().get(Calendar.DATE)));
+					realDay.get(Calendar.YEAR),
+					realDay.get(Calendar.MONTH),
+					realDay.get(Calendar.DATE)));
 			holdEvents.addAll(EventModel.getInstance().getTeamEvents(
 					ConfigManager.getConfig().getUserName(),
-					this.getRealDay().get(Calendar.YEAR),
-					this.getRealDay().get(Calendar.MONTH),
-					this.getRealDay().get(Calendar.DATE)));
+					realDay.get(Calendar.YEAR),
+					realDay.get(Calendar.MONTH),
+					realDay.get(Calendar.DATE)));
 			System.out
 					.println("Built realDayEvents from Both Calendars for day: "
 							+ this.getRealDayString());
-			System.out.println("size: "+holdEvents.size());
+			System.out.println("size: " + holdEvents.size());
 
 		}
-		//System.out.println(EventModel.getInstance().getAllEvents().get(0).getName());
 		// set returns to realDayEvents
-		//TODO CONNER add functionality that will sort holdEvents to the desired order HERE, using the sort methods you have created
-		this.realDayEvents = holdEvents;
+		//TODO CONNER add functionality that will sort holdEvents to the 
+		// desired order HERE, using the sort methods you have created
+		realDayEvents = holdEvents;
 
 	}
 
 	/**
 	 * @return the realDayEvents
 	 */
-	public ArrayList<Event> getRealDayEvents() {
+	public List<Event> getRealDayEvents() {
 		return realDayEvents;
 	}
 

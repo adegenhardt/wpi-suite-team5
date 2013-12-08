@@ -16,7 +16,7 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
+
 
 
 /**List of Calendars pulled from the server
