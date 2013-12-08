@@ -312,6 +312,84 @@ public class EventModel extends AbstractListModel<Event> {
 		
 	}
 	
+	/**
+	 * Get all the personal events that the user can access
+	 * @param userId The id of the user attempting to access the events
+	 * @param year the year to check
+	 * @return A list of all events the user has access to
+	 */
+	public List<Event> getPersonalEvents( String userId, int year) {
+		final List< Event > personalEvents = new ArrayList< Event >();
+		Event currentEvent;
+		
+		for ( int i = 0; i < events.size(); i++ ) {
+			
+			currentEvent = events.get( i );
+			if  ( !currentEvent.isDeleted() && 
+					!currentEvent.isTeamEvent() &&
+					currentEvent.hasAccess( userId ) &&
+					currentEvent.occursOnYear( year ) ) {
+				personalEvents.add( currentEvent );
+			}
+		}
+		
+		return personalEvents;
+		
+	}
+	
+	/**
+	 * Get all the personal events that the user can access
+	 * @param userId The id of the user attempting to access the events
+	 * @param year the year to check
+	 * @param month the month to check (0-11)
+	 * @return A list of all events the user has access to
+	 */
+	public List<Event> getPersonalEvents( String userId, int year, int month) {
+		final List< Event > personalEvents = new ArrayList< Event >();
+		Event currentEvent;
+		
+		for ( int i = 0; i < events.size(); i++ ) {
+			
+			currentEvent = events.get( i );
+			if  ( !currentEvent.isDeleted() && 
+					!currentEvent.isTeamEvent() &&
+					currentEvent.hasAccess( userId ) &&
+					currentEvent.occursOnMonth( year, month ) ) {
+				personalEvents.add( currentEvent );
+			}
+		}
+		
+		return personalEvents;
+		
+	}
+	
+	/**
+	 * Get all the events for the team that the user can access
+	 * @param userId The id of the user attempting to access the events
+	 * @param year the year to check
+	 * @param month the month to check (0-11)
+	 * @param day the day to check
+	 * @return A list of all events the user has access to
+	 */
+	public List<Event> getPersonalEvents( String userId, int year, int month, int day) {
+		final List< Event > personalEvents = new ArrayList< Event >();
+		Event currentEvent;
+		
+		for ( int i = 0; i < events.size(); i++ ) {
+			
+			currentEvent = events.get( i );
+			if  ( !currentEvent.isDeleted() && 
+					!currentEvent.isTeamEvent() &&
+					currentEvent.hasAccess( userId ) &&
+					currentEvent.occursOnDate( year, month, day ) ) {
+				personalEvents.add( currentEvent );
+			}
+		}
+		
+		return personalEvents;
+		
+	}
+	
 	
 	/**
 	 * Get all the events for the user that the user can access

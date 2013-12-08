@@ -50,7 +50,8 @@ public class DayView extends JLayeredPane {
 	// Useful for getting some nice spacing as well
 	private static final String NAME = "Name: ";
 	private static final String DESC = "Description: ";
-	private static final String CATEG = "Category: ";
+	private static final String STIME = "Start Time: ";
+	private static final String ETIME = "End Time: ";
 
 	private JScrollPane dayScroll;
 	private DayViewTable dayTable;
@@ -84,17 +85,6 @@ public class DayView extends JLayeredPane {
 		createBackground();
 		createTableProperties();
 		colorCurrentDate();
-		/*
-		 * timeEvent = new Timer(200, new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { EventRectangle
-		 * thisTangle = dayTable.getRectangle(lastX, lastY); if (thisTangle ==
-		 * null) { dayTable.setToolTipText(null); } else {
-		 * dayTable.setToolTipText(thisTangle.getEvent().getName());
-		 * System.out.println(thisTangle.getEvent().getName()); } } });
-		 * 
-		 * timeEvent.setRepeats(false);
-		 */
 		
 		// Setting the dismiss delay to max seems to be as close to
 		// Keeping the tool tip on for as long as the user desires
@@ -102,6 +92,7 @@ public class DayView extends JLayeredPane {
 		// Initial delay for tool tip
 		// Set to 0 for testing
 		ToolTipManager.sharedInstance().setInitialDelay(0);
+		// ReShowDelay is also something we can use if need be
 		
 		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -114,8 +105,10 @@ public class DayView extends JLayeredPane {
 							+ formatString(thisTangle.getEvent().getName(), 30) + "<br><br>"
 							+ DESC
 							+ formatString(thisTangle.getEvent().getDescription(), 30) + "<br><br>"
-							+ CATEG
-							+ thisTangle.getEvent().getCategory());
+							+ STIME
+							+ (thisTangle.getEvent().getStartDate()) + "<br><br>"
+							+ ETIME
+							+ thisTangle.getEvent().getEndDate());
 				}
 				lastX = e.getX();
 				lastY = e.getY();
@@ -290,10 +283,8 @@ public class DayView extends JLayeredPane {
 		dayTable.getTableHeader().getColumnModel().getColumn(1)
 				.setHeaderValue(this.getStringDay());
 		repaint();
-		dayTable.getSelectionModel().clearSelection();
 		colorCurrentDate();
-		// function call of filter by Current day
-		this.setRealDayEventsByRealDay();
+		dayTable.setUpdated(false);
 	}
 
 	// Get the day in a nice string format declared

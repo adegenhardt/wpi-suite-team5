@@ -25,8 +25,11 @@ import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.table.DefaultTableModel;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 
 public class DayViewTable extends JTable {
 	
@@ -137,7 +140,18 @@ public class DayViewTable extends JTable {
 	public void updateEvents() {
 		// TODO: Replace this with actual functionality after testing
 		
-		events = generateSampleEvents();
+		// events = generateSampleEvents();
+		Calendar eventDay = dayView.getRealDay();
+		if (GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView) {
+			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.get(Calendar.YEAR) , eventDay.get(Calendar.MONTH), eventDay.get(Calendar.DATE));
+		}
+		else if (GlobalButtonVars.isPersonalView) {
+			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.get(Calendar.YEAR) , eventDay.get(Calendar.MONTH), eventDay.get(Calendar.DATE));
+
+		}
+		else if (GlobalButtonVars.isTeamView) {
+			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.get(Calendar.YEAR) , eventDay.get(Calendar.MONTH), eventDay.get(Calendar.DATE));
+		}
 	}
 	
 	/**

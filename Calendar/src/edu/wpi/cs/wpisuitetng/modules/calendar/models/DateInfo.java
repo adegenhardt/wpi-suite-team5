@@ -239,7 +239,7 @@ public class DateInfo {
 	@Override
 	public String toString() {
 		final String theYear = "" + year;
-		final int theMonthI = month;
+		final int theMonthI = month + 1;
 		// Initialize a blank Month string
 		String theMonthS = "";
 		// Assign an MM Month String depending on the value
