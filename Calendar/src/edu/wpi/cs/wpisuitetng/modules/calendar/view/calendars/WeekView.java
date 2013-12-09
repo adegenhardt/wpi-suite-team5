@@ -77,53 +77,53 @@ public class WeekView extends JPanel {
 	// Set the times
 	private void createControls() {
 		dayTable = new JTable(new DefaultTableModel(new Object[][] {
-				{ "Midnight", null, null, null, null, null, null, null },
+				{ "12:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "1:00", null, null, null, null, null, null, null },
+				{ "01:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "2:00", null, null, null, null, null, null, null },
+				{ "02:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "3:00", null, null, null, null, null, null, null },
+				{ "03:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "4:00", null, null, null, null, null, null, null },
+				{ "04:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "5:00", null, null, null, null, null, null, null },
+				{ "05:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "6:00", null, null, null, null, null, null, null },
+				{ "06:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "7:00", null, null, null, null, null, null, null },
+				{ "07:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "8:00", null, null, null, null, null, null, null },
+				{ "08:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "9:00", null, null, null, null, null, null, null },
+				{ "09:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "10:00", null, null, null, null, null, null, null },
+				{ "10:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "11:00", null, null, null, null, null, null, null },
+				{ "11:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "12:00", null, null, null, null, null, null, null },
+				{ "12:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "1:00", null, null, null, null, null, null, null },
+				{ "01:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "2:00", null, null, null, null, null, null, null },
+				{ "02:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "3:00", null, null, null, null, null, null, null },
+				{ "03:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "4:00", null, null, null, null, null, null, null },
+				{ "04:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "5:00", null, null, null, null, null, null, null },
+				{ "05:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "6:00", null, null, null, null, null, null, null },
+				{ "06:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "7:00", null, null, null, null, null, null, null },
+				{ "07:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "8:00", null, null, null, null, null, null, null },
+				{ "08:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "9:00", null, null, null, null, null, null, null },
+				{ "09:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "10:00", null, null, null, null, null, null, null },
+				{ "10:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "11:00", null, null, null, null, null, null, null },
+				{ "11:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null }, },
 				new String[] { "", weekDays[0], weekDays[1], weekDays[2], weekDays[3], 
 								   weekDays[4], weekDays[5], weekDays[6] }) {
@@ -199,9 +199,9 @@ public class WeekView extends JPanel {
         });
 		
         // Set constraints
-		dayTable.getColumnModel().getColumn(0).setPreferredWidth(55);
-		dayTable.getColumnModel().getColumn(0).setMinWidth(55);
-		dayTable.getColumnModel().getColumn(0).setMaxWidth(55);
+		dayTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+		dayTable.getColumnModel().getColumn(0).setMinWidth(70);
+		dayTable.getColumnModel().getColumn(0).setMaxWidth(70);
 		dayTable.setAutoCreateColumnsFromModel(false);
 		// Make this panel scrollable
 		dayScroll = new JScrollPane(dayTable);
