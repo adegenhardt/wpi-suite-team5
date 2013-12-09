@@ -194,7 +194,7 @@ public class CategoryModel extends AbstractListModel<Category>{
 	/**
 	 * Get all the categories for the team that the user can access
 	 * @param userId The id of the user attempting to access the categories
-	 * @return A list of all categories the user has access to
+	 * @return A list of all team categories the user has access to
 	 */
 	public List<Category> getTeamCategories( String userId ) {
 		final List< Category > teamCategories = new ArrayList< Category >();
@@ -213,150 +213,123 @@ public class CategoryModel extends AbstractListModel<Category>{
 		
 	}
 	
-	/**
-	 * Get all the categories for the team that the user can access
-	 * @param userId The id of the user attempting to access the categories
-	 * @param year the year to check
-	 * @param month the month to check (0-11)
-	 * @return A list of all categories the user has access to
+	/** Get all the categories that are classified as personal and 
+	 *  accessible to the user.
+	 *  @param userId The id of the user attempting to access the categories
+	 *  @return A list of all personal categories the user has access to
 	 */
-	public List<Category> getTeamCategories( String userId, int year, int month ) {
-		final List< Category > teamCategories = new ArrayList< Category >();
+	public List<Category> getPersonalCategories( String userId ) {
+		final List< Category > personalCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
 		for ( int i = 0; i < categories.size(); i++ ) {
 			
 			currentCategory = categories.get( i );
 			if  ( !currentCategory.isDeleted() && 
-					currentCategory.isTeamCat()) {
-				teamCategories.add( currentCategory );
+					!currentCategory.isTeamCat()) {
+				personalCategories.add( currentCategory );
 			}
 		}
 		
-		return teamCategories;
+		return personalCategories;
 		
 	}
 	
-	/**
-	 * Get all the categories for the team that the user can access,
-	 * and add those categories to a now empty CategoryModel.
-	 * @param userId the id of the user attempting to access the categories
-	 */
-	public void toTeamCategoryModel( String userId ) {
-		List< Category > teamCategories = new ArrayList< Category >();
+	// /**
+	//  * Get all the categories for the team that the user can access
+	//  * @param userId The id of the user attempting to access the categories
+	//  * @param year the year to check
+	//  * @param month the month to check (0-11)
+	//  * @return A list of all categories the user has access to
+	//  */
+	// public List<Category> getTeamCategories( String userId, int year, int month ) {
+	//	final List< Category > teamCategories = new ArrayList< Category >();
+	//	Category currentCategory;
 		
-		// Empty the contents of the current version of the local CategoryModel.
-		emptyModel();
-		
-		// Send HTTP request to obtain all categories from server
-		// and place them in the local CategoryModel.
-		GetCategoryController.getInstance().retrieveCategory();
-		
-		// Gather all of the team categories from the current list of categories
-		// contained in the local CategoryModel.
-		teamCategories = getTeamCategories( userId );
-		
-		// Empty the contents of the current version of the local CategoryModel.
-		emptyModel();
-		
-		// Proceed to add only those categories to the local CategoryModel that
-		// are classified as "team categories".
-		for ( int i = 0; i < teamCategories.size(); i++ ) {
-			categories.add(teamCategories.get ( i ));
-		}
-		
-		// The local CategoryModel is now populated with only team categories.
-	}
-	
-	/**
-	 * Get all the categories that the user can access,
-	 * and add those categories to a now empty CategoryModel.
-	 * Uses the GetCategoryController class and GetCategoryRequestObserver
-	 * classes in order to populate the local CategoryModel.
-	 */
-	public void toPersonalCategoryModel() {
-		// Empty the local CategoryModel so that it does not contain
-		// any duplicate categories.
-		emptyModel();
-		
-		// Send HTTP request to obtain all categories from server
-		// and place them in the local CategoryModel.
-		GetCategoryController.getInstance().retrieveCategory();
-		
-		// The local CategoryModel now possess a collection of all categories.
-	}
-	
-	/**
-	 * Get all the categories for the team that the user can access
-	 * @param userId The id of the user attempting to access the categories
-	 * @param year the year to check
-	 * @param month the month to check (0-11)
-	 * @param day the day to check (0-30, depending on month)
-	 * @return A list of all categories the user has access to
-	 */
-	public List<Category> getTeamCategories( String userId, int year, int month, int day ) {
-		final List< Category > teamCategories = new ArrayList< Category >();
-		Category currentCategory;
-		
-		for ( int i = 0; i < categories.size(); i++ ) {
+	//	for ( int i = 0; i < categories.size(); i++ ) {
 			
-			currentCategory = categories.get( i );
-			if  ( !currentCategory.isDeleted() && 
-					currentCategory.isTeamCat()) {
-				teamCategories.add( currentCategory );
-			}
-		}
+	//		currentCategory = categories.get( i );
+	//		if  ( !currentCategory.isDeleted() && 
+	//				currentCategory.isTeamCat()) {
+	//			teamCategories.add( currentCategory );
+	//		}
+	//	}
 		
-		return teamCategories;
+	//	return teamCategories;
 		
-	}
+	// }
 	
-	/**
-	 * Get all the categories for the user that the user can access
-	 * This includes both team and individual categories
-	 * @param userId The id of the user attempting to access the categories
-	 * @param year the year to check
-	 * @return A list of all categories the user has access to
-	 */
-	public List<Category> getuserCategories( String userId, int year ) {
-		final List< Category > userCategories = new ArrayList< Category >();
-		Category currentCategory;
+	// /**
+	//  * Get all the categories for the team that the user can access
+	//  * @param userId The id of the user attempting to access the categories
+	//  * @param year the year to check
+	//  * @param month the month to check (0-11)
+	//  * @param day the day to check (0-30, depending on month)
+	//  * @return A list of all categories the user has access to
+	//  */
+	// public List<Category> getTeamCategories( String userId, int year, int month, int day ) {
+	//	final List< Category > teamCategories = new ArrayList< Category >();
+	//	Category currentCategory;
 		
-		for ( int i = 0; i < categories.size(); i++ ) {
+	//	for ( int i = 0; i < categories.size(); i++ ) {
 			
-			currentCategory = categories.get( i );
-			if  ( !currentCategory.isDeleted()) {
-				userCategories.add( currentCategory );
-			}
-		}
+	//		currentCategory = categories.get( i );
+	//		if  ( !currentCategory.isDeleted() && 
+	//				currentCategory.isTeamCat()) {
+	//			teamCategories.add( currentCategory );
+	//		}
+	//	}
 		
-		return userCategories;
+	//	return teamCategories;
 		
-	}
+	// }
 	
-	/**
-	 * Get all the categories for the user that the user can access
-	 * This includes both team and individual categories
-	 * @param userId The id of the user attempting to access the categories
-	 * @param year the year to check
-	 * @param month the month to check (0-11)
-	 * @return A list of all categories the user has access to
-	 */
-	public List<Category> getuserCategories( String userId, int year, int month ) {
-		final List< Category > userCategories = new ArrayList< Category >();
-		Category currentCategory;
+	// /**
+	//  * Get all the categories for the user that the user can access
+	//  * This includes both team and individual categories
+	//  * @param userId The id of the user attempting to access the categories
+	//  * @param year the year to check
+	//  * @return A list of all categories the user has access to
+	//  */
+	// public List<Category> getuserCategories( String userId, int year ) {
+	//	final List< Category > userCategories = new ArrayList< Category >();
+	//	Category currentCategory;
 		
-		for ( int i = 0; i < categories.size(); i++ ) {
+	//	for ( int i = 0; i < categories.size(); i++ ) {
 			
-			currentCategory = categories.get( i );
-			if  ( !currentCategory.isDeleted()) {
-				userCategories.add( currentCategory );
-			}
-		}
+	//		currentCategory = categories.get( i );
+	//		if  ( !currentCategory.isDeleted()) {
+	//			userCategories.add( currentCategory );
+	//		}
+	//	}
 		
-		return userCategories;
+	//	return userCategories;
 		
-	}
+	// }
+	
+	// /**
+	//  * Get all the categories for the user that the user can access
+	//  * This includes both team and individual categories
+	//  * @param userId The id of the user attempting to access the categories
+	//  * @param year the year to check
+	//  * @param month the month to check (0-11)
+	//  * @return A list of all categories the user has access to
+	//  */
+	// public List<Category> getuserCategories( String userId, int year, int month ) {
+	// 	final List< Category > userCategories = new ArrayList< Category >();
+	// 	Category currentCategory;
+		
+	//	for ( int i = 0; i < categories.size(); i++ ) {
+			
+	//		currentCategory = categories.get( i );
+	//		if  ( !currentCategory.isDeleted()) {
+	//			userCategories.add( currentCategory );
+	//		}
+	//	}
+		
+	//	return userCategories;
+		
+	//}
 	
 	/**
 	 * Get all the categories for the user that the user can access
@@ -364,7 +337,7 @@ public class CategoryModel extends AbstractListModel<Category>{
 	 * @param userId The id of the user attempting to access the categories
 	 * @return A list of all categories the user has access to
 	 */
-	public List<Category> getuserCategories( String userId) {
+	public List<Category> getuserCategories( String userId ) {
 		final List< Category > userCategories = new ArrayList< Category >();
 		Category currentCategory;
 		
