@@ -509,16 +509,14 @@ public class WeekViewTable extends JTable {
 	public void setWeekView(WeekView dayView) {
 		this.dayView = dayView;
 	}
-	/* DO NOT DELETE THIS CODE IT'S 3AM AND I CAN'T THINK HOW I'LL
-	 * BE HANDLING THIS WHEN I NEED TO DISPLAY TOOLTIPS, DOING TOMORROW
-	public EventRectangle getRectangle(int _x, int _y) {
-		for (int i=rectangles.size()-1; i >= 0; i--) {
-			if (rectangles.get(i).isAtPoint(_x, _y)) {
-				return rectangles.get(i);
+
+	public EventRectangle getRectangle(int _x, int _y, int _day) {
+		for (int i=rectanglesArray[_day].size()-1; i >= 0; i--) {
+			if (((EventRectangle) rectanglesArray[_day].get(i)).isAtPoint(_x, _y)) {
+				return (EventRectangle) rectanglesArray[_day].get(i);
 			}
 		}
 		return null;
 	}
-	*/ 
 	
 }

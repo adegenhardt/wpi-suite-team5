@@ -319,6 +319,6 @@ public class DayView extends JLayeredPane {
 						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));
 		return str.substring(0, place).trim() + "<br>"
 				+ formatString(str.substring(place), len);
-}
+	}
 
 }
