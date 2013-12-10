@@ -112,19 +112,19 @@ public class DayView extends JLayeredPane {
 	// Create the table of DayView
 	private void createControls() {
 		dayTable = new DayViewTable(new DefaultTableModel(new Object[][] {
-				{ "Midnight", null }, { "", null }, { "1:00", null },
-				{ "", null }, { "2:00", null }, { "", null }, { "3:00", null },
-				{ "", null }, { "4:00", null }, { "", null }, { "5:00", null },
-				{ "", null }, { "6:00", null }, { "", null }, { "7:00", null },
-				{ "", null }, { "8:00", null }, { "", null }, { "9:00", null },
-				{ "", null }, { "10:00", null }, { "", null },
-				{ "11:00", null }, { "", null }, { "12:00", null },
-				{ "", null }, { "1:00", null }, { "", null }, { "2:00", null },
-				{ "", null }, { "3:00", null }, { "", null }, { "4:00", null },
-				{ "", null }, { "5:00", null }, { "", null }, { "6:00", null },
-				{ "", null }, { "7:00", null }, { "", null }, { "8:00", null },
-				{ "", null }, { "9:00", null }, { "", null },
-				{ "10:00", null }, { "", null }, { "11:00", null },
+				{ "12:00 AM", null }, { "", null }, { "01:00 AM", null },
+				{ "", null }, { "02:00 AM", null }, { "", null }, { "03:00 AM", null },
+				{ "", null }, { "04:00 AM", null }, { "", null }, { "05:00 AM", null },
+				{ "", null }, { "06:00 AM", null }, { "", null }, { "07:00 AM", null },
+				{ "", null }, { "08:00 AM", null }, { "", null }, { "09:00 AM", null },
+				{ "", null }, { "010:00 AM", null }, { "", null },
+				{ "11:00 AM", null }, { "", null }, { "12:00 PM", null },
+				{ "", null }, { "01:00 PM", null }, { "", null }, { "02:00 PM", null },
+				{ "", null }, { "03:00 PM", null }, { "", null }, { "04:00 PM", null },
+				{ "", null }, { "05:00 PM", null }, { "", null }, { "06:00 PM", null },
+				{ "", null }, { "07:00 PM", null }, { "", null }, { "08:00 PM", null },
+				{ "", null }, { "09:00 PM", null }, { "", null },
+				{ "10:00 PM", null }, { "", null }, { "11:00 PM", null },
 				{ "", null }, }, new String[] { "", this.getStringDay() }) {
 			// Do not allow the cells to be editable
 			private final boolean[] columnEditables = new boolean[] { false,
@@ -192,9 +192,9 @@ public class DayView extends JLayeredPane {
 				return rendererComponent;
 			}
 		});
-		dayTable.getColumnModel().getColumn(0).setPreferredWidth(55);
-		dayTable.getColumnModel().getColumn(0).setMinWidth(55);
-		dayTable.getColumnModel().getColumn(0).setMaxWidth(55);
+		dayTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+		dayTable.getColumnModel().getColumn(0).setMinWidth(70);
+		dayTable.getColumnModel().getColumn(0).setMaxWidth(70);
 		dayScroll = new JScrollPane(dayTable);
 
 	}
