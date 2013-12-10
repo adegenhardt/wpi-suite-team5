@@ -103,6 +103,7 @@ public class ToolbarView extends DefaultToolbarView {
 			}});
 		
 		this.addGroup(teamPanel);
+		teamPanel.getDisplayPersonalButton().setSelected(true);;
 
 		// Prevent this toolbar from being moved
 		setFloatable(false);
