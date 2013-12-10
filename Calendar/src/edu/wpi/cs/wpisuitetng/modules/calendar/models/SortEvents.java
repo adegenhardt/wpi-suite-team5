@@ -46,6 +46,10 @@ public class SortEvents {
 		return events;
 	}
 
+	/**
+	 * @param events list of events to sort
+	 * @return sorted list
+	 */
 	public static List<Event> sortEventsByDate(List<Event> events){
 		//Using our beautiful bubble sort, we now sort the events by
 		//start date!
