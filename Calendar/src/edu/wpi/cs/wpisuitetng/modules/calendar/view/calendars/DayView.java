@@ -261,8 +261,6 @@ public class DayView extends JLayeredPane {
 		currentDay.set(Calendar.SECOND, 0);
 		currentDay.set(Calendar.MILLISECOND, 0);
 		realDay = currentDay;
-		// function call of filter by Current day
-		this.setRealDayEventsByRealDay();
 	}
 
 	/**
