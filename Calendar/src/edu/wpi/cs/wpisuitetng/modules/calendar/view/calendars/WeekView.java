@@ -13,7 +13,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -45,10 +47,12 @@ public class WeekView extends JPanel {
 	private static final long ONE_DAY = 86400000;
 	
 	private JScrollPane dayScroll;
-	private JTable dayTable;
+	private WeekViewTable dayTable;
 
 	private Calendar currentDay;
 	private Calendar firstDayOfWeek;
+	
+	private Calendar[] weekCalendar;
 	
 	// Days of the week
 	private final String[] weekDays = new String[7];
@@ -76,7 +80,7 @@ public class WeekView extends JPanel {
 
 	// Set the times
 	private void createControls() {
-		dayTable = new JTable(new DefaultTableModel(new Object[][] {
+		dayTable = new WeekViewTable(new DefaultTableModel(new Object[][] {
 				{ "12:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
 				{ "01:00 AM", null, null, null, null, null, null, null },
@@ -136,6 +140,8 @@ public class WeekView extends JPanel {
 				return columnEditables[column];
 			}
 		});
+		
+		dayTable.setWeekView(this);
 		
 		final JTableHeader header = dayTable.getTableHeader();
 		
@@ -256,12 +262,18 @@ public class WeekView extends JPanel {
 	// Initialize the week with the current week
 	private void initWeek() {
 		currentDay = Calendar.getInstance();
+		currentDay.set(Calendar.HOUR_OF_DAY, 0);
+		currentDay.set(Calendar.MINUTE, 0);
+		currentDay.set(Calendar.SECOND, 0);
+		currentDay.set(Calendar.MILLISECOND, 0);
 		
 		final Calendar shiftWeek = Calendar.getInstance();
 		
 	    while(shiftWeek.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 	         shiftWeek.setTimeInMillis(shiftWeek.getTimeInMillis() - ONE_DAY);
 	    }
+	    
+	    weekCalendar = new Calendar[7];
 	    
 	    firstDayOfWeek = (Calendar) shiftWeek.clone();
 	    
@@ -294,10 +306,12 @@ public class WeekView extends JPanel {
 	
 	private void changeWeekArray(Calendar firstDay) {
 		final Calendar tempDay = (Calendar) firstDay.clone();
+		weekCalendar[0] = (Calendar) tempDay.clone();
 		weekDays[0] = this.getStringDay(firstDay);
 		for(int i=1; i < weekDays.length; i++) {
 			tempDay.add(Calendar.DATE, 1);
 			weekDays[i] = this.getStringDay(tempDay);
+			weekCalendar[i] = (Calendar) tempDay.clone();
 		}
 	}
 	// Update the headers of the table
@@ -313,6 +327,7 @@ public class WeekView extends JPanel {
 	public void forwardWeek() {
 		firstDayOfWeek.add(Calendar.DATE, 7);
 		refreshWeek(firstDayOfWeek);
+		dayTable.setUpdated(false);
 	}
 	/**
 	 * Move the week back
@@ -320,6 +335,7 @@ public class WeekView extends JPanel {
 	public void backWeek() {
 		firstDayOfWeek.add(Calendar.DATE, -7);
 		refreshWeek(firstDayOfWeek);
+		dayTable.setUpdated(false);
 	}
 	/**
 	 * Move the week to the current week
@@ -332,5 +348,19 @@ public class WeekView extends JPanel {
 	    }
 	    
 	    refreshWeek(resetWeek);
+	    dayTable.setUpdated(false);
+	}
+	/**
+	 * 
+	 * @param i Index into day of the week (0/Sunday - 6/Saturday)
+	 * @return The Calendar object for that day, null if out of bounds
+	 */
+	public Calendar getCalendarDay(int i) {
+		try {
+			return weekCalendar[i];
+		}
+		catch (IndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 }
