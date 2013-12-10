@@ -116,6 +116,10 @@ public class CommitEditor extends JPanel {
 		
 		final JButton btnSubmit = new JButton("Submit");
 		add(btnSubmit, "cell 1 7 2 1,growx");
+		
+		// Disabling Submit until this feature is added
+		// TODO: RENABLE ONCE NEEDED
+		btnSubmit.setEnabled(false);
 
 	}
 	// Set listeners
