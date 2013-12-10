@@ -61,12 +61,12 @@ public class CalendarSidebar extends JPanel {
 	private final JTextField filterTextField;
 	private boolean isUpdated = false;
 	private final ButtonGroup radioGroup;
-	
+
 	// Create the sidebar panel
 	@SuppressWarnings("unchecked")
 	public CalendarSidebar() {
 		setLayout(new MigLayout("", "[grow][grow]", "[][100.00,grow,center][100.00,grow][grow]"));
-		
+
 		// Create a button to refresh the list of events
 		// TODO: Incorporate this functionality into Event/Commitment Submit buttons
 		// and the Team/Personal View buttons
@@ -86,57 +86,57 @@ public class CalendarSidebar extends JPanel {
 		eventTable = new JTable();
 		eventScroll.setViewportView(eventTable);
 		eventTable.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			// Column titles
-			new String[] {
-				"Events", "Start Date", "End Date", "Description"
-			}
-		){
+				new Object[][] {
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+				},
+				// Column titles
+				new String[] {
+						"Events", "Start Date", "End Date", "Description"
+				}
+				){
 			// Do not allow the table to be manually editable
 			private final boolean[] columnEditables = new boolean[] {
-				false, false, false, false
+					false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
-		
+
 		// Create a table for commitments, nearly identical to the Events table
 		final JScrollPane commitScroll = new JScrollPane();
 		add(commitScroll, "cell 0 2 2 1,grow");
-		
+
 		commitmentTable = new JTable();
 		commitmentTable.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			new String[] {
-				"Commitment", "Date", "Category ", "Description"
-			}
-		) {
+				new Object[][] {
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+				},
+				new String[] {
+						"Commitment", "Date", "Category ", "Description"
+				}
+				) {
 			private final boolean[] columnEditables = new boolean[] {
-				false, false, false, false
+					false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
 		commitScroll.setViewportView(commitmentTable);
-		
+
 		// Create a scroll pane to hold the Filter and Category managers
 		final JScrollPane scrollPaneManagers = new JScrollPane();
 		add(scrollPaneManagers, "cell 0 3 2 1,grow");
@@ -144,7 +144,7 @@ public class CalendarSidebar extends JPanel {
 		final JPanel filtersCatsPanel = new JPanel();
 		scrollPaneManagers.setViewportView(filtersCatsPanel);
 		filtersCatsPanel.setLayout(new MigLayout("", "[grow]", "[][]"));
-		
+
 		// Create a panel within filterCatsPanel to hold the Filter manager
 		final JPanel panelFilter = new JPanel();
 		filtersCatsPanel.add(panelFilter, "cell 0 0,grow");
@@ -156,7 +156,7 @@ public class CalendarSidebar extends JPanel {
 				null, 
 				null));
 		panelFilter.setLayout(new MigLayout("", "[grow][grow]", "[85.00px][][]"));
-		
+
 		// Create a list of current filters
 		// TODO: This is a predefined list until we implement this feature
 		final JList<Object> list = new JList<Object>();
@@ -170,7 +170,7 @@ public class CalendarSidebar extends JPanel {
 				return values[index];
 			}
 		});
-		
+
 		// Create a button to Apply a Filter
 		final JButton btnApply = new JButton("Apply");
 		panelFilter.add(btnApply, "flowx,cell 0 1,alignx left");
@@ -184,7 +184,7 @@ public class CalendarSidebar extends JPanel {
 		// Button to Delete a Filter
 		final JButton btnDelete = new JButton("Delete");
 		panelFilter.add(btnDelete, "cell 0 1,alignx left");
-		
+
 		// Create a panel for the Category manager
 		final JPanel panelCatCreate = new JPanel();
 		filtersCatsPanel.add(panelCatCreate, "cell 0 1,grow");
@@ -199,7 +199,7 @@ public class CalendarSidebar extends JPanel {
 		// Label for the category list
 		final JLabel lblCurrentCategories = new JLabel("Categories:");
 		panelCatCreate.add(lblCurrentCategories, "cell 0 0,alignx right");
-		
+
 		// ComboBox to select existing Categories
 		final JComboBox<Object> comboBox = new JComboBox<Object>();
 		panelCatCreate.add(comboBox, "cell 1 0,growx");
@@ -238,8 +238,10 @@ public class CalendarSidebar extends JPanel {
 	// TODO: Expand to work with Commitments once required
 	private void populateTable() {
 		this.repaint();
+		int numRows = eventTable.getModel().getRowCount();
+
 		// Iterate through the table, emptying it
-		for(int i=0; i < 6; i++) {
+		for(int i=0; i < numRows; i++) {
 			for(int k=0; k < 4; k++) {
 				eventTable.setValueAt(null, i, k);
 			}
@@ -251,28 +253,28 @@ public class CalendarSidebar extends JPanel {
 		}
 		// Create a list of Events
 		List<Event> events = null;
-		
+
 		// Get personal, team, or both views according to the state that was selected
 		// by the user upon using the Calendar module.
-		
+
 		// View only those events that are personal.
 		if (GlobalButtonVars.isStatePersonalView()) {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getPersonalEvents(userId);
 		}
-		
+
 		// View only those events that are team.
 		if (GlobalButtonVars.isStateTeamView()) {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getTeamEvents(userId);
 		}
-		
+
 		// View all events that are classified as being both team and personal.
 		if (GlobalButtonVars.isStateBothView()) {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getAllEvents();
 		}
-		
+
 		// Inform the user via the console in the case that no state was selected.
 		// This should never happen, but if it does, this is the warning.
 		if (!GlobalButtonVars.isStateTeamView() 
@@ -281,10 +283,16 @@ public class CalendarSidebar extends JPanel {
 		{
 			System.out.println("No state (team or personal) has been selected!");
 		}
-		
+
+		//checks to see if there are more events than rows, if so adds a new row
+		if(events.size()>numRows)
+		{
+			((DefaultTableModel) eventTable.getModel()).insertRow(numRows, new Object[] {null, null, null, null});
+		}
+
 		// Populate the table with the appropriate list of events according to the state
 		// that the user has selected (team, personal, or both).
-		for(int i=0;i < 6;i++){
+		for(int i=0;i < numRows;i++){
 			for(int j=0;j < 4;j++){
 				if(j == 0){
 					try{
@@ -292,7 +300,7 @@ public class CalendarSidebar extends JPanel {
 					}
 					catch (IndexOutOfBoundsException e) {}
 					// eventTable.setValueAt(events.get(i).getName(), i, j);	
-					
+
 				}
 				if (j == 1) {
 					try {
@@ -310,7 +318,7 @@ public class CalendarSidebar extends JPanel {
 						//eventTable.setValueAt(events.get(i).getEndDate(), i, j);
 					}
 				}
-				
+
 				/*
 				final List<Event> events = EventModel.getInstance().getAllEvents();
 				for(int i = 0; i < events.size(); i++) {
@@ -321,7 +329,7 @@ public class CalendarSidebar extends JPanel {
 							}
 							catch(IndexOutOfBoundsException e) {}
 							eventTable.setValueAt(events.get(i).getName(), i, j);
-							
+
 						}
 						if(j == 1) {
 							try {
@@ -347,7 +355,7 @@ public class CalendarSidebar extends JPanel {
 					}
 					//eventTable.setValueAt(events.get(i).getEndDate(), i, j);	
 				}
-				*/
+				 */
 				if (j == 3) {
 					try {
 						eventTable.setValueAt(events.get(i).getDescription(), i, j);
