@@ -13,14 +13,14 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.OverlayLayout;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -28,16 +28,8 @@ import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
 import java.awt.Component;
-
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import java.awt.BorderLayout;
-
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 /**
  * Panel for the Day View tab of the calendar
@@ -46,23 +38,28 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
  * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
-public class DayView extends JPanel {
-//HEAD
-	private JScrollPane dayScroll;
-	private JTable dayTable;
-	private Calendar currentDay;
-	private Calendar realDay;
+public class DayView extends JLayeredPane {
+	
+	// Strings defining what to be displayed in the tooltip
+	// Useful for getting some nice spacing as well
+	private static final String NAME = "Name: ";
+	private static final String DESC = "Description: ";
+	private static final String STIME = "Start Time: ";
+	private static final String ETIME = "End Time: ";
 
-	// Variables used to disallow time column selection
-	private final int disabledColumn = 0;
-	private int currentColumn = 1;
+	private JScrollPane dayScroll;
+	private DayViewTable dayTable;
+	// Current day signifies the day of today
+	private Calendar currentDay;
+	// Real day is for the day being displayed
+	private Calendar realDay;
 
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 
-	// List of events that take place on the current realDay, 
-	// sorted according to TODO Connor's sorting method specifications
-	private List<Event> realDayEvents = new ArrayList<Event>();
+	// Last listened mouse coordinates
+	private int lastX = 0;
+	private int lastY = 0;
 
 	/**
 	 * Create the panel.
@@ -71,6 +68,7 @@ public class DayView extends JPanel {
 	 *            boolean
 	 */
 	public DayView() {
+
 		// Run these methods to create this view
 		initDay();
 		createControls();
@@ -78,16 +76,42 @@ public class DayView extends JPanel {
 		createBounds();
 		createBackground();
 		createTableProperties();
-		createUnselectableCol();
 		colorCurrentDate();
+		
+		// Setting the dismiss delay to max seems to be as close to
+		// Keeping the tool tip on for as long as the user desires
+		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+		// Initial delay for tool tip
+		// Set to 0 for testing
+		ToolTipManager.sharedInstance().setInitialDelay(0);
+		// ReShowDelay is also something we can use if need be
+		
+		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				EventRectangle thisTangle = dayTable.getRectangle(lastX, lastY);
+				if (thisTangle == null) {
+					dayTable.setToolTipText(null);
+				} else {
+					dayTable.setToolTipText("<html>" + NAME
+							+ formatString(thisTangle.getEvent().getName(), 30) + "<br><br>"
+							+ DESC
+							+ formatString(thisTangle.getEvent().getDescription(), 30) + "<br><br>"
+							+ STIME
+							+ (thisTangle.getEvent().getStartDate()) + "<br><br>"
+							+ ETIME
+							+ thisTangle.getEvent().getEndDate());
+				}
+				lastX = e.getX();
+				lastY = e.getY();
+			}
+		});
 
-		// additions
-		// call refresh function for currentDay to build list
 	}
 
 	// Create the table of DayView
 	private void createControls() {
-		dayTable = new JTable(new DefaultTableModel(new Object[][] {
+		dayTable = new DayViewTable(new DefaultTableModel(new Object[][] {
 				{ "Midnight", null }, { "", null }, { "1:00", null },
 				{ "", null }, { "2:00", null }, { "", null }, { "3:00", null },
 				{ "", null }, { "4:00", null }, { "", null }, { "5:00", null },
@@ -110,6 +134,9 @@ public class DayView extends JPanel {
 				return columnEditables[column];
 			}
 		});
+
+		dayTable.setDayView(this);
+
 		// Set the view constraints and appearance
 		dayTable.setAutoCreateColumnsFromModel(false);
 		dayTable.getColumnModel().getColumn(0).setResizable(false);
@@ -118,7 +145,8 @@ public class DayView extends JPanel {
 		dayTable.getColumnModel().getColumn(0).setMaxWidth(43);
 		dayTable.getColumnModel().getColumn(1).setResizable(false);
 		dayTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-		dayTable.setSelectionBackground(Color.GREEN);
+		dayTable.setFocusable(false);
+		dayTable.setRowSelectionAllowed(false);
 		dayTable.setDefaultRenderer(Object.class,
 				new DefaultTableCellRenderer() {
 
@@ -126,8 +154,8 @@ public class DayView extends JPanel {
 					public Component getTableCellRendererComponent(
 							JTable table, Object value, boolean isSelected,
 							boolean hasFocus, int row, int column) {
-						final DefaultTableCellRenderer rendererComponent = 
-								(DefaultTableCellRenderer) super
+						
+						final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
 								.getTableCellRendererComponent(table, value,
 										isSelected, hasFocus, row, column);
 
@@ -137,6 +165,7 @@ public class DayView extends JPanel {
 						} else {
 							rendererComponent.setBackground(Color.white);
 						}
+						this.repaint();
 						return rendererComponent;
 					}
 				});
@@ -172,8 +201,8 @@ public class DayView extends JPanel {
 
 	// Add a scroll bar
 	private void addElements() {
-		setLayout(new BorderLayout(0, 0));
-		this.add(dayScroll);
+		setLayout(new OverlayLayout(this));
+		this.add(dayScroll, 0);
 	}
 
 	// Set the bounds
@@ -186,8 +215,9 @@ public class DayView extends JPanel {
 		dayTable.getParent().setBackground(dayTable.getBackground());
 	}
 
+	// Set the table properties
 	private void createTableProperties() {
-		// No resize or reorder
+		// Resizing is allowed, no reorder
 		dayTable.getTableHeader().setResizingAllowed(true);
 		dayTable.getTableHeader().setReorderingAllowed(false);
 
@@ -200,35 +230,18 @@ public class DayView extends JPanel {
 		dayTable.setRowHeight(15);
 	}
 
-	private void createUnselectableCol() {
-		final ListSelectionModel sel = dayTable.getColumnModel()
-				.getSelectionModel();
-		sel.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// If the column is disabled, reselect previous column
-				if (sel.isSelectedIndex(disabledColumn)) {
-					sel.setSelectionInterval(currentColumn, currentColumn);
-				}
-				// Set current selection
-				else {
-					currentColumn = sel.getMaxSelectionIndex();
-				}
-			}
-		});
-	}
-
 	// Method to color in today's date if the view
 	// Is currently on today's date
 	// For some reason this doesn't work with the
 	// Day view panel, I'll look into this when it
 	// Isn't 2:00AM
+	// It is no longer 2:00AM
 	private void colorCurrentDate() {
 		final JTableHeader header = dayTable.getTableHeader();
 		// thisDay and displayDay get the respective integer day values
 		// So they can be compared because Calendar.equals is garbage
 		// Have to compare every individual value because
-		// CALENDAR IS COMPLETE GARBAGE
+		// CALENDAR IS COMPLETE GARBAGE -Johnny <3
 		final int thisYear = currentDay.get(Calendar.YEAR);
 		final int displayYear = realDay.get(Calendar.YEAR);
 		final int thisDay = currentDay.get(Calendar.DAY_OF_YEAR);
@@ -242,9 +255,12 @@ public class DayView extends JPanel {
 
 	private void initDay() {
 		currentDay = Calendar.getInstance();
+		// Set all hours/minutes/seconds/ms to zero (for comparisons)
+		currentDay.set(Calendar.HOUR_OF_DAY, 0);
+		currentDay.set(Calendar.MINUTE, 0);
+		currentDay.set(Calendar.SECOND, 0);
+		currentDay.set(Calendar.MILLISECOND, 0);
 		realDay = currentDay;
-		// function call of filter by Current day
-		this.setRealDayEventsByRealDay();
 	}
 
 	/**
@@ -252,17 +268,14 @@ public class DayView extends JPanel {
 	 * 
 	 * @param newDay
 	 *            Calendar Changes the day on the column and the stored date
-	 *            Changes the list of current view events
 	 */
 	public void refreshDay(Calendar newDay) {
 		realDay = newDay;
 		dayTable.getTableHeader().getColumnModel().getColumn(1)
 				.setHeaderValue(this.getStringDay());
 		repaint();
-		dayTable.getSelectionModel().clearSelection();
 		colorCurrentDate();
-		// function call of filter by Current day
-		this.setRealDayEventsByRealDay();
+		dayTable.setUpdated(false);
 	}
 
 	// Get the day in a nice string format declared
@@ -294,76 +307,20 @@ public class DayView extends JPanel {
 	public void resetCurrent() {
 		refreshDay(currentDay);
 	}
-
-	/**
-	 * Builds realDayEvents list of events filtered based on the DayView's
-	 * current real day
-	 */
-	private void setRealDayEventsByRealDay() {
-		final List<Event> holdEvents = new ArrayList<Event>();
-
-		// fun filter
-		// if current state is team calendar
-		System.out.println("personal: " + GlobalButtonVars.isPersonalView);
-		System.out.println("team: " + GlobalButtonVars.isTeamView);
-		
-		// if current state is Personal View
-		if (!GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
-			holdEvents.addAll(EventModel.getInstance().getUserEvents(
-					ConfigManager.getConfig().getUserName(),
-					realDay.get(Calendar.YEAR),
-					realDay.get(Calendar.MONTH),
-					realDay.get(Calendar.DATE)));
-			System.out
-					.println("Built realDayEvents from Personal Calendar for day: "
-							+ this.getRealDayString());
-			System.out.println("size: " + holdEvents.size());
-		}
-
-		// if current state is Team calendar
-		else if (GlobalButtonVars.isTeamView
-				&& !GlobalButtonVars.isPersonalView) {
-			holdEvents.addAll(EventModel.getInstance().getTeamEvents(
-					ConfigManager.getConfig().getUserName(),
-					realDay.get(Calendar.YEAR),
-					realDay.get(Calendar.MONTH),
-					realDay.get(Calendar.DATE)));
-			System.out
-					.println("Built realDayEvents from Team Calendar for day: "
-							+ this.getRealDayString());
-			System.out.println("size: " + holdEvents.size());
-		}
-		
-		// if current state is both calendar
-		else if (GlobalButtonVars.isTeamView && GlobalButtonVars.isPersonalView) {
-			holdEvents.addAll(EventModel.getInstance().getUserEvents(
-					ConfigManager.getConfig().getUserName(),
-					realDay.get(Calendar.YEAR),
-					realDay.get(Calendar.MONTH),
-					realDay.get(Calendar.DATE)));
-			holdEvents.addAll(EventModel.getInstance().getTeamEvents(
-					ConfigManager.getConfig().getUserName(),
-					realDay.get(Calendar.YEAR),
-					realDay.get(Calendar.MONTH),
-					realDay.get(Calendar.DATE)));
-			System.out
-					.println("Built realDayEvents from Both Calendars for day: "
-							+ this.getRealDayString());
-			System.out.println("size: " + holdEvents.size());
-
-		}
-		// set returns to realDayEvents
-		//TODO CONNER add functionality that will sort holdEvents to the 
-		// desired order HERE, using the sort methods you have created
-		realDayEvents = holdEvents;
-
-	}
-
-	/**
-	 * @return the realDayEvents
-	 */
-	public List<Event> getRealDayEvents() {
-		return realDayEvents;
+	
+	// Helper method to format the strings within the tooltips
+	private String formatString(String str, int len) {
+		str = str.trim();
+		if (str.length() < len)
+			return str;
+		if (str.substring(0, len).contains("<br>"))
+			return str.substring(0, str.indexOf("<br>")).trim() + "<br><br>"
+					+ formatString(str.substring(str.indexOf("<br>") + 1), len);
+		int place = Math
+				.max(Math.max(str.lastIndexOf(" ", len),
+						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));
+		return str.substring(0, place).trim() + "<br>"
+				+ formatString(str.substring(place), len);
 	}
 
 }
