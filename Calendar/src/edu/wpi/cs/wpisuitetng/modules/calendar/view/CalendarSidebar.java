@@ -63,7 +63,6 @@ public class CalendarSidebar extends JPanel {
 	private final ButtonGroup radioGroup;
 
 	// Create the sidebar panel
-	@SuppressWarnings("unchecked")
 	public CalendarSidebar() {
 		setLayout(new MigLayout("", "[grow][grow]", "[][100.00,grow,center][100.00,grow][grow]"));
 
@@ -232,7 +231,16 @@ public class CalendarSidebar extends JPanel {
 			}
 		});
 		panelCatCreate.add(btnSubmit, "cell 1 3,growx");
-
+		
+		
+		// Disable these buttons for now
+		// TODO: RENABLE THIS WHEN FEATURE IS ADDED
+		btnSubmit.setEnabled(false);
+		btnDelete.setEnabled(false);
+		btnDeleteCat.setEnabled(false);
+		btnApply.setEnabled(false);
+		btnNewFilter.setEnabled(false);
+		
 	}
 	// Populates the table of Events in the side bar
 	// TODO: Expand to work with Commitments once required
@@ -381,6 +389,5 @@ public class CalendarSidebar extends JPanel {
 
 	public void setCommitmentTable(JTable commitmentTable) {
 		this.commitmentTable = commitmentTable;
-	}
-
+	}	
 }
