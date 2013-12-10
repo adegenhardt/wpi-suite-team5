@@ -269,8 +269,8 @@ public class EventModelTest {
 		EventModel.getInstance().addEvent( indEvent2 );
 		EventModel.getInstance().addEvent( teamEventOdds );
 		EventModel.getInstance().addEvent( teamEventEvens );
-		
-		final List< Event > events = EventModel.getInstance().getUserEvents( "111", 1985 );
+
+		final List< Event > events = EventModel.getInstance().getAllEvents( "111", 1985 );
 		
 		// test an event that exists and the user has access to
 		assertTrue( events.contains( teamEventOdds ) );
@@ -281,11 +281,11 @@ public class EventModelTest {
 		assertFalse( events.contains( indEvent2 ) );
 		
 		// test calling a year that has no events
-		assertEquals( 0, EventModel.getInstance().getUserEvents( "111", 1983 ).size() );
+		assertEquals( 0, EventModel.getInstance().getAllEvents( "111", 1983 ).size() );
 		
 		// test a valid event that is deleted (and thus shouldn't be obtained)
 		teamEventOdds.setDeleted( true );
-		assertEquals( 1, EventModel.getInstance().getUserEvents( "111", 1984 ).size() );
+		assertEquals( 1, EventModel.getInstance().getAllEvents( "111", 1984 ).size() );
 	}
 	
 	/**

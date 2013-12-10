@@ -23,6 +23,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
@@ -62,8 +63,7 @@ public class SortEventsTest {
 	Event event9 = new Event("Hunt Vaults", null, time8, time1, cat2, true, 8,
 			"Maya");
 	Event event10 = new Event("Geronimo!", null, time8, time1, cat2, true, 9,
-			"The Doctor");
-	
+			"The Doctor");	
 
 	ArrayList<Event> testList1 = new ArrayList<Event>();
 	SortEvents s = new SortEvents();
@@ -87,7 +87,7 @@ public class SortEventsTest {
 		ArrayList<Event> sorted = new ArrayList<Event>();
 		sorted.add(event1);
 		sorted.add(event2);
-		assertFalse(sorted.equals(SortEvents.sortEventsByName(testList1)));
+		assertFalse(sorted.equals(s.sortEventsByName(testList1)));
 	}
 	
 	@Test
@@ -98,7 +98,7 @@ public class SortEventsTest {
 		ArrayList<Event> sorted = new ArrayList<Event>();
 		sorted.add(event3);
 		sorted.add(event4);
-		assertEquals(sorted, SortEvents.sortEventsByName(toSort));
+		assertEquals(sorted, s.sortEventsByName(toSort));
 	}
 	
 	@Test
@@ -115,7 +115,7 @@ public class SortEventsTest {
 		sorted.add(event5);
 		sorted.add(event6);
 		sorted.add(event1);
-		assertEquals(sorted, SortEvents.sortEventsByName(toSort));
+		assertEquals(sorted, s.sortEventsByName(toSort));
 	}
 	
 	@Test
@@ -126,6 +126,21 @@ public class SortEventsTest {
 		ArrayList<Event> sorted = new ArrayList<Event>();
 		sorted.add(event7);
 		sorted.add(event5);
-		assertEquals(sorted, SortEvents.sortEventsByDate(toSort));
+		assertEquals(sorted, s.sortEventsByDate(toSort));
 	}
+	
+	/*
+	 * Alphabetical sorting is no longer needed.
+	 * This test has been deprecated.
+	@Test
+	public void testSortTwoEventsWithSameTimesButDiffNames(){
+		ArrayList<Event> toSort = new ArrayList<Event>();
+		toSort.add(event9);
+		toSort.add(event10);
+		ArrayList<Event> sorted = new ArrayList<Event>();
+		sorted.add(event10);
+		sorted.add(event9);
+		assertEquals(sorted, s.sortEventsByDate(toSort));
+	}
+	*/
 }

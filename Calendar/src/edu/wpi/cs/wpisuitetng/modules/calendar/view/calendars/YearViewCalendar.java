@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.SortedSet;
 
- import org.jdesktop.swingx.JXMonthView;
+import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
 /**
@@ -33,8 +33,6 @@ public class YearViewCalendar extends JXMonthView {
 	 * and Commitments marked as different colors
 	 * Read up on this, but it seems like its a hidden incomplete feature as of now
 	 * I found the renderer to do so, not entirely sure how to use it may add later */
-	//private static final Color EVENT_DAY  = Color.green;
-	//private static final Color COM_DAY = Color.cyan;
 	private ActionListener calendarListener;
 	
 	/**
