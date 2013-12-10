@@ -22,14 +22,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListDataListener;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
+import javax.swing.event.ListDataEvent;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -37,14 +41,15 @@ import javax.swing.JComboBox;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.AddCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+import edu.wpi.cs.wpisuitetng.modules.calendar.globalViewRefreshVars.GlobalViewRefreshVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.CalendarPanel;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 /**
  * @author Team Underscore
@@ -62,16 +67,37 @@ public class CalendarSidebar extends JPanel {
 	private boolean isUpdated = false;
 	private final ButtonGroup radioGroup;
 	
+	// The list model that is being listened to it is used for comparison
+	// with the changing list.
+	public static DefaultListModel model = new DefaultListModel();
+	
 	// Create the sidebar panel
 	@SuppressWarnings("unchecked")
 	public CalendarSidebar() {
 		setLayout(new MigLayout("", "[grow][grow]", "[][100.00,grow,center][100.00,grow][grow]"));
 		
+		// List data listener on the contents of the local EventModel.
+		// It listens for changes in the contents of the list and if they occur,
+		// it proceeds to update the contents of the CalendarSidebar table of events.
+		// ListDataListener listDataListener = new ListDataListener() {
+		//	public void contentsChanged( ListDataEvent listDataEvent ) {
+		//		populateTable( listDataEvent );
+		//	}
+			
+		//	public void intervalAdded( ListDataEvent listDataEvent ) {
+		//		populateTable( listDataEvent );
+		//	}
+			
+		//	public void intervalRemoved( ListDataEvent listDataEvent ) {
+		//		populateTable( listDataEvent );
+		//	}
+		//};
+		
 		// Create a button to refresh the list of events
 		// TODO: Incorporate this functionality into Event/Commitment Submit buttons
 		// and the Team/Personal View buttons
-		final JButton btnRefreshEvents = new JButton("Refresh Events");
-		btnRefreshEvents.addMouseListener(new MouseAdapter() {
+		 final JButton btnRefreshEvents = new JButton("Refresh Events");
+		 btnRefreshEvents.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				populateTable();
@@ -107,6 +133,7 @@ public class CalendarSidebar extends JPanel {
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
+			
 		});
 		
 		// Create a table for commitments, nearly identical to the Events table
@@ -220,7 +247,7 @@ public class CalendarSidebar extends JPanel {
 			}
 		});
 		panelCatCreate.add(btnSubmit, "cell 1 3,growx");
-
+				
 	}
 	// Populates the table of Events in the side bar
 	// TODO: Expand to work with Commitments once required
