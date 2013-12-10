@@ -271,6 +271,8 @@ public class DateInfo {
 		}
 		else{
 			
+			int tempTime = iTime;
+			
 			// If midnight...
 			if ( iTime == 0 ) {
 				iTime = 12;
@@ -285,7 +287,12 @@ public class DateInfo {
 				sTime = sTime + ":30";
 			}
 			
-			sTime = sTime + " AM";
+			if (tempTime == 12) {
+				sTime = sTime + " PM";
+			}
+			else {
+				sTime = sTime + " AM";
+			}
 		}
 		// Collect all the info gathered above into a single string
 		// and return it
