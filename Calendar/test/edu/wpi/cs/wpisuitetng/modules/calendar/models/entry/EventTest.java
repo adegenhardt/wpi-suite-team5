@@ -326,6 +326,28 @@ public class EventTest {
 		assertEquals( "name1", event1.toString() );
 	}
 	
+	/**
+	 * Test the new Event constructor (participant support)
+	 */
+	@Test
+	public void testParticipantsConstructorAndGetRetriveFields(){
+		DateInfo testStartDate = new DateInfo(2013, 11, 10, 0);
+		DateInfo testEndDate = new DateInfo(2013, 11, 10, 47);
+		List<String> testParticipants = new ArrayList<String>();
+		testParticipants.add("Walt");
+		testParticipants.add("Jesse");
+		testParticipants.add("Mike");
+		Event testEvent = new Event("Call Saul", "Better call Saul!", 
+				testStartDate, testEndDate, null, true, testParticipants);
+		assertEquals("Call Saul", testEvent.getName());
+		assertEquals("Better call Saul!", testEvent.getDescription());
+		assertEquals(new DateInfo(2013, 11, 10, 0), testEvent.getStartDate());
+		assertEquals(new DateInfo(2013, 11, 10, 47), testEvent.getEndDate());
+		assertEquals("Walt", testEvent.getAParticipant(0));
+		assertEquals("Jesse", testEvent.getAParticipant(1));
+		assertEquals("Mike", testEvent.getAParticipant(2));
+	}
+	
 	// TODO: Write tests to check the out-of-range exceptions
 	// for occursOnMonth and Day
 }

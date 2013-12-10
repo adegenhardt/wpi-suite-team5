@@ -44,6 +44,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	// Descriptive Parameters
 	private String name; // Name of Event
 	private String description; // Description of Event
+	private List<String> participants; // Participants of the event
 
 	// These two could be regulated to sets of start/end year, month, day,
 	// halfHour
@@ -238,6 +239,32 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		userIds = new ArrayList<String>();
 		userIds.add(creatorId);
 	}
+	
+	/**
+	 * PARTICIPANT-SUPPORTED EVENT CONSTRUCTOR
+	 * This is the same as the previous constructor, just with the added
+	 * participants field.
+	 * @param name The name of the event
+	 * @param description A description of the event
+	 * @param startDate The start time of the event
+	 * @param endDate The end time of the event
+	 * @param category A category used to filter this event
+	 * @param isTeamEvent Says whether the event is team or personal
+	 * @param participants A list of people involved with this event
+	 */
+	
+	public Event(String name, String description, DateInfo startDate,
+			DateInfo endDate, Category category, boolean isTeamEvent,
+			List<String> participants){
+		this.name = name;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.category = category;
+		this.isTeamEvent = isTeamEvent;
+		this.setParticipants(participants);
+		
+	}
 
 	// ---------------------------------------------------------
 	// Get/Set for the fields of Event
@@ -365,6 +392,29 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 */
 	public void setTeamEvent(boolean isTeamEvent) {
 		this.isTeamEvent = isTeamEvent;
+	}
+
+	/**
+	 * @return participants The entire list of participants
+	 */
+	public List<String> getParticipants() {
+		return participants;
+	}
+
+	/**
+	 * @param participants A List of participants involved with the event
+	 */
+	public void setParticipants(List<String> participants) {
+		this.participants = participants;
+	}
+	
+	/**
+	 * @param index The index of a given participant in the list
+	 * @return theParticipant The participant whose index in the list
+	 * 						  matches the input.
+	 */
+	public String getAParticipant(int index){
+		return this.participants.get(index);
 	}
 
 	// Required Functions Database Interaction
