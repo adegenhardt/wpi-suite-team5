@@ -36,15 +36,14 @@ import java.text.SimpleDateFormat;
 import javax.swing.DefaultComboBoxModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
-import java.util.*;
 
+import java.util.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
@@ -54,6 +53,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JList;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import java.awt.Component;
 
 
 /**
@@ -201,10 +202,15 @@ public class EventEditor extends JPanel {
 		final JLabel lblEndTime = new JLabel("End Time:");
 		add(lblEndTime, "cell 0 5,alignx trailing");
 		
+		lblDateEndMsg = new JLabel("");
+		lblDateEndMsg.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblDateEndMsg.setForeground(Color.BLACK);
+		add(lblDateEndMsg, "cell 4 6,alignx center");
+		
 		// Set the duplicate label, will appear if a duplicate has been created.
 		lblDuplicateEventmsg = new JLabel("");
 		lblDuplicateEventmsg.setForeground(Color.black);
-		add(lblDuplicateEventmsg, "cell 2 12,alignx center");
+		add(lblDuplicateEventmsg, "cell 3 12,alignx center");
 		
 		// Create the combo boxes and labels for time selection
 		comboBoxEndHour = new JComboBox<String>();
@@ -219,10 +225,6 @@ public class EventEditor extends JPanel {
 		comboBoxEndAMPM = new JComboBox<String>();
 		comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
 		add(comboBoxEndAMPM, "cell 3 5,growx");
-				
-		lblDateEndMsg = new JLabel("");
-		lblDateEndMsg.setForeground(Color.BLACK);
-		add(lblDateEndMsg, "cell 4 5");
 				
 		labelEDate = new JLabel("End Date:");
 		add(labelEDate, "cell 0 6,alignx trailing");
@@ -311,6 +313,13 @@ public class EventEditor extends JPanel {
 						descriptionPane.getText(), startDate, endDate, isTeamEvent,
 						new Category("Place", 5));
 				makeEvent.setId(EventModel.getInstance().getNextID());
+				List<String> participants = new ArrayList<String>();
+				for(int i=0; i < listPartics.getModel().getSize(); i++) {
+					participants.add((String) listPartics.getModel().getElementAt(i));
+				}
+				if (participants.size() > 0) {
+					makeEvent.setUserIds(participants);
+				}
 				
 				// If the user creates an event similar in all fields but unique ID,
 				// then do not add it to the local model or the server.
@@ -323,7 +332,7 @@ public class EventEditor extends JPanel {
 				}
 
 				else {
-				AddEventController.getInstance().addEvent(makeEvent);
+					AddEventController.getInstance().addEvent(makeEvent);
 				}
 
 				parent.remove(thisInstance);
@@ -479,67 +488,62 @@ public class EventEditor extends JPanel {
 	// TODO: Fields that may need correcting, right now only checks 
 	// For blank fields,I'll add some more sophisticated checks
 	private boolean checkValid() {
+		boolean isValid = true;
 		if (eventName.getText().trim().length() == 0) {
 			lblEventnamemsg.setText("Enter event name");
-			return false;
+			isValid = false;
 		}
 		else {
 			lblEventnamemsg.setText("");
 		}
 		if (descriptionPane.getText().trim().length() == 0) {
 			lblDescmsg.setText("Enter a description");
-			return false;
+			isValid = false; 
 		}
 		else {
 			lblDescmsg.setText("");
-		}
-		if (comboBoxStartMonth.getDate() == null) {
-			lblDatemsg.setForeground(Color.red);
-			lblDatemsg.setText("Invalid Date");
-			return false;
-		}
-		if (comboBoxEndMonth.getDate() == null) {
-			lblDateEndMsg.setForeground(Color.red);
-			lblDateEndMsg.setText("Invalid Date");
-			return false;
-		}
-		else {
-			lblDatemsg.setText("");
-			lblDateEndMsg.setText("");
 		}
 		// This is a rather risky check, it should be ok for this
 		// Dates will not be equal if they aren't the same down to
 		// Milliseconds, but should be no problem since it will always
 		// Generate dates from the beginning of the selected day
-		if (comboBoxStartMonth.getDate().getTime() == comboBoxEndMonth
-				.getDate().getTime()) {
-			if (parseTime((String) comboBoxStartHour.getSelectedItem(),
-					(String) comboBoxStartMinutes.getSelectedItem(),
-					(String) comboBoxStartAMPM.getSelectedItem()) >= parseTime(
-					(String) comboBoxEndHour.getSelectedItem(),
-					(String) comboBoxEndMinutes.getSelectedItem(),
-					(String) comboBoxEndAMPM.getSelectedItem())) {
+		try {
+			if (comboBoxStartMonth.getDate().getTime() == comboBoxEndMonth
+					.getDate().getTime()) {
+				if (parseTime((String) comboBoxStartHour.getSelectedItem(),
+						(String) comboBoxStartMinutes.getSelectedItem(),
+						(String) comboBoxStartAMPM.getSelectedItem()) >= parseTime(
+						(String) comboBoxEndHour.getSelectedItem(),
+						(String) comboBoxEndMinutes.getSelectedItem(),
+						(String) comboBoxEndAMPM.getSelectedItem())) {
+					lblTimemsg.setForeground(Color.red);
+					lblTimemsg
+							.setText("Start time can't be after or equal to end time");
+					isValid = false;
+				} else {
+					lblTimemsg.setText("");
+				}
+			} else if (comboBoxStartMonth.getDate().getTime() > comboBoxEndMonth
+					.getDate().getTime()) {
 				lblTimemsg.setForeground(Color.red);
-				lblTimemsg.setText("Start time can't be after or equal to end time");
-				System.out.println("SAME DAYS: END TIME BEFORE START");
-				return false;
-			}
-			else {
-				System.out.println("SAME DAYS: VALID TIMES");
+				lblTimemsg.setText("Start day can't be after end day");
+				isValid = false;
+			} else {
 				lblTimemsg.setText("");
 			}
+		} catch (NullPointerException e) {
+			if (comboBoxStartMonth.getDate() == null) {
+				lblDatemsg.setForeground(Color.red);
+				lblDatemsg.setText("Invalid Date");
+				isValid = false; 
+			}
+			if (comboBoxEndMonth.getDate() == null) {
+				lblDateEndMsg.setForeground(Color.red);
+				lblDateEndMsg.setText("Invalid Date");
+				isValid = false; 
+			}
 		}
-		else if (comboBoxStartMonth.getDate().getTime() > comboBoxEndMonth.getDate().getTime()) {
-			lblTimemsg.setForeground(Color.red);
-			lblTimemsg.setText("Start day can't be after end day");
-			System.out.println("END DAY IS BEFORE START DAY");
-			return false;
-		}
-		else {
-			System.out.println("END DAY WAS A LATER TIME");
-			lblTimemsg.setText("");
-		}
-		return true;
+		return isValid;
 	}
 
 	// Parse the String times into integers so they can be compared
