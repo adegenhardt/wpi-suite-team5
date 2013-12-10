@@ -140,9 +140,9 @@ public class DayView extends JLayeredPane {
 		// Set the view constraints and appearance
 		dayTable.setAutoCreateColumnsFromModel(false);
 		dayTable.getColumnModel().getColumn(0).setResizable(false);
-		dayTable.getColumnModel().getColumn(0).setPreferredWidth(43);
-		dayTable.getColumnModel().getColumn(0).setMinWidth(30);
-		dayTable.getColumnModel().getColumn(0).setMaxWidth(43);
+		dayTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+		dayTable.getColumnModel().getColumn(0).setMinWidth(70);
+		dayTable.getColumnModel().getColumn(0).setMaxWidth(70);
 		dayTable.getColumnModel().getColumn(1).setResizable(false);
 		dayTable.getColumnModel().getColumn(1).setPreferredWidth(100);
 		dayTable.setFocusable(false);
@@ -192,9 +192,6 @@ public class DayView extends JLayeredPane {
 				return rendererComponent;
 			}
 		});
-		dayTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-		dayTable.getColumnModel().getColumn(0).setMinWidth(70);
-		dayTable.getColumnModel().getColumn(0).setMaxWidth(70);
 		dayScroll = new JScrollPane(dayTable);
 
 	}

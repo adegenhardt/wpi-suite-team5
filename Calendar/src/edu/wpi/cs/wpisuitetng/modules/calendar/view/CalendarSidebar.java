@@ -125,7 +125,7 @@ public class CalendarSidebar extends JPanel {
 						{null, null, null, null},
 				},
 				new String[] {
-						"Commitment", "Date", "Category ", "Description"
+						""
 				}
 				) {
 			private final boolean[] columnEditables = new boolean[] {
@@ -159,10 +159,10 @@ public class CalendarSidebar extends JPanel {
 
 		// Create a list of current filters
 		// TODO: This is a predefined list until we implement this feature
-		final JList<Object> list = new JList<Object>();
-		panelFilter.add(list, "cell 0 0,grow");
-		list.setModel(new AbstractListModel<Object>() {
-			private final String[] values = new String[] {"Team", "Personal", "Things"};
+		final JList<Object> listFilters = new JList<Object>();
+		panelFilter.add(listFilters, "cell 0 0,grow");
+		listFilters.setModel(new AbstractListModel<Object>() {
+			private final String[] values = {""};
 			public int getSize() {
 				return values.length;
 			}
