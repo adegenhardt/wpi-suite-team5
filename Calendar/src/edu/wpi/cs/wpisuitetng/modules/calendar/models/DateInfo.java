@@ -23,18 +23,23 @@ import java.util.GregorianCalendar;
  */
 public class DateInfo {
 
-	//Format:
-	//	Year  	 - absolute value
-	//	Month 	 - 0 = January 11 = December
-	//	Day   	 - apparently Samson has been using 0 base, so we have to check what has been used and set everything to a conformed method//absolute (starts at 1 to max number of given month)
-	//	HalfHour - 0 based (0 to 47)
-	private final int year;
+
+	// Format:
+	// Year - absolute value
+	// Month - 0 = January 11 = December
+	// Day - apparently Samson has been using 0 base, so we have to check what
+	// has been used and set everything to a conformed method//absolute (starts
+	// at 1 to max number of given month)
+	// HalfHour - 0 based (0 to 47)
+	private int year;
 	// month is 0-based
-	private final int month;
-	// day is 1-based
-	private final int day;
+	private int month;
+	// day is 0-based
+
+
+	private int day;
 	// half-hour is 0-based
-	private final int halfHour;
+	private int halfHour;
 
 	/**
 	 * Constructor for DateInfo.
@@ -55,6 +60,18 @@ public class DateInfo {
 		this.halfHour = halfHour;
 	}
 
+	/**
+	 * Construct a DateInfo object from a Calendar
+	 * @param cal
+	 */
+	public DateInfo( Calendar cal ) {
+		year = cal.get( Calendar.YEAR );
+		month = cal.get( Calendar.MONTH );
+		day = cal.get( Calendar.DATE ) - 1;
+		halfHour = ( 2 * cal.get( Calendar.HOUR_OF_DAY ) ) +
+				( cal.get( Calendar.MINUTE ) / 30 );
+	}
+	
 	/**
 	 * Construct a DateInfo from the Java Date class
 	 * 
@@ -101,26 +118,80 @@ public class DateInfo {
 		return halfHour;
 	}
 
+	
 	/**
-	 * Converts a Java calendar Date to a DateInfo Used to maintain
-	 * compatability with an old version of the program
+	 * 
+	 * @param year the DateInfo's year
+	 */
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	/**
+	 * 
+	 * @param month the DateInfo's month from 0-11
+	 */
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+	/**
+	 * 
+	 * @param day the DateInfo's day from 0-28
+	 */
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+	/**
+	 * 
+	 * @param halfHour the DateInfo's halfhour from 0-47
+	 */
+	public void setHalfHour(int halfHour) {
+		this.halfHour = halfHour;
+	}
+
+	/**
+	 * Converts a Given DateInfo into a DateInfo of the parameters of the given
+	 * Java calendar Date Used to maintain compatability with an old version of
+	 * the program
 	 * 
 	 * @param date
 	 *            The date in its original format
-	 * @return a DateInfo object with the updated information
+	 * 
 	 */
-	//DOES NOT WORK
+	// DOES NOW WORK
 	@SuppressWarnings("deprecation")
-	public static DateInfo convertToDateInfo(Date date) {
-		final int year = date.getYear();
-		final int month = date.getMonth();
-		final int day = date.getDate() - 1;
-		final int halfHour = (date.getHours() * 2) + (date.getMinutes() / 30);
-
-		return new DateInfo(year, month, day, halfHour);
+	public void convertToDateInfo(Date date) {
+		final int yearN = date.getYear() + 1900;
+		final int monthN = date.getMonth();
+		final int dayN = date.getDate() - 1;
+		final int halfHourN = (date.getHours() * 2) + (date.getMinutes() / 30);
+		this.year = yearN;
+		this.month = monthN;
+		this.day = dayN;
+		this.halfHour = halfHourN;
 
 	}
 
+	/**
+	 * Converts the given DateInfo to a Calendar Object of the same parameters
+	 * 
+	 * @return Calendar object
+	 */
+	public Calendar dateInfoToCalendar() {
+		Calendar cal = new GregorianCalendar();
+		int hourOfDay = ((this.halfHour / 2));
+		int minute = 0;
+		if (this.halfHour % 2 != 0) {
+			minute = 30;
+		}
+		// added plus 1 to day for if now use 0 base
+		cal.set(this.year, this.month, this.day + 1, hourOfDay, minute);
+		return cal;
+	}
+
+	
 	/**
 	 * Method convertDateInfoToDate. converts a DateInfo object to a Date object
 	 * of the same parameters
@@ -172,61 +243,114 @@ public class DateInfo {
 	}
 	
 	/**
-	 * Converts the given DateInfo to a Calendar Object of the same parameters
-	 * @return Calendar object
-	 */
-	public Calendar dateInfoToCalendar(){
-		final Calendar cal = new GregorianCalendar();
-		final int hourOfDay = ((halfHour / 2));
-		int minute = 0;
-		if(halfHour % 2 != 0){
-			minute = 30;
-		}
-		//added plus 1 to day for if now use 0 base
-		cal.set(year, month, day, hourOfDay, minute);
-		return cal;
-	}
-
-	
-	/**
 	 * Returns a Json-encoded String of this DateInfo
 	 */
 	@Override
 	public String toString() {
-		final String theYear = "" + year;
-		final int theMonthI = month;
+		String theYear = "" + year;
+		int theMonthI = month + 1;
 		// Initialize a blank Month string
 		String theMonthS = "";
 		// Assign an MM Month String depending on the value
 		// of the month int.
-		theMonthS = theMonthS + theMonthI;
-		final String theDay = "" + day;
+		theMonthS += theMonthI;
+		String theDay = "" + (day + 1);
 		// Deliver a time depending on the halfHour int
 		int iTime = 0;
 		String sTime = "";
+
 		int theTime = halfHour;
 		while (theTime > 1){
-			theTime = theTime - 2;
+			theTime -= 2;
 			iTime++;
 		}
-		sTime = "" + iTime;
-		if (theTime == 0){
-			sTime = sTime + ":00";
-		}
-		else{
-			sTime = sTime + ":30";
-		}
+		
 		if (iTime > 12){
-			iTime = iTime / 2;
+			iTime -= 12;
+			
+			sTime = "" + iTime;
+			
+			if (theTime == 0){
+				sTime = sTime + ":00";
+			}
+			else{
+				sTime = sTime + ":30";
+			}
+			
 			sTime = sTime + " PM";
 		}
 		else{
-			sTime = sTime + " AM";
+			
+			int tempTime = iTime;
+			
+			// If midnight...
+			if ( iTime == 0 ) {
+				iTime = 12;
+			}
+			
+			sTime = "" + iTime;
+			
+			if (theTime == 0){
+				sTime = sTime + ":00";
+			}
+			else{
+				sTime = sTime + ":30";
+			}
+			
+			if (tempTime == 12) {
+				sTime = sTime + " PM";
+			}
+			else {
+				sTime = sTime + " AM";
+			}
 		}
 		// Collect all the info gathered above into a single string
 		// and return it
-		final String theDateInfo = "" + sTime + ", " + theMonthS + "/" + theDay + "/" + theYear;
-		return theDateInfo;
-	} 
 
+		final String theDateInfo = "" + sTime + ", " + theMonthS + "/" + theDay + "/" + theYear;
+
+		return theDateInfo;
+	}
+
+	/**
+	 * Compare two DateInfo objects
+	 * @param other the other DateInfo object
+	 * @return -1 if this DateInfo is earlier than other,
+	 * 1 if this DateInfo is after the other,
+	 * or 0 if both are the same
+	 */
+	public int compareTo( DateInfo other ) {
+		
+		// Start by comparing years
+		if ( year < other.year ) {
+			return -1;
+		} else if ( year > other.year ) {
+			return 1;
+		}
+		
+		// If years are equal, look at months
+		if ( month < other.month ) {
+			return -1;
+		} else if ( month > other.month ) {
+			return 1;
+		}
+		
+		// The move on to days...
+		if ( day < other.day ) {
+			return -1;
+		} else if ( day > other.day ) {
+			return 1;
+		}
+		
+		// And finally half-hours
+		if ( halfHour < other.halfHour ) {
+			return -1;
+		} else if ( halfHour > other.halfHour ) {
+			return 1;
+		}
+		
+		// If nothing has returned by now, then both are the same
+		return 0;
+	}
+	
 }

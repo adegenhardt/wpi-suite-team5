@@ -12,8 +12,10 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 
+import java.awt.Color;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.google.gson.Gson;
 
@@ -44,6 +46,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	// Descriptive Parameters
 	private String name; // Name of Event
 	private String description; // Description of Event
+	private List<String> participants; // Participants of the event
 
 	// These two could be regulated to sets of start/end year, month, day,
 	// halfHour
@@ -53,9 +56,10 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	private List<String> userIds; // userIds of users to participate in
 										// event
 
+	private Color color;		// The color to draw the event on the calendar views
+	
 	// TODO Either a projectId field is needed or we need to be certain that we
 	// are only retrieving from the current project's section of the database
-
 
 	/**
 	 * Default event constructor that sets invalid values to all fields
@@ -238,6 +242,32 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		userIds = new ArrayList<String>();
 		userIds.add(creatorId);
 	}
+	
+	/**
+	 * PARTICIPANT-SUPPORTED EVENT CONSTRUCTOR
+	 * This is the same as the previous constructor, just with the added
+	 * participants field.
+	 * @param name The name of the event
+	 * @param description A description of the event
+	 * @param startDate The start time of the event
+	 * @param endDate The end time of the event
+	 * @param category A category used to filter this event
+	 * @param isTeamEvent Says whether the event is team or personal
+	 * @param participants A list of people involved with this event
+	 */
+	
+	public Event(String name, String description, DateInfo startDate,
+			DateInfo endDate, Category category, boolean isTeamEvent,
+			List<String> participants){
+		this.name = name;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.category = category;
+		this.isTeamEvent = isTeamEvent;
+		this.setParticipants(participants);
+		
+	}
 
 	// ---------------------------------------------------------
 	// Get/Set for the fields of Event
@@ -365,6 +395,29 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 */
 	public void setTeamEvent(boolean isTeamEvent) {
 		this.isTeamEvent = isTeamEvent;
+	}
+
+	/**
+	 * @return participants The entire list of participants
+	 */
+	public List<String> getParticipants() {
+		return participants;
+	}
+
+	/**
+	 * @param participants A List of participants involved with the event
+	 */
+	public void setParticipants(List<String> participants) {
+		this.participants = participants;
+	}
+	
+	/**
+	 * @param index The index of a given participant in the list
+	 * @return theParticipant The participant whose index in the list
+	 * 						  matches the input.
+	 */
+	public String getAParticipant(int index){
+		return this.participants.get(index);
 	}
 
 	// Required Functions Database Interaction
@@ -517,6 +570,57 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	/**
+	 * 
+	 * @return the color that displays the event on the calendar view
+	 */
+	public Color getColor() {
+		
+		if ( color == null ) {
+			color = generateRandomColor();
+		}
+		
+		return color;
+	}
+
+	/**
+	 * 
+	 * @param color the color to display the event
+	 */
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
+	/**
+	 * Generates a random light color for the event to use
+	 * @return the generated color
+	 */
+	public Color generateRandomColor() {
+		
+		Random rand = new Random();
+		
+		final int minimumRGB = 400;			// combined RGB values must equal at least this much
+		final int minimumGreen = 100;		// The green value must be at least this much
+		
+		// generated RBG values
+		int r = rand.nextInt( 250 );
+		int g = rand.nextInt( 250 );
+		int b = rand.nextInt( 250 );
+		
+		while ( g < minimumGreen ) {
+			g = rand.nextInt( 250 );
+		}
+		
+		while ( r + g + b < minimumRGB ) {
+			r = rand.nextInt( 250 );
+			b = rand.nextInt( 250 );
+		}
+		
+		return new Color( r, g, b );
+		
+	}
+	
 	
 	@Override
 	public int hashCode() {
@@ -852,7 +956,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *      year, int month, int day)
 	 */
 	@Override
-	public boolean occursOnDate(int year, int month, int day) throws ArrayIndexOutOfBoundsException {
+	public boolean occursOnDate(int year, int month, int day) 
+			throws ArrayIndexOutOfBoundsException {
 
 		if ( month < 0 || month > 11 ) {
 			throw new ArrayIndexOutOfBoundsException( "Valid months are in the range 0 - 11" );
@@ -974,9 +1079,9 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	private int calculateNumDays( int year, int month ) {
 		
 		// Check for months with 31 days
-		if ( month == 0 || month == 2 || month == 5 ||
-				month == 7 || month == 8 || month == 10 ||
-				month == 12 ) {
+		if ( month == 0 || month == 2 || month == 4 ||
+				month == 6 || month == 7 || month == 9 ||
+				month == 11 ) {
 			return 31;
 			
 		// Otherwise, check if the month isn't February (ie: 30 days)

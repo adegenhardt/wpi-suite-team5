@@ -13,13 +13,16 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +35,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 /**
  * @author Team Underscore
@@ -40,15 +45,22 @@ import java.awt.BorderLayout;
 @SuppressWarnings("serial")
 public class WeekView extends JPanel {
 
-	// Millis for day in Calendar class
+	// Milliseconds for day in Calendar class
 	// Used to calculate first day of week
 	private static final long ONE_DAY = 86400000;
 	
+	private static final String NAME = "Name: ";
+	private static final String DESC = "Description: ";
+	private static final String STIME = "Start Time: ";
+	private static final String ETIME = "End Time: ";
+	
 	private JScrollPane dayScroll;
-	private JTable dayTable;
+	private WeekViewTable dayTable;
 
 	private Calendar currentDay;
 	private Calendar firstDayOfWeek;
+	
+	private Calendar[] weekCalendar;
 	
 	// Days of the week
 	private final String[] weekDays = new String[7];
@@ -59,8 +71,9 @@ public class WeekView extends JPanel {
 
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
-
-	// Will this component be used in the week view?
+	
+	private int lastX = 0;
+	private int lastY = 0;
 
 	// Create the WeekView panel
 	public WeekView() {
@@ -72,58 +85,91 @@ public class WeekView extends JPanel {
 		createBackground();
 		createTableProperties();
 		createUnselectableCol();
+		
+		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+		// Initial delay for tool tip
+		// Set to 0 for testing
+		ToolTipManager.sharedInstance().setInitialDelay(0);
+		
+		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				for (int i=0; i < 7; i++) {
+					EventRectangle thisTangle = dayTable.getRectangle(e.getX(),
+							e.getY(), i);
+					if (thisTangle == null) {
+						dayTable.setToolTipText(null);
+					} else {
+						dayTable.setToolTipText("<html>"
+								+ NAME
+								+ formatString(thisTangle.getEvent().getName(),
+										30)
+								+ "<br><br>"
+								+ DESC
+								+ formatString(thisTangle.getEvent()
+										.getDescription(), 30) + "<br><br>"
+								+ STIME
+								+ (thisTangle.getEvent().getStartDate())
+								+ "<br><br>" + ETIME
+								+ thisTangle.getEvent().getEndDate());
+						break;
+					}
+				}
+			}
+		});
+
 	}
 
 	// Set the times
 	private void createControls() {
-		dayTable = new JTable(new DefaultTableModel(new Object[][] {
-				{ "Midnight", null, null, null, null, null, null, null },
+		dayTable = new WeekViewTable(new DefaultTableModel(new Object[][] {
+				{ "12:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "1:00", null, null, null, null, null, null, null },
+				{ "01:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "2:00", null, null, null, null, null, null, null },
+				{ "02:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "3:00", null, null, null, null, null, null, null },
+				{ "03:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "4:00", null, null, null, null, null, null, null },
+				{ "04:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "5:00", null, null, null, null, null, null, null },
+				{ "05:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "6:00", null, null, null, null, null, null, null },
+				{ "06:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "7:00", null, null, null, null, null, null, null },
+				{ "07:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "8:00", null, null, null, null, null, null, null },
+				{ "08:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "9:00", null, null, null, null, null, null, null },
+				{ "09:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "10:00", null, null, null, null, null, null, null },
+				{ "10:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "11:00", null, null, null, null, null, null, null },
+				{ "11:00 AM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "12:00", null, null, null, null, null, null, null },
+				{ "12:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "1:00", null, null, null, null, null, null, null },
+				{ "01:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "2:00", null, null, null, null, null, null, null },
+				{ "02:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "3:00", null, null, null, null, null, null, null },
+				{ "03:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "4:00", null, null, null, null, null, null, null },
+				{ "04:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "5:00", null, null, null, null, null, null, null },
+				{ "05:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "6:00", null, null, null, null, null, null, null },
+				{ "06:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "7:00", null, null, null, null, null, null, null },
+				{ "07:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "8:00", null, null, null, null, null, null, null },
+				{ "08:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "9:00", null, null, null, null, null, null, null },
+				{ "09:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "10:00", null, null, null, null, null, null, null },
+				{ "10:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null },
-				{ "11:00", null, null, null, null, null, null, null },
+				{ "11:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null }, },
 				new String[] { "", weekDays[0], weekDays[1], weekDays[2], weekDays[3], 
 								   weekDays[4], weekDays[5], weekDays[6] }) {
@@ -136,6 +182,8 @@ public class WeekView extends JPanel {
 				return columnEditables[column];
 			}
 		});
+		
+		dayTable.setWeekView(this);
 		
 		final JTableHeader header = dayTable.getTableHeader();
 		
@@ -199,9 +247,9 @@ public class WeekView extends JPanel {
         });
 		
         // Set constraints
-		dayTable.getColumnModel().getColumn(0).setPreferredWidth(55);
-		dayTable.getColumnModel().getColumn(0).setMinWidth(55);
-		dayTable.getColumnModel().getColumn(0).setMaxWidth(55);
+		dayTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+		dayTable.getColumnModel().getColumn(0).setMinWidth(70);
+		dayTable.getColumnModel().getColumn(0).setMaxWidth(70);
 		dayTable.setAutoCreateColumnsFromModel(false);
 		// Make this panel scrollable
 		dayScroll = new JScrollPane(dayTable);
@@ -222,7 +270,7 @@ public class WeekView extends JPanel {
 	}
 
 	private void createTableProperties() {
-		// No resize or reorder
+		// Resizing allowed, no reorder
 		dayTable.getTableHeader().setResizingAllowed(true);
 		dayTable.getTableHeader().setReorderingAllowed(false);
 
@@ -230,11 +278,11 @@ public class WeekView extends JPanel {
 		dayTable.setColumnSelectionAllowed(true);
 		dayTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-		// Set no row and single column count
-		// Should I be setting the row height here?
+		// Sets row height at 15
 		dayTable.setRowHeight(15);
 	}
-
+	
+	// Creates an unselectable column!
 	private void createUnselectableCol() {
 		final ListSelectionModel sel = dayTable.getColumnModel()
 				.getSelectionModel();
@@ -256,12 +304,18 @@ public class WeekView extends JPanel {
 	// Initialize the week with the current week
 	private void initWeek() {
 		currentDay = Calendar.getInstance();
+		currentDay.set(Calendar.HOUR_OF_DAY, 0);
+		currentDay.set(Calendar.MINUTE, 0);
+		currentDay.set(Calendar.SECOND, 0);
+		currentDay.set(Calendar.MILLISECOND, 0);
 		
 		final Calendar shiftWeek = Calendar.getInstance();
 		
 	    while(shiftWeek.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 	         shiftWeek.setTimeInMillis(shiftWeek.getTimeInMillis() - ONE_DAY);
 	    }
+	    
+	    weekCalendar = new Calendar[7];
 	    
 	    firstDayOfWeek = (Calendar) shiftWeek.clone();
 	    
@@ -294,10 +348,12 @@ public class WeekView extends JPanel {
 	
 	private void changeWeekArray(Calendar firstDay) {
 		final Calendar tempDay = (Calendar) firstDay.clone();
+		weekCalendar[0] = (Calendar) tempDay.clone();
 		weekDays[0] = this.getStringDay(firstDay);
 		for(int i=1; i < weekDays.length; i++) {
 			tempDay.add(Calendar.DATE, 1);
 			weekDays[i] = this.getStringDay(tempDay);
+			weekCalendar[i] = (Calendar) tempDay.clone();
 		}
 	}
 	// Update the headers of the table
@@ -313,6 +369,7 @@ public class WeekView extends JPanel {
 	public void forwardWeek() {
 		firstDayOfWeek.add(Calendar.DATE, 7);
 		refreshWeek(firstDayOfWeek);
+		dayTable.setUpdated(false);
 	}
 	/**
 	 * Move the week back
@@ -320,6 +377,7 @@ public class WeekView extends JPanel {
 	public void backWeek() {
 		firstDayOfWeek.add(Calendar.DATE, -7);
 		refreshWeek(firstDayOfWeek);
+		dayTable.setUpdated(false);
 	}
 	/**
 	 * Move the week to the current week
@@ -332,5 +390,33 @@ public class WeekView extends JPanel {
 	    }
 	    
 	    refreshWeek(resetWeek);
+	    dayTable.setUpdated(false);
+	}
+	/**
+	 * 
+	 * @param i Index into day of the week (0/Sunday - 6/Saturday)
+	 * @return The Calendar object for that day, null if out of bounds
+	 */
+	public Calendar getCalendarDay(int i) {
+		try {
+			return weekCalendar[i];
+		}
+		catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+	
+	private String formatString(String str, int len) {
+		str = str.trim();
+		if (str.length() < len)
+			return str;
+		if (str.substring(0, len).contains("<br>"))
+			return str.substring(0, str.indexOf("<br>")).trim() + "<br><br>"
+					+ formatString(str.substring(str.indexOf("<br>") + 1), len);
+		int place = Math
+				.max(Math.max(str.lastIndexOf(" ", len),
+						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));
+		return str.substring(0, place).trim() + "<br>"
+				+ formatString(str.substring(place), len);
 	}
 }

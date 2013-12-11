@@ -61,7 +61,10 @@ public class GetCategoryController {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this category
-		final Request request = Network.getInstance().makeRequest("calendar/category", HttpMethod.GET); // GET == read // $codepro.audit.disable codeInComments
+		final Request request = 
+				Network.getInstance().makeRequest(
+						"calendar/category", 
+						HttpMethod.GET); // GET == read
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); // send the request
 	}
@@ -70,7 +73,10 @@ public class GetCategoryController {
 	 * Sends an HTTP request to retrieve all Category instances
 	 */
 	public void retrieveCategory() {
-		final Request request = Network.getInstance().makeRequest("calendar/calendardata", HttpMethod.GET); // GET == read // $codepro.audit.disable codeInComments // $codepro.audit.disable codeInComments
+		final Request request = 
+				Network.getInstance().makeRequest(
+						"calendar/calendardata", 
+						HttpMethod.GET); // GET == read
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); // send the request
 	}
