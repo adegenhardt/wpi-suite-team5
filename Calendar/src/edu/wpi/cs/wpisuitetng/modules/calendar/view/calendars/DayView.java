@@ -48,6 +48,8 @@ public class DayView extends JLayeredPane {
 	private static final String ETIME = "End Time: ";
 
 	private JScrollPane dayScroll;
+
+
 	private DayViewTable dayTable;
 	// Current day signifies the day of today
 	private Calendar currentDay;
@@ -321,4 +323,12 @@ public class DayView extends JLayeredPane {
 				+ formatString(str.substring(place), len);
 	}
 
+	/**
+	 * 
+	 * @return the current scroll pane for DayView
+	 */
+	public JScrollPane getScrollPane() {
+		return dayScroll;
+	}
+	
 }

@@ -229,7 +229,8 @@ public class DayViewTable extends JTable {
 		
 		
 		// Maximum width an event can be
-		final int MAX_WIDTH = getWidth() - X_OFFSET;
+		final int MAX_WIDTH = getColumnModel().getColumn( 1 ).getWidth()
+				- dayView.getScrollPane().getVerticalScrollBar().getWidth();
 		final int ROW_HEIGHT = getRowHeight();
 		int x;
 		int y;

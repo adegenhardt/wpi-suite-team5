@@ -971,11 +971,15 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 			if (startDate.getMonth() == month || endDate.getMonth() == month) {
 
-				if (startDate.getDay() == day || endDate.getDay() == day) {
+				if (startDate.getDay() == day ) {
+					return true;
+					
+				// check that the day isn't ending at midnight
+				} else if ( endDate.getDay() == day && endDate.getHalfHour() != 0 ) {
 					return true;
 
-					// check for an event spanning multiple days
-					// from start to finish
+				// check for an event spanning multiple days
+				// from start to finish
 				} else if (startDate.getDay() < day && endDate.getDay() > day) {
 					return true;
 				} else {
