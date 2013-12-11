@@ -82,11 +82,11 @@ public class CalendarSidebar extends JPanel {
 		//	public void contentsChanged( ListDataEvent listDataEvent ) {
 		//		populateTable( listDataEvent );
 		//	}
-			
+		//	
 		//	public void intervalAdded( ListDataEvent listDataEvent ) {
 		//		populateTable( listDataEvent );
 		//	}
-			
+		//	
 		//	public void intervalRemoved( ListDataEvent listDataEvent ) {
 		//		populateTable( listDataEvent );
 		//	}
