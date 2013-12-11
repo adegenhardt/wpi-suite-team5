@@ -28,7 +28,10 @@ public class MockRequest extends Request {
 	 * @param path String
 	 * @param requestMethod HttpMethod
 	 */
-	public MockRequest(NetworkConfiguration networkConfiguration, String path, HttpMethod requestMethod) {
+	public MockRequest(
+			NetworkConfiguration networkConfiguration, 
+			String path, 
+			HttpMethod requestMethod) {
 		super(networkConfiguration, path, requestMethod);
 	}
 

@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
+import java.util.*;
 
 /**
  * Testing for various aspects of Event
@@ -69,7 +70,7 @@ public class EventTest {
 		assertNotNull( event2 );
 	}
 	
-	/*
+	/**
 	 * Test get and set for id field
 	 */
 	@Test
@@ -80,7 +81,7 @@ public class EventTest {
 		assertEquals( 4, event1.getId() );
 	}
 	
-	/*
+	/**
 	 * Test get and set for project id field
 	 */
 	@Test
@@ -90,7 +91,7 @@ public class EventTest {
 		assertTrue( event2.isTeamEvent() );
 	}
 	
-	/*
+	/**
 	 * Test get and set for creator id field
 	 */
 	@Test
@@ -160,7 +161,7 @@ public class EventTest {
 	 */
 	@Test
 	public void testGetSetCategory() {
-		Category newCategory = new Category( "newName", 3 );
+		final Category newCategory = new Category( "newName", 3 );
 		assertEquals( testCategory, event1.getCategory() );
 		assertNotSame( newCategory, event1.getCategory() );
 		event1.setCategory( newCategory );
@@ -177,7 +178,7 @@ public class EventTest {
 		assertTrue( event1.hasAccess( "111" ) );
 		
 		// Test setting a list of users
-		ArrayList< String > testUsers = new ArrayList< String >();
+		final List<String> testUsers = new ArrayList< String >();
 		testUsers.add( "10" );
 		testUsers.add( "20" );
 		testUsers.add( "30" );
@@ -312,8 +313,8 @@ public class EventTest {
 	 */
 	@Test
 	public void testJsonConversion() {
-		String convertedEvent = event1.toJSON();
-		Event eventFromJson = Event.fromJson( convertedEvent );
+		final String convertedEvent = event1.toJSON();
+		final Event eventFromJson = Event.fromJson( convertedEvent );
 		assertEquals( event1, eventFromJson );
 	}
 	
@@ -323,6 +324,28 @@ public class EventTest {
 	@Test
 	public void testToString() {
 		assertEquals( "name1", event1.toString() );
+	}
+	
+	/**
+	 * Test the new Event constructor (participant support)
+	 */
+	@Test
+	public void testParticipantsConstructorAndGetRetriveFields(){
+		DateInfo testStartDate = new DateInfo(2013, 11, 10, 0);
+		DateInfo testEndDate = new DateInfo(2013, 11, 10, 47);
+		List<String> testParticipants = new ArrayList<String>();
+		testParticipants.add("Walt");
+		testParticipants.add("Jesse");
+		testParticipants.add("Mike");
+		Event testEvent = new Event("Call Saul", "Better call Saul!", 
+				testStartDate, testEndDate, null, true, testParticipants);
+		assertEquals("Call Saul", testEvent.getName());
+		assertEquals("Better call Saul!", testEvent.getDescription());
+		assertEquals(new DateInfo(2013, 11, 10, 0), testEvent.getStartDate());
+		assertEquals(new DateInfo(2013, 11, 10, 47), testEvent.getEndDate());
+		assertEquals("Walt", testEvent.getAParticipant(0));
+		assertEquals("Jesse", testEvent.getAParticipant(1));
+		assertEquals("Mike", testEvent.getAParticipant(2));
 	}
 	
 	// TODO: Write tests to check the out-of-range exceptions

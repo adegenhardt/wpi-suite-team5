@@ -20,11 +20,16 @@ import java.awt.event.MouseEvent;
 
 import java.awt.FlowLayout;
 
-// Panel to hold a WeekView
+/**
+ * 
+ * @author Team_
+ * @version 1.0
+ *
+ */
 @SuppressWarnings("serial")
 public class WeekViewPanel extends JPanel {
 	
-	private WeekView weekView;
+	private final WeekView weekView;
 	
 	private final JPanel buttonsPanel;
 	

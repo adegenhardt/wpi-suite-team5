@@ -12,6 +12,13 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars;
 // Global variables to check whether the calendar should display
 // Team or Personal events (or both)
+
+/**
+ * 
+ * @author Team_
+ * @version 1.0
+ *
+ */
 public class GlobalButtonVars {
 	
 	public static boolean isTeamView = false;
@@ -19,19 +26,19 @@ public class GlobalButtonVars {
 	
 	
 	
-	public boolean isStateTeamView(){
+	public static boolean isStateTeamView(){
 		return isTeamView && !isPersonalView;
 		
 	}
 	
-	public boolean isStatePersonalView(){
+	public static boolean isStatePersonalView(){
 		return !isTeamView && isPersonalView;
 		
 	}
 	
-	public boolean isStateBothView(){
+	public static boolean isStateBothView(){
 		return isTeamView && isPersonalView;
 	}
 	
-	//TODO add function that asks for state and returns an enum of the state
+	//TODO add function that asks for state and returns an enumeration of the state
 }

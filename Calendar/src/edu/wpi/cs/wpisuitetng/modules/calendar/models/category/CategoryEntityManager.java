@@ -83,7 +83,7 @@ public class CategoryEntityManager implements EntityManager<Category>{
 		} catch (WPISuiteException e) {
 			e.printStackTrace();
 		}
-		if( categories.length < 1 || categories[0] == null ) {
+		if( categories.length < 1 ) {
 			throw new NotFoundException( "Unable to find any categories" );
 		}
 		return categories;
@@ -177,7 +177,7 @@ public class CategoryEntityManager implements EntityManager<Category>{
 		 */
 		final List<Model> oldCategories = db.retrieve( Category.class, "id",
 				                           updatedCategory.getId(), session.getProject() );
-		if( oldCategories.size() < 1 || oldCategories.get(0) == null ) {
+		if( oldCategories.size() < 1 ) {
 			throw new BadRequestException( "Category with ID does not exist." );
 		}
 				

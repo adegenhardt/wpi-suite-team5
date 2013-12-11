@@ -30,13 +30,14 @@ import java.awt.BorderLayout;
  */
 @SuppressWarnings({"serial"})
 public class CalendarPanel extends JPanel {
+	// Variables for CalenderPanel components
 	private final CalendarTab tabs;
 	private final CalendarSidebar sidebar; 
 	private final JSplitPane splitPane;
 	private final JPanel panelSide, panelCalendar;
 	private final JPanel mainPanel;
 	
-
+	// Default constructor for a CalenderPanel
 	public CalendarPanel() {
 		
 		mainPanel = new JPanel();
@@ -79,7 +80,7 @@ public class CalendarPanel extends JPanel {
 		
 		
 		}
-	
+	// Getter for CalenderTab
 	public CalendarTab getCalendarTab () {
 		return tabs;
 	}

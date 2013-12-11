@@ -61,11 +61,10 @@ public class EventEntityManagerTest {
 	
 	/**
 	 * Set up objects and create a mock session for testing
-	
-	 * @throws Exception */
+	 */
 	@Before
-	public void setUp() throws Exception {
-		User admin = new User("admin", "admin", "4321", 27);
+	public void setUp() {
+		final User admin = new User("admin", "admin", "4321", 27);
 		admin.setRole(Role.ADMIN);
 		testProject = new Project("test", "1");
 		otherProject = new Project("other", "2");
@@ -98,7 +97,7 @@ public class EventEntityManagerTest {
 	 * @throws WPISuiteException */
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		Event created = manager.makeEntity(defaultSession, event1.toJSON());
+		final Event created = manager.makeEntity(defaultSession, event1.toJSON());
 		assertEquals( 1, created.getId() ); // IDs are unique across projects
 		assertEquals( created, event1 );
 	}
@@ -109,7 +108,7 @@ public class EventEntityManagerTest {
 	 * @throws NotFoundException */
 	@Test
 	public void testGetEntity() throws NotFoundException {
-		Event[] gotten = manager.getEntity( defaultSession, "1" );
+		final Event[] gotten = manager.getEntity( defaultSession, "1" );
 		assertSame( event1, gotten[0] );
 	}
 
@@ -160,7 +159,7 @@ public class EventEntityManagerTest {
 	 * @throws WPISuiteException */
 	@Test
 	public void testDeleteAll() throws WPISuiteException {
-		Event anotherEvent = new Event();
+		final Event anotherEvent = new Event();
 		manager.makeEntity(defaultSession, anotherEvent.toJSON());
 		assertEquals(2, db.retrieveAll(new Event(), testProject).size());
 		manager.deleteAll(adminSession);
@@ -182,10 +181,9 @@ public class EventEntityManagerTest {
 	
 	/**
 	 * Method testCount.
-	
-	 * @throws WPISuiteException */
+	 */
 	@Test
-	public void testCount() throws WPISuiteException {
+	public void testCount() {
 		assertEquals(2, manager.Count());
 	}
 
@@ -196,7 +194,7 @@ public class EventEntityManagerTest {
 	 * @throws WPISuiteException */
 	@Test
 	public void updateEventTest() throws WPISuiteException {
-		Event updatedEvent = manager.update(defaultSession,event1.toJSON());
+		final Event updatedEvent = manager.update(defaultSession, event1.toJSON());
 		assertEquals(event1.getName(), updatedEvent.getName());
 		assertEquals(event1.getId(), updatedEvent.getId());
 	}
@@ -206,11 +204,11 @@ public class EventEntityManagerTest {
 	 */
 	@Test
 	public void getAllTest() {
-		Event reqList[] = new Event[2];
+		final Event reqList[] = new Event[2];
 		reqList[0] = event1;
 		reqList[1] = event2;
 		manager.save(defaultSession, event2);
-		Event returnedEventList[] = manager.getAll( defaultSession );
+		final Event returnedEventList[] = manager.getAll( defaultSession );
 		assertEquals(2, returnedEventList.length);
 	}
 }

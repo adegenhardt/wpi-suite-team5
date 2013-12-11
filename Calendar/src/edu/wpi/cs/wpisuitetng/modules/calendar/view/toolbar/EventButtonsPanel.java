@@ -39,22 +39,30 @@ public class EventButtonsPanel extends ToolbarGroupView{
 	JButton createEventButton;
 	JButton createCommitButton;
 
-	// Disable the Event button if need be
+	/**
+	 * Disable the Event button if need be
+	 */
 	public void disableCreateEventButton() {
 		createEventButton.setEnabled(false);
 	}
 	
-	// Enable the Event button
+	/**
+	 * Enable the Event button
+	 */
 	public void enableCreateEventButton() {
 		createEventButton.setEnabled(true);
 	}
 	
-	// Disable the Commitment button if need be
+	/**
+	 * Disable the Commitment button if need be
+	 */
 	public void disableCreateCommitButton() {
 		createEventButton.setEnabled(false);
 	}
 	
-	//Enable the Commitment button
+	/**
+	 * Enable the Commitment button
+	 */
 	public void enableCreateCommitButton() {
 		createEventButton.setEnabled(true);
 	}

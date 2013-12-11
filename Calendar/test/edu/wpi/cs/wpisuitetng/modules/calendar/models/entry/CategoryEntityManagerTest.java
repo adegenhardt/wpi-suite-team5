@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.Session;
+import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
@@ -26,9 +27,10 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockData;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryEntityManager;
+import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 
 /**
  * Test for the CategoryEntityManager class structured according to the
@@ -50,16 +52,16 @@ public class CategoryEntityManagerTest {
 	CategoryEntityManager manager;
 	Category category1;
 	Category category2;
+	Category category3;
 	
 	Category testCategory = new Category( "name", 10 );
 	
 	/**
 	 * Set up objects and create a mock session for testing
-	 * @throws Exception 
 	 */
 	@Before
-	public void setUp() throws Exception {
-		User admin = new User("admin", "admin", "4321", 27);
+	public void setUp() {
+		final User admin = new User("admin", "admin", "4321", 27);
 		admin.setRole(Role.ADMIN);
 		testProject = new Project("test", "1");
 		otherProject = new Project("other", "2");
@@ -70,6 +72,7 @@ public class CategoryEntityManagerTest {
 
 		category1 = new Category( "name1", 10, "12345", false, false );
 		category2 = new Category( "name2", 11, "123456", false, false );
+		category3 = new Category( "name3", 12, "1234567", false, false );
 		
 		defaultSession = new Session(existingUser, testProject, mockSsid);
 		
@@ -89,7 +92,7 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		Category created = manager.makeEntity(defaultSession, category1.toJSON());
+		final Category created = manager.makeEntity(defaultSession, category1.toJSON());
 		assertEquals( 10, created.getId() ); // IDs are unique across projects
 		assertEquals( created, category1 );
 	}
@@ -100,7 +103,7 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void testGetEntity() throws NotFoundException {
-		Category[] gotten = manager.getEntity( defaultSession, "10" );
+		final Category[] gotten = manager.getEntity( defaultSession, "10" );
 		assertSame( category1, gotten[0] );
 	}
 
@@ -151,7 +154,7 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void testDeleteAll() throws WPISuiteException {
-		Category anotherCategory = new Category();
+		final Category anotherCategory = new Category();
 		manager.makeEntity(defaultSession, anotherCategory.toJSON());
 		assertEquals(2, db.retrieveAll(new Category(), testProject).size());
 		manager.deleteAll(adminSession);
@@ -176,7 +179,7 @@ public class CategoryEntityManagerTest {
 	 * @throws WPISuiteException 
 	 */
 	@Test
-	public void testCount() throws WPISuiteException {
+	public void testCount() {
 		assertEquals(2, manager.Count());
 	}
 
@@ -187,9 +190,23 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void updateCategoryTest() throws WPISuiteException {
-		Category updatedCategory = manager.update(defaultSession,category1.toJSON());
+		final Category updatedCategory = manager.update(defaultSession, category1.toJSON());
 		assertEquals(category1.getName(), updatedCategory.getName());
 		assertEquals(category1.getId(), updatedCategory.getId());
+	}
+	
+	/**
+	 * Method updateCategoryTestBadRequestException
+	 * @throws WPISuiteException, BadRequestException 
+	 */
+	@Test
+	public void updateCategoryTestBadRequestException() throws WPISuiteException, BadRequestException {
+		try {
+			Category updatedCategory = manager.update(defaultSession, category3.toJSON());
+		}
+		catch (BadRequestException e) {
+			assertTrue(true);
+		}
 	}
 	
 	/**
@@ -197,11 +214,54 @@ public class CategoryEntityManagerTest {
 	 */
 	@Test
 	public void getAllTest() {
-		Category reqList[] = new Category[2];
+		final Category reqList[] = new Category[2];
 		reqList[0] = category1;
 		reqList[1] = category2;
 		manager.save(defaultSession, category2);
-		Category returnedCategoryList[] = manager.getAll( defaultSession );
+		final Category returnedCategoryList[] = manager.getAll( defaultSession );
 		assertEquals(2, returnedCategoryList.length);
+	}
+	
+	/**
+	 * Test that advancedGet is not implemented
+	 */
+	@Test
+	public void advancedGetTest() throws NotImplementedException {
+		try {
+		String[] testString = null;
+		manager.advancedGet(adminSession, testString);
+		}
+		catch (NotImplementedException e) {
+			assertTrue(true);
+		}
+	}
+	
+	/**
+	 * Test that advancedPut is not implemented
+	 */
+	@Test
+	public void advancedPutTest() throws NotImplementedException {
+		try {
+		String[] testString1 = null;
+		String testString2 = null;
+		manager.advancedPut(adminSession, testString1, testString2);
+		}
+		catch (NotImplementedException e) {
+			assertTrue(true);
+		}
+	}
+	
+	/**
+	 * Test that advancedPost is not implemented
+	 */
+	@Test
+	public void advancedPostTest() throws NotImplementedException {
+		try {
+		String testString = null;
+		manager.advancedPost(adminSession, testString, testString);
+		}
+		catch (NotImplementedException e) {
+			assertTrue(true);
+		}
 	}
 }

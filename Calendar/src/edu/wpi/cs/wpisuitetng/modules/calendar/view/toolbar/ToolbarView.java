@@ -14,7 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.toolbar;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarSidebar;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CommitEditor;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventEditor;
 
@@ -40,13 +40,14 @@ public class ToolbarView extends DefaultToolbarView {
 	private final EventButtonsPanel eventPanel = new EventButtonsPanel();
 	private final TeamPersButtonsPanel teamPanel = new TeamPersButtonsPanel();
 
-	private ClosableTabCreator tabCreator; 
+	private final ClosableTabCreator tabCreator; 
 
 	/**
 	 * Construct this view and all components in it.
+	 * @param _tabCreator
 	 */
 	public ToolbarView(ClosableTabCreator _tabCreator) {
-		this.tabCreator = _tabCreator;
+		tabCreator = _tabCreator;
 
 		eventPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
 			@Override
@@ -68,15 +69,15 @@ public class ToolbarView extends DefaultToolbarView {
 
 		// Create a ButtonGroup so only one of the three Calendar
 		// buttons can be selected at once
-		ButtonGroup toggleGroup = new ButtonGroup();
+		final ButtonGroup toggleGroup = new ButtonGroup();
 		toggleGroup.add(teamPanel.getDisplayPersonalButton());
-		toggleGroup.add(teamPanel.getDisplayTeamButton());		
+		toggleGroup.add(teamPanel.getDisplayTeamButton());
 		toggleGroup.add(teamPanel.getDisplayBothButton());
 
 		// Create item listeners for each Calendar view button
 		teamPanel.getDisplayPersonalButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
-				int state = itemEvent.getStateChange();
+				final int state = itemEvent.getStateChange();
 				if (state == ItemEvent.SELECTED) {
 					GlobalButtonVars.isPersonalView = true;
 					GlobalButtonVars.isTeamView = false;
@@ -85,7 +86,7 @@ public class ToolbarView extends DefaultToolbarView {
 		
 		teamPanel.getDisplayTeamButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
-				int state = itemEvent.getStateChange();
+				final int state = itemEvent.getStateChange();
 				if (state == ItemEvent.SELECTED) {
 					GlobalButtonVars.isPersonalView = false;
 					GlobalButtonVars.isTeamView = true;
@@ -94,7 +95,7 @@ public class ToolbarView extends DefaultToolbarView {
 		
 		teamPanel.getDisplayBothButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
-				int state = itemEvent.getStateChange();
+				final int state = itemEvent.getStateChange();
 				if (state == ItemEvent.SELECTED) {
 					GlobalButtonVars.isPersonalView = true;
 					GlobalButtonVars.isTeamView = true;
@@ -102,6 +103,7 @@ public class ToolbarView extends DefaultToolbarView {
 			}});
 		
 		this.addGroup(teamPanel);
+		teamPanel.getDisplayPersonalButton().setSelected(true);;
 
 		// Prevent this toolbar from being moved
 		setFloatable(false);

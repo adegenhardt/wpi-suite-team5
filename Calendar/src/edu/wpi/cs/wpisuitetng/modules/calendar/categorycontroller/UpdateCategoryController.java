@@ -56,7 +56,7 @@ public class UpdateCategoryController {
 	public void updateCategory(Category newCategory) 
 	{
 		final Request request = Network.getInstance().makeRequest( "calendar/category",
-				              HttpMethod.POST); // POST == update // $codepro.audit.disable codeInComments // $codepro.audit.disable codeInComments
+				              HttpMethod.POST); // POST == update
 		request.setBody( newCategory.toJSON() ); // put the new Event in the body of the request
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); 

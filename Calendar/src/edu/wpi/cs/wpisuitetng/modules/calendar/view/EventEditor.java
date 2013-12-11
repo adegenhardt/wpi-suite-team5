@@ -36,12 +36,14 @@ import java.text.SimpleDateFormat;
 import javax.swing.DefaultComboBoxModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+import java.util.*;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -85,29 +87,33 @@ public class EventEditor extends JPanel {
 	private final JRadioButton rdbtnPersonal;
 	private final JRadioButton rdbtnTeam;
 	
-	private JTabbedPane parent;
-	private JPanel thisInstance;
-	private JTextField textFieldPartic;
-	private JButton btnAddPartic;
-	private JScrollPane scrollPanePartics;
-	private JList<String> listPartics;
-	private JButton btnRemovePartic;
-	private JLabel lblParterror;
+	private final JTabbedPane parent;
+	private final JPanel thisInstance;
+	private final JTextField textFieldPartic;
+	private final JButton btnAddPartic;
+	private final JScrollPane scrollPanePartics;
+	private final JList listPartics;
+	private final JButton btnRemovePartic;
+	private final JLabel lblParterror;
 	
-	private DefaultListModel<String> particsListModel;
+	private final DefaultListModel<String> particsListModel;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
+	 * @param _parent the parent
 	 */
 	public EventEditor(JTabbedPane _parent) {
 		
 		// Set the parent tabbed pane for this closable tab
 		// Set itself to be called later in the tabbed pane
-		this.parent = _parent; 
+		parent = _parent; 
 		thisInstance = this;
 		
 		// Set the layout
-		setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][]"));
+		setLayout(new MigLayout(
+				"", 
+				"[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]",
+				"[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -235,10 +241,11 @@ public class EventEditor extends JPanel {
 				
 		// Create Team/Personal calendar options and group them
 		rdbtnPersonal = new JRadioButton("Personal");
-		rdbtnPersonal.setSelected(true);
+		rdbtnPersonal.setSelected(!GlobalButtonVars.isStateTeamView());
 		add(rdbtnPersonal, "cell 1 9");
 		
 		rdbtnTeam = new JRadioButton("Team");
+		rdbtnTeam.setSelected(GlobalButtonVars.isStateTeamView());
 		add(rdbtnTeam, "cell 3 9");
 		
 		//Group the radio buttons.
@@ -253,6 +260,12 @@ public class EventEditor extends JPanel {
 		final JButton btnSubmit = new JButton("Submit");
 		
 		// Create a listener for the Submit button
+		/**
+		 * 
+		 * @author Team_
+		 * @version 1.0
+		 *
+		 */
 		class SubmitButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				// Check for validity of input
@@ -266,8 +279,8 @@ public class EventEditor extends JPanel {
 
 				// TODO: Replace code with something using new data model
 				final Date start = (Date) comboBoxStartMonth.getDate().clone();
-				final DateInfo startDate = new DateInfo(start.getYear()+1900, start.getMonth(),
-						start.getDate(), startHalfHours);
+				final DateInfo startDate = new DateInfo(start.getYear() + 1900, start.getMonth(),
+						start.getDate() - 1, startHalfHours);
 
 				final int endHalfHours = parseTime((String) comboBoxEndHour.getSelectedItem(),
 						(String) comboBoxEndMinutes.getSelectedItem(),
@@ -275,13 +288,9 @@ public class EventEditor extends JPanel {
 
 				// TODO: Replace code with something using new data model
 				final Date end = (Date) comboBoxEndMonth.getDate().clone();
-				final DateInfo endDate = new DateInfo(end.getYear()+1900, end.getMonth(),
-						end.getDate(), endHalfHours);
-				System.out.println("Event Date Data:");
-				System.out.println(end.getYear()+1900);
-				System.out.println(end.getMonth());
-				System.out.println(end.getDate());
-				System.out.println(startHalfHours);
+				final DateInfo endDate = new DateInfo(end.getYear() + 1900, end.getMonth(),
+						end.getDate() - 1, endHalfHours);
+				
 				// Check whether this is a team or personal event
 				boolean isTeamEvent;
 				if (rdbtnPersonal.isSelected()) {
@@ -295,7 +304,7 @@ public class EventEditor extends JPanel {
 				
 				// Retrieve the user name from Janeway's configuration storage
 				// and place it in the userId variable.
-				String userId = ConfigManager.getConfig().getUserName();
+				final String userId = ConfigManager.getConfig().getUserName();
 
 				// Create an event
 				final Event makeEvent = new Event(eventName.getText(),
@@ -383,6 +392,12 @@ public class EventEditor extends JPanel {
 		}
 		
 		// Clicking Add will add a participant to the list below
+		/**
+		 * 
+		 * @author Team_
+		 * @version 1.0
+		 *
+		 */
 		class ParticAddButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				particsListModel.addElement(textFieldPartic.getText());
@@ -391,6 +406,12 @@ public class EventEditor extends JPanel {
 		}
 				
 		// Clicking Remove will remove the selected participant from the list
+		/**
+		 * 
+		 * @author Team_
+		 * @version 1.0
+		 *
+		 */
 		class ParticRemoveButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				particsListModel.removeElement(listPartics.getSelectedValue());
