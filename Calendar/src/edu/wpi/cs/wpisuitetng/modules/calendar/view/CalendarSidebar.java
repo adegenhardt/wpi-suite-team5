@@ -41,7 +41,6 @@ import javax.swing.JComboBox;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.AddCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
-import edu.wpi.cs.wpisuitetng.modules.calendar.globalViewRefreshVars.GlobalViewRefreshVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
@@ -169,7 +168,7 @@ public class CalendarSidebar extends JPanel {
 
 		// Create a scroll pane to hold the Filter and Category managers
 		final JScrollPane scrollPaneManagers = new JScrollPane();
-		add(scrollPaneManagers, "cell 0 3 2 1,grow");
+//		add(scrollPaneManagers, "cell 0 3 2 1,grow");
 		// Create a panel within this scroll pane
 		final JPanel filtersCatsPanel = new JPanel();
 		scrollPaneManagers.setViewportView(filtersCatsPanel);
@@ -177,7 +176,7 @@ public class CalendarSidebar extends JPanel {
 
 		// Create a panel within filterCatsPanel to hold the Filter manager
 		final JPanel panelFilter = new JPanel();
-		filtersCatsPanel.add(panelFilter, "cell 0 0,grow");
+//		filtersCatsPanel.add(panelFilter, "cell 0 0,grow");
 		panelFilter.setBorder(new TitledBorder(
 				null, 
 				"Filters", 
@@ -190,7 +189,7 @@ public class CalendarSidebar extends JPanel {
 		// Create a list of current filters
 		// TODO: This is a predefined list until we implement this feature
 		final JList<Object> listFilters = new JList<Object>();
-		panelFilter.add(listFilters, "cell 0 0,grow");
+//		panelFilter.add(listFilters, "cell 0 0,grow");
 		listFilters.setModel(new AbstractListModel<Object>() {
 			private final String[] values = {""};
 			public int getSize() {
@@ -203,21 +202,21 @@ public class CalendarSidebar extends JPanel {
 
 		// Create a button to Apply a Filter
 		final JButton btnApply = new JButton("Apply");
-		panelFilter.add(btnApply, "flowx,cell 0 1,alignx left");
+//		panelFilter.add(btnApply, "flowx,cell 0 1,alignx left");
 		// Create a text field to Add a filter
 		filterTextField = new JTextField();
-		panelFilter.add(filterTextField, "cell 0 2,growx");
+//		panelFilter.add(filterTextField, "cell 0 2,growx");
 		filterTextField.setColumns(10);
 		// Button to Add a new Filter
 		final JButton btnNewFilter = new JButton("New Filter");
-		panelFilter.add(btnNewFilter, "cell 1 2,alignx left");
+//		panelFilter.add(btnNewFilter, "cell 1 2,alignx left");
 		// Button to Delete a Filter
 		final JButton btnDelete = new JButton("Delete");
-		panelFilter.add(btnDelete, "cell 0 1,alignx left");
+//		panelFilter.add(btnDelete, "cell 0 1,alignx left");
 
 		// Create a panel for the Category manager
 		final JPanel panelCatCreate = new JPanel();
-		filtersCatsPanel.add(panelCatCreate, "cell 0 1,grow");
+//		filtersCatsPanel.add(panelCatCreate, "cell 0 1,grow");
 		panelCatCreate.setBorder(new TitledBorder(
 				null,
 				"Categories",
@@ -228,26 +227,26 @@ public class CalendarSidebar extends JPanel {
 		panelCatCreate.setLayout(new MigLayout("", "[80.00,grow][100px,grow][]", "[][][][]"));
 		// Label for the category list
 		final JLabel lblCurrentCategories = new JLabel("Categories:");
-		panelCatCreate.add(lblCurrentCategories, "cell 0 0,alignx right");
+//		panelCatCreate.add(lblCurrentCategories, "cell 0 0,alignx right");
 
 		// ComboBox to select existing Categories
 		final JComboBox<Object> comboBox = new JComboBox<Object>();
-		panelCatCreate.add(comboBox, "cell 1 0,growx");
+//		panelCatCreate.add(comboBox, "cell 1 0,growx");
 		// Button to Delete a category
 		final JButton btnDeleteCat = new JButton("Delete");
-		panelCatCreate.add(btnDeleteCat, "cell 1 1,alignx left");
+//		panelCatCreate.add(btnDeleteCat, "cell 1 1,alignx left");
 		// Label for New Category
 		final JLabel lblCategory = new JLabel("New Category:");
-		panelCatCreate.add(lblCategory, "cell 0 2,alignx trailing");
+//		panelCatCreate.add(lblCategory, "cell 0 2,alignx trailing");
 		// Text Field to create a new category or edit an existing one
 		textField = new JTextField();
-		panelCatCreate.add(textField, "cell 1 2,growx");
+//		panelCatCreate.add(textField, "cell 1 2,growx");
 		textField.setColumns(10);
 		// Radio Buttons for Team or Personal calendar choice
 		final JRadioButton rdbtnTeam = new JRadioButton("Team");
-		panelCatCreate.add(rdbtnTeam, "flowx,cell 1 3");
+//		panelCatCreate.add(rdbtnTeam, "flowx,cell 1 3");
 		final JRadioButton rdbtnPersonal = new JRadioButton("Personal", true);
-		panelCatCreate.add(rdbtnPersonal, "cell 1 3");
+//		panelCatCreate.add(rdbtnPersonal, "cell 1 3");
 		// Add these buttons to a radio group so only one can be selected
 		radioGroup = new ButtonGroup();
 		radioGroup.add(rdbtnTeam);
@@ -261,15 +260,6 @@ public class CalendarSidebar extends JPanel {
 				AddCategoryController.getInstance().addCategory(newCat);
 			}
 		});
-		panelCatCreate.add(btnSubmit, "cell 1 3,growx");
-				
-		// Disable these buttons for now
-		// TODO: RENABLE THIS WHEN FEATURE IS ADDED
-		btnSubmit.setEnabled(false);
-		btnDelete.setEnabled(false);
-		btnDeleteCat.setEnabled(false);
-		btnApply.setEnabled(false);
-		btnNewFilter.setEnabled(false);
 		
 	}
 	// Populates the table of Events in the side bar
