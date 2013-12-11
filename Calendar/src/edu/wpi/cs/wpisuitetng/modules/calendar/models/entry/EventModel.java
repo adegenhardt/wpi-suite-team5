@@ -358,11 +358,8 @@ public class EventModel extends AbstractListModel<Event> {
 				personalEvents.add( currentEvent );
 			}
 		}
-		
 		return personalEvents;
-		
 	}
-	
 	/**
 	 * Get all the events for the team that the user can access
 	 * @param userId The id of the user attempting to access the events
