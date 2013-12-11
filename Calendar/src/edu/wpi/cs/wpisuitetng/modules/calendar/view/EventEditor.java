@@ -163,7 +163,9 @@ public class EventEditor extends JPanel {
 		add(comboBoxStartAMPM, "cell 3 2,growx");
 		
 		lblTimemsg = new JLabel("");
-		add(lblTimemsg, "cell 4 2, growx");
+
+		add(lblTimemsg, "cell 4 2, growx, span 3");
+
 
 		// Create the date picker
 		final JLabel lblSDate = new JLabel("Start Date:");
