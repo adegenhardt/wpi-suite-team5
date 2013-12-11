@@ -113,7 +113,7 @@ public class DayViewTable extends JTable {
 		
 		// if < 3 characters trimmed, replace last 3 characters with "..."
 		if ( i > s.length() - 3 ) {
-			return ( s.substring( 0, s.length() - 3 ) + "..." );
+			return ( s.substring( 0, Math.max( 1, s.length() - 3 ) ) + "..." );
 		} else {
 			return ( s.substring( 0, Math.max( 1, i - 3 ) ) + "..." );
 		}

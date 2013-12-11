@@ -57,14 +57,14 @@ public class EventButtonsPanel extends ToolbarGroupView{
 	 * Disable the Commitment button if need be
 	 */
 	public void disableCreateCommitButton() {
-		createEventButton.setEnabled(false);
+		createCommitButton.setEnabled(false);
 	}
 	
 	/**
 	 * Enable the Commitment button
 	 */
 	public void enableCreateCommitButton() {
-		createEventButton.setEnabled(true);
+		createCommitButton.setEnabled(true);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class EventButtonsPanel extends ToolbarGroupView{
 		
 		// Make sure these buttons are visible by default
 		createEventButton.setVisible(true);
-		createCommitButton.setVisible(true);
+		createCommitButton.setVisible(false);
 		
 		// Add the buttons, set the panel
 		contentPanel.add(createCommitButton);
