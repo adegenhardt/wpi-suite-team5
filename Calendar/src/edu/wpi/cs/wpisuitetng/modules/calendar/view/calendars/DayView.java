@@ -352,7 +352,7 @@ public class DayView extends JPanel {
 		// set returns to realDayEvents
 		//TODO CONNER add functionality that will sort holdEvents to the desired order HERE, using the sort methods you have created
 		this.realDayEvents = holdEvents;
-
+//DOES NOT WORK
 	}
 
 	/**

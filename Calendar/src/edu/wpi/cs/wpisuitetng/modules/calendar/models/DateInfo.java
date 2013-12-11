@@ -23,18 +23,20 @@ import java.util.GregorianCalendar;
  */
 public class DateInfo {
 
-	//Format:
-	//	Year  	 - absolute value
-	//	Month 	 - 0 = January 11 = December
-	//	Day   	 - apparently Samson has been using 0 base, so we have to check what has been used and set everything to a conformed method//absolute (starts at 1 to max number of given month)
-	//	HalfHour - 0 based (0 to 47)
-	private final int year;
+	// Format:
+	// Year - absolute value
+	// Month - 0 = January 11 = December
+	// Day - apparently Samson has been using 0 base, so we have to check what
+	// has been used and set everything to a conformed method//absolute (starts
+	// at 1 to max number of given month)
+	// HalfHour - 0 based (0 to 47)
+	private int year;
 	// month is 0-based
-	private final int month;
+	private int month;
 	// day is 1-based
-	private final int day;
+	private int day;
 	// half-hour is 0-based
-	private final int halfHour;
+	private int halfHour;
 
 	/**
 	 * Constructor for DateInfo.
@@ -102,23 +104,43 @@ public class DateInfo {
 	}
 
 	/**
-	 * Converts a Java calendar Date to a DateInfo Used to maintain
-	 * compatability with an old version of the program
+	 * Converts a Given DateInfo into a DateInfo of the parameters of the given
+	 * Java calendar Date Used to maintain compatability with an old version of
+	 * the program
 	 * 
 	 * @param date
 	 *            The date in its original format
-	 * @return a DateInfo object with the updated information
+	 * 
 	 */
-	//DOES NOT WORK
+	// DOES NOW WORK
 	@SuppressWarnings("deprecation")
-	public static DateInfo convertToDateInfo(Date date) {
-		final int year = date.getYear();
-		final int month = date.getMonth();
-		final int day = date.getDate() - 1;
-		final int halfHour = (date.getHours() * 2) + (date.getMinutes() / 30);
+	public void convertToDateInfo(Date date) {
+		final int yearN = date.getYear() + 1900;
+		final int monthN = date.getMonth();
+		final int dayN = date.getDate() - 1;
+		final int halfHourN = (date.getHours() * 2) + (date.getMinutes() / 30);
+		this.year = yearN;
+		this.month = monthN;
+		this.day = dayN;
+		this.halfHour = halfHourN;
 
-		return new DateInfo(year, month, day, halfHour);
+	}
 
+	/**
+	 * Converts the given DateInfo to a Calendar Object of the same parameters
+	 * 
+	 * @return
+	 */
+	public Calendar dateInfoToCalendar() {
+		Calendar cal = new GregorianCalendar();
+		int hourOfDay = ((this.halfHour / 2));
+		int minute = 0;
+		if (this.halfHour % 2 != 0) {
+			minute = 30;
+		}
+		// added plus 1 to day for if now use 0 base
+		cal.set(this.year, this.month, this.day + 1, hourOfDay, minute);
+		return cal;
 	}
 
 	/**
@@ -170,24 +192,7 @@ public class DateInfo {
 		}
 		return true;
 	}
-	
-	/**
-	 * Converts the given DateInfo to a Calendar Object of the same parameters
-	 * @return
-	 */
-	public Calendar dateInfoToCalendar(){
-		Calendar cal = new GregorianCalendar();
-		int hourOfDay = ((this.halfHour / 2));
-		int minute = 0;
-		if(this.halfHour % 2 != 0){
-			minute = 30;
-		}
-		//added plus 1 to day for if now use 0 base
-		cal.set(this.year, this.month, this.day +1, hourOfDay, minute);
-		return cal;
-	}
 
-	
 	/**
 	 * Returns a Json-encoded String of this DateInfo
 	 */
@@ -205,28 +210,27 @@ public class DateInfo {
 		int iTime = 0;
 		String sTime = "";
 		int theTime = this.getHalfHour();
-		while (theTime > 1){
+		while (theTime > 1) {
 			theTime = theTime - 2;
 			iTime++;
 		}
 		sTime = "" + iTime;
-		if (theTime == 0){
+		if (theTime == 0) {
 			sTime = sTime + ":00";
-		}
-		else{
+		} else {
 			sTime = sTime + ":30";
 		}
-		if (iTime > 12){
+		if (iTime > 12) {
 			iTime = iTime / 2;
 			sTime = sTime + " PM";
-		}
-		else{
+		} else {
 			sTime = sTime + " AM";
 		}
 		// Collect all the info gathered above into a single string
 		// and return it
-		String theDateInfo = "" + sTime + ", " + theMonthS + "/" + theDay + "/" + theYear;
+		String theDateInfo = "" + sTime + ", " + theMonthS + "/" + theDay + "/"
+				+ theYear;
 		return theDateInfo;
-	} 
+	}
 
 }

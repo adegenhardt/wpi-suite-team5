@@ -14,8 +14,11 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
+import java.util.Date;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,5 +58,22 @@ public class DateInfoTest {
 	public void testDateInfo3ToString(){
 		assertEquals(dateTest3S, dateTest3.toString());
 		assertNotSame(dateTest3SOld, dateTest3.toString());
+	}
+	
+	/**
+	 * Test the toString() method under DateInfo for the
+	 * third set of example of test data
+	 */
+	@Test
+	public void testDateToDateInfo(){
+		Date date1 = new Date(100, 5, 8);
+		date1.setHours(5);
+		date1.setMinutes(45);
+		DateInfo dateInfoCompare = new DateInfo(2000,5,7,11);
+		DateInfo dateInfoTest = new DateInfo(-1,-1,-1,-1);
+		dateInfoTest.convertToDateInfo(date1);
+		System.out.println(dateInfoTest.toString());
+		assertEquals(dateInfoCompare, dateInfoTest);
+		
 	}
 }

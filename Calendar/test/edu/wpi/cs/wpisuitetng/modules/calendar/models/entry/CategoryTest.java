@@ -2,10 +2,13 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockNetwork;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
@@ -98,4 +101,20 @@ public class CategoryTest {
 		assertTrue( category1.equals( category1 ) );
 	}
 	
+	/**
+	 * Test the toString() method under DateInfo for the
+	 * third set of example of test data
+	 */
+	@Test
+	public void testDateToDateInfo(){
+		Date date1 = new Date(100, 5, 8);
+		date1.setHours(5);
+		date1.setMinutes(45);
+		DateInfo dateInfoCompare = new DateInfo(2000,5,7,11);
+		DateInfo dateInfoTest = new DateInfo(-1,-1,-1,-1);
+		dateInfoTest.convertToDateInfo(date1);
+		System.out.println(dateInfoTest.toString());
+		assertEquals(dateInfoCompare, dateInfoTest);
+		
+	}
 }
