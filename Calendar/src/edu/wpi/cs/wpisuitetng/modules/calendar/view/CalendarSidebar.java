@@ -114,26 +114,30 @@ public class CalendarSidebar extends JPanel {
 
 		commitmentTable = new JTable();
 		commitmentTable.setModel(new DefaultTableModel(
-				new Object[][] {
-						{null, null, null, null},
-						{null, null, null, null},
-						{null, null, null, null},
-						{null, null, null, null},
-						{null, null, null, null},
-						{null, null, null, null},
-						{null, null, null, null},
-				},
-				new String[] {
-						""
-				}
-				) {
-			private final boolean[] columnEditables = new boolean[] {
-					false, false, false, false
+			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+			},
+			new String[] {
+				"Commitments", "Due Date", "Category", "Description"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
+		commitmentTable.getColumnModel().getColumn(0).setResizable(false);
+		commitmentTable.getColumnModel().getColumn(1).setResizable(false);
+		commitmentTable.getColumnModel().getColumn(2).setResizable(false);
+		commitmentTable.getColumnModel().getColumn(3).setResizable(false);
 		commitScroll.setViewportView(commitmentTable);
 
 		// Create a scroll pane to hold the Filter and Category managers
