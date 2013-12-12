@@ -69,8 +69,8 @@ public class EventEditor extends JPanel {
 
 	private final JTextField eventName;
 	private final JEditorPane descriptionPane;
-	private final JXDatePicker comboBoxStartMonth;
-	private final JXDatePicker comboBoxEndMonth;
+	private final JXDatePicker datePickerStartMonth;
+	private final JXDatePicker datePickerEndMonth;
 	private final JComboBox<String> comboBoxStartHour;
 	private final JComboBox<String> comboBoxStartMinutes;
 	private final JComboBox<String> comboBoxStartAMPM;
@@ -180,15 +180,19 @@ public class EventEditor extends JPanel {
 		eventPanel.add(lblSDate, "cell 0 3,alignx trailing");
 
 		// Date pickers
-		comboBoxStartMonth = new JXDatePicker();
-		comboBoxEndMonth = new JXDatePicker();
+		datePickerStartMonth = new JXDatePicker();
+		datePickerEndMonth = new JXDatePicker();
 		// Setting the date format to something more intuitive
-		comboBoxStartMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
-		comboBoxEndMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
-		eventPanel.add(comboBoxStartMonth, "cell 1 3 3 1,growx");
-		eventPanel.add(comboBoxEndMonth, "cell 1 6 3 1,growx");
+		datePickerStartMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
+		datePickerEndMonth.setFormats(new SimpleDateFormat("MMM/dd/yyyy"));
+		eventPanel.add(datePickerStartMonth, "cell 1 3 3 1,growx");
+		eventPanel.add(datePickerEndMonth, "cell 1 6 3 1,growx");
+		
+		// Set the default dates to Today
+		datePickerStartMonth.setDate(new Date());
+		datePickerEndMonth.setDate(new Date());
 
-		comboBoxStartMonth.getEditor().addFocusListener(new FocusAdapter() {
+		datePickerStartMonth.getEditor().addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				lblDatemsg.setText("Ex. Oct/02/1993");
@@ -196,7 +200,7 @@ public class EventEditor extends JPanel {
 			}
 		});
 		
-		comboBoxEndMonth.getEditor().addFocusListener(new FocusAdapter() {
+		datePickerEndMonth.getEditor().addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				lblDatemsg.setText("Ex. Oct/02/1993");
@@ -290,7 +294,7 @@ public class EventEditor extends JPanel {
 						(String) comboBoxStartAMPM.getSelectedItem());
 
 				// TODO: Replace code with something using new data model
-				final Date start = (Date) comboBoxStartMonth.getDate().clone();
+				final Date start = (Date) datePickerStartMonth.getDate().clone();
 				final DateInfo startDate = new DateInfo(start.getYear() + 1900, start.getMonth(),
 						start.getDate() - 1, startHalfHours);
 
@@ -299,7 +303,7 @@ public class EventEditor extends JPanel {
 						(String) comboBoxEndAMPM.getSelectedItem());
 
 				// TODO: Replace code with something using new data model
-				final Date end = (Date) comboBoxEndMonth.getDate().clone();
+				final Date end = (Date) datePickerEndMonth.getDate().clone();
 				final DateInfo endDate = new DateInfo(end.getYear() + 1900, end.getMonth(),
 						end.getDate() - 1, endHalfHours);
 				
@@ -464,13 +468,14 @@ public class EventEditor extends JPanel {
 		btnRemovePartic = new JButton("Remove");
 		eventPanel.add(btnRemovePartic, "cell 4 11,growx,aligny top");
 
+		// Button to submit changes
 		eventPanel.add(btnSubmit, "cell 1 12 2 1,growx");
 		
 		// Button listeners
 		btnSubmit.addActionListener(new SubmitButtonListener());
 		btnAddPartic.addActionListener(new ParticAddButtonListener());
 		btnRemovePartic.addActionListener(new ParticRemoveButtonListener());
-
+		
 		
 		// If the participants text field is not empty, allow the Add button to be pressed
 		// Uses a DocumentListener to check for changes, specifically to check if empty
@@ -520,7 +525,7 @@ public class EventEditor extends JPanel {
 		// Milliseconds, but should be no problem since it will always
 		// Generate dates from the beginning of the selected day
 		try {
-			if (comboBoxStartMonth.getDate().getTime() == comboBoxEndMonth
+			if (datePickerStartMonth.getDate().getTime() == datePickerEndMonth
 					.getDate().getTime()) {
 				if (parseTime((String) comboBoxStartHour.getSelectedItem(),
 						(String) comboBoxStartMinutes.getSelectedItem(),
@@ -535,7 +540,7 @@ public class EventEditor extends JPanel {
 				} else {
 					lblTimemsg.setText("");
 				}
-			} else if (comboBoxStartMonth.getDate().getTime() > comboBoxEndMonth
+			} else if (datePickerStartMonth.getDate().getTime() > datePickerEndMonth
 					.getDate().getTime()) {
 				lblTimemsg.setForeground(Color.red);
 				lblTimemsg.setText("Start day can't be after end day");
@@ -544,12 +549,12 @@ public class EventEditor extends JPanel {
 				lblTimemsg.setText("");
 			}
 		} catch (NullPointerException e) {
-			if (comboBoxStartMonth.getDate() == null) {
+			if (datePickerStartMonth.getDate() == null) {
 				lblDatemsg.setForeground(Color.red);
 				lblDatemsg.setText("Invalid Date");
 				isValid = false; 
 			}
-			if (comboBoxEndMonth.getDate() == null) {
+			if (datePickerEndMonth.getDate() == null) {
 				lblDateEndMsg.setForeground(Color.red);
 				lblDateEndMsg.setText("Invalid Date");
 				isValid = false; 

@@ -22,18 +22,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListDataListener;
-import javax.swing.ButtonGroup;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.event.ListDataEvent;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -61,10 +58,9 @@ public class CalendarSidebar extends JPanel {
 
 	private JTable eventTable;
 	private JTable commitmentTable;
-	private final JTextField textField;
 	private final JTextField filterTextField;
+	private final DefaultListModel<String> appliedFiltersListModel;
 	private boolean isUpdated = false;
-	private final ButtonGroup radioGroup;
 	
 	// The list model that is being listened to it is used for comparison
 	// with the changing list.
@@ -133,8 +129,11 @@ public class CalendarSidebar extends JPanel {
 			}
 			
 		});
+		eventTable.getTableHeader().setReorderingAllowed(false);
 
 		// Create a table for commitments, nearly identical to the Events table
+		// TODO: Uncomment this once Commitments are implemented
+		/*
 		final JScrollPane commitScroll = new JScrollPane();
 		add(commitScroll, "cell 0 2 2 1,grow");
 
@@ -165,103 +164,138 @@ public class CalendarSidebar extends JPanel {
 		commitmentTable.getColumnModel().getColumn(2).setResizable(false);
 		commitmentTable.getColumnModel().getColumn(3).setResizable(false);
 		commitScroll.setViewportView(commitmentTable);
+		
+		commitmentTable.getTableHeader().setReorderingAllowed(false);
+		*/
 
-		// Create a scroll pane to hold the Filter and Category managers
-		final JScrollPane scrollPaneManagers = new JScrollPane();
-//		add(scrollPaneManagers, "cell 0 3 2 1,grow");
+		// Create a scroll pane to hold the Filter/Category manager
+		final JScrollPane scrollPaneFilters = new JScrollPane();
+		add(scrollPaneFilters, "cell 0 3 2 1,grow");
+		
 		// Create a panel within this scroll pane
 		final JPanel filtersCatsPanel = new JPanel();
-		scrollPaneManagers.setViewportView(filtersCatsPanel);
-		filtersCatsPanel.setLayout(new MigLayout("", "[grow]", "[][]"));
+		filtersCatsPanel.setBorder(new TitledBorder(null, "Filtering Tools", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPaneFilters.setViewportView(filtersCatsPanel);
+		filtersCatsPanel.setLayout(new MigLayout("", "[][150px:150px:150px,grow][70px:70px:70px,grow]", "[35px:35px:35px][35px:35px:35px][][][][][][][][20px:20px:20px][]"));
+		
+		JLabel lblList = new JLabel("Applied Filters:");
+		filtersCatsPanel.add(lblList, "cell 0 0,alignx right");
 
-		// Create a panel within filterCatsPanel to hold the Filter manager
-		final JPanel panelFilter = new JPanel();
-//		filtersCatsPanel.add(panelFilter, "cell 0 0,grow");
-		panelFilter.setBorder(new TitledBorder(
-				null, 
-				"Filters", 
-				TitledBorder.LEADING,
-				TitledBorder.TOP, 
-				null, 
-				null));
-		panelFilter.setLayout(new MigLayout("", "[grow][grow]", "[85.00px][][]"));
+		JScrollPane scrollPaneList = new JScrollPane();
+		filtersCatsPanel.add(scrollPaneList, "flowx,cell 1 0 2 2,grow");
+
+		// Button to unapply a Filter
+		final JButton btnUnapply = new JButton("Unapply Filter");
+		filtersCatsPanel.add(btnUnapply, "cell 1 2,growx,aligny top");
+		
+		JLabel lblCurrentCategories = new JLabel("Current Categories:");
+		filtersCatsPanel.add(lblCurrentCategories, "cell 0 4,alignx trailing");
 
 		// Create a list of current filters
-		// TODO: This is a predefined list until we implement this feature
-		final JList<Object> listFilters = new JList<Object>();
-//		panelFilter.add(listFilters, "cell 0 0,grow");
-		listFilters.setModel(new AbstractListModel<Object>() {
-			private final String[] values = {""};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		appliedFiltersListModel = new DefaultListModel<String>();
+		final JList<String> listFilters = new JList<String>();
+		scrollPaneList.setViewportView(listFilters);
+
+		// Create a combo box to hold the current list of categories
+		// TODO: Populate with info from database
+		final JComboBox comboBoxCats = new JComboBox();
+		filtersCatsPanel.add(comboBoxCats, "cell 1 4 2 1,growx");
 
 		// Create a button to Apply a Filter
-		final JButton btnApply = new JButton("Apply");
-//		panelFilter.add(btnApply, "flowx,cell 0 1,alignx left");
-		// Create a text field to Add a filter
-		filterTextField = new JTextField();
-//		panelFilter.add(filterTextField, "cell 0 2,growx");
-		filterTextField.setColumns(10);
-		// Button to Add a new Filter
-		final JButton btnNewFilter = new JButton("New Filter");
-//		panelFilter.add(btnNewFilter, "cell 1 2,alignx left");
-		// Button to Delete a Filter
-		final JButton btnDelete = new JButton("Delete");
-//		panelFilter.add(btnDelete, "cell 0 1,alignx left");
+		final JButton btnApply = new JButton("Apply as Filter");
+		filtersCatsPanel.add(btnApply, "cell 1 5,growx");
+		// Apply listeners
 
-		// Create a panel for the Category manager
-		final JPanel panelCatCreate = new JPanel();
-//		filtersCatsPanel.add(panelCatCreate, "cell 0 1,grow");
-		panelCatCreate.setBorder(new TitledBorder(
-				null,
-				"Categories",
-				TitledBorder.LEADING,
-				TitledBorder.TOP,
-				null,
-				null));
-		panelCatCreate.setLayout(new MigLayout("", "[80.00,grow][100px,grow][]", "[][][][]"));
-		// Label for the category list
-		final JLabel lblCurrentCategories = new JLabel("Categories:");
-//		panelCatCreate.add(lblCurrentCategories, "cell 0 0,alignx right");
+		// Button to delete a category
+		JButton btnDelete = new JButton("Delete Category");
+		filtersCatsPanel.add(btnDelete, "cell 1 6,growx");
 
-		// ComboBox to select existing Categories
-		final JComboBox<Object> comboBox = new JComboBox<Object>();
-//		panelCatCreate.add(comboBox, "cell 1 0,growx");
-		// Button to Delete a category
-		final JButton btnDeleteCat = new JButton("Delete");
-//		panelCatCreate.add(btnDeleteCat, "cell 1 1,alignx left");
 		// Label for New Category
 		final JLabel lblCategory = new JLabel("New Category:");
-//		panelCatCreate.add(lblCategory, "cell 0 2,alignx trailing");
-		// Text Field to create a new category or edit an existing one
-		textField = new JTextField();
-//		panelCatCreate.add(textField, "cell 1 2,growx");
-		textField.setColumns(10);
-		// Radio Buttons for Team or Personal calendar choice
-		final JRadioButton rdbtnTeam = new JRadioButton("Team");
-//		panelCatCreate.add(rdbtnTeam, "flowx,cell 1 3");
-		final JRadioButton rdbtnPersonal = new JRadioButton("Personal", true);
-//		panelCatCreate.add(rdbtnPersonal, "cell 1 3");
-		// Add these buttons to a radio group so only one can be selected
-		radioGroup = new ButtonGroup();
-		radioGroup.add(rdbtnTeam);
-		radioGroup.add(rdbtnPersonal);
+		filtersCatsPanel.add(lblCategory, "cell 0 8,alignx right");
+
+		// Create a text field to Add a filter
+		filterTextField = new JTextField();
+		filtersCatsPanel.add(filterTextField, "cell 1 8 2 1,growx");
+		filterTextField.setColumns(10);
+
 		// Button to Submit changes to a Category
-		final JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				final Category newCat = new Category(textField.getText(), rdbtnTeam.isSelected());
-				newCat.setId(CategoryModel.getInstance().getNextID());
-				AddCategoryController.getInstance().addCategory(newCat);
+		final JButton btnCatCreate = new JButton("Add Category");
+		filtersCatsPanel.add(btnCatCreate, "cell 1 9,growx,aligny center");
+		btnCatCreate.setEnabled(false);
+
+		// If the category text field is not empty, allow the add button to be pressed
+		// Uses a DocumentListener to check for changes, specifically to check if empty
+		filterTextField.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				enableAdd();
+			}
+			public void removeUpdate(DocumentEvent e) {
+				enableAdd();
+			}
+			public void insertUpdate(DocumentEvent e) {
+				enableAdd();
+			}
+
+			private void enableAdd(){
+				if ((filterTextField.getText().equals(""))){
+					btnCatCreate.setEnabled(false);
+				}
+				else btnCatCreate.setEnabled(true);
 			}
 		});
-		
+
+
+		// Create a listener to add a new category
+		btnCatCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO: Update this call, as these radio buttons no longer exist
+				/*
+				final Category newCat = new Category(filterTextField.getText(), rdbtnTeam.isSelected());
+				newCat.setId(CategoryModel.getInstance().getNextID());
+				AddCategoryController.getInstance().addCategory(newCat);
+				 */
+			}
+		});
+
+		// Error text
+		// TODO: Change and display if user tries
+		// to add a duplicate category
+		JLabel lblNewcaterror = new JLabel("");
+		filtersCatsPanel.add(lblNewcaterror, "cell 1 10");
+
+		// Clicking Apply will add a category to the applied filters
+		// TODO: DATABASE FUNCTIONALITY
+		/**
+		 * 
+		 * @author Team_
+		 * @version 1.0
+		 *
+		 */
+		class applyButtonListener implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				appliedFiltersListModel.addElement((String) comboBoxCats.getSelectedItem());
+			}
+		}
+
+		// Clicking Unapply will unapply the filter
+		// TODO: DATABASE FUNCTIONALITY
+		/**
+		 * 
+		 * @author Team_
+		 * @version 1.0
+		 *
+		 */
+		class unapplyButtonListener implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				appliedFiltersListModel.removeElement(listFilters.getSelectedValue());
+			}
+		}
+		btnApply.addActionListener(new applyButtonListener());
+		btnUnapply.addActionListener(new unapplyButtonListener());
+
 	}
+	
 	// Populates the table of Events in the side bar
 	// TODO: Expand to work with Commitments once required
 	private void populateTable() {
