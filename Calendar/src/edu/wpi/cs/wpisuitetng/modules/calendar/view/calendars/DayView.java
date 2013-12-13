@@ -152,25 +152,26 @@ public class DayView extends JLayeredPane {
 		dayTable.setDefaultRenderer(Object.class,
 				new DefaultTableCellRenderer() {
 
-					@Override
-					public Component getTableCellRendererComponent(
-							JTable table, Object value, boolean isSelected,
-							boolean hasFocus, int row, int column) {
-						
-						final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
-								.getTableCellRendererComponent(table, value,
-										isSelected, hasFocus, row, column);
+			@Override
+			public Component getTableCellRendererComponent(
+					JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
 
-						if ((row % 2) == 0 && column != 0) {
-							rendererComponent.setBackground(new Color(185, 209,
-									234));
-						} else {
-							rendererComponent.setBackground(Color.white);
-						}
-						this.repaint();
-						return rendererComponent;
-					}
-				});
+				final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
+						.getTableCellRendererComponent(table, value,
+								isSelected, hasFocus, row, column);
+				// Set the colors. Every two rows will be light blue,
+				// rows in between are white
+				if ((row % 2) == 0 && column != 0) {
+					rendererComponent.setBackground(new Color(227, 235,
+							243));
+				} else {
+					rendererComponent.setBackground(Color.white);
+				}
+				this.repaint();
+				return rendererComponent;
+			}
+		});
 
 		final JTableHeader header = dayTable.getTableHeader();
 
