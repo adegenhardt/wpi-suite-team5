@@ -176,6 +176,7 @@ public class WeekViewTable extends JTable {
 						eventDay.getYear(), eventDay.getMonth(),
 						eventDay.getDay());
 			}
+			//TODO CFFLAG add filter by category filters
 			eventsArray[i] = SortEvents.sortEventsByDate(eventsArray[i]);
 		}
 	}

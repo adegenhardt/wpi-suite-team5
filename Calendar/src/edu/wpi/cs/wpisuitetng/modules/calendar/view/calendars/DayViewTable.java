@@ -150,6 +150,7 @@ public class DayViewTable extends JTable {
 		else if (GlobalButtonVars.isTeamView) {
 			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
 		}
+		//TODO CFFLAG add filter by category filters
 		events = SortEvents.sortEventsByDate(events);
 	}
 	

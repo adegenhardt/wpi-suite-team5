@@ -85,7 +85,7 @@ public class CategoryEditor extends JPanel {
 	 */
 	class CatSubmitButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			
+			//TODO add functionality to build a Category from data and add to data base
 		}
 	}
 }
