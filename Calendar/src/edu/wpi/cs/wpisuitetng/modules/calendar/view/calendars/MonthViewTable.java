@@ -65,6 +65,15 @@ public class MonthViewTable extends JTable {
 		this.monthView = monthView;
 	}
 	
+	
+	/**
+	 * 
+	 * @param isUpdated true if the Table is updated, false otherwise
+	 */
+	public void setUpdated(boolean isUpdated) {
+		this.isUpdated = isUpdated;
+	}
+	
 	/**
 	 * Paint the DayViewTable with events on top
 	 * @see javax.swing.JTable#paintComponents(Graphics)
@@ -86,66 +95,23 @@ public class MonthViewTable extends JTable {
 	 * Update the list of events stored with this table
 	 */
 	private void updateEvents() {
-		// TODO Replace sample tests with the real ones
 		
-		events = new ArrayList< Event >();
-		
-		Event e1 = new Event();
-		
-		e1.setName( "First event with the fairly incredibly long title!" );
-		e1.setStartDate( new DateInfo( 2013, 11, 13, 0 ) );
-		e1.setEndDate( new DateInfo( 2013, 11, 25, 1 ) );
-		
-		events.add( e1 );
-		
-		Event e2 = new Event();
-		
-		e2.setName( "Second!" );
-		e2.setStartDate( new DateInfo( 2013, 11, 13, 0 ) );
-		e2.setEndDate( new DateInfo( 2013, 11, 26, 1 ) );
-		
-		events.add( e2 );
-		
-		Event e3 = new Event();
-		
-		e3.setName( "Third even with yet another moderately long title!" );
-		e3.setStartDate( new DateInfo( 2013, 11, 15, 0 ) );
-		e3.setEndDate( new DateInfo( 2014, 1, 30, 1 ) );
-		
-		events.add( e3 );
-		
-		Event e4 = new Event();
-		
-		e4.setName( "Fourth!" );
-		e4.setStartDate( new DateInfo( 2013, 11, 15, 0 ) );
-		e4.setEndDate( new DateInfo( 2013, 11, 15, 1 ) );
-		
-		events.add( e4 );
-		
-		Event e5 = new Event();
-		
-		e5.setName( "Fifth!" );
-		e5.setStartDate( new DateInfo( 2013, 11, 15, 0 ) );
-		e5.setEndDate( new DateInfo( 2013, 11, 29, 1 ) );
-		
-		events.add( e5 );
-		
-//		int year = monthView.getCurrentYear();
-//		int month = monthView.getCurrentMonth();
-//		if ( GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView ) {
-//			events = EventModel.getInstance().getUserEvents(
-//					ConfigManager.getConfig().getUserName(), year, month );
-//		} else if ( GlobalButtonVars.isPersonalView ) {
-//			events = EventModel.getInstance().getPersonalEvents(
-//					ConfigManager.getConfig().getUserName(), year, month );
-//		} else if ( GlobalButtonVars.isTeamView ) {
-//			events = EventModel.getInstance().getTeamEvents(
-//					ConfigManager.getConfig().getUserName(), year, month );
-//		}
-//		events = SortEvents.sortEventsByDate( events );
+		int year = monthView.getCurrentYear();
+		int month = monthView.getCurrentMonth();
+		if ( GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView ) {
+			events = EventModel.getInstance().getUserEvents(
+					ConfigManager.getConfig().getUserName(), year, month );
+		} else if ( GlobalButtonVars.isPersonalView ) {
+			events = EventModel.getInstance().getPersonalEvents(
+					ConfigManager.getConfig().getUserName(), year, month );
+		} else if ( GlobalButtonVars.isTeamView ) {
+			events = EventModel.getInstance().getTeamEvents(
+					ConfigManager.getConfig().getUserName(), year, month );
+		}
+		events = SortEvents.sortEventsByDate( events );
 		
 	}
-	
+
 	/**
 	 * Paint the stored events on the table
 	 * @param g The graphics component to handle the drawings
@@ -235,7 +201,13 @@ public class MonthViewTable extends JTable {
 			if ( e.getEndDate().compareTo( END_OF_MONTH ) > 0 ) {
 				endDay = NUM_DAYS - 1;
 			} else {
-				endDay = e.getEndDate().getDay();
+				// Make sure that not to count the end date if
+				// it ends at midnight of the final day
+				if ( e.getEndDate().getHalfHour() == 0 ) {
+					endDay = e.getEndDate().getDay() - 1;
+				} else {
+					endDay = e.getEndDate().getDay();
+				}
 			}
 			
 			// Find earliest open row
@@ -244,7 +216,7 @@ public class MonthViewTable extends JTable {
 			// If no row was open at all
 			if ( occupiedRow == -1 ) {
 				// Mark all numEventRemaining slots
-				for ( int j = startDay; j < endDay; j++ ) {
+				for ( int j = startDay; j <= endDay; j++ ) {
 					numEventsRemaining[ j ]++;
 				}
 			} else {
@@ -276,7 +248,7 @@ public class MonthViewTable extends JTable {
 					
 					g.setColor( e.getColor() );
 					
-					g.fillRect( x, y, COLUMN_WIDTH, LINE_HEIGHT );
+					g.fillRect( x, y, COLUMN_WIDTH - 1, LINE_HEIGHT );
 					
 					g.setColor( textColor );
 					g.drawString( 	printString,

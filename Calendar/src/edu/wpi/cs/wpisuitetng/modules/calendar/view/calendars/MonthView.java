@@ -243,6 +243,7 @@ public class MonthView extends JPanel {
 		renderer.setVerticalAlignment( SwingConstants.TOP );
 		
 		tblCalendar.setDefaultRenderer(tblCalendar.getColumnClass(0), renderer );
+		tblCalendar.setUpdated( false );	/* notify the table that it needs to update */
 	}
 
 	/**
@@ -348,8 +349,9 @@ public class MonthView extends JPanel {
 			if (cmbYear.getSelectedItem() != null) {
 				final String b = cmbYear.getSelectedItem().toString();
 				currentYear = Integer.parseInt(b);
-				refreshCalendar(currentMonth, currentYear);
 			}
+			
+			refreshCalendar(currentMonth, currentYear);
 		}
 	}
 	
