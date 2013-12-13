@@ -98,7 +98,6 @@ public class EventEditor extends JPanel {
 	private final JLabel lblParterror;
 				
 	private final DefaultListModel<String> particsListModel;
-	private JPanel eventPanel;
 	
 	/**
 	 * Create the panel. Created using WindowBuilder
@@ -111,7 +110,9 @@ public class EventEditor extends JPanel {
 		parent = _parent; 
 		thisInstance = this;
 		setLayout(new BorderLayout(0, 0));
-
+		
+		// Define a panel within a scrollpane
+		// Hacky fix to add a scrollbar to this tab
 		final JPanel eventPanel = new JPanel();
 		JScrollPane mainScroll = new JScrollPane(); 
 		mainScroll.add(eventPanel);
@@ -127,7 +128,7 @@ public class EventEditor extends JPanel {
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
 		eventPanel.add(lblEventName, "cell 0 0,alignx trailing");
-
+		
 		eventName = new JTextField();
 		eventPanel.add(eventName, "cell 1 0 5 1,growx,aligny center");
 		eventName.setColumns(10);
