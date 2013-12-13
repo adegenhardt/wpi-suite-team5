@@ -98,6 +98,7 @@ public class EventEditor extends JPanel {
 	private final JLabel lblParterror;
 				
 	private final DefaultListModel<String> particsListModel;
+	private JButton btnDeleteEvent;
 	
 	/**
 	 * Create the panel. Created using WindowBuilder
@@ -120,10 +121,7 @@ public class EventEditor extends JPanel {
 		thisInstance.add(mainScroll);
 		
 		// Set the layout
-		eventPanel.setLayout(new MigLayout(
-				"", 
-				"[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]",
-				"[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][]"));
+		eventPanel.setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][][][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -471,6 +469,13 @@ public class EventEditor extends JPanel {
 
 		// Button to submit changes
 		eventPanel.add(btnSubmit, "cell 1 12 2 1,growx");
+		
+		// Button to delete this event
+		btnDeleteEvent = new JButton("Delete Event");
+		// TODO:
+		// If (editing this event){
+		//  eventPanel.add(btnDeleteEvent, "cell 1 14 3 1,growx");
+		// }
 		
 		// Button listeners
 		btnSubmit.addActionListener(new SubmitButtonListener());
