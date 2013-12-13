@@ -35,6 +35,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import java.awt.BorderLayout;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
@@ -65,15 +67,8 @@ public class WeekView extends JPanel {
 	// Days of the week
 	private final String[] weekDays = new String[7];
 
-	// Variables used to disallow time column selection
-	private final int disabledColumn = 0;
-	private int currentColumn = 1;
-
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
-	
-	private int lastX = 0;
-	private int lastY = 0;
 
 	// Create the WeekView panel
 	public WeekView() {
@@ -84,7 +79,6 @@ public class WeekView extends JPanel {
 		createBounds();
 		createBackground();
 		createTableProperties();
-		createUnselectableCol();
 		
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		// Initial delay for tool tip
@@ -183,6 +177,9 @@ public class WeekView extends JPanel {
 			}
 		});
 		
+		dayTable.setFocusable(false);
+		dayTable.setRowSelectionAllowed(false);
+		
 		dayTable.setWeekView(this);
 		
 		final JTableHeader header = dayTable.getTableHeader();
@@ -274,31 +271,10 @@ public class WeekView extends JPanel {
 		dayTable.getTableHeader().setResizingAllowed(true);
 		dayTable.getTableHeader().setReorderingAllowed(false);
 
-		// Multiple cell selection
-		dayTable.setColumnSelectionAllowed(true);
-		dayTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
 		// Sets row height at 15
 		dayTable.setRowHeight(15);
-	}
-	
-	// Creates an unselectable column!
-	private void createUnselectableCol() {
-		final ListSelectionModel sel = dayTable.getColumnModel()
-				.getSelectionModel();
-		sel.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// If the column is disabled, reselect previous column
-				if (sel.isSelectedIndex(disabledColumn)) {
-					sel.setSelectionInterval(currentColumn, currentColumn);
-				}
-				// Set current selection
-				else {
-					currentColumn = sel.getMaxSelectionIndex();
-				}
-			}
-		});
+		
+		this.addComponentListener(new ResizeListener());
 	}
 
 	// Initialize the week with the current week
@@ -418,5 +394,15 @@ public class WeekView extends JPanel {
 						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));
 		return str.substring(0, place).trim() + "<br>"
 				+ formatString(str.substring(place), len);
+	}
+	
+	class ResizeListener implements ComponentListener {
+	    public void componentHidden(ComponentEvent e) {}
+	    public void componentMoved(ComponentEvent e) {}
+	    public void componentShown(ComponentEvent e) {}
+
+	    public void componentResized(ComponentEvent e) {
+	    	dayTable.repaint();
+	    }
 	}
 }

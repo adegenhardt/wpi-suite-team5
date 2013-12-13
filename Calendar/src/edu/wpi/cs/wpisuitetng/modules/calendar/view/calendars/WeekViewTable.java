@@ -259,7 +259,7 @@ public class WeekViewTable extends JTable {
 		
 		
 		// Maximum width an event can be
-		final int MAX_WIDTH = (getWidth() - X_OFFSET) / 7;
+		final int MAX_WIDTH = (getWidth() - X_COLUMN_OFFSET) / 7;
 		final int ROW_HEIGHT = getRowHeight();
 		int x;
 		int y;
