@@ -57,7 +57,7 @@ public class DayViewPanel extends JPanel {
 		
 		buttonsPanel = new JPanel();
 		// Set the view constraints
-		dayView = new DayView();
+		dayView = DayView.getInstance();
 		dayView.refreshDay(currentDateCal);
 		dayView.setMaximumSize(new Dimension(1000, 1000));
 		dayView.setRequestFocusEnabled(false);

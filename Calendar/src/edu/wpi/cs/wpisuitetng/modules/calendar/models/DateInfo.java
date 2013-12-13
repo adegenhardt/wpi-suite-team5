@@ -200,7 +200,7 @@ public class DateInfo {
 	 */
 	@Deprecated
 	public Date convertDateInfoToDate() {
-		final Date date = new Date(year, month, day);
+		final Date date = new Date(year - 1900, month, day);
 		return date;
 	}
 
