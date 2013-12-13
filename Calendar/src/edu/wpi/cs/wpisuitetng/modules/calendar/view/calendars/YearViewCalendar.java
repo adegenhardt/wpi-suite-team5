@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedSet;
 
+import javax.swing.JTabbedPane;
+
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
@@ -47,12 +49,15 @@ public class YearViewCalendar extends JXMonthView {
 	private static final long ONE_DAY = 86400000; 
 	private ActionListener calendarListener;
 	private List<Event> events;
+	private JTabbedPane parentTab;
 	
 	
 	/**
 	 * Constructor for YearViewCalendar.
 	 */
-	public YearViewCalendar() {
+	public YearViewCalendar(JTabbedPane _parentTab) {
+		parentTab = _parentTab;
+		
 		buildYearView();
 		buildActionListeners(); 
 	}
@@ -79,12 +84,16 @@ public class YearViewCalendar extends JXMonthView {
 		this.addActionListener(calendarListener);
 	}
 	
-	// Here we can handle the selection of a day in year view
-	// TODO: Change this function to do what is needed (right now it prints the
-	// Date selected to console
 	private void selected() {
 		final SortedSet<Date> ds = this.getSelection();
-		System.out.println(ds.first().toString());
+		Calendar selectDay = Calendar.getInstance();
+		selectDay.setTime(ds.first());
+        selectDay.set(Calendar.HOUR_OF_DAY, 0);
+        selectDay.set(Calendar.MINUTE, 0);
+        selectDay.set(Calendar.SECOND, 0);
+        selectDay.set(Calendar.MILLISECOND, 0);
+		DayView.getInstance().refreshDay(selectDay);
+		parentTab.setSelectedIndex(3);
 	}
 	
 	// Simple calculation to set the calendar view like a normal calendar

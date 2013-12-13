@@ -20,7 +20,10 @@ import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+
 import java.awt.Component;
+
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -38,11 +41,14 @@ public class YearViewCalendarPanel extends JScrollPane {
 	
 	private final JButton nextYear;
 	private final JButton prevYear;
-	private final JButton year; 
+	private final JButton year;
+	
+	private JTabbedPane parentTab;
 	
 	//Constructor for YearViewCalendarPanel
-	public YearViewCalendarPanel()
+	public YearViewCalendarPanel(JTabbedPane _parentTab)
 	{
+		parentTab = _parentTab;
 		// Create the main panel, will hold button and calendar panels
 		final JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new MigLayout("", "[924.00px]", "[30.00][500px]"));
@@ -68,7 +74,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 		
 		// Define the calendar panel
 		final JPanel calendarPanel = new JPanel(new BorderLayout());
-		calendarView = new YearViewCalendar();
+		calendarView = new YearViewCalendar(parentTab);
 		calendarPanel.add(calendarView, BorderLayout.CENTER);
 		contentPanel.add(calendarPanel, "cell 0 1,alignx left,aligny top");
 		
