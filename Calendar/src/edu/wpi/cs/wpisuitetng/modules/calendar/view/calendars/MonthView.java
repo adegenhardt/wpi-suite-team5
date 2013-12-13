@@ -30,6 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.BoxLayout;
@@ -43,7 +44,7 @@ import javax.swing.BoxLayout;
 @SuppressWarnings("serial")
 public class MonthView extends JPanel {
 
-	JTable tblCalendar;
+	MonthViewTable tblCalendar;
 	JButton btnPrev, btnNext;
 	JLabel lblMonth, lblYear;
 	DefaultTableModel mtblCalendar;
@@ -85,8 +86,26 @@ public class MonthView extends JPanel {
 				return false;
 			}
 		};
-		tblCalendar = new JTable(mtblCalendar);
+		tblCalendar = new MonthViewTable(mtblCalendar);
+		tblCalendar.setMonthView( this );
 	}
+	
+	/**
+	 * 
+	 * @return the current selected year
+	 */
+	public int getCurrentYear() {
+		return currentYear;
+	}
+	
+	/**
+	 * 
+	 * @return the current selected month
+	 */
+	public int getCurrentMonth() {
+		return currentMonth;
+	}
+	
 	// Create the action listeners, to be defined
 	private void registerActionListeners() {
 		btnPrev.addActionListener(new btnPrev_Action());
@@ -167,7 +186,7 @@ public class MonthView extends JPanel {
 		mtblCalendar.setColumnCount(7);
 		mtblCalendar.setRowCount(6);
 	}
-	// Fill the table with the days of the month
+	// Fill the combo box with the years
 	private void populateTable() {
 		for (int i = realYear - 100; i <= realYear + 100; i++) {
 			cmbYear.addItem(String.valueOf(i));
@@ -219,7 +238,11 @@ public class MonthView extends JPanel {
 		}
 
 		// Apply renderer
-		tblCalendar.setDefaultRenderer(tblCalendar.getColumnClass(0), new tblCalendarRenderer());
+		tblCalendarRenderer renderer = new tblCalendarRenderer();
+		renderer.setHorizontalAlignment( SwingConstants.CENTER );
+		renderer.setVerticalAlignment( SwingConstants.TOP );
+		
+		tblCalendar.setDefaultRenderer(tblCalendar.getColumnClass(0), renderer );
 	}
 
 	/**
@@ -230,7 +253,7 @@ public class MonthView extends JPanel {
 	 */
 	class tblCalendarRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
-
+		
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean selected,
 				boolean focused, int row, int column) {
 			super.getTableCellRendererComponent(table, value, selected, focused, row, column);
