@@ -199,7 +199,8 @@ public class WeekView extends JPanel {
 				 
 				// Make every second row blue
 				if ((row % 2) == 0 && column != 0) {
-					rendererComponent.setBackground(new Color(185, 209, 234));
+					rendererComponent.setBackground(new Color(227, 235,
+							243));
 				}
 				else {
 					rendererComponent.setBackground(Color.white);
