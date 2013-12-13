@@ -114,6 +114,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 		// The two sister methods use similar functionality
 		cal.add(Calendar.YEAR, -1);
 		calendarView.setFirstDisplayedDay(cal.getTime());
+		calendarView.refreshYear();
 	}
 	
 	// Moves the calendar in the view to the current year
@@ -121,6 +122,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 		final Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_YEAR, 1);
 		calendarView.setFirstDisplayedDay(cal.getTime());
+		calendarView.refreshYear();
 	}
 	
 	// Moves the calendar in the view forward by one year
@@ -128,6 +130,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 		final Calendar cal = calendarView.getCalendar();
 		cal.add(Calendar.YEAR, +1);
 		calendarView.setFirstDisplayedDay(cal.getTime());
+		calendarView.refreshYear();
 	}
 	
 	/**
