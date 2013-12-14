@@ -61,6 +61,7 @@ public class Calendar implements IJanewayModule {
 
 		// Add the tab to the list of tabs owned by this module
 		tabs.add(tab1);
+		
 	}
 	
 	/*

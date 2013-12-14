@@ -22,18 +22,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListDataListener;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
-import javax.swing.event.ListDataEvent;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -46,9 +42,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.CalendarPanel;
-
-import java.awt.event.*;
 
 /**
  * @author Team Underscore
@@ -66,42 +59,30 @@ public class CalendarSidebar extends JPanel {
 	private boolean isUpdated = false;
 	private final ButtonGroup radioGroup;
 	
-	// The list model that is being listened to it is used for comparison
-	// with the changing list.
-	public static DefaultListModel model = new DefaultListModel();
+	private static CalendarSidebar instance = null;
+	
+	public static CalendarSidebar getInstance() {
+		if ( instance == null ) {
+			instance = new CalendarSidebar();
+		}
+		return instance;
+	}
 	
 	// Create the sidebar panel
-	public CalendarSidebar() {
+	private CalendarSidebar() {
 		setLayout(new MigLayout("", "[grow][grow]", "[][100.00,grow,center][100.00,grow][grow]"));
-		
-		// List data listener on the contents of the local EventModel.
-		// It listens for changes in the contents of the list and if they occur,
-		// it proceeds to update the contents of the CalendarSidebar table of events.
-		// ListDataListener listDataListener = new ListDataListener() {
-		//	public void contentsChanged( ListDataEvent listDataEvent ) {
-		//		populateTable( listDataEvent );
-		//	}
-		//	
-		//	public void intervalAdded( ListDataEvent listDataEvent ) {
-		//		populateTable( listDataEvent );
-		//	}
-		//	
-		//	public void intervalRemoved( ListDataEvent listDataEvent ) {
-		//		populateTable( listDataEvent );
-		//	}
-		//};
 		
 		// Create a button to refresh the list of events
 		// TODO: Incorporate this functionality into Event/Commitment Submit buttons
 		// and the Team/Personal View buttons
-		 final JButton btnRefreshEvents = new JButton("Refresh Events");
-		 btnRefreshEvents.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				populateTable();
-			}
-		});
-		add(btnRefreshEvents, "cell 0 0 2097051 1,growx");
+		// final JButton btnRefreshEvents = new JButton("Refresh Events");
+		// btnRefreshEvents.addMouseListener(new MouseAdapter() {
+		//	@Override
+		//	public void mouseClicked(MouseEvent arg0) {
+		//		populateTable();
+		//	}
+		//});
+		//add(btnRefreshEvents, "cell 0 0 2097051 1,growx");
 
 		// Create a scroll pane for the Events table
 		final JScrollPane eventScroll = new JScrollPane();
@@ -264,7 +245,7 @@ public class CalendarSidebar extends JPanel {
 	}
 	// Populates the table of Events in the side bar
 	// TODO: Expand to work with Commitments once required
-	private void populateTable() {
+	public void populateTable() {
 		this.repaint();
 		int numRows = eventTable.getModel().getRowCount();
 
@@ -286,27 +267,27 @@ public class CalendarSidebar extends JPanel {
 		// by the user upon using the Calendar module.
 
 		// View only those events that are personal.
-		if (GlobalButtonVars.isStatePersonalView()) {
+		if (GlobalButtonVars.getInstance().isStatePersonalView()) {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getPersonalEvents(userId);
 		}
 
 		// View only those events that are team.
-		if (GlobalButtonVars.isStateTeamView()) {
+		if (GlobalButtonVars.getInstance().isStateTeamView()) {
 			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getTeamEvents(userId);
 		}
 
 		// View all events that are classified as being both team and personal.
-		if (GlobalButtonVars.isStateBothView()) {
+		if (GlobalButtonVars.getInstance().isStateBothView()) {
 			events = EventModel.getInstance().getAllEvents();
 		}
 
 		// Inform the user via the console in the case that no state was selected.
 		// This should never happen, but if it does, this is the warning.
-		if (!GlobalButtonVars.isStateTeamView() 
-				&& !GlobalButtonVars.isStatePersonalView()
-				&& !GlobalButtonVars.isStateBothView())
+		if (!GlobalButtonVars.getInstance().isStateTeamView() 
+				&& !GlobalButtonVars.getInstance().isStatePersonalView()
+				&& !GlobalButtonVars.getInstance().isStateBothView())
 		{
 			System.out.println("No state (team or personal) has been selected!");
 		}

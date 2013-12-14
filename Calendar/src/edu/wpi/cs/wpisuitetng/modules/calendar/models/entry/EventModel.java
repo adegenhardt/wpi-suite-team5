@@ -16,8 +16,7 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-
-
+import Refresh.RefreshListenerForEventModel;
 
 /**List of Calendars pulled from the server
  * 
@@ -62,6 +61,7 @@ public class EventModel extends AbstractListModel<Event> {
 	public static EventModel getInstance(){
 		if(instance == null){
 			instance = new EventModel();
+			instance.addListDataListener( new RefreshListenerForEventModel() );
 		}
 		return instance;
 	}

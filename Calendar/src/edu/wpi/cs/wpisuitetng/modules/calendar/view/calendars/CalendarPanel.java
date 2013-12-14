@@ -50,7 +50,7 @@ public class CalendarPanel extends JPanel {
 		
 		// Adding the in progress sidebar
 		// Should look into the JSplitPane for this 
-		sidebar = new CalendarSidebar();
+		sidebar = CalendarSidebar.getInstance();
 		panelSide.add(sidebar);
 				
 		tabs = new CalendarTab();
