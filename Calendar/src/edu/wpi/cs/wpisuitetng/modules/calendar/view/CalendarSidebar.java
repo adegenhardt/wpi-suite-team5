@@ -160,22 +160,23 @@ public class CalendarSidebar extends JPanel {
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneFilters.setViewportView(filtersCatsPanel);
 		filtersCatsPanel
-				.setLayout(new MigLayout("",
-						"[][150px:150px:150px,grow][70px:70px:70px,grow]",
-						"[35px:35px:35px][35px:35px:35px][][][][][][][][20px:20px:20px][]"));
+				.setLayout(new MigLayout("", "[][160px:160.00px:160px,grow][70px:70px:70px,grow]", "[35px:35px:35px][35px:35px:35px][][][][][][][][20px:20px:20px][]"));
 
 		JLabel lblList = new JLabel("Applied Filters:");
 		filtersCatsPanel.add(lblList, "cell 0 0,alignx right");
 
 		JScrollPane scrollPaneList = new JScrollPane();
 		filtersCatsPanel.add(scrollPaneList, "flowx,cell 1 0 2 2,grow");
+		
+		JButton btnUnapplyAll = new JButton("Unapply All");
+		filtersCatsPanel.add(btnUnapplyAll, "flowx,cell 1 3,growx");
 
 		// CFFLAG
 		// Category Filter Elements-----------------------------------------
 		// Button to unapply a Filter
 		// TODO Add listener add functionality
-		final JButton btnUnapply = new JButton("Unapply Filter");
-		filtersCatsPanel.add(btnUnapply, "cell 1 2,growx,aligny top");
+		final JButton btnUnapply = new JButton("Unapply Selected");
+		filtersCatsPanel.add(btnUnapply, "cell 1 2 1 2,growx,aligny top");
 
 		JLabel lblCurrentCategories = new JLabel("Current Categories:");
 		filtersCatsPanel.add(lblCurrentCategories, "cell 0 4,alignx trailing");
