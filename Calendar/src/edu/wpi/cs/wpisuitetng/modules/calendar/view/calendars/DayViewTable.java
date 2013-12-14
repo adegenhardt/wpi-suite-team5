@@ -230,8 +230,7 @@ public class DayViewTable extends JTable {
 		
 		
 		// Maximum width an event can be
-		final int MAX_WIDTH = getColumnModel().getColumn( 1 ).getWidth()
-				- dayView.getScrollPane().getVerticalScrollBar().getWidth();
+		final int MAX_WIDTH = getColumnModel().getColumn( 1 ).getWidth() - 1;
 		final int ROW_HEIGHT = getRowHeight();
 		int x;
 		int y;
@@ -255,6 +254,7 @@ public class DayViewTable extends JTable {
 		DateInfo endDate;
 		int numEventsInRow; 	/* Number of events in current row */
 		EventRectangle r;
+		int startHour;
 		for ( int i = 0; i < events.size(); i++ ) {
 			e = events.get( i );
 			
@@ -267,8 +267,10 @@ public class DayViewTable extends JTable {
 			// if event started before today, begin drawing at the top
 			if ( e.getStartDate().compareTo( displayedDay ) < 0 ) {
 				y = Y_OFFSET;
+				startHour = 0;
 			} else {
 				y = Y_OFFSET + ( startDate.getHalfHour() * ROW_HEIGHT );
+				startHour = startDate.getHalfHour();
 			}
 			
 			numEventsInRow = 1;
@@ -284,17 +286,19 @@ public class DayViewTable extends JTable {
 			}
 			
 			// calculate the width of all events in the row
-			width = ( MAX_WIDTH - ( numPriorEvents[ i ] * PRIOR_EVENT_WIDTH ) ) /
+			width = ( MAX_WIDTH - ( numPriorEvents[ startHour ] * PRIOR_EVENT_WIDTH ) ) /
 					numEventsInRow;
+			
+			displayedDay.setHalfHour( 48 );
 			
 			// Add 1 to each row that this event occupies for future events
 			// If this runs into the next day, it's the same as occupying all remaining rows
 			if ( e.getEndDate().compareTo( displayedDay ) >= 0 ) {
-				for ( int j = i + 1; j < 48; j++ ) {
+				for ( int j = startHour + 1; j < 48; j++ ) {
 					numPriorEvents[ j ]++;
 				}
 			} else {
-				for ( int j = i + 1; j < endDate.getHalfHour(); j++ ) {
+				for ( int j = startHour + 1; j < endDate.getHalfHour(); j++ ) {
 					numPriorEvents[ j ]++;
 				}
 			}
@@ -309,11 +313,10 @@ public class DayViewTable extends JTable {
 				// Calculate offset of x depending on number of prior events
 				// and also which event in the row this is
 				x = X_OFFSET +
-					( numPriorEvents[ startDate.getHalfHour() ] * PRIOR_EVENT_WIDTH ) +
+					( numPriorEvents[ startHour ] * PRIOR_EVENT_WIDTH ) +
 					( width * j );
 				
 				// if event ends after current day, draw to the bottom
-				displayedDay.setHalfHour( 48 );
 				if ( endDate.compareTo( displayedDay ) >= 0 ) {
 					height = Y_OFFSET + ( 48 * ROW_HEIGHT ) - y;
 				}
