@@ -29,21 +29,26 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 public class FilterEventsTest {
+	//Instantiate the sample lists of events and categories
+	//for later use in the test cases
 	ArrayList<Event> testList1 = new ArrayList<Event>();
 	ArrayList<Event> testList2 = new ArrayList<Event>();
 	ArrayList<Category> catList1 = new ArrayList<Category>();
 	ArrayList<Category> catList2 = new ArrayList<Category>();
 	
+	//Create sample categories for use in the test cases
 	Category important = new Category ("Important", 0, "Joe Schmoe", false, false);
 	Category party = new Category ("Party", 1, "Matt", false, false);
 	Category blah = new Category ("Blah", 2, "Connor", false, false);
 	Category games = new Category ("Games", 3, "Connor", false, false);
 	
+	//Create sample date info to be put into the sample events
 	DateInfo time2 = new DateInfo(2014, 0, 0, 0);
 	DateInfo time1 = new DateInfo(2013, 0, 18, 42);
 	DateInfo time3 = new DateInfo(2000, 0, 0, 23);
 	DateInfo time4 = new DateInfo(2001, 0 ,0, 23);
 	
+	//Create sample events for use throughout the test cases
 	Event event1 = new Event("Rescue Zelda", null, time1, time2, important,
 			true, 0, "Link");
 	Event event2 = new Event("Conquer the world", null, time3, time4, important,
@@ -56,6 +61,7 @@ public class FilterEventsTest {
 			"Marvin");
 	
 	@Before
+	//Use the instantiated TestList1 and a few sample events to fill the list
 	public void createTestList1(){
 		testList1.add(event1);
 		testList1.add(event2);
@@ -63,6 +69,7 @@ public class FilterEventsTest {
 	}
 	
 	@Before
+	//Use the instantiated TestList2 and a few sample events to fill the list
 	public void createTestList2(){
 		testList2.add(event1);
 		testList2.add(event3);
@@ -71,16 +78,19 @@ public class FilterEventsTest {
 	}
 	
 	@Before
+	//Use the instantiated CatList1 and a sample category to fill the list
 	public void createCatList1(){
 		catList1.add(important);
 	}
 	
 	@Before
+	//Use the instantiated CatList2 and a sample category to fill the list
 	public void createCatList2(){
 		catList2.add(blah);
 	}
 	
 	@Test
+	//Test simple functionality on the filtering function
 	public void testFilterOutAnEvent(){
 		ArrayList<Event> filtered = new ArrayList<Event>();
 		filtered.add(event1);
@@ -90,6 +100,7 @@ public class FilterEventsTest {
 	}
 	
 	@Test
+	//Tests whether the function can filter out all events
 	public void testFilterOutAllEvents(){
 		ArrayList<Event> filtered = new ArrayList<Event>();
 		assertEquals(filtered, FilterEvents.filterEventsByCategory(testList1,
@@ -97,7 +108,10 @@ public class FilterEventsTest {
 	}
 	
 	@Test
-	public void testFilterOutNoEvents(){
+	//Tests to make sure the function can return the complete events
+	//list when all the events in the list match the category(ies) being
+	//passed
+	public void testAllEventsIncludedInFilter(){
 		ArrayList<Event> filtered = new ArrayList<Event>();
 		filtered.add(event1);
 		filtered.add(event2);
@@ -110,6 +124,8 @@ public class FilterEventsTest {
 	}
 	
 	@Test
+	//Makes sure the function returns the unaltered events list
+	//when an empty list of categories is passed
 	public void testFilterEventsWhenNoCategories(){
 		ArrayList<Event> filtered = new ArrayList<Event>();
 		filtered.add(event1);
@@ -122,6 +138,8 @@ public class FilterEventsTest {
 	}
 	
 	@Test
+	//Tests the function to make sure filtering works on an empty list,
+	//even though categories are being passed
 	public void testFilterEventsWhenNoEventsButCatsAreThere(){
 		ArrayList<Event> filtered = new ArrayList<Event>();
 		ArrayList<Event> events = new ArrayList<Event>();
@@ -130,6 +148,9 @@ public class FilterEventsTest {
 	}
 	
 	@Test
+	//Tests the function to make sure filtering works (i.e, doesn't break,
+	//when the input is both an empty list of events and an empty list of
+	//categories
 	public void testFilterWhenThereAreNoEventsOrCats(){
 		ArrayList<Event> filtered = new ArrayList<Event>();
 		ArrayList<Event> events = new ArrayList<Event>();
@@ -137,4 +158,6 @@ public class FilterEventsTest {
 		assertEquals(filtered, FilterEvents.filterEventsByCategory
 				(events, cats));
 	}
+	
+	
 }
