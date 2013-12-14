@@ -25,10 +25,12 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 public class FilterEventsTest {
 	ArrayList<Event> testList1 = new ArrayList<Event>();
+	ArrayList<Category> catList1 = new ArrayList<Category>();
 	
 	Category important = new Category ("Important", 0, "Joe Schmoe", false, false);
 	Category party = new Category ("Party", 1, "Matt", false, false);
@@ -52,8 +54,17 @@ public class FilterEventsTest {
 		testList1.add(event3);
 	}
 	
+	@Before
+	public void createCatList1(){
+		catList1.add(important);
+	}
+	
 	@Test
-	public boolean testFilterOutAnEvent(){
-		return true;
+	public void testFilterOutAnEvent(){
+		ArrayList<Event> filtered = new ArrayList<Event>();
+		filtered.add(event1);
+		filtered.add(event2);
+		assertEquals(filtered, FilterEvents.filterEventsByCategory
+				(testList1, catList1));
 	}
 }
