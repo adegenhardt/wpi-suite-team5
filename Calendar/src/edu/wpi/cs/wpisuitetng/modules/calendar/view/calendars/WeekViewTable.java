@@ -44,6 +44,10 @@ public class WeekViewTable extends JTable {
 	private List[] eventsArray; 		/* This is a little dangerous, but I program in C with emacs I'll be fine */
 	private List[] rectanglesArray;
 	
+	/**
+	 * 
+	 * @param defaultTableModel
+	 */
 	public WeekViewTable(DefaultTableModel defaultTableModel) {
 		super( defaultTableModel );
 		
@@ -185,6 +189,7 @@ public class WeekViewTable extends JTable {
 	 * Paint a single EventRectangle
 	 * @param g The Graphics object to handle the painting
 	 * @param rect An EventRectangle to draw
+	 * @param iOffset offset
 	 */
 	void paintEventRectangle( Graphics g, EventRectangle rect, int iOffset ) {
 		
@@ -243,6 +248,7 @@ public class WeekViewTable extends JTable {
 	 * Update the list of rectangles according to updated events
 	 * Important: rectangles and events should have a 1:1 correspondance
 	 * before entering this function
+	 * @param iOffset offset
 	 */
 	public void updateRectangles(int iOffset) {
 		
@@ -371,7 +377,7 @@ public class WeekViewTable extends JTable {
 	
 	/**
 	 * Generate sample events for testing
-	 * @return
+	 * @return list of sample events
 	 */
 	public List<Event> generateSampleEvents() {
 		List<Event> sampleEvents = new ArrayList<Event>();
@@ -515,6 +521,13 @@ public class WeekViewTable extends JTable {
 		this.dayView = dayView;
 	}
 
+	/**
+	 * 
+	 * @param _x
+	 * @param _y
+	 * @param _day
+	 * @return rectangle
+	 */
 	public EventRectangle getRectangle(int _x, int _y, int _day) {
 		for (int i=rectanglesArray[_day].size()-1; i >= 0; i--) {
 			if (((EventRectangle) rectanglesArray[_day].get(i)).isAtPoint(_x, _y)) {
