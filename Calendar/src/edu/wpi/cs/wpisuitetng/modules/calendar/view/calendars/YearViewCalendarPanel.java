@@ -74,7 +74,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 		
 		// Define the calendar panel
 		final JPanel calendarPanel = new JPanel(new BorderLayout());
-		calendarView = new YearViewCalendar(parentTab);
+		calendarView = YearViewCalendar.getInstance(parentTab);
 		calendarPanel.add(calendarView, BorderLayout.CENTER);
 		contentPanel.add(calendarPanel, "cell 0 1,alignx left,aligny top");
 		

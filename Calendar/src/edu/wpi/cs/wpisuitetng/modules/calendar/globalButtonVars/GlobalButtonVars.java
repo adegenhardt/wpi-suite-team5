@@ -12,6 +12,9 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarSidebar;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 
 // Global variables to check whether the calendar should display
 // Team or Personal events (or both)
@@ -68,6 +71,11 @@ public class GlobalButtonVars  {
 		isPersonalView = true;
 		isTeamView = false;
 		CalendarSidebar.getInstance().populateTable();
+		DayView.getInstance().refreshEvents();
+		YearViewCalendar.getInstance(null).refreshYear();
+		WeekView.getInstance().refreshEvents();
+		// Still missing the month view, waiting to jump into 
+		// Sam's branch/or when he finishes to add it
 	}
 
 	/**
@@ -84,12 +92,22 @@ public class GlobalButtonVars  {
 		isPersonalView = false;
 		isTeamView = true;
 		CalendarSidebar.getInstance().populateTable();
+		DayView.getInstance().refreshEvents();
+		YearViewCalendar.getInstance(null).refreshYear();
+		WeekView.getInstance().refreshEvents();
+		// Still missing the month view, waiting to jump into 
+		// Sam's branch/or when he finishes to add it
 	}
 	
 	public void setBothView() {
 		isPersonalView = true;
 		isTeamView = true;
 		CalendarSidebar.getInstance().populateTable();
+		DayView.getInstance().refreshEvents();
+		YearViewCalendar.getInstance(null).refreshYear();
+		WeekView.getInstance().refreshEvents();
+		// Still missing the month view, waiting to jump into 
+		// Sam's branch/or when he finishes to add it
 	}
 
 	/**

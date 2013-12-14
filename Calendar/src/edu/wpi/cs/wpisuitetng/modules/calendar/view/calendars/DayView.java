@@ -282,9 +282,17 @@ public class DayView extends JLayeredPane {
 		realDay = newDay;
 		dayTable.getTableHeader().getColumnModel().getColumn(1)
 				.setHeaderValue(this.getStringDay());
+		dayTable.setUpdated(false);
 		repaint();
 		colorCurrentDate();
+	}
+	/**
+	 * Repaint the view to refresh events being shown
+	 * 
+	 */
+	public void refreshEvents() {
 		dayTable.setUpdated(false);
+		repaint();
 	}
 
 	// Get the day in a nice string format declared

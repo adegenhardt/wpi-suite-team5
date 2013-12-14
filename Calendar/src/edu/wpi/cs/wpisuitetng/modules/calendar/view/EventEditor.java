@@ -258,11 +258,11 @@ public class EventEditor extends JPanel {
 		rdbtnPersonal = new JRadioButton("Personal");
 
 		rdbtnPersonal.setSelected(!GlobalButtonVars.getInstance().isStateTeamView());
-		add(rdbtnPersonal, "cell 1 9");
+		eventPanel.add(rdbtnPersonal, "cell 1 9");
 		
 		rdbtnTeam = new JRadioButton("Team");
 		rdbtnTeam.setSelected(GlobalButtonVars.getInstance().isStateTeamView());
-		add(rdbtnTeam, "cell 3 9");
+		eventPanel.add(rdbtnTeam, "cell 3 9");
 		
 		//Group the radio buttons.
         final ButtonGroup calGroup = new ButtonGroup();

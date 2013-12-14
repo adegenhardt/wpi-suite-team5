@@ -11,6 +11,7 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -53,11 +54,21 @@ public class YearViewCalendar extends JXMonthView {
 	private List<Event> events;
 	private JTabbedPane parentTab;
 	
+	private static YearViewCalendar thisInstance = null;
+	
 	
 	/**
 	 * Constructor for YearViewCalendar.
 	 */
-	public YearViewCalendar(JTabbedPane _parentTab) {
+	public static YearViewCalendar getInstance(JTabbedPane _parentTab) {
+		if (thisInstance == null) {
+			thisInstance = new YearViewCalendar(_parentTab);
+		}
+		return thisInstance;
+	}
+	
+	
+	private YearViewCalendar(JTabbedPane _parentTab) {
 		parentTab = _parentTab;
 		
 		buildYearView();
@@ -107,20 +118,21 @@ public class YearViewCalendar extends JXMonthView {
 	
 	private void updateEvents() {
 		DateInfo eventDay = new DateInfo(this.getCalendar());
-		if (GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView) {
+		if (GlobalButtonVars.getInstance().isPersonalView && GlobalButtonVars.getInstance().isTeamView) {
 			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
 		}
-		else if (GlobalButtonVars.isPersonalView) {
+		else if (GlobalButtonVars.getInstance().isPersonalView) {
 			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
 
 		}
-		else if (GlobalButtonVars.isTeamView) {
+		else if (GlobalButtonVars.getInstance().isTeamView) {
 			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
 		}
 		events = SortEvents.sortEventsByDate(events);
 	}
 	
 	public void refreshYear() {
+		this.setFlaggedDates((Date[]) null);
 		updateEvents();
 		List<Date> eventLongs = new ArrayList<Date>();
 		for (int i = 0; i < events.size(); i++) {
@@ -137,6 +149,8 @@ public class YearViewCalendar extends JXMonthView {
 			Long startLong = startDate.getTimeInMillis();
 			Long endLong = endDate.getTimeInMillis();
 			while (startLong <= endLong) {
+				// TODO: Figure out a way to discount marking days
+				// That end at 12:00AM
 				eventLongs.add(new Date(startLong));
 				startLong += ONE_DAY;
 			}
@@ -144,6 +158,11 @@ public class YearViewCalendar extends JXMonthView {
 		for (int k = 0; k < eventLongs.size(); k++) {
 			this.addFlaggedDates(eventLongs.get(k));
 		}
+	}
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		refreshYear();
 	}
 
 }

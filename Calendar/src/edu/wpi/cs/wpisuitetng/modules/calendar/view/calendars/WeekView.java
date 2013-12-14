@@ -69,9 +69,18 @@ public class WeekView extends JPanel {
 
 	// String date format that the Day View will give
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
+	
+	private static WeekView thisInstance = null;
 
 	// Create the WeekView panel
-	public WeekView() {
+	public static WeekView getInstance() {
+		if (thisInstance == null) {
+			thisInstance = new WeekView();
+		}
+		return thisInstance;
+	}
+	
+	private WeekView() {
 
 		initWeek();
 		createControls();
@@ -368,6 +377,14 @@ public class WeekView extends JPanel {
 	    
 	    refreshWeek(resetWeek);
 	    dayTable.setUpdated(false);
+	}
+	
+	/**
+	 * Update the display of the events
+	 */
+	public void refreshEvents() {
+		dayTable.setUpdated(false);
+		repaint();
 	}
 	/**
 	 * 
