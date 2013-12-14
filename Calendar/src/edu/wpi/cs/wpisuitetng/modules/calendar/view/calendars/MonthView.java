@@ -63,7 +63,8 @@ public class MonthView extends JPanel {
 	private static MonthView thisInstance;
 
 	/**
-	 * Create the Month mainPanel.
+	 * Create the Month mainPanel
+	 * @return instance
 	 */
 	public static MonthView getInstance() {
 		if (thisInstance == null) {
@@ -421,6 +422,9 @@ public class MonthView extends JPanel {
 		}
 	}
 	
+	/**
+	 * refresh events
+	 */
 	public void refreshEvents() {
 		refreshCalendar(currentMonth, currentYear);
 	}

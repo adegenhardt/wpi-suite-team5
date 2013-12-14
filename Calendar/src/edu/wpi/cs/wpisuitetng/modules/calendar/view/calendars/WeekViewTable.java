@@ -374,7 +374,7 @@ public class WeekViewTable extends JTable {
 	 * @return
 	 */
 	public List<Event> generateSampleEvents() {
-		ArrayList<Event> sampleEvents = new ArrayList<Event>();
+		List<Event> sampleEvents = new ArrayList<Event>();
 		
 		// For testing, create start times based on the current date
 		Calendar cal = Calendar.getInstance();
@@ -474,7 +474,7 @@ public class WeekViewTable extends JTable {
 		
 		Event e8 = new Event();
 		e8.setName( "event 8" );
-		e8.setDescription("Eight is gr8");;
+		e8.setDescription("Eight is gr8");
 		e8.setStartDate( time10 );
 		e8.setEndDate( time13 );
 		

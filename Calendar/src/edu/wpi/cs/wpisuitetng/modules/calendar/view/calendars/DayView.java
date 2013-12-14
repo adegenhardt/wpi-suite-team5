@@ -72,10 +72,8 @@ public class DayView extends JLayeredPane {
 	private static DayView thisInstance = null;
 
 	/**
-	 * Create the panel.
-	 * 
-	 * @param isWeek
-	 *            boolean
+	 * Create the panel
+	 * @return instance
 	 */
 	public static DayView getInstance() {
 		if (thisInstance == null) {

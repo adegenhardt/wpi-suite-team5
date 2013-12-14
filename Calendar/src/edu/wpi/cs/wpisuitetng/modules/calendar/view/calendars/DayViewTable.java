@@ -367,6 +367,12 @@ public class DayViewTable extends JTable {
 		this.dayView = dayView;
 	}
 	
+	/**
+	 * 
+	 * @param _x
+	 * @param _y
+	 * @return rectangle
+	 */
 	public EventRectangle getRectangle(int _x, int _y) {
 		for (int i=rectangles.size()-1; i >= 0; i--) {
 			if (rectangles.get(i).isAtPoint(_x, _y)) {
