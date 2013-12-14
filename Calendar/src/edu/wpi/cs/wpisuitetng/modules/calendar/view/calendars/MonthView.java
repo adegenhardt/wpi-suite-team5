@@ -27,7 +27,10 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.SortedSet;
 
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -39,6 +42,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.BoxLayout;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
+
 /**
  * @author Team Underscore
  * @version $Revision: 1.0$
@@ -48,6 +53,7 @@ import javax.swing.BoxLayout;
 @SuppressWarnings("serial")
 public class MonthView extends JPanel {
 
+	protected static final int DAY_TAB = 3;
 	MonthViewTable tblCalendar;
 	JButton btnPrev, btnNext;
 	JLabel lblMonth, lblYear;
@@ -90,10 +96,16 @@ public class MonthView extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 				Integer day = new Integer(dayClicked(arg0.getX(), arg0.getY()));
 				if (day != null) {
-					System.out.println(day);
-				}
-				else {
-					System.out.println("FOFOFOFO");
+					Calendar selectDay = Calendar.getInstance();
+					selectDay.set(Calendar.YEAR, currentYear);
+					selectDay.set(Calendar.MONTH, currentMonth);
+					selectDay.set(Calendar.DATE, day);
+			        selectDay.set(Calendar.HOUR_OF_DAY, 0);
+			        selectDay.set(Calendar.MINUTE, 0);
+			        selectDay.set(Calendar.SECOND, 0);
+			        selectDay.set(Calendar.MILLISECOND, 0);
+					DayView.getInstance().refreshDay(selectDay);
+					ClosableTabCreator.getInstance(null).getTabbedPane().setSelectedIndex(DAY_TAB);
 				}
 			}
 
