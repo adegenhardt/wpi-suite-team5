@@ -55,11 +55,21 @@ public class MonthView extends JPanel {
 	private JPanel navPanel;
 	private JPanel labelPanel;
 	private JPanel calAndHeader;
+	
+	private static MonthView thisInstance;
 
 	/**
 	 * Create the Month mainPanel.
 	 */
-	public MonthView() {
+	public static MonthView getInstance() {
+		if (thisInstance == null) {
+			thisInstance = new MonthView();
+		}
+		return thisInstance;
+	}
+	
+	
+	private MonthView() {
 		setLayout(new BorderLayout());
 		createControls();
 		addControls();
@@ -369,5 +379,9 @@ public class MonthView extends JPanel {
 				refreshCalendar(realMonth, realYear);
 			}
 		}
+	}
+	
+	public void refreshEvents() {
+		refreshCalendar(currentMonth, currentYear);
 	}
 }

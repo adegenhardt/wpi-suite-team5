@@ -4,6 +4,7 @@ import javax.swing.event.ListDataListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarSidebar;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 
@@ -17,13 +18,14 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
  * @version 1.0
  *
  */
- public class RefreshListenerUponEventCreation implements ListDataListener {
+ public class RefreshListener implements ListDataListener {
 	@Override
 	public void intervalAdded(ListDataEvent e) {
 		CalendarSidebar.getInstance().populateTable();
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
+		MonthView.getInstance().refreshEvents();
 	}
 
 	@Override
@@ -32,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
+		MonthView.getInstance().refreshEvents();
 	}
 
 	@Override
@@ -40,6 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
+		MonthView.getInstance().refreshEvents();
 	}
 	
 }
