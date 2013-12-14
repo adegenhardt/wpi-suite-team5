@@ -34,10 +34,14 @@ import java.awt.Component;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventUpdater;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
+
 import java.awt.BorderLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 /**
@@ -108,22 +112,65 @@ public class WeekView extends JPanel {
 								+ NAME
 								+ formatString(thisTangle.getEvent().getName(),
 										30)
-								+ "<br><br>"
-								+ DESC
-								+ formatString(thisTangle.getEvent()
-										.getDescription(), 30) + "<br><br>"
-								+ CATEGORY
-								+ thisTangle.getEvent().getCategory()
-								+ "<br><br>" + STIME
-								+ (thisTangle.getEvent().getStartDate())
-								+ "<br><br>" + ETIME
-								+ thisTangle.getEvent().getEndDate());
+										+ "<br><br>"
+										+ DESC
+										+ formatString(thisTangle.getEvent()
+												.getDescription(), 30) + "<br><br>"
+												+ CATEGORY
+												+ thisTangle.getEvent().getCategory()
+												+ "<br><br>" + STIME
+												+ (thisTangle.getEvent().getStartDate())
+												+ "<br><br>" + ETIME
+												+ thisTangle.getEvent().getEndDate());
 						break;
 					}
 				}
 			}
 		});
 
+		dayTable.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent m) {
+				// TODO Auto-generated method stub
+				for (int i = 0; i < 7; i++){
+					EventRectangle thisRectangle = dayTable.getRectangle(m.getX(),  m.getY(), i);
+
+					if(thisRectangle == null){
+						System.out.println("no rectangle");
+					}
+					else{
+						System.out.println("a rectangle");
+						final EventUpdater eventTab = new EventUpdater(ClosableTabCreator.getInstance(null).getTabbedPane(), thisRectangle.getEvent());
+						ClosableTabCreator.getInstance(null).addClosableTab(eventTab, "Update Event");
+					}
+				}
+			}
+		});
 	}
 
 	// Set the times
@@ -178,7 +225,7 @@ public class WeekView extends JPanel {
 				{ "11:00 PM", null, null, null, null, null, null, null },
 				{ "", null, null, null, null, null, null, null }, },
 				new String[] { "", weekDays[0], weekDays[1], weekDays[2],
-						weekDays[3], weekDays[4], weekDays[5], weekDays[6] }) {
+				weekDays[3], weekDays[4], weekDays[5], weekDays[6] }) {
 
 			// Do not allow editing of this table
 			private final boolean[] columnEditables = new boolean[] { false,
@@ -200,24 +247,24 @@ public class WeekView extends JPanel {
 		dayTable.setSelectionBackground(Color.GREEN);
 		dayTable.setDefaultRenderer(Object.class,
 				new DefaultTableCellRenderer() {
-					@Override
-					public Component getTableCellRendererComponent(
-							JTable table, Object value, boolean isSelected,
-							boolean hasFocus, int row, int column) {
-						final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
-								.getTableCellRendererComponent(table, value,
-										isSelected, hasFocus, row, column);
+			@Override
+			public Component getTableCellRendererComponent(
+					JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
+						.getTableCellRendererComponent(table, value,
+								isSelected, hasFocus, row, column);
 
-						// Make every second row blue
-						if ((row % 2) == 0 && column != 0) {
-							rendererComponent.setBackground(new Color(227, 235,
-									243));
-						} else {
-							rendererComponent.setBackground(Color.white);
-						}
-						return rendererComponent;
-					}
-				});
+				// Make every second row blue
+				if ((row % 2) == 0 && column != 0) {
+					rendererComponent.setBackground(new Color(227, 235,
+							243));
+				} else {
+					rendererComponent.setBackground(Color.white);
+				}
+				return rendererComponent;
+			}
+		});
 
 		header.setDefaultRenderer(new DefaultTableCellRenderer() {
 
@@ -343,7 +390,7 @@ public class WeekView extends JPanel {
 	private void updateHeaders() {
 		for (int i = 0; i < weekDays.length; i++) {
 			dayTable.getTableHeader().getColumnModel().getColumn(i + 1)
-					.setHeaderValue(weekDays[i]);
+			.setHeaderValue(weekDays[i]);
 		}
 	}
 
@@ -407,12 +454,12 @@ public class WeekView extends JPanel {
 			return str;
 		if (str.substring(0, len).contains("<br>"))
 			return str.substring(0, str.indexOf("<br>")).trim() + "<br><br>"
-					+ formatString(str.substring(str.indexOf("<br>") + 1), len);
+			+ formatString(str.substring(str.indexOf("<br>") + 1), len);
 		int place = Math
 				.max(Math.max(str.lastIndexOf(" ", len),
 						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));
 		return str.substring(0, place).trim() + "<br>"
-				+ formatString(str.substring(place), len);
+		+ formatString(str.substring(place), len);
 	}
 
 	class ResizeListener implements ComponentListener {
