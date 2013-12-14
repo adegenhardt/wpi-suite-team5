@@ -167,10 +167,10 @@ public class DateInfo {
 		final int monthN = date.getMonth();
 		final int dayN = date.getDate() - 1;
 		final int halfHourN = (date.getHours() * 2) + (date.getMinutes() / 30);
-		this.year = yearN;
-		this.month = monthN;
-		this.day = dayN;
-		this.halfHour = halfHourN;
+		year = yearN;
+		month = monthN;
+		day = dayN;
+		halfHour = halfHourN;
 
 	}
 
@@ -181,13 +181,13 @@ public class DateInfo {
 	 */
 	public Calendar dateInfoToCalendar() {
 		Calendar cal = new GregorianCalendar();
-		int hourOfDay = ((this.halfHour / 2));
+		int hourOfDay = ((halfHour / 2));
 		int minute = 0;
-		if (this.halfHour % 2 != 0) {
+		if (halfHour % 2 != 0) {
 			minute = 30;
 		}
 		// added plus 1 to day for if now use 0 base
-		cal.set(this.year, this.month, this.day + 1, hourOfDay, minute);
+		cal.set(year, month, day + 1, hourOfDay, minute);
 		return cal;
 	}
 

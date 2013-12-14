@@ -144,14 +144,14 @@ public class DayViewTable extends JTable {
 	public void updateEvents() {
 		DateInfo eventDay = new DateInfo(dayView.getRealDay());
 		if (GlobalButtonVars.getInstance().isPersonalView() && GlobalButtonVars.getInstance().isTeamView()) {
-			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
+			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
 		}
 		else if (GlobalButtonVars.getInstance().isPersonalView()) {
-			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
+			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
 
 		}
 		else if (GlobalButtonVars.getInstance().isTeamView()) {
-			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
+			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
 		}
 		//TODO CFFLAG add filter by category filters
 		events = SortEvents.sortEventsByDate(events);
@@ -367,6 +367,12 @@ public class DayViewTable extends JTable {
 		this.dayView = dayView;
 	}
 	
+	/**
+	 * 
+	 * @param _x
+	 * @param _y
+	 * @return rectangle
+	 */
 	public EventRectangle getRectangle(int _x, int _y) {
 		for (int i=rectangles.size()-1; i >= 0; i--) {
 			if (rectangles.get(i).isAtPoint(_x, _y)) {

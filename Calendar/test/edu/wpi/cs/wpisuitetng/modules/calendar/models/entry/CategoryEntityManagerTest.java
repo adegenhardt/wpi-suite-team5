@@ -176,7 +176,6 @@ public class CategoryEntityManagerTest {
 	
 	/**
 	 * Method testCount.
-	 * @throws WPISuiteException 
 	 */
 	@Test
 	public void testCount() {
@@ -197,7 +196,8 @@ public class CategoryEntityManagerTest {
 	
 	/**
 	 * Method updateCategoryTestBadRequestException
-	 * @throws WPISuiteException, BadRequestException 
+	 * @throws WPISuiteException
+	 * @throws BadRequestException 
 	 */
 	@Test
 	public void updateCategoryTestBadRequestException() throws WPISuiteException, BadRequestException {
@@ -224,6 +224,7 @@ public class CategoryEntityManagerTest {
 	
 	/**
 	 * Test that advancedGet is not implemented
+	 * @throws NotImplementedException
 	 */
 	@Test
 	public void advancedGetTest() throws NotImplementedException {
@@ -238,6 +239,7 @@ public class CategoryEntityManagerTest {
 	
 	/**
 	 * Test that advancedPut is not implemented
+	 * @throws NotImplementedException
 	 */
 	@Test
 	public void advancedPutTest() throws NotImplementedException {
@@ -253,6 +255,7 @@ public class CategoryEntityManagerTest {
 	
 	/**
 	 * Test that advancedPost is not implemented
+	 * @throws NotImplementedException
 	 */
 	@Test
 	public void advancedPostTest() throws NotImplementedException {

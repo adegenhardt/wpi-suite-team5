@@ -38,6 +38,7 @@ import javax.swing.DefaultComboBoxModel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
@@ -247,10 +248,20 @@ public class EventEditor extends JPanel {
 		final JLabel lblCategory = new JLabel("Category:");
 		eventPanel.add(lblCategory, "cell 0 8,alignx trailing");
 		
-		// TODO: Populate this with actual categories instead of this predefined list
-		final JComboBox<String> comboBoxCategory = new JComboBox<String>();
-		comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
-				"Not Important", "Even Less Important", "Party!"}));
+		// TODO: Populate this with actual categories instead of this predefined list CHECK
+		
+		//final JComboBox<String> comboBoxCategory = new JComboBox<String>();
+		final JComboBox<Category> comboBoxCategory = new JComboBox<Category>();
+		/*comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
+				"Not Important", "Even Less Important", "Party!"}));*/
+		/*for(String categoryName: CategoryModel.getInstance().getAllCategoryNames()){
+			comboBoxCategory.addItem(categoryName);
+		}*/
+		//adds categories to drop down.  Expected to be displayed as based on the Category toString() method TODO Verify
+		for(Category categoryIn: CategoryModel.getInstance().getAllNondeletedCategories()){
+			comboBoxCategory.addItem(categoryIn);
+		}
+		
 		eventPanel.add(comboBoxCategory, "cell 1 8,growx");
 		
 				

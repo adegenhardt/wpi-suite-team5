@@ -27,7 +27,12 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.SortedSet;
+import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -39,6 +44,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.BoxLayout;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
+
 /**
  * @author Team Underscore
  * @version $Revision: 1.0$
@@ -48,6 +55,7 @@ import javax.swing.BoxLayout;
 @SuppressWarnings("serial")
 public class MonthView extends JPanel {
 
+	protected static final int DAY_TAB = 3;
 	MonthViewTable tblCalendar;
 	JButton btnPrev, btnNext;
 	JLabel lblMonth, lblYear;
@@ -60,10 +68,14 @@ public class MonthView extends JPanel {
 	private JPanel labelPanel;
 	private JPanel calAndHeader;
 	
+	private int rowFocus = -1;
+	private int colFocus = -1;
+	
 	private static MonthView thisInstance;
 
 	/**
-	 * Create the Month mainPanel.
+	 * Create the Month mainPanel
+	 * @return instance
 	 */
 	public static MonthView getInstance() {
 		if (thisInstance == null) {
@@ -85,15 +97,28 @@ public class MonthView extends JPanel {
 		populateTable();
 		refreshCalendar(realMonth, realYear);
 		this.addComponentListener(new ResizeListener());
+		tblCalendar.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				colorChange(e.getX(), e.getY());
+				tblCalendar.repaint();
+			}
+		});
 		tblCalendar.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				Integer day = new Integer(dayClicked(arg0.getX(), arg0.getY()));
 				if (day != null) {
-					System.out.println(day);
-				}
-				else {
-					System.out.println("FOFOFOFO");
+					Calendar selectDay = Calendar.getInstance();
+					selectDay.set(Calendar.YEAR, currentYear);
+					selectDay.set(Calendar.MONTH, currentMonth);
+					selectDay.set(Calendar.DATE, day);
+			        selectDay.set(Calendar.HOUR_OF_DAY, 0);
+			        selectDay.set(Calendar.MINUTE, 0);
+			        selectDay.set(Calendar.SECOND, 0);
+			        selectDay.set(Calendar.MILLISECOND, 0);
+					DayView.getInstance().refreshDay(selectDay);
+					ClosableTabCreator.getInstance(null).getTabbedPane().setSelectedIndex(DAY_TAB);
 				}
 			}
 
@@ -312,11 +337,9 @@ public class MonthView extends JPanel {
 			// Adding this code allows for selection to be used on this component
 			// For now I think this should work in place of event listeners
 			// an if statement checking if selected should work in theory
-			if (column == 0 || column == 6) { // Highlight the week-end
-				setBackground(Color.white);
-			}
-			else { // Week
-				setBackground(Color.white);
+			setBackground(Color.white);
+			if (rowFocus == row && colFocus == column) {
+				setBackground(Color.orange);
 			}
 			if (value != null) {
 				if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth 
@@ -421,6 +444,9 @@ public class MonthView extends JPanel {
 		}
 	}
 	
+	/**
+	 * refresh events
+	 */
 	public void refreshEvents() {
 		refreshCalendar(currentMonth, currentYear);
 	}
@@ -444,5 +470,27 @@ public class MonthView extends JPanel {
 			}
 		}
 		return (Integer) null;
+	}
+	
+	private void colorChange(int _x, int _y) {
+		for (int i = 0; i < tblCalendar.getRowCount(); i++) {
+			for (int k = 0; k < tblCalendar.getColumnCount(); k++) {
+				Rectangle cellRect = tblCalendar.getCellRect(i, k, false);
+				int x = cellRect.x;
+				int y = cellRect.y;
+				int width = cellRect.width;
+				int height = cellRect.height;
+				if (((_x >= x) && (_x <= x + width)) && ((_y >= y) && (_y <= y + height))) {
+					if (tblCalendar.getValueAt(i, k) == null) {
+					}
+					else {
+						rowFocus = i;
+						colFocus = k;
+						return;
+					}
+				}
+			}
+		}
+		return;
 	}
 }

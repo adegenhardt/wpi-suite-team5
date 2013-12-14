@@ -72,10 +72,8 @@ public class DayView extends JLayeredPane {
 	private static DayView thisInstance = null;
 
 	/**
-	 * Create the panel.
-	 * 
-	 * @param isWeek
-	 *            boolean
+	 * Create the panel
+	 * @return instance
 	 */
 	public static DayView getInstance() {
 		if (thisInstance == null) {
@@ -384,11 +382,13 @@ public class DayView extends JLayeredPane {
 	// Helper method to format the strings within the tooltips
 	private String formatString(String str, int len) {
 		str = str.trim();
-		if (str.length() < len)
+		if (str.length() < len) {
 			return str;
-		if (str.substring(0, len).contains("<br>"))
+		}
+		if (str.substring(0, len).contains("<br>")) {
 			return str.substring(0, str.indexOf("<br>")).trim() + "<br><br>"
 					+ formatString(str.substring(str.indexOf("<br>") + 1), len);
+		}
 		int place = Math
 				.max(Math.max(str.lastIndexOf(" ", len),
 						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));

@@ -77,7 +77,10 @@ public class WeekView extends JPanel {
 
 	private static WeekView thisInstance = null;
 
-	// Create the WeekView panel
+	/**
+	 * Create the WeekView panel
+	 * @return WeekView
+	 */
 	public static WeekView getInstance() {
 		if (thisInstance == null) {
 			thisInstance = new WeekView();
@@ -450,11 +453,14 @@ public class WeekView extends JPanel {
 
 	private String formatString(String str, int len) {
 		str = str.trim();
-		if (str.length() < len)
+		if (str.length() < len) {
 			return str;
-		if (str.substring(0, len).contains("<br>"))
+		}
+		if (str.substring(0, len).contains("<br>")) {
 			return str.substring(0, str.indexOf("<br>")).trim() + "<br><br>"
-			+ formatString(str.substring(str.indexOf("<br>") + 1), len);
+			+ formatString(str.substring(str.indexOf("<br>") + 1), len)
+					+ formatString(str.substring(str.indexOf("<br>") + 1), len);
+		}
 		int place = Math
 				.max(Math.max(str.lastIndexOf(" ", len),
 						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));

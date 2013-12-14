@@ -19,7 +19,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerUponEventCreation;
 
 import javax.swing.AbstractListModel;
 
@@ -67,6 +69,7 @@ public class CategoryModel extends AbstractListModel<Category>{
 	public static CategoryModel getInstance(){
 		if(instance == null){
 			instance = new CategoryModel();
+			instance.addListDataListener( new RefreshListenerUponEventCreation());
 		}
 		return instance;
 	}
@@ -91,15 +94,42 @@ public class CategoryModel extends AbstractListModel<Category>{
 	 * 			found. */
 	public Category getCategory(int id){
 		Category temp = null;
+		Category out = null;
 		// iterate through the calendar data in order to find the matching ID
 		// break the loop once the ID is found
 		for(int i = 0; i < categories.size(); i++){
 			temp = categories.get(i);
 			if(temp.getId() == id){
+				out = temp;
 				break;
 			}
 		}
-		return temp;
+		return out;
+	}
+	
+	
+	/**
+	 * Returns the Calendar Data with the given Name
+	 * 
+	 * @param name The name string of the category  to be returned
+	 * 
+	
+	 * @return the category for the ID, or null if the data is not
+	 * 			found. */
+	public Category getCategory(String name){
+		Category temp = null;
+		Category out = null;
+		// iterate through the category in order to find the matching Name
+		// break the loop once the Name is found
+		for(int i = 0; i < categories.size(); i++){
+			temp = categories.get(i);
+			if(temp.getName().equals(name)){
+				out = temp;
+				break;
+			}
+		}
+		
+		return out;
 	}
 	
 	/**
@@ -190,7 +220,35 @@ public class CategoryModel extends AbstractListModel<Category>{
 	public List<Category> getAllcategories() {
 		return categories;
 	}
+	/**
+	 * Returns the list of calendar data
+	 * @return the requirements held within the calendar data model. */
+	public List<Category> getAllNondeletedCategories() {
+		List<Category> categories = new ArrayList<Category>();
+		
+		for(Category cat: this.getAllcategories()){
+			
+			if(!cat.isDeleted()){
+				categories.add(cat);
+			}
+		}
+		return categories;
+	}
 	
+	/**
+	 * Returns the list of calendar data
+	 * @return the requirements held within the calendar data model. */
+	public List<Category> getAllNonfilterCategories() {
+		List<Category> categories = new ArrayList<Category>();
+		
+		for(Category cat: this.getAllcategories()){
+			
+			if(!cat.getHasFilter()){
+				categories.add(cat);
+			}
+		}
+		return categories;
+	}
 	/**
 	 * Get all the categories for the team that the user can access
 	 * @param userId The id of the user attempting to access the categories
@@ -352,6 +410,45 @@ public class CategoryModel extends AbstractListModel<Category>{
 		return userCategories;
 		
 	}
+	/**
+	 * builds a list of strings of the model's categories' names
+	 * @return
+	 */
+public List<String> getAllCategoryNames(){
+List<String> categoryNames = new ArrayList<String>();
 	
+	for(Category cat: this.getAllcategories()){
+		categoryNames.add(cat.getName());
+	}
+	return categoryNames;
+}
+
+/**
+ * builds a list of strings of the model's categories' names for nondeleteed categories
+ * @return
+ */
+public List<String> getAllNondeletedCategoryNames(){
+List<String> categoryNames = new ArrayList<String>();
+
+for(Category cat: this.getAllcategories()){
+	if(!cat.isDeleted()){
+	categoryNames.add(cat.getName());
+	}
+}
+return categoryNames;
+}
+/**
+ * Builds A list of categories based on the list of category names given
+ * @param categoryNames
+ * @return
+ */
+public List<Category> getCategoriesFromListOfNames(List<String> categoryNames){
+	List<Category> categories = new ArrayList<Category>();
+	
+	for(String categoryName: categoryNames){
+		categories.add(this.getCategory(categoryName)) ;
+	}
+	return categories;
+}
 }
 

@@ -413,7 +413,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * 						  matches the input.
 	 */
 	public String getAParticipant(int index){
-		return this.participants.get(index);
+		return participants.get(index);
 	}
 
 	// Required Functions Database Interaction

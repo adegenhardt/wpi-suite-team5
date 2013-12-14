@@ -59,6 +59,8 @@ public class YearViewCalendar extends JXMonthView {
 	
 	/**
 	 * Constructor for YearViewCalendar.
+	 * @param _parentTab
+	 * @return instance
 	 */
 	public static YearViewCalendar getInstance(JTabbedPane _parentTab) {
 		if (thisInstance == null) {
@@ -131,6 +133,9 @@ public class YearViewCalendar extends JXMonthView {
 		events = SortEvents.sortEventsByDate(events);
 	}
 	
+	/**
+	 * refresh year
+	 */
 	public void refreshYear() {
 		this.setFlaggedDates((Date[]) null);
 		updateEvents();

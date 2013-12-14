@@ -180,7 +180,19 @@ public class EventModel extends AbstractListModel<Event> {
 	public Event getElementAt(int index) {
 		return events.get(events.size() - 1 - index);
 	}
-		
+	
+	/**
+	 * set an updated event in the model
+	 * @param e the updated event
+	 */
+	public void updateEvent( Event e ) {
+		for ( int i = 0; i < events.size(); i++ ) {
+			if ( e.getId() == events.get( i ).getId() ) {
+				events.set( i, e );
+			}
+		}
+	}
+	
 	/**
 	 * Returns the list of events
 	 * @return the requirements held within the event model. */

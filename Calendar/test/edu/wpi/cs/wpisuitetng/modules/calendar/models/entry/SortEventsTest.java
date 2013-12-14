@@ -25,7 +25,7 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 public class SortEventsTest {

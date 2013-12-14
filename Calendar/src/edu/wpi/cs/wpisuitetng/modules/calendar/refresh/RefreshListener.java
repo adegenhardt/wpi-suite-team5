@@ -1,4 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Team _ 
+ *    
+ *******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.calendar.refresh;
+
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
@@ -23,6 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 	public void intervalAdded(ListDataEvent e) {
 		System.out.println("made it to interval added");
 		CalendarSidebar.getInstance().populateTable();
+		//CalendarSidebar.getInstance().populateCurrentCategories();
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
