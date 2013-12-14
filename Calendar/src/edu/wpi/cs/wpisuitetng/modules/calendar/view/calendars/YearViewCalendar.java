@@ -46,7 +46,9 @@ public class YearViewCalendar extends JXMonthView {
 	 * I found the renderer to do so, not entirely sure how to use it may add later */
 	
 	// Milliseconds for day in Calendar class
-	private static final long ONE_DAY = 86400000; 
+	private static final long ONE_DAY = 86400000;
+	// Day tab index in the tabbed pane
+	private static final int DAY_TAB = 3; 
 	private ActionListener calendarListener;
 	private List<Event> events;
 	private JTabbedPane parentTab;
@@ -93,7 +95,7 @@ public class YearViewCalendar extends JXMonthView {
         selectDay.set(Calendar.SECOND, 0);
         selectDay.set(Calendar.MILLISECOND, 0);
 		DayView.getInstance().refreshDay(selectDay);
-		parentTab.setSelectedIndex(3);
+		parentTab.setSelectedIndex(DAY_TAB);
 	}
 	
 	// Simple calculation to set the calendar view like a normal calendar

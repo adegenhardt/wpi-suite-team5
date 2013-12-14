@@ -20,7 +20,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
-import javax.swing.AbstractListModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -29,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.List;
@@ -36,14 +36,10 @@ import java.util.List;
 import javax.swing.JComboBox;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.AddCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.CalendarPanel;
 
 import java.awt.event.*;
 
@@ -61,6 +57,7 @@ public class CalendarSidebar extends JPanel {
 	private final JTextField filterTextField;
 	private final DefaultListModel<String> appliedFiltersListModel;
 	private boolean isUpdated = false;
+	private boolean initialized = false;
 	
 	// The list model that is being listened to it is used for comparison
 	// with the changing list.
@@ -68,7 +65,7 @@ public class CalendarSidebar extends JPanel {
 	
 	// Create the sidebar panel
 	public CalendarSidebar() {
-		setLayout(new MigLayout("", "[grow][grow]", "[][100.00,grow,center][100.00,grow][grow]"));
+		setLayout(new MigLayout("", "[grow][grow]", "[][100.00,grow,fill][grow]"));
 		
 		// List data listener on the contents of the local EventModel.
 		// It listens for changes in the contents of the list and if they occur,
@@ -170,7 +167,7 @@ public class CalendarSidebar extends JPanel {
 
 		// Create a scroll pane to hold the Filter/Category manager
 		final JScrollPane scrollPaneFilters = new JScrollPane();
-		add(scrollPaneFilters, "cell 0 3 2 1,grow");
+		add(scrollPaneFilters, "cell 0 2 2 1,grow");
 		
 		// Create a panel within this scroll pane
 		final JPanel filtersCatsPanel = new JPanel();
@@ -293,7 +290,7 @@ public class CalendarSidebar extends JPanel {
 		}
 		btnApply.addActionListener(new applyButtonListener());
 		btnUnapply.addActionListener(new unapplyButtonListener());
-
+		populateTable();
 	}
 	
 	// Populates the table of Events in the side bar
@@ -309,10 +306,6 @@ public class CalendarSidebar extends JPanel {
 			}
 		}
 		// If the events list has changed, get the events
-		if(!isUpdated){
-			isUpdated=true;
-			GetEventController.getInstance().retrieveEvents();
-		}
 		// Create a list of Events
 		List<Event> events = null;
 
@@ -346,9 +339,10 @@ public class CalendarSidebar extends JPanel {
 		}
 
 		//checks to see if there are more events than rows, if so adds a new row
-		if(events.size()>numRows)
+		while(events.size() > eventTable.getModel().getRowCount())
 		{
 			((DefaultTableModel) eventTable.getModel()).insertRow(numRows, new Object[] {null, null, null, null});
+			numRows++;
 		}
 
 		// Populate the table with the appropriate list of events according to the state
@@ -427,6 +421,24 @@ public class CalendarSidebar extends JPanel {
 			}
 		}
 	}
+	
+	/**
+	 * Overrides the paintComponent method to retrieve the events on the first painting.
+	 * 
+	 * @param g	The component object to paint
+	 */
+	@Override
+	public void paintComponent(Graphics g) {
+		if (!initialized) {
+			try {
+				GetEventController.getInstance().retrieveEvents();
+				initialized = true;
+			} catch (Exception e) {
+			}
+		}
+		super.paintComponent(g);
+	}
+
 	// Getters and setters
 	public JTable getEventTable() {
 		return eventTable;
