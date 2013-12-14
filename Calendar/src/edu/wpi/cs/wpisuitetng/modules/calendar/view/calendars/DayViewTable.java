@@ -140,14 +140,14 @@ public class DayViewTable extends JTable {
 	 */
 	public void updateEvents() {
 		DateInfo eventDay = new DateInfo(dayView.getRealDay());
-		if (GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView) {
+		if (GlobalButtonVars.getInstance().isPersonalView() && GlobalButtonVars.getInstance().isTeamView()) {
 			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
 		}
-		else if (GlobalButtonVars.isPersonalView) {
+		else if (GlobalButtonVars.getInstance().isPersonalView()) {
 			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
 
 		}
-		else if (GlobalButtonVars.isTeamView) {
+		else if (GlobalButtonVars.getInstance().isTeamView()) {
 			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
 		}
 		//TODO CFFLAG add filter by category filters

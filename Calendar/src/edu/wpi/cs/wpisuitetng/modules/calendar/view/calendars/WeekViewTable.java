@@ -159,18 +159,18 @@ public class WeekViewTable extends JTable {
 	public void updateEvents() {
 		for (int i = 0; i < 7; i++) {
 			DateInfo eventDay = new DateInfo(dayView.getCalendarDay(i));
-			if (GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView) {
+			if (GlobalButtonVars.getInstance().isPersonalView() && GlobalButtonVars.getInstance().isTeamView()) {
 				eventsArray[i] = EventModel.getInstance().getUserEvents(
 						ConfigManager.getConfig().getUserName(),
 						eventDay.getYear(), eventDay.getMonth(),
 						eventDay.getDay());
-			} else if (GlobalButtonVars.isPersonalView) {
+			} else if (GlobalButtonVars.getInstance().isPersonalView()) {
 				eventsArray[i] = EventModel.getInstance().getPersonalEvents(
 						ConfigManager.getConfig().getUserName(),
 						eventDay.getYear(), eventDay.getMonth(),
 						eventDay.getDay());
 
-			} else if (GlobalButtonVars.isTeamView) {
+			} else if (GlobalButtonVars.getInstance().isTeamView()) {
 				eventsArray[i] = EventModel.getInstance().getTeamEvents(
 						ConfigManager.getConfig().getUserName(),
 						eventDay.getYear(), eventDay.getMonth(),
