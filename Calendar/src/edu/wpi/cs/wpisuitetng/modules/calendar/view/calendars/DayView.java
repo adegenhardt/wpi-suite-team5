@@ -26,9 +26,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventEditor;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventUpdater;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
+
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 /**
@@ -100,7 +106,7 @@ public class DayView extends JLayeredPane {
 		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				EventRectangle thisTangle = dayTable.getRectangle(lastX, lastY);
+				EventRectangle thisTangle = dayTable.getRectangle(e.getX(), e.getY());
 				if (thisTangle == null) {
 					dayTable.setToolTipText(null);
 				} else {
@@ -113,12 +119,53 @@ public class DayView extends JLayeredPane {
 							+ ETIME
 							+ thisTangle.getEvent().getEndDate());
 				}
-				lastX = e.getX();
-				lastY = e.getY();
+				//lastX = e.getX();
+				//lastY = e.getY();
 			}
 		});
-
+		
+		dayTable.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent m) {
+				// TODO Auto-generated method stub
+				EventRectangle thisRectangle = dayTable.getRectangle(m.getX(),  m.getY());
+				if(thisRectangle == null){
+					System.out.println("no rectangle");
+				}
+				else{
+					System.out.println("a rectangle");
+					final EventUpdater eventTab = new EventUpdater(ClosableTabCreator.getInstance(null).getTabbedPane(), thisRectangle.getEvent());
+					ClosableTabCreator.getInstance(null).addClosableTab(eventTab, "Update Event");
+				}
+			}
+		});
 	}
+			
 
 	// Create the table of DayView
 	private void createControls() {

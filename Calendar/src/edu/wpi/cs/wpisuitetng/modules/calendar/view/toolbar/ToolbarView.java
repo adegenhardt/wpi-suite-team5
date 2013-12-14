@@ -39,26 +39,25 @@ public class ToolbarView extends DefaultToolbarView {
 	private final EventButtonsPanel eventPanel = new EventButtonsPanel();
 	private final TeamPersButtonsPanel teamPanel = new TeamPersButtonsPanel();
 
-	private final ClosableTabCreator tabCreator; 
-
+	
 	/**
 	 * Construct this view and all components in it.
 	 * @param _tabCreator
 	 */
-	public ToolbarView(ClosableTabCreator _tabCreator) {
-		tabCreator = _tabCreator;
+	public ToolbarView() {
+	
 
 		// Create listeners for the Event and Commitment buttons
 		eventPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				final EventEditor eventTab = new EventEditor(tabCreator.getTabbedPane());
+				final EventEditor eventTab = new EventEditor(ClosableTabCreator.getInstance(null).getTabbedPane());
 				// TODO:
 				// If (editing tab){
 				// 	tabCreator.addClosableTab(eventTab, "Edit Event");
 				// }
 				// else {
-				tabCreator.addClosableTab(eventTab, "Create Event");
+				ClosableTabCreator.getInstance(null).addClosableTab(eventTab, "Create Event");
 				// }
 			}
 		});
@@ -67,7 +66,7 @@ public class ToolbarView extends DefaultToolbarView {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				final CommitEditor commitTab = new CommitEditor();
-				tabCreator.addClosableTab(commitTab, "Create Commitment");
+				ClosableTabCreator.getInstance(null).addClosableTab(commitTab, "Create Commitment");
 			}
 		});
 

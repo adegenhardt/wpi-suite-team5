@@ -327,13 +327,7 @@ public class EventEditor extends JPanel {
 						descriptionPane.getText(), startDate, endDate, isTeamEvent,
 						new Category("Place", 5));
 				makeEvent.setId(EventModel.getInstance().getNextID());
-				List<String> participants = new ArrayList<String>();
-				for(int i=0; i < listPartics.getModel().getSize(); i++) {
-					participants.add(listPartics.getModel().getElementAt(i));
-				}
-				if (participants.size() > 0) {
-					makeEvent.setUserIds(participants);
-				}
+				
 				
 				// If the user creates an event similar in all fields but unique ID,
 				// then do not add it to the local model or the server.
@@ -350,67 +344,6 @@ public class EventEditor extends JPanel {
 				}
 
 				parent.remove(thisInstance);
-
-				/*
-				final List<Event> events = EventModel.getInstance().getAllEvents();
-				editorPane_1.setText(Integer.toString(events.size()));
-
-
-				for(int i=0; i < events.size(); i++) {
-					String deprecatedDefecation = editorPane_1.getText();
-					editorPane_1.setText(deprecatedDefecation + events.get(i).getName());
-				}
-				*/
-				
-				/*matt's test for system user name and entity absoluteId
-				 * ignore/remove it if there is a merge conflict battle for other changes
-				System.out.println("vv");
-				editorPane_1.setText(ConfigManager.getConfig().getUserName());
-				
-		
-				 //Calendar cal = Calendar.getInstance();
-				// editorPane_1.setText(dateFormat.format(cal.getTime()));
-				 String test1 ="no1";
-				 String test2 ="no2";
-				 String test3 ="no3";
-				 
-				 editorPane_1.setText("point1");
-				// editorPane_1.setText(makeEvent.getCreatorId() ); works
-				// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				// editorPane_1.setText(dateFormat.format(makeEvent.getAbsoluteId().getTime())); works
-				 if(makeEvent.isActiveUserEvent()){
-					 test2="yes2"; 
-				 }
-				 if(makeEvent.isSameAbsoluteId(makeEvent) ) {
-					 test3 = "yes3";
-				 }
-				 if(makeEvent.isUserEvent("bundleOfFish")){
-					 test1 ="yes1";
-				 }
-				 
-				 editorPane_1.setText(test1+"-"+test2+"-"+test3+"-"+makeEvent.getAbsoluteIdStringFormat());
-				 */
-				
-
-				//Database Interaction Attempt
-				//Attempts to replace DB CalendarData with Updated Calendar Data evntCal
-				// TODO: Replace code with something using new data model
-				//				UpdateCalendarDataController.getInstance().updateCalendarData(eventCal);
-				//				GetCalendarDataController.getInstance().retrieveCalendarData();
-				//				
-				//editorPane_1.setText("PointA");
-				// TODO: Replace code with something using new data model
-				//				CalendarData retrievedEventData = CalendarDataModel.getInstance().getCalendarData().get(0);
-				//editorPane_1.setText("PointB");
-				// TODO: Replace code with something using new data model
-				//				List<Event> eventList = retrievedEventData.getEventsPerView("year", new DateInfo(makeEvent.getStartYear(), -1, -1, -1));
-				//editorPane_1.setText("PointC");
-				// TODO: Replace code with something using new data model
-				//				Event retrievedEventDB = eventList.get(0);
-				//				editorPane_1.setText(retrievedEventDB.getName()+" "+retrievedEventDB.getDescription()+" "+retrievedEventDB.getStartDate().toString());
-
-				//Demo Methods (Lacks Database Functionality)
-				//editorPane_1.setText(makeEvent.getEventName()+" "+makeEvent.getEventDescr()+" "+makeEvent.getStartDate().toString());			
 			}
 		}
 		

@@ -34,11 +34,20 @@ import javax.swing.JTabbedPane;
 public class ClosableTabCreator {
 
 	private final JTabbedPane tabbedPane;
+	
+	private static ClosableTabCreator tabCreatorInstance = null;
+	
+	public static ClosableTabCreator getInstance(JTabbedPane _tabbedPane){
+		if(tabCreatorInstance==null){
+			tabCreatorInstance = new ClosableTabCreator(_tabbedPane);
+		}
+		return tabCreatorInstance;
+	}
 
 	/**
 	 * @param _tabbedPane
 	 */
-	public ClosableTabCreator(JTabbedPane _tabbedPane) {
+	private ClosableTabCreator(JTabbedPane _tabbedPane) {
 		tabbedPane = _tabbedPane;
 	}
 
