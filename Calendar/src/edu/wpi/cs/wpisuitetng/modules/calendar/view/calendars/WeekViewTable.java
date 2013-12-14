@@ -131,7 +131,7 @@ public class WeekViewTable extends JTable {
 		
 		// if < 3 characters trimmed, replace last 3 characters with "..."
 		if ( i > s.length() - 3 ) {
-			return ( s.substring( 0, s.length() - 3 ) + "..." );
+			return ( s.substring( 0, Math.max( 1, s.length() - 3 ) ) + "..." );
 		} else {
 			return ( s.substring( 0, Math.max( 1, i - 3 ) ) + "..." );
 		}
@@ -176,6 +176,7 @@ public class WeekViewTable extends JTable {
 						eventDay.getYear(), eventDay.getMonth(),
 						eventDay.getDay());
 			}
+			//TODO CFFLAG add filter by category filters
 			eventsArray[i] = SortEvents.sortEventsByDate(eventsArray[i]);
 		}
 	}
@@ -259,7 +260,7 @@ public class WeekViewTable extends JTable {
 		
 		
 		// Maximum width an event can be
-		final int MAX_WIDTH = (getWidth() - X_OFFSET) / 7;
+		final int MAX_WIDTH = (getWidth() - X_COLUMN_OFFSET) / 7;
 		final int ROW_HEIGHT = getRowHeight();
 		int x;
 		int y;

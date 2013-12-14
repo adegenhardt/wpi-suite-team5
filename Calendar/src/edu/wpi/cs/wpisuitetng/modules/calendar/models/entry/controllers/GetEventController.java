@@ -95,4 +95,5 @@ public class GetEventController implements ActionListener {
 			EventModel.getInstance().addAllEvents( events );
 		}
 	}
+	
 }

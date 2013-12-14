@@ -113,7 +113,7 @@ public class DayViewTable extends JTable {
 		
 		// if < 3 characters trimmed, replace last 3 characters with "..."
 		if ( i > s.length() - 3 ) {
-			return ( s.substring( 0, s.length() - 3 ) + "..." );
+			return ( s.substring( 0, Math.max( 1, s.length() - 3 ) ) + "..." );
 		} else {
 			return ( s.substring( 0, Math.max( 1, i - 3 ) ) + "..." );
 		}
@@ -150,6 +150,7 @@ public class DayViewTable extends JTable {
 		else if (GlobalButtonVars.isTeamView) {
 			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
 		}
+		//TODO CFFLAG add filter by category filters
 		events = SortEvents.sortEventsByDate(events);
 	}
 	
@@ -229,7 +230,8 @@ public class DayViewTable extends JTable {
 		
 		
 		// Maximum width an event can be
-		final int MAX_WIDTH = getWidth() - X_OFFSET;
+		final int MAX_WIDTH = getColumnModel().getColumn( 1 ).getWidth()
+				- dayView.getScrollPane().getVerticalScrollBar().getWidth();
 		final int ROW_HEIGHT = getRowHeight();
 		int x;
 		int y;
