@@ -33,6 +33,7 @@ public class Category extends AbstractModel {
 	private String creatorId;
 	private boolean isDeleted;
 	private boolean isTeamCat;
+	private boolean hasFilter;
 
 	/**
 	 * Constructor for a category object.
@@ -374,6 +375,20 @@ public class Category extends AbstractModel {
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @return the hasFilter
+	 */
+	public boolean getHasFilter() {
+		return hasFilter;
+	}
+
+	/**
+	 * @param hasFilter the hasFilter to set
+	 */
+	public void setHasFilter(boolean hasFilter) {
+		this.hasFilter = hasFilter;
 	}
 	
 }
