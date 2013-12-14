@@ -42,6 +42,9 @@ public class DayViewTable extends JTable {
 	
 	private List<EventRectangle> rectangles;   
 	
+	/**
+	 * @param defaultTableModel
+	 */
 	public DayViewTable(DefaultTableModel defaultTableModel) {
 		super( defaultTableModel );
 		
