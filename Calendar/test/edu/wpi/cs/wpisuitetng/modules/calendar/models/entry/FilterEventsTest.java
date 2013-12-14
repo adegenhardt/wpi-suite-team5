@@ -128,4 +128,13 @@ public class FilterEventsTest {
 		assertEquals(filtered, FilterEvents.filterEventsByCategory
 				(events, catList2));
 	}
+	
+	@Test
+	public void testFilterWhenThereAreNoEventsOrCats(){
+		ArrayList<Event> filtered = new ArrayList<Event>();
+		ArrayList<Event> events = new ArrayList<Event>();
+		ArrayList<Category> cats = new ArrayList<Category>();
+		assertEquals(filtered, FilterEvents.filterEventsByCategory
+				(events, cats));
+	}
 }
