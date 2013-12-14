@@ -24,7 +24,6 @@ public interface ICalendarEntry {
 	/**
 	 * Determine if an entry occurs at some point in a given year
 	 * @param year the year to check for the entry
-	
 	 * @return true if the entry occurs at some point in the year,
 	 * false otherwise */
 	boolean occursOnYear( int year );
@@ -33,7 +32,6 @@ public interface ICalendarEntry {
 	 * Determine if an entry occurs at some point in a given year
 	 * @param year the year to check for the entry
 	 * @param month the month to check for the entry (0-11)
-	
 	 * @return true if the entry occurs during the given month and year,
 	 * false otherwise */
 	boolean occursOnMonth( int year, int month );
@@ -43,7 +41,6 @@ public interface ICalendarEntry {
 	 * @param year the year to check for the entry
 	 * @param month the month to check for the entry (0-11)
 	 * @param day the day to check for the entry (0-30)
-	
 	 * @return true if the entry occurs during the given month and year,
 	 * false otherwise */
 	boolean occursOnDate( int year, int month, int day );
@@ -58,7 +55,6 @@ public interface ICalendarEntry {
 	/**
 	 * Determine if a user has access to an entry
 	 * @param userId the ID of the user being tested
-	
 	 * @return true if the user has access, false otherwise */
 	boolean hasAccess( String userId );
 	

@@ -255,12 +255,12 @@ public class WeekViewTable extends JTable {
 		// Offset for column to place the events on the appropriate day column
 		final int X_COLUMN_OFFSET = getColumnModel().getColumn(1).getWidth();
 		
-		final int X_OFFSET = getColumnModel().getColumn( 0 ).getWidth() + (X_COLUMN_OFFSET*iOffset);
+		final int X_OFFSET = getCellRect( 1, iOffset + 1, true ).x;
 		final int Y_OFFSET = 0;
 		
 		
 		// Maximum width an event can be
-		final int MAX_WIDTH = (getWidth() - X_COLUMN_OFFSET) / 7;
+		final int MAX_WIDTH = getCellRect( 1, iOffset + 1, true ).width - 1;
 		final int ROW_HEIGHT = getRowHeight();
 		int x;
 		int y;
@@ -271,7 +271,7 @@ public class WeekViewTable extends JTable {
 		
 		/* number of events already occuring in a given slot */
 		int numPriorEvents[] = new int[ 48 ];
-		final int PRIOR_EVENT_WIDTH = 8;	/* Number of pixels to reserve for each prior event */
+		final int PRIOR_EVENT_WIDTH = 4;	/* Number of pixels to reserve for each prior event */
 		
 		
 		// Set number of prior events to 0 for all slots
@@ -284,6 +284,7 @@ public class WeekViewTable extends JTable {
 		DateInfo endDate;
 		int numEventsInRow; 	/* Number of events in current row */
 		EventRectangle r;
+		int startHour;
 		for ( int i = 0; i < eventsArray[iOffset].size(); i++ ) {
 			e = (Event) eventsArray[iOffset].get( i );
 			
@@ -296,8 +297,10 @@ public class WeekViewTable extends JTable {
 			// if event started before today, begin drawing at the top
 			if ( e.getStartDate().compareTo( displayedDay ) < 0 ) {
 				y = Y_OFFSET;
+				startHour = 0;
 			} else {
 				y = Y_OFFSET + ( startDate.getHalfHour() * ROW_HEIGHT );
+				startHour = startDate.getHalfHour();
 			}
 			
 			numEventsInRow = 1;
@@ -313,17 +316,19 @@ public class WeekViewTable extends JTable {
 			}
 			
 			// calculate the width of all events in the row
-			width = ( MAX_WIDTH - ( numPriorEvents[ i ] * PRIOR_EVENT_WIDTH ) ) /
+			width = ( MAX_WIDTH - ( numPriorEvents[ startHour ] * PRIOR_EVENT_WIDTH ) ) /
 					numEventsInRow;
+			
+			displayedDay.setHalfHour( 48 );
 			
 			// Add 1 to each row that this event occupies for future events
 			// If this runs into the next day, it's the same as occupying all remaining rows
 			if ( e.getEndDate().compareTo( displayedDay ) >= 0 ) {
-				for ( int j = i + 1; j < 48; j++ ) {
+				for ( int j = startHour + 1; j < 48; j++ ) {
 					numPriorEvents[ j ]++;
 				}
 			} else {
-				for ( int j = i + 1; j < endDate.getHalfHour(); j++ ) {
+				for ( int j = startHour + 1; j < endDate.getHalfHour(); j++ ) {
 					numPriorEvents[ j ]++;
 				}
 			}
@@ -338,11 +343,10 @@ public class WeekViewTable extends JTable {
 				// Calculate offset of x depending on number of prior events
 				// and also which event in the row this is
 				x = X_OFFSET +
-					( numPriorEvents[ startDate.getHalfHour() ] * PRIOR_EVENT_WIDTH ) +
+					( numPriorEvents[ startHour ] * PRIOR_EVENT_WIDTH ) +
 					( width * j );
 				
 				// if event ends after current day, draw to the bottom
-				displayedDay.setHalfHour( 48 );
 				if ( endDate.compareTo( displayedDay ) >= 0 ) {
 					height = Y_OFFSET + ( 48 * ROW_HEIGHT ) - y;
 				}
