@@ -31,9 +31,11 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 public class FilterEventsTest {
 	ArrayList<Event> testList1 = new ArrayList<Event>();
 	ArrayList<Category> catList1 = new ArrayList<Category>();
+	ArrayList<Category> catList2 = new ArrayList<Category>();
 	
 	Category important = new Category ("Important", 0, "Joe Schmoe", false, false);
 	Category party = new Category ("Party", 1, "Matt", false, false);
+	Category blah = new Category ("Blah", 2, "Connor", false, false);
 	
 	DateInfo time2 = new DateInfo(2014, 0, 0, 0);
 	DateInfo time1 = new DateInfo(2013, 0, 18, 42);
@@ -59,6 +61,11 @@ public class FilterEventsTest {
 		catList1.add(important);
 	}
 	
+	@Before
+	public void createCatList2(){
+		catList2.add(blah);
+	}
+	
 	@Test
 	public void testFilterOutAnEvent(){
 		ArrayList<Event> filtered = new ArrayList<Event>();
@@ -67,4 +74,25 @@ public class FilterEventsTest {
 		assertEquals(filtered, FilterEvents.filterEventsByCategory
 				(testList1, catList1));
 	}
+	
+	@Test
+	public void testFilterOutAllEvents(){
+		ArrayList<Event> filtered = new ArrayList<Event>();
+		assertEquals(filtered, FilterEvents.filterEventsByCategory(testList1,
+				catList2));
+	}
+	
+	@Test
+	public void testFilterOutNoEvents(){
+		ArrayList<Event> filtered = new ArrayList<Event>();
+		filtered.add(event1);
+		filtered.add(event2);
+		filtered.add(event3);
+		ArrayList<Category> cats = new ArrayList<Category>();
+		cats.add(party);
+		cats.add(important);
+		assertEquals(filtered, FilterEvents.filterEventsByCategory
+				(testList1, cats));
+	}
+	
 }
