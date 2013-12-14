@@ -414,6 +414,30 @@ public class EventModel extends AbstractListModel<Event> {
 	}
 	
 	/**
+	 * Get all the events for the user that the user can access by year
+	 * @param userId The id of the user attempting to access the events
+	 * @param year the year to check
+	 * @return A list of all events the user has access to
+	 */
+	public List<Event> getUserEvents( String userId, int year) {
+		final List< Event > personalEvents = new ArrayList< Event >();
+		Event currentEvent;
+		
+		for ( int i = 0; i < events.size(); i++ ) {
+			
+			currentEvent = events.get( i );
+			if  ( !currentEvent.isDeleted() && 
+					currentEvent.hasAccess( userId ) &&
+					currentEvent.occursOnYear( year ) ) {
+				personalEvents.add( currentEvent );
+			}
+		}
+		
+		return personalEvents;
+		
+	}
+	
+	/**
 	 * Get all the events for the user that the user can access
 	 * This includes both team and individual events
 	 * @param userName The id of the user attempting to access the events

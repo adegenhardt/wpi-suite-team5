@@ -13,12 +13,23 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.SortedSet;
+
+import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
+
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 
 /**
  * @author Team Underscore
@@ -33,12 +44,20 @@ public class YearViewCalendar extends JXMonthView {
 	 * and Commitments marked as different colors
 	 * Read up on this, but it seems like its a hidden incomplete feature as of now
 	 * I found the renderer to do so, not entirely sure how to use it may add later */
+	
+	// Milliseconds for day in Calendar class
+	private static final long ONE_DAY = 86400000; 
 	private ActionListener calendarListener;
+	private List<Event> events;
+	private JTabbedPane parentTab;
+	
 	
 	/**
 	 * Constructor for YearViewCalendar.
 	 */
-	public YearViewCalendar() {
+	public YearViewCalendar(JTabbedPane _parentTab) {
+		parentTab = _parentTab;
+		
 		buildYearView();
 		buildActionListeners(); 
 	}
@@ -65,12 +84,16 @@ public class YearViewCalendar extends JXMonthView {
 		this.addActionListener(calendarListener);
 	}
 	
-	// Here we can handle the selection of a day in year view
-	// TODO: Change this function to do what is needed (right now it prints the
-	// Date selected to console
 	private void selected() {
 		final SortedSet<Date> ds = this.getSelection();
-		System.out.println(ds.first().toString());
+		Calendar selectDay = Calendar.getInstance();
+		selectDay.setTime(ds.first());
+        selectDay.set(Calendar.HOUR_OF_DAY, 0);
+        selectDay.set(Calendar.MINUTE, 0);
+        selectDay.set(Calendar.SECOND, 0);
+        selectDay.set(Calendar.MILLISECOND, 0);
+		DayView.getInstance().refreshDay(selectDay);
+		parentTab.setSelectedIndex(3);
 	}
 	
 	// Simple calculation to set the calendar view like a normal calendar
@@ -78,6 +101,47 @@ public class YearViewCalendar extends JXMonthView {
 		final Calendar tempCal = Calendar.getInstance();
 		tempCal.set(Calendar.DAY_OF_YEAR, 1);
 		return tempCal.getTime();
+	}
+	
+	private void updateEvents() {
+		DateInfo eventDay = new DateInfo(this.getCalendar());
+		if (GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView) {
+			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
+		}
+		else if (GlobalButtonVars.isPersonalView) {
+			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
+
+		}
+		else if (GlobalButtonVars.isTeamView) {
+			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
+		}
+		events = SortEvents.sortEventsByDate(events);
+	}
+	
+	public void refreshYear() {
+		updateEvents();
+		List<Date> eventLongs = new ArrayList<Date>();
+		for (int i = 0; i < events.size(); i++) {
+			Calendar startDate = events.get(i).getStartDate().dateInfoToCalendar();
+			Calendar endDate = events.get(i).getEndDate().dateInfoToCalendar();
+	        startDate.set(Calendar.HOUR_OF_DAY, 0);
+	        startDate.set(Calendar.MINUTE, 0);
+	        startDate.set(Calendar.SECOND, 0);
+	        startDate.set(Calendar.MILLISECOND, 0);
+	        endDate.set(Calendar.HOUR_OF_DAY, 0);
+	        endDate.set(Calendar.MINUTE, 0);
+	        endDate.set(Calendar.SECOND, 0);
+	        endDate.set(Calendar.MILLISECOND, 0);
+			Long startLong = startDate.getTimeInMillis();
+			Long endLong = endDate.getTimeInMillis();
+			while (startLong <= endLong) {
+				eventLongs.add(new Date(startLong));
+				startLong += ONE_DAY;
+			}
+		}
+		for (int k = 0; k < eventLongs.size(); k++) {
+			this.addFlaggedDates(eventLongs.get(k));
+		}
 	}
 
 }

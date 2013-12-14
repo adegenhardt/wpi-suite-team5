@@ -971,11 +971,15 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 			if (startDate.getMonth() == month || endDate.getMonth() == month) {
 
-				if (startDate.getDay() == day || endDate.getDay() == day) {
+				if (startDate.getDay() == day ) {
+					return true;
+					
+				// check that the day isn't ending at midnight
+				} else if ( endDate.getDay() == day && endDate.getHalfHour() != 0 ) {
 					return true;
 
-					// check for an event spanning multiple days
-					// from start to finish
+				// check for an event spanning multiple days
+				// from start to finish
 				} else if (startDate.getDay() < day && endDate.getDay() > day) {
 					return true;
 				} else {
@@ -1076,7 +1080,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @param month the month to check (from 0-11)
 	 * @return a number from 28-31 representing the number of days in the month
 	 */
-	private int calculateNumDays( int year, int month ) {
+	public int calculateNumDays( int year, int month ) {
 		
 		// Check for months with 31 days
 		if ( month == 0 || month == 2 || month == 4 ||

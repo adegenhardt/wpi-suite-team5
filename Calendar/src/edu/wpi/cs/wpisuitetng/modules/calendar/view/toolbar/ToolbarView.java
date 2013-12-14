@@ -48,11 +48,18 @@ public class ToolbarView extends DefaultToolbarView {
 	public ToolbarView(ClosableTabCreator _tabCreator) {
 		tabCreator = _tabCreator;
 
+		// Create listeners for the Event and Commitment buttons
 		eventPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				final EventEditor eventTab = new EventEditor(tabCreator.getTabbedPane());
+				// TODO:
+				// If (editing tab){
+				// 	tabCreator.addClosableTab(eventTab, "Edit Event");
+				// }
+				// else {
 				tabCreator.addClosableTab(eventTab, "Create Event");
+				// }
 			}
 		});
 
