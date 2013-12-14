@@ -32,14 +32,18 @@ public class FilterEvents {
 	 */
 	public static List<Event> filterEventsByCategory(List<Event> events,
 			List<Category> cats){
-		ArrayList<Event> filteredEvents = new ArrayList<Event>();
-		for(int i = 0; i < events.size(); i++){
-			for(int j = 0; j < cats.size(); j++){
-				if (events.get(i).getCategory() == cats.get(j)){
-					filteredEvents.add(events.get(i));
+		if (cats.size() == 0){
+			return events;
+		} else {
+			ArrayList<Event> filteredEvents = new ArrayList<Event>();
+			for(int i = 0; i < events.size(); i++){
+				for(int j = 0; j < cats.size(); j++){
+					if (events.get(i).getCategory() == cats.get(j)){
+						filteredEvents.add(events.get(i));
+					}
 				}
 			}
+			return filteredEvents;
 		}
-		return filteredEvents;
 	}	 
 }
