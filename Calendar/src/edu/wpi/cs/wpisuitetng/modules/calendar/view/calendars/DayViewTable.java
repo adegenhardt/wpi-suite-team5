@@ -42,6 +42,9 @@ public class DayViewTable extends JTable {
 	
 	private List<EventRectangle> rectangles;   
 	
+	/**
+	 * @param defaultTableModel
+	 */
 	public DayViewTable(DefaultTableModel defaultTableModel) {
 		super( defaultTableModel );
 		
@@ -140,15 +143,15 @@ public class DayViewTable extends JTable {
 	 */
 	public void updateEvents() {
 		DateInfo eventDay = new DateInfo(dayView.getRealDay());
-		if (GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView) {
-			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
+		if (GlobalButtonVars.getInstance().isPersonalView() && GlobalButtonVars.getInstance().isTeamView()) {
+			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
 		}
-		else if (GlobalButtonVars.isPersonalView) {
-			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
+		else if (GlobalButtonVars.getInstance().isPersonalView()) {
+			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
 
 		}
-		else if (GlobalButtonVars.isTeamView) {
-			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear() , eventDay.getMonth(), eventDay.getDay());
+		else if (GlobalButtonVars.getInstance().isTeamView()) {
+			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
 		}
 		//TODO CFFLAG add filter by category filters
 		events = SortEvents.sortEventsByDate(events);
@@ -230,8 +233,7 @@ public class DayViewTable extends JTable {
 		
 		
 		// Maximum width an event can be
-		final int MAX_WIDTH = getColumnModel().getColumn( 1 ).getWidth()
-				- dayView.getScrollPane().getVerticalScrollBar().getWidth();
+		final int MAX_WIDTH = getColumnModel().getColumn( 1 ).getWidth() - 1;
 		final int ROW_HEIGHT = getRowHeight();
 		int x;
 		int y;
@@ -255,6 +257,7 @@ public class DayViewTable extends JTable {
 		DateInfo endDate;
 		int numEventsInRow; 	/* Number of events in current row */
 		EventRectangle r;
+		int startHour;
 		for ( int i = 0; i < events.size(); i++ ) {
 			e = events.get( i );
 			
@@ -267,8 +270,10 @@ public class DayViewTable extends JTable {
 			// if event started before today, begin drawing at the top
 			if ( e.getStartDate().compareTo( displayedDay ) < 0 ) {
 				y = Y_OFFSET;
+				startHour = 0;
 			} else {
 				y = Y_OFFSET + ( startDate.getHalfHour() * ROW_HEIGHT );
+				startHour = startDate.getHalfHour();
 			}
 			
 			numEventsInRow = 1;
@@ -284,17 +289,19 @@ public class DayViewTable extends JTable {
 			}
 			
 			// calculate the width of all events in the row
-			width = ( MAX_WIDTH - ( numPriorEvents[ i ] * PRIOR_EVENT_WIDTH ) ) /
+			width = ( MAX_WIDTH - ( numPriorEvents[ startHour ] * PRIOR_EVENT_WIDTH ) ) /
 					numEventsInRow;
+			
+			displayedDay.setHalfHour( 48 );
 			
 			// Add 1 to each row that this event occupies for future events
 			// If this runs into the next day, it's the same as occupying all remaining rows
 			if ( e.getEndDate().compareTo( displayedDay ) >= 0 ) {
-				for ( int j = i + 1; j < 48; j++ ) {
+				for ( int j = startHour + 1; j < 48; j++ ) {
 					numPriorEvents[ j ]++;
 				}
 			} else {
-				for ( int j = i + 1; j < endDate.getHalfHour(); j++ ) {
+				for ( int j = startHour + 1; j < endDate.getHalfHour(); j++ ) {
 					numPriorEvents[ j ]++;
 				}
 			}
@@ -309,11 +316,10 @@ public class DayViewTable extends JTable {
 				// Calculate offset of x depending on number of prior events
 				// and also which event in the row this is
 				x = X_OFFSET +
-					( numPriorEvents[ startDate.getHalfHour() ] * PRIOR_EVENT_WIDTH ) +
+					( numPriorEvents[ startHour ] * PRIOR_EVENT_WIDTH ) +
 					( width * j );
 				
 				// if event ends after current day, draw to the bottom
-				displayedDay.setHalfHour( 48 );
 				if ( endDate.compareTo( displayedDay ) >= 0 ) {
 					height = Y_OFFSET + ( 48 * ROW_HEIGHT ) - y;
 				}
@@ -334,127 +340,6 @@ public class DayViewTable extends JTable {
 			i += numEventsInRow - 1;
 			
 		}
-	}
-	
-	/**
-	 * Generate sample events for testing
-	 * @return
-	 */
-	public List<Event> generateSampleEvents() {
-		ArrayList<Event> sampleEvents = new ArrayList<Event>();
-		
-		// For testing, create start times based on the current date
-		Calendar cal = Calendar.getInstance();
-		DateInfo time0 = new DateInfo( cal.get( Calendar.YEAR ),
-											cal.get( Calendar.MONTH ),
-											cal.get( Calendar.DATE ) - 1,
-											0 );
-		
-		DateInfo time2 = new DateInfo( cal.get( Calendar.YEAR ),
-				cal.get( Calendar.MONTH ),
-				cal.get( Calendar.DATE ) - 1,
-				2 );
-		
-		DateInfo time4 = new DateInfo( cal.get( Calendar.YEAR ),
-				cal.get( Calendar.MONTH ),
-				cal.get( Calendar.DATE ) - 1,
-				4 );
-		
-		DateInfo time6 = new DateInfo( cal.get( Calendar.YEAR ),
-				cal.get( Calendar.MONTH ),
-				cal.get( Calendar.DATE ) - 1,
-				6 );
-		
-		DateInfo time7 = new DateInfo( cal.get( Calendar.YEAR ),
-				cal.get( Calendar.MONTH ),
-				cal.get( Calendar.DATE ) - 1,
-				7 );
-		
-		DateInfo time8 = new DateInfo( cal.get( Calendar.YEAR ),
-				cal.get( Calendar.MONTH ),
-				cal.get( Calendar.DATE ) - 1,
-				8 );
-		
-		DateInfo time10 = new DateInfo( cal.get( Calendar.YEAR ),
-				cal.get( Calendar.MONTH ),
-				cal.get( Calendar.DATE ) - 1,
-				10 );
-		
-		DateInfo time12 = new DateInfo( cal.get( Calendar.YEAR ),
-				cal.get( Calendar.MONTH ),
-				cal.get( Calendar.DATE ) - 1,
-				12 );
-		
-		DateInfo time13 = new DateInfo( cal.get( Calendar.YEAR ),
-				cal.get( Calendar.MONTH ),
-				cal.get( Calendar.DATE ) - 1,
-				13 );
-		
-		DateInfo time18 = new DateInfo( cal.get( Calendar.YEAR ),
-				cal.get( Calendar.MONTH ),
-				cal.get( Calendar.DATE ) - 1,
-				18 );
-		
-		Event e1 = new Event();
-		e1.setName( "event 1 - aka the incredibly long name to test my trimmming capability;" +
-				"It keeps going on and on without any rhyme or reason. Oh why won't it stop?" +
-				"Who knows? Probably the elders, but they're so old. I guess we'll never know." );
-		e1.setDescription("This part isn't too long though");
-		e1.setStartDate( time0 );
-		e1.setEndDate( time12 );
-		
-		Event e2 = new Event();
-		e2.setName( "event 2" );
-		e2.setDescription("This is event 2, things happen at this time");
-		e2.setStartDate( time2 );
-		e2.setEndDate( time7 );
-		
-		Event e3 = new Event();
-		e3.setName( "event 3" );
-		e3.setDescription("I don't want to make this meeting, I have made this event to make sure I miss it.");
-		e3.setStartDate( time2 );
-		e3.setEndDate( time7 );
-		
-		Event e4 = new Event();
-		e4.setName( "event 4" );
-		e4.setDescription("The fourth thing I need to attend today, I enjoy this one");
-		e4.setStartDate( time4 );
-		e4.setEndDate( time6 );
-		
-		Event e5 = new Event();
-		e5.setName( "event 5" );
-		e5.setDescription("Let's try a really long description this time. Never know when I need something to wrap around something, and it would be a shame when that moment happens if I didn't take the time to think this would happen.");
-		e5.setStartDate( time7 );
-		e5.setEndDate( time18 );
-		
-		Event e6 = new Event();
-		e6.setName( "event 6" );
-		e6.setDescription("The sixth event, how descriptive.");
-		e6.setStartDate( time7 );
-		e6.setEndDate( time12 );
-		
-		Event e7 = new Event();
-		e7.setName( "event 7" );
-		e7.setDescription("Lucky number 7th event.");
-		e7.setStartDate( time7 );
-		e7.setEndDate( time8 );
-		
-		Event e8 = new Event();
-		e8.setName( "event 8" );
-		e8.setDescription("Eight is gr8");;
-		e8.setStartDate( time10 );
-		e8.setEndDate( time13 );
-		
-		sampleEvents.add( e1 );
-		sampleEvents.add( e2 );
-		sampleEvents.add( e3 );
-		sampleEvents.add( e4 );
-		sampleEvents.add( e5 );
-		sampleEvents.add( e6 );
-		sampleEvents.add( e7 );
-		sampleEvents.add( e8 );
-		
-		return sampleEvents;
 	}
 	
 	/**
@@ -482,6 +367,12 @@ public class DayViewTable extends JTable {
 		this.dayView = dayView;
 	}
 	
+	/**
+	 * 
+	 * @param _x
+	 * @param _y
+	 * @return rectangle
+	 */
 	public EventRectangle getRectangle(int _x, int _y) {
 		for (int i=rectangles.size()-1; i >= 0; i--) {
 			if (rectangles.get(i).isAtPoint(_x, _y)) {

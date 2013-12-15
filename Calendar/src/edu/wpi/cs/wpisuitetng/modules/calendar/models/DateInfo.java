@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Vector;
 
 /**
  * DateInfo is a form of storing time information. It contains a year, a month,
@@ -167,10 +168,10 @@ public class DateInfo {
 		final int monthN = date.getMonth();
 		final int dayN = date.getDate() - 1;
 		final int halfHourN = (date.getHours() * 2) + (date.getMinutes() / 30);
-		this.year = yearN;
-		this.month = monthN;
-		this.day = dayN;
-		this.halfHour = halfHourN;
+		year = yearN;
+		month = monthN;
+		day = dayN;
+		halfHour = halfHourN;
 
 	}
 
@@ -181,13 +182,13 @@ public class DateInfo {
 	 */
 	public Calendar dateInfoToCalendar() {
 		Calendar cal = new GregorianCalendar();
-		int hourOfDay = ((this.halfHour / 2));
+		int hourOfDay = ((halfHour / 2));
 		int minute = 0;
-		if (this.halfHour % 2 != 0) {
+		if (halfHour % 2 != 0) {
 			minute = 30;
 		}
 		// added plus 1 to day for if now use 0 base
-		cal.set(this.year, this.month, this.day + 1, hourOfDay, minute);
+		cal.set(year, month, day + 1, hourOfDay, minute);
 		return cal;
 	}
 
@@ -200,7 +201,7 @@ public class DateInfo {
 	 */
 	@Deprecated
 	public Date convertDateInfoToDate() {
-		final Date date = new Date(year - 1900, month, day);
+		final Date date = new Date(year - 1900, month, day + 1);
 		return date;
 	}
 
@@ -351,6 +352,44 @@ public class DateInfo {
 		
 		// If nothing has returned by now, then both are the same
 		return 0;
+	}
+	
+	/**
+	 * 
+	 * @return An array of times where the 0th position is the hour and the 1st position is the half hour
+	 */
+	public int[] getTime(){
+		int timeRemaining = halfHour;
+		int hours = 0;
+		int halfHours = 0;
+		while (timeRemaining > 1) {
+			timeRemaining -= 2;
+			hours++;
+		}
+		if (hours > 12) {
+			hours -= 12;
+		}
+		if (hours == 0) {
+			hours = 12;
+		}
+		if (timeRemaining == 1) {
+			halfHours = 30;
+		}
+		int[] returnArr = {hours, halfHours};
+		return returnArr;
+	}
+	
+	/**
+	 * 
+	 * @return An int representing whether it is in the AM or PM (0, 1)
+	 */
+	public int getAMPM() {
+		if (halfHour >= 24) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 	
 }

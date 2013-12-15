@@ -14,6 +14,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.Vector;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
@@ -26,9 +28,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventEditor;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventUpdater;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
+
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 /**
@@ -39,16 +47,16 @@ import java.awt.event.MouseMotionAdapter;
  */
 @SuppressWarnings("serial")
 public class DayView extends JLayeredPane {
-	
+
 	// Strings defining what to be displayed in the tooltip
 	// Useful for getting some nice spacing as well
 	private static final String NAME = "Name: ";
 	private static final String DESC = "Description: ";
+	private static final String CATEGORY = "Category: ";
 	private static final String STIME = "Start Time: ";
 	private static final String ETIME = "End Time: ";
 
 	private JScrollPane dayScroll;
-
 
 	private DayViewTable dayTable;
 	// Current day signifies the day of today
@@ -63,13 +71,21 @@ public class DayView extends JLayeredPane {
 	private int lastX = 0;
 	private int lastY = 0;
 
+	private static DayView thisInstance = null;
+
 	/**
-	 * Create the panel.
+	 * Create the panel
 	 * 
-	 * @param isWeek
-	 *            boolean
+	 * @return instance
 	 */
-	public DayView() {
+	public static DayView getInstance() {
+		if (thisInstance == null) {
+			thisInstance = new DayView();
+		}
+		return thisInstance;
+	}
+
+	private DayView() {
 
 		// Run these methods to create this view
 		initDay();
@@ -79,7 +95,7 @@ public class DayView extends JLayeredPane {
 		createBackground();
 		createTableProperties();
 		colorCurrentDate();
-		
+
 		// Setting the dismiss delay to max seems to be as close to
 		// Keeping the tool tip on for as long as the user desires
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
@@ -87,47 +103,98 @@ public class DayView extends JLayeredPane {
 		// Set to 0 for testing
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		// ReShowDelay is also something we can use if need be
-		
+
 		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				EventRectangle thisTangle = dayTable.getRectangle(lastX, lastY);
+				EventRectangle thisTangle = dayTable.getRectangle(e.getX(),
+						e.getY());
 				if (thisTangle == null) {
 					dayTable.setToolTipText(null);
 				} else {
-					dayTable.setToolTipText("<html>" + NAME
-							+ formatString(thisTangle.getEvent().getName(), 30) + "<br><br>"
+					dayTable.setToolTipText("<html>"
+							+ NAME
+							+ formatString(thisTangle.getEvent().getName(), 30)
+							+ "<br><br>"
 							+ DESC
-							+ formatString(thisTangle.getEvent().getDescription(), 30) + "<br><br>"
-							+ STIME
-							+ (thisTangle.getEvent().getStartDate()) + "<br><br>"
-							+ ETIME
+							+ formatString(thisTangle.getEvent()
+									.getDescription(), 30) + "<br><br>"
+							+ CATEGORY + thisTangle.getEvent().getCategory()
+							+ "<br><br>" + STIME
+							+ (thisTangle.getEvent().getStartDate())
+							+ "<br><br>" + ETIME
 							+ thisTangle.getEvent().getEndDate());
 				}
-				lastX = e.getX();
-				lastY = e.getY();
+				// lastX = e.getX();
+				// lastY = e.getY();
 			}
 		});
 
+		dayTable.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent m) {
+				// TODO Auto-generated method stub
+				EventRectangle thisRectangle = dayTable.getRectangle(m.getX(),
+						m.getY());
+				if (thisRectangle == null) {
+					System.out.println("no rectangle");
+				} else {
+					System.out.println("a rectangle");
+					final EventUpdater eventTab = new EventUpdater(
+							ClosableTabCreator.getInstance(null)
+									.getTabbedPane(), thisRectangle.getEvent());
+					ClosableTabCreator.getInstance(null).addClosableTab(
+							eventTab, "Update Event");
+				}
+			}
+		});
 	}
 
 	// Create the table of DayView
 	private void createControls() {
 		dayTable = new DayViewTable(new DefaultTableModel(new Object[][] {
 				{ "12:00 AM", null }, { "", null }, { "01:00 AM", null },
-				{ "", null }, { "02:00 AM", null }, { "", null }, { "03:00 AM", null },
-				{ "", null }, { "04:00 AM", null }, { "", null }, { "05:00 AM", null },
-				{ "", null }, { "06:00 AM", null }, { "", null }, { "07:00 AM", null },
-				{ "", null }, { "08:00 AM", null }, { "", null }, { "09:00 AM", null },
-				{ "", null }, { "010:00 AM", null }, { "", null },
-				{ "11:00 AM", null }, { "", null }, { "12:00 PM", null },
-				{ "", null }, { "01:00 PM", null }, { "", null }, { "02:00 PM", null },
-				{ "", null }, { "03:00 PM", null }, { "", null }, { "04:00 PM", null },
-				{ "", null }, { "05:00 PM", null }, { "", null }, { "06:00 PM", null },
-				{ "", null }, { "07:00 PM", null }, { "", null }, { "08:00 PM", null },
-				{ "", null }, { "09:00 PM", null }, { "", null },
-				{ "10:00 PM", null }, { "", null }, { "11:00 PM", null },
-				{ "", null }, }, new String[] { "", this.getStringDay() }) {
+				{ "", null }, { "02:00 AM", null }, { "", null },
+				{ "03:00 AM", null }, { "", null }, { "04:00 AM", null },
+				{ "", null }, { "05:00 AM", null }, { "", null },
+				{ "06:00 AM", null }, { "", null }, { "07:00 AM", null },
+				{ "", null }, { "08:00 AM", null }, { "", null },
+				{ "09:00 AM", null }, { "", null }, { "010:00 AM", null },
+				{ "", null }, { "11:00 AM", null }, { "", null },
+				{ "12:00 PM", null }, { "", null }, { "01:00 PM", null },
+				{ "", null }, { "02:00 PM", null }, { "", null },
+				{ "03:00 PM", null }, { "", null }, { "04:00 PM", null },
+				{ "", null }, { "05:00 PM", null }, { "", null },
+				{ "06:00 PM", null }, { "", null }, { "07:00 PM", null },
+				{ "", null }, { "08:00 PM", null }, { "", null },
+				{ "09:00 PM", null }, { "", null }, { "10:00 PM", null },
+				{ "", null }, { "11:00 PM", null }, { "", null }, },
+				new String[] { "", this.getStringDay() }) {
 			// Do not allow the cells to be editable
 			private final boolean[] columnEditables = new boolean[] { false,
 					false };
@@ -152,26 +219,26 @@ public class DayView extends JLayeredPane {
 		dayTable.setDefaultRenderer(Object.class,
 				new DefaultTableCellRenderer() {
 
-			@Override
-			public Component getTableCellRendererComponent(
-					JTable table, Object value, boolean isSelected,
-					boolean hasFocus, int row, int column) {
+					@Override
+					public Component getTableCellRendererComponent(
+							JTable table, Object value, boolean isSelected,
+							boolean hasFocus, int row, int column) {
 
-				final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
-						.getTableCellRendererComponent(table, value,
-								isSelected, hasFocus, row, column);
-				// Set the colors. Every two rows will be light blue,
-				// rows in between are white
-				if ((row % 2) == 0 && column != 0) {
-					rendererComponent.setBackground(new Color(227, 235,
-							243));
-				} else {
-					rendererComponent.setBackground(Color.white);
-				}
-				this.repaint();
-				return rendererComponent;
-			}
-		});
+						final DefaultTableCellRenderer rendererComponent = (DefaultTableCellRenderer) super
+								.getTableCellRendererComponent(table, value,
+										isSelected, hasFocus, row, column);
+						// Set the colors. Every two rows will be light blue,
+						// rows in between are white
+						if ((row % 2) == 0 && column != 0) {
+							rendererComponent.setBackground(new Color(227, 235,
+									243));
+						} else {
+							rendererComponent.setBackground(Color.white);
+						}
+						this.repaint();
+						return rendererComponent;
+					}
+				});
 
 		final JTableHeader header = dayTable.getTableHeader();
 
@@ -273,9 +340,18 @@ public class DayView extends JLayeredPane {
 		realDay = newDay;
 		dayTable.getTableHeader().getColumnModel().getColumn(1)
 				.setHeaderValue(this.getStringDay());
+		dayTable.setUpdated(false);
 		repaint();
 		colorCurrentDate();
+	}
+
+	/**
+	 * Repaint the view to refresh events being shown
+	 * 
+	 */
+	public void refreshEvents() {
 		dayTable.setUpdated(false);
+		repaint();
 	}
 
 	// Get the day in a nice string format declared
@@ -283,20 +359,23 @@ public class DayView extends JLayeredPane {
 	public String getStringDay() {
 		return dayFormat.format(realDay.getTime());
 	}
-/**
- * 
- * @return the current day in string format
- */
+
+	/**
+	 * 
+	 * @return the current day in string format
+	 */
 	public String getToday() {
 		return dayFormat.format(currentDay.getTime());
 	}
-/**
- * 
- * @return the real date in string format
- */
-	public String getRealDayString(){
+
+	/**
+	 * 
+	 * @return the real date in string format
+	 */
+	public String getRealDayString() {
 		return dayFormat.format(realDay.getTime());
 	}
+
 	public Calendar getRealDay() {
 		return realDay;
 	}
@@ -308,20 +387,71 @@ public class DayView extends JLayeredPane {
 		refreshDay(currentDay);
 	}
 
-	
 	// Helper method to format the strings within the tooltips
 	private String formatString(String str, int len) {
-		str = str.trim();
-		if (str.length() < len)
-			return str;
-		if (str.substring(0, len).contains("<br>"))
-			return str.substring(0, str.indexOf("<br>")).trim() + "<br><br>"
-					+ formatString(str.substring(str.indexOf("<br>") + 1), len);
-		int place = Math
-				.max(Math.max(str.lastIndexOf(" ", len),
-						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));
-		return str.substring(0, place).trim() + "<br>"
-				+ formatString(str.substring(place), len);
+		String[] arrayStr = formatIntoArrays(str, len);
+		StringBuilder finalStr = new StringBuilder();
+		for (int i = 0; i < arrayStr.length; i++) {
+			finalStr.append(arrayStr[i] + "<br>");
+		}
+		return finalStr.toString();
+	}
+	
+	// Thanks programmers cookbook
+	// WordUtils may be a better idea 
+	private String[] formatIntoArrays(String text, int len) {
+		// return empty array for null text
+		if (text == null)
+			return new String[] {};
+
+		// return text if len is zero or less
+		if (len <= 0)
+			return new String[] { text };
+
+		// return text if less than length
+		if (text.length() <= len)
+			return new String[] { text };
+
+		char[] chars = text.toCharArray();
+		Vector lines = new Vector();
+		StringBuffer line = new StringBuffer();
+		StringBuffer word = new StringBuffer();
+
+		for (int i = 0; i < chars.length; i++) {
+			word.append(chars[i]);
+
+			if (chars[i] == ' ') {
+				if ((line.length() + word.length()) > len) {
+					lines.add(line.toString());
+					line.delete(0, line.length());
+				}
+
+				line.append(word);
+				word.delete(0, word.length());
+			}
+		}
+
+		// handle any extra chars in current word
+		if (word.length() > 0) {
+			if ((line.length() + word.length()) > len) {
+				lines.add(line.toString());
+				line.delete(0, line.length());
+			}
+			line.append(word);
+		}
+
+		// handle extra line
+		if (line.length() > 0) {
+			lines.add(line.toString());
+		}
+
+		String[] ret = new String[lines.size()];
+		int c = 0; // counter
+		for (Enumeration e = lines.elements(); e.hasMoreElements(); c++) {
+			ret[c] = (String) e.nextElement();
+		}
+
+		return ret;
 	}
 
 	/**
@@ -331,5 +461,5 @@ public class DayView extends JLayeredPane {
 	public JScrollPane getScrollPane() {
 		return dayScroll;
 	}
-	
+
 }

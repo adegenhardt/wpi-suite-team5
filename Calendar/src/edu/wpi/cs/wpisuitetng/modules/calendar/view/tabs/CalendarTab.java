@@ -36,8 +36,8 @@ public class CalendarTab extends JTabbedPane {
 	 * Constructor for CalendarTab.
 	 */
 	public CalendarTab() {
-		monthPanel = new MonthView();
-		yearPanel = new YearViewCalendarPanel();
+		monthPanel = MonthView.getInstance();
+		yearPanel = new YearViewCalendarPanel(this);
 		dayPanel = new DayViewPanel();
 		weekPanel = new WeekViewPanel();
 		

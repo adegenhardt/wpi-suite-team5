@@ -83,7 +83,7 @@ public class CategoryEntityManager implements EntityManager<Category>{
 		} catch (WPISuiteException e) {
 			e.printStackTrace();
 		}
-		if( categories.length < 1 ) {
+		if( categories.length < 1 || categories[0] == null) {
 			throw new NotFoundException( "Unable to find any categories" );
 		}
 		return categories;

@@ -16,8 +16,7 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-
-
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
 
 /**List of Calendars pulled from the server
  * 
@@ -62,6 +61,7 @@ public class EventModel extends AbstractListModel<Event> {
 	public static EventModel getInstance(){
 		if(instance == null){
 			instance = new EventModel();
+			instance.addListDataListener( new RefreshListenerEvents() );
 		}
 		return instance;
 	}
@@ -88,6 +88,7 @@ public class EventModel extends AbstractListModel<Event> {
 	 * 			found. */
 	public Event getEvent(int id){
 		Event temp = null;
+		//TODO analyze for if returning las event in list if event is not found
 		// iterate through the events in order to find the matching ID
 		// break the loop once the ID is found
 		for(int i = 0; i < events.size(); i++){
@@ -180,7 +181,19 @@ public class EventModel extends AbstractListModel<Event> {
 	public Event getElementAt(int index) {
 		return events.get(events.size() - 1 - index);
 	}
-		
+	
+	/**
+	 * set an updated event in the model
+	 * @param e the updated event
+	 */
+	public void updateEvent( Event e ) {
+		for ( int i = 0; i < events.size(); i++ ) {
+			if ( e.getId() == events.get( i ).getId() ) {
+				events.set( i, e );
+			}
+		}
+	}
+	
 	/**
 	 * Returns the list of events
 	 * @return the requirements held within the event model. */
@@ -410,6 +423,28 @@ public class EventModel extends AbstractListModel<Event> {
 		}
 		
 		return userEvents;
+		
+	}
+	
+	/**
+	 * Get all the user events that the user can access
+	 * @param userName The id of the user attempting to access the events
+	 * @return A list of all events the user has access to
+	 */
+	public List< Event > getUserEvents( String userName ) {
+		final List< Event > personalEvents = new ArrayList< Event >();
+		Event currentEvent;
+		
+		for ( int i = 0; i < events.size(); i++ ) {
+			
+			currentEvent = events.get( i );
+			if ( !currentEvent.isDeleted() &&
+					currentEvent.hasAccess( userName ) ) {
+				personalEvents.add( currentEvent );
+			}
+		}
+		
+		return personalEvents;
 		
 	}
 	

@@ -50,10 +50,10 @@ public class Calendar implements IJanewayModule {
 		// Constructs and adds the MainPanel	
 		final MainView mainPanel = new MainView();
 		
-		tabCreator = new ClosableTabCreator(mainPanel.getCalendarPanel().getCalendarTab());
+		tabCreator = ClosableTabCreator.getInstance(mainPanel.getCalendarPanel().getCalendarTab());
 		
 		// Create a JPanel to hold the toolbar for the tab
-		final ToolbarView toolbarView = new ToolbarView(tabCreator);
+		final ToolbarView toolbarView = new ToolbarView();
 
 		// Create a tab model that contains the toolbar panel and the main content panel
 		final JanewayTabModel tab1 = 
@@ -61,6 +61,7 @@ public class Calendar implements IJanewayModule {
 
 		// Add the tab to the list of tabs owned by this module
 		tabs.add(tab1);
+		
 	}
 	
 	/*

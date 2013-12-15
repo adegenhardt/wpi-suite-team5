@@ -12,6 +12,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.categoryobserver.GetCategoryRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
@@ -27,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @version $Revision: 1.0 $
  * @author Team Underscore
  */
-public class GetCategoryController {
+public class GetCategoryController implements ActionListener {
 
 	private final GetCategoryRequestObserver observer;
 	private static GetCategoryController instance = null;
@@ -75,7 +76,7 @@ public class GetCategoryController {
 	public void retrieveCategory() {
 		final Request request = 
 				Network.getInstance().makeRequest(
-						"calendar/calendardata", 
+						"calendar/category", //"calendar/calendardata", //
 						HttpMethod.GET); // GET == read
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); // send the request
@@ -95,4 +96,6 @@ public class GetCategoryController {
 			CategoryModel.getInstance().addcategories( categories );
 		}
 	}
+	
+	
 }

@@ -31,7 +31,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
  * @author Team Underscore
  * @version $Revision: 1.0 $
  */
-
 public class Event extends AbstractModel implements ICalendarEntry {
 
 	// ID Parameters
@@ -229,10 +228,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 		id = 0;// TODO auto generate unique
 		creatorId = ConfigManager.getConfig().getUserName();// gets user id
-																	// from
-																	// system
-																	// configuration
-
+												// from system configuration
 
 		this.category = category;
 
@@ -417,7 +413,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * 						  matches the input.
 	 */
 	public String getAParticipant(int index){
-		return this.participants.get(index);
+		return participants.get(index);
 	}
 
 	// Required Functions Database Interaction
@@ -1080,7 +1076,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @param month the month to check (from 0-11)
 	 * @return a number from 28-31 representing the number of days in the month
 	 */
-	private int calculateNumDays( int year, int month ) {
+	public int calculateNumDays( int year, int month ) {
 		
 		// Check for months with 31 days
 		if ( month == 0 || month == 2 || month == 4 ||
