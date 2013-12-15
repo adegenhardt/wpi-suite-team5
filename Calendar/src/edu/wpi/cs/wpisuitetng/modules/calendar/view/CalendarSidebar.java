@@ -37,6 +37,8 @@ import javax.swing.JComboBox;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.AddCategoryController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.UpdateCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
@@ -168,6 +170,11 @@ public class CalendarSidebar extends JPanel {
 		commitmentTable.getTableHeader().setReorderingAllowed(false);
 		*/
 
+		/*
+		 * TODO Add a button for removing only the selected categories from the Applied Filters text window
+		 * TODO Have Current categories drop down build from only not already a filter categories
+		 * 
+		 */
 		// Create a scroll pane to hold the Filter/Category manager
 		final JScrollPane scrollPaneFilters = new JScrollPane();
 		add(scrollPaneFilters, "cell 0 3 2 1,grow");
@@ -185,6 +192,7 @@ public class CalendarSidebar extends JPanel {
 		filtersCatsPanel.add(scrollPaneList, "flowx,cell 1 0 2 2,grow");
 
 		// Button to unapply a Filter
+		//TODO Add listener add functionality
 		final JButton btnUnapply = new JButton("Unapply Filter");
 		filtersCatsPanel.add(btnUnapply, "cell 1 2,growx,aligny top");
 		
@@ -196,10 +204,14 @@ public class CalendarSidebar extends JPanel {
 		final JList<String> listFilters = new JList<String>();
 		scrollPaneList.setViewportView(listFilters);
 
-		// Create a combo box to hold the current list of categories
-		// TODO: Populate with info from database
-		final JComboBox comboBoxCats = new JComboBox();
+		// Create a combo box to hold the current list of categories 
+		// TODO: Populate with info from database CHECK
+		final JComboBox<Category> comboBoxCats = new JComboBox<Category>();
 		filtersCatsPanel.add(comboBoxCats, "cell 1 4 2 1,growx");
+		//adds categories to drop down.
+		for(Category categoryIn: CategoryModel.getInstance().getAllNondeletedCategories()){
+			comboBoxCats.addItem(categoryIn);
+		}
 
 		// Create a button to Apply a Filter
 		final JButton btnApply = new JButton("Apply as Filter");
@@ -255,9 +267,56 @@ public class CalendarSidebar extends JPanel {
 				newCat.setId(CategoryModel.getInstance().getNextID());
 				AddCategoryController.getInstance().addCategory(newCat);
 				 */
+				//TODO Build category
+				Category newCategory = new Category(filterTextField.getText());
+				//Update model
+				//TODO Verify this is correct model functions
+				AddCategoryController.getInstance().addCategory(newCategory);
+				GetCategoryController.getInstance().retrieveCategory();
+				
+				//Update drop down list 
+				for(Category categoryIn: CategoryModel.getInstance().getAllNondeletedCategories()){
+					comboBoxCats.addItem(categoryIn);
+				}
+				
+				
 			}
 		});
 
+		
+		// Create a listener to delete slected category
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				//TODO Set Selected Category to isDeleted = true
+				Category toDelete = (Category)comboBoxCats.getSelectedItem();
+				toDelete.setDeleted(true);
+				//TODO update model
+				//TODO Verify that this is correct
+				UpdateCategoryController.getInstance().updateCategory(toDelete);
+				GetCategoryController.getInstance().retrieveCategory();
+				
+				//Updates drop down list 
+				for(Category categoryIn: CategoryModel.getInstance().getAllNondeletedCategories()){
+					comboBoxCats.addItem(categoryIn);
+				}
+				
+				
+			}
+		});
+		
+		// Create a listener to apply a category filter to the system's views
+				btnApply.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+					//TODO add selected category to Applied FIlters text window
+						//TODO set selected category hasFilter to true
+						//TODOupdate model
+					//TODO  rerun all view paints with new list of categories in Applied Filters Text Window
+						
+						
+					}
+				});
 		// Error text
 		// TODO: Change and display if user tries
 		// to add a duplicate category
@@ -291,9 +350,23 @@ public class CalendarSidebar extends JPanel {
 				appliedFiltersListModel.removeElement(listFilters.getSelectedValue());
 			}
 		}
-		btnApply.addActionListener(new applyButtonListener());
-		btnUnapply.addActionListener(new unapplyButtonListener());
-
+		//Done Below
+		//TODO move up to here and verify
+		//btnApply.addActionListener(new applyButtonListener());
+		//btnUnapply.addActionListener(new unapplyButtonListener());
+		
+		// Create a listener to remove all categories
+		btnUnapply.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+			//TODO Set all of the categories in Applied Filters window hasFilter = false
+			//TODO remove all categories from Applied FIlters text window
+				
+			//TODO  rerun all view paints with new list of categories in Applied Filters Text Window
+				
+				
+			}
+		});
 	}
 	
 	// Populates the table of Events in the side bar

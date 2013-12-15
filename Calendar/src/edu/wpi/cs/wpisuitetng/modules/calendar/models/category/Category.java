@@ -29,10 +29,11 @@ public class Category extends AbstractModel {
 	private String name;
 	/** The unique identification number **/
 	private int id;
-	
+
 	private String creatorId;
 	private boolean isDeleted;
 	private boolean isTeamCat;
+
 	private boolean hasFilter;
 
 	/**
@@ -75,7 +76,7 @@ public class Category extends AbstractModel {
 	}
 
 	/**
-	 * (FOR ACTUAL USE) Constructor for a category object.
+	 * Constructor for a category object.
 	 * 
 	 * @param name
 	 *            a string that represent the category type.
@@ -87,9 +88,27 @@ public class Category extends AbstractModel {
 		this.name = name;
 		id = 0;
 		creatorId = ConfigManager.getConfig().getUserName(); // gets user id
-															 // from system configuration
+																// from system
+																// configuration
 		this.isTeamCat = isTeamCat;
 		isDeleted = false;
+	}
+
+	/**
+	 * (FOR ACTUAL USE) Constructor for a category object.
+	 * 
+	 * @param name
+	 *            a string that represent the category type.
+	 */
+	public Category(String name) {
+		this.name = name;
+		id = 0;
+		creatorId = ConfigManager.getConfig().getUserName(); // gets user id
+																// from system
+																// configuration
+		this.isTeamCat = true;// all categories are avaliable to all users
+		isDeleted = false;
+		this.hasFilter = false;
 	}
 
 	// ------------------------------------------------------------------------
@@ -380,15 +399,18 @@ public class Category extends AbstractModel {
 	/**
 	 * @return the hasFilter
 	 */
+
 	public boolean getHasFilter() {
 		return hasFilter;
 	}
 
 	/**
-	 * @param hasFilter the hasFilter to set
+	 * @param hasFilter
+	 *            the hasFilter to set
 	 */
+
 	public void setHasFilter(boolean hasFilter) {
 		this.hasFilter = hasFilter;
 	}
-	
+
 }
