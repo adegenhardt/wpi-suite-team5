@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class AddCategoryRequestObserver implements RequestObserver {
 
+	@SuppressWarnings("unused")
 	private final AddCategoryController controller;
 	
 	/**

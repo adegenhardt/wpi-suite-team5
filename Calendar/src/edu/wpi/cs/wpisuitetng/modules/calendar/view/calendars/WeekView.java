@@ -13,17 +13,14 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -32,9 +29,6 @@ import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
 import java.awt.Component;
-
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventUpdater;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
@@ -462,14 +456,14 @@ public class WeekView extends JPanel {
 		return finalStr.toString();
 	}
 	
-	// Thanks programmers cookbook
+	// Thanks programmers cook book
 	// Though might look into using WordUtils
 	private String[] formatIntoArrays(String text, int len) {
 		// return empty array for null text
 		if (text == null)
 			return new String[] {};
 
-		// return text if len is zero or less
+		// return text if length is zero or less
 		if (len <= 0)
 			return new String[] { text };
 
@@ -478,7 +472,7 @@ public class WeekView extends JPanel {
 			return new String[] { text };
 
 		char[] chars = text.toCharArray();
-		Vector lines = new Vector();
+		Vector<String> lines = new Vector<String>();
 		StringBuffer line = new StringBuffer();
 		StringBuffer word = new StringBuffer();
 
@@ -512,7 +506,7 @@ public class WeekView extends JPanel {
 
 		String[] ret = new String[lines.size()];
 		int c = 0; // counter
-		for (Enumeration e = lines.elements(); e.hasMoreElements(); c++) {
+		for (Enumeration<String> e = lines.elements(); e.hasMoreElements(); c++) {
 			ret[c] = (String) e.nextElement();
 		}
 

@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockData;
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryEntityManager;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
@@ -202,7 +201,7 @@ public class CategoryEntityManagerTest {
 	@Test
 	public void updateCategoryTestBadRequestException() throws WPISuiteException, BadRequestException {
 		try {
-			Category updatedCategory = manager.update(defaultSession, category3.toJSON());
+			manager.update(defaultSession, category3.toJSON());
 		}
 		catch (BadRequestException e) {
 			assertTrue(true);

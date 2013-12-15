@@ -16,10 +16,6 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarSidebar;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 
 /**
  * This ListDataListener is used to monitor whether or not a change has

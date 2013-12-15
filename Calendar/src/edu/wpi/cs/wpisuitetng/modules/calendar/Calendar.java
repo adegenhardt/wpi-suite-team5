@@ -38,6 +38,8 @@ public class Calendar implements IJanewayModule {
 	 * A list of tabs owned by this module
 	 */
 	List<JanewayTabModel> tabs;
+	
+	@SuppressWarnings("unused")
 	private final ClosableTabCreator tabCreator;
 	
 	/**
@@ -52,10 +54,10 @@ public class Calendar implements IJanewayModule {
 		
 		tabCreator = ClosableTabCreator.getInstance(mainPanel.getCalendarPanel().getCalendarTab());
 		
-		// Create a JPanel to hold the toolbar for the tab
+		// Create a JPanel to hold the tool-bar for the tab
 		final ToolbarView toolbarView = new ToolbarView();
 
-		// Create a tab model that contains the toolbar panel and the main content panel
+		// Create a tab model that contains the tool-bar panel and the main content panel
 		final JanewayTabModel tab1 = 
 				new JanewayTabModel(getName(), new ImageIcon(), toolbarView, mainPanel);
 
