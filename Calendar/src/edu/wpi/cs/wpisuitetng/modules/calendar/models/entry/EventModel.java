@@ -88,6 +88,7 @@ public class EventModel extends AbstractListModel<Event> {
 	 * 			found. */
 	public Event getEvent(int id){
 		Event temp = null;
+		//TODO analyze for if returning las event in list if event is not found
 		// iterate through the events in order to find the matching ID
 		// break the loop once the ID is found
 		for(int i = 0; i < events.size(); i++){

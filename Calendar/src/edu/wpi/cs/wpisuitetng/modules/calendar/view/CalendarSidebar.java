@@ -65,7 +65,6 @@ public class CalendarSidebar extends JPanel {
 
 	private static CalendarSidebar instance = null;
 
-	
 	/**
 	 * 
 	 * @return instance
@@ -303,11 +302,13 @@ public class CalendarSidebar extends JPanel {
 				newCategory.setId(CategoryModel.getInstance().getNextID());
 
 				// does exist, not send y tell
-				/*if (newCategory.equals((CategoryModel.getInstance()
-						.getCategory(newCategory.getName() )))) {*/
-				if( (CategoryModel.getInstance()
-						.getCategory(newCategory.getName() )) != null ){
-					
+				/*
+				 * if (newCategory.equals((CategoryModel.getInstance()
+				 * .getCategory(newCategory.getName() )))) {
+				 */
+				if ((CategoryModel.getInstance().getCategory(newCategory
+						.getName())) != null) {
+
 					lblNewcatmsg.setText("Category Already Exists in System");
 				}
 
@@ -316,13 +317,12 @@ public class CalendarSidebar extends JPanel {
 				 * else if ((CategoryModel.getInstance().getCategory(newCategory
 				 * .getName())) == null) {
 				 */
-				
+
 				else {
 					// Update model with Category
 					// TODO Verify this is correct model functions
 					AddCategoryController.getInstance()
 							.addCategory(newCategory);
-					
 
 					// empties the drop down
 					comboBoxCats.removeAllItems();
@@ -360,21 +360,23 @@ public class CalendarSidebar extends JPanel {
 						.getAllNondeletedCategories()) {
 					comboBoxCats.addItem(categoryIn);
 				}
-				
 
 				// TODO check if removed category is active in filters
 				// if so, remove it, and retrigger paint
 
 			}
 
-		
-			
 		});
 		
-		
+		public void populateCategoryDropDown(){
+			comboBoxCats.removeAllItems();
+			// Updates drop down list
+			for (Category categoryIn : CategoryModel.getInstance()
+					.getAllNondeletedCategories()) {
+				comboBoxCats.addItem(categoryIn);
+			}
+		}
 
-		
-		
 		// Create a listener to remove all categories
 		btnUnapply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -573,5 +575,4 @@ public class CalendarSidebar extends JPanel {
 		this.commitmentTable = commitmentTable;
 	}
 
-	
 }
