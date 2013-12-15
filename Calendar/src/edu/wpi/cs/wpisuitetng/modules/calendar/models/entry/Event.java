@@ -52,7 +52,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	// halfHour
 	private DateInfo startDate; // StartDate of event
 	private DateInfo endDate; // End Date of event
-	private Category category; // Category describing the event
+	private int categoryId; // id of category describing the event
 	private List<String> userIds; // userIds of users to participate in
 										// event
 
@@ -72,7 +72,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		description = "";
 		startDate = new DateInfo(-1, -1, -1, -1);
 		endDate = new DateInfo(-1, -1, -1, -1);
-		category = new Category("-1", -1);
+		categoryId = -1;
 
 		//final Calendar currentDateTime = Calendar.getInstance();
 		//absoluteId = currentDateTime;
@@ -97,8 +97,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event starts
 	 * @param endDate
 	 *            DateInfo dateInfo parameter for holding date Event ends
-	 * @param category
-	 *            List<Category> list of categories commitment is part of
+	 * @param categoryId
+	 *            id of corresponding category for the event
 	 * @param id
 	 *            The id of the Event
 	 * @param creatorId
@@ -108,7 +108,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * 			  Whether or not the event is a team event
 	 */
 	public Event(String name, String description, DateInfo startDate,
-			DateInfo endDate, Category category, boolean isTeamEvent, int id,
+			DateInfo endDate, int categoryId, boolean isTeamEvent, int id,
 			String creatorId) {
 
 		isDeleted = false;
@@ -118,7 +118,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.description = description;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.category = category;
+		this.categoryId = categoryId;
 
 		//final Calendar currentDateTime = Calendar.getInstance();
 		//absoluteId = currentDateTime;
@@ -182,15 +182,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.id = id;
 		this.creatorId = creatorId;
 		
-		category = new Category( name, id);
-		
-
-		this.id = id;// TODO auto generate unique
-		this.creatorId = creatorId;// TODO get from session
-		
-		projectId = ConfigManager.getConfig().getProjectName();
-
-		category = new Category(name, id);
+		categoryId = -1;
 
 		this.isTeamEvent = isTeamEvent;
 
@@ -219,11 +211,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            DateInfo dateInfo parameter for holding date Event ends
 	 * @param isTeamEvent
 	 * 			  Whether or not this is a team event
-	 * @param category
+	 * @param categoryId
 	 * 			  The category this event is in
 	 */
 	public Event(String name, String description, DateInfo startDate,
-			DateInfo endDate, boolean isTeamEvent, Category category) {
+			DateInfo endDate, boolean isTeamEvent, int categoryId) {
 
 		isDeleted = false;
 
@@ -243,7 +235,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		
 		projectId = ConfigManager.getConfig().getProjectName();
 
-		this.category = category;
+		this.categoryId = categoryId;
 
 		this.isTeamEvent = isTeamEvent;
 
@@ -262,19 +254,19 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @param description A description of the event
 	 * @param startDate The start time of the event
 	 * @param endDate The end time of the event
-	 * @param category A category used to filter this event
+	 * @param categoryId A category used to filter this event
 	 * @param isTeamEvent Says whether the event is team or personal
 	 * @param participants A list of people involved with this event
 	 */
 	
 	public Event(String name, String description, DateInfo startDate,
-			DateInfo endDate, Category category, boolean isTeamEvent,
+			DateInfo endDate, int categoryId, boolean isTeamEvent,
 			List<String> participants){
 		this.name = name;
 		this.description = description;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.category = category;
+		this.categoryId = categoryId;
 		this.isTeamEvent = isTeamEvent;
 		this.setParticipants(participants);
 		
@@ -387,18 +379,18 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	/**
 	 * 
-	 * @return
+	 * @return the id of the category for this event
 	 */
-	public Category getCategory() {
-		return category;
+	public int getCategory() {
+		return categoryId;
 	}
 
 	/**
 	 * 
-	 * @param category
+	 * @param category the id of the new category of this event
 	 */
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategory(int category) {
+		this.categoryId = category;
 	}
 
 	/**
@@ -571,7 +563,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		description = toCopyFrom.description;
 		startDate = toCopyFrom.startDate;
 		endDate = toCopyFrom.endDate;
-		category =(toCopyFrom.category);
+		categoryId =(toCopyFrom.categoryId);
 		userIds = toCopyFrom.userIds;
 		
 		isTeamEvent = toCopyFrom.isTeamEvent;
@@ -650,7 +642,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((category == null) ? 0 : category.hashCode());
+				+ categoryId;
 		result = prime * result
 				+ ((creatorId == null) ? 0 : creatorId.hashCode());
 		result = prime * result
@@ -685,11 +677,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		
 		final Event other = (Event) obj;
 		
-		if (category == null) {
-			if (other.category != null) {
-				return false;
-			}
-		} else if (!category.equals(other.category)) {
+		if (categoryId != other.categoryId) {
 			return false;
 		}
 		
@@ -782,11 +770,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		
 		final Event other = (Event) obj;
 		
-		if (category == null) {
-			if (other.category != null) {
-				return false;
-			}
-		} else if (!category.equals(other.category)) {
+		if (categoryId != other.categoryId) {
 			return false;
 		}
 		

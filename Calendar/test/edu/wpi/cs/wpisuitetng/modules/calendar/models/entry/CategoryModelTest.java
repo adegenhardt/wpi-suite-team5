@@ -56,6 +56,7 @@ public class CategoryModelTest {
 		
 		CategoryModel.getInstance().emptyModel();
 		
+		testCategory.setId( 0 );
 		testCategory.setDeleted( false );
 	}
 	
@@ -85,7 +86,7 @@ public class CategoryModelTest {
 	@Test
 	public void testGetCategory() {
 		CategoryModel.getInstance().addCategory( testCategory );
-		assertEquals( testCategory, CategoryModel.getInstance().getCategory( 1 ) );
+		assertEquals( testCategory, CategoryModel.getInstance().getCategory( 0 ) );
 	}
 	
 	/**

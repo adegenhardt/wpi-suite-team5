@@ -32,8 +32,8 @@ public class SortEventsTest {
 	/**
 	 * Sample objects for test cases to draw from
 	 */
-	Category cat = new Category("test", 1, "JoeSchmoe", false, true);
-	Category cat2 = new Category("test2", 2, "BillChill", false, true);
+	int cat = 1;
+	int cat2 = 2;
 	DateInfo time1 = new DateInfo(2013, 12, 10, 24);
 	DateInfo time2 = new DateInfo(2013, 12, 10, 28);
 	DateInfo time3 = new DateInfo(2013, 12, 14, 30);

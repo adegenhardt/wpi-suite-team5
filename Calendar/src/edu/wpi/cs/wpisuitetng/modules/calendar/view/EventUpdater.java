@@ -375,7 +375,8 @@ public class EventUpdater extends JPanel {
 				// Create an event
 				final Event makeEvent = new Event(eventName.getText(),
 						descriptionPane.getText(), startDate, endDate,
-						isTeamEvent, new Category("Test"));
+						isTeamEvent,
+						((Category) (comboBoxCategory.getSelectedItem())).getId());
 				makeEvent.setId(thisEvent.getId());
 				// If the user creates an event similar in all fields but unique
 				// ID,
