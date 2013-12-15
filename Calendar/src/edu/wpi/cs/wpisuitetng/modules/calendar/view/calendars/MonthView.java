@@ -19,11 +19,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.SortedSet;
 
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -35,6 +42,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.BoxLayout;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
+
 /**
  * @author Team Underscore
  * @version $Revision: 1.0$
@@ -44,6 +53,7 @@ import javax.swing.BoxLayout;
 @SuppressWarnings("serial")
 public class MonthView extends JPanel {
 
+	protected static final int DAY_TAB = 3;
 	MonthViewTable tblCalendar;
 	JButton btnPrev, btnNext;
 	JLabel lblMonth, lblYear;
@@ -55,11 +65,22 @@ public class MonthView extends JPanel {
 	private JPanel navPanel;
 	private JPanel labelPanel;
 	private JPanel calAndHeader;
+	
+	private static MonthView thisInstance;
 
 	/**
-	 * Create the Month mainPanel.
+	 * Create the Month mainPanel
+	 * @return instance
 	 */
-	public MonthView() {
+	public static MonthView getInstance() {
+		if (thisInstance == null) {
+			thisInstance = new MonthView();
+		}
+		return thisInstance;
+	}
+	
+	
+	private MonthView() {
 		setLayout(new BorderLayout());
 		createControls();
 		addControls();
@@ -71,6 +92,48 @@ public class MonthView extends JPanel {
 		populateTable();
 		refreshCalendar(realMonth, realYear);
 		this.addComponentListener(new ResizeListener());
+		tblCalendar.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Integer day = new Integer(dayClicked(arg0.getX(), arg0.getY()));
+				if (day != null) {
+					Calendar selectDay = Calendar.getInstance();
+					selectDay.set(Calendar.YEAR, currentYear);
+					selectDay.set(Calendar.MONTH, currentMonth);
+					selectDay.set(Calendar.DATE, day);
+			        selectDay.set(Calendar.HOUR_OF_DAY, 0);
+			        selectDay.set(Calendar.MINUTE, 0);
+			        selectDay.set(Calendar.SECOND, 0);
+			        selectDay.set(Calendar.MILLISECOND, 0);
+					DayView.getInstance().refreshDay(selectDay);
+					ClosableTabCreator.getInstance(null).getTabbedPane().setSelectedIndex(DAY_TAB);
+				}
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	// Build the various GUI aspects of the Month view
 	private void createControls(){
@@ -369,5 +432,33 @@ public class MonthView extends JPanel {
 				refreshCalendar(realMonth, realYear);
 			}
 		}
+	}
+	
+	/**
+	 * refresh events
+	 */
+	public void refreshEvents() {
+		refreshCalendar(currentMonth, currentYear);
+	}
+	
+	private int dayClicked(int _x, int _y) {
+		for (int i = 0; i < tblCalendar.getRowCount(); i++) {
+			for (int k = 0; k < tblCalendar.getColumnCount(); k++) {
+				Rectangle cellRect = tblCalendar.getCellRect(i, k, false);
+				int x = cellRect.x;
+				int y = cellRect.y;
+				int width = cellRect.width;
+				int height = cellRect.height;
+				if (((_x >= x) && (_x <= x + width)) && ((_y >= y) && (_y <= y + height))) {
+					if (tblCalendar.getValueAt(i, k) == null) {
+						return (Integer) null;
+					}
+					else {
+						return (int) tblCalendar.getValueAt(i, k);
+					}
+				}
+			}
+		}
+		return (Integer) null;
 	}
 }

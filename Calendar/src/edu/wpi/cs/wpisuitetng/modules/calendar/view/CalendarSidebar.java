@@ -65,6 +65,12 @@ public class CalendarSidebar extends JPanel {
 
 	private static CalendarSidebar instance = null;
 
+	
+	/**
+	 * 
+	 * @return instance
+	 */
+
 	public static CalendarSidebar getInstance() {
 		if (instance == null) {
 			instance = new CalendarSidebar();
@@ -404,7 +410,11 @@ public class CalendarSidebar extends JPanel {
 	// ----------------------------------------------------------------------------------------
 
 	// Populates the table of Events in the side bar
+
 	// TODO: Expand to work with Commitments once required
+	/**
+	 * Populates the table of Events in the side bar
+	 */
 	public void populateTable() {
 		this.repaint();
 		int numRows = eventTable.getModel().getRowCount();

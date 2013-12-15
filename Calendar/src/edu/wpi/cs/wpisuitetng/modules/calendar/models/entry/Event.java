@@ -31,7 +31,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
  * @author Team Underscore
  * @version $Revision: 1.0 $
  */
-
 public class Event extends AbstractModel implements ICalendarEntry {
 
 	// ID Parameters
@@ -229,10 +228,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 		id = 0;// TODO auto generate unique
 		creatorId = ConfigManager.getConfig().getUserName();// gets user id
-																	// from
-																	// system
-																	// configuration
-
+												// from system configuration
 
 		this.category = category;
 
@@ -417,7 +413,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * 						  matches the input.
 	 */
 	public String getAParticipant(int index){
-		return this.participants.get(index);
+		return participants.get(index);
 	}
 
 	// Required Functions Database Interaction

@@ -38,7 +38,6 @@ import javax.swing.DefaultComboBoxModel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
@@ -66,7 +65,7 @@ import java.awt.BorderLayout;
  * Creates the event editor tab
  */
 @SuppressWarnings("serial")
-public class EventEditor extends JPanel {
+public class EventUpdater extends JPanel {
 
 	private final JTextField eventName;
 	private final JEditorPane descriptionPane;
@@ -94,7 +93,7 @@ public class EventEditor extends JPanel {
 	private final JTextField textFieldPartic;
 	private final JButton btnAddPartic;
 	private final JScrollPane scrollPanePartics;
-	private final JList<String> listPartics;
+	private JList<String> listPartics;
 	private final JButton btnRemovePartic;
 	private final JLabel lblParterror;
 				
@@ -105,7 +104,7 @@ public class EventEditor extends JPanel {
 	 * Create the panel. Created using WindowBuilder
 	 * @param _parent the parent pane
 	 */
-	public EventEditor(JTabbedPane _parent) {
+	public EventUpdater(JTabbedPane _parent, Event thisEvent) {
 		
 		// Set the parent tabbed pane for this closable tab
 		// Set itself to be called later in the tabbed pane
@@ -131,6 +130,7 @@ public class EventEditor extends JPanel {
 		eventName = new JTextField();
 		eventPanel.add(eventName, "cell 1 0 5 1,growx,aligny center");
 		eventName.setColumns(10);
+		eventName.setText(thisEvent.getName());
 
 		lblEventnamemsg = new JLabel("");
 		lblEventnamemsg.setForeground(Color.red);
@@ -147,7 +147,8 @@ public class EventEditor extends JPanel {
 		// Put the text editor into the scroll pane
 		descriptionPane = new JEditorPane();
 		scrollPaneDesc.setViewportView(descriptionPane);
-
+		descriptionPane.setText(thisEvent.getDescription());
+		
 		lblDescmsg = new JLabel("");
 		lblDescmsg.setForeground(Color.red);
 		eventPanel.add(lblDescmsg, "cell 6 1");
@@ -248,20 +249,10 @@ public class EventEditor extends JPanel {
 		final JLabel lblCategory = new JLabel("Category:");
 		eventPanel.add(lblCategory, "cell 0 8,alignx trailing");
 		
-		// TODO: Populate this with actual categories instead of this predefined list CHECK
-		
-		//final JComboBox<String> comboBoxCategory = new JComboBox<String>();
-		final JComboBox<Category> comboBoxCategory = new JComboBox<Category>();
-		/*comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
-				"Not Important", "Even Less Important", "Party!"}));*/
-		/*for(String categoryName: CategoryModel.getInstance().getAllCategoryNames()){
-			comboBoxCategory.addItem(categoryName);
-		}*/
-		//adds categories to drop down.  Expected to be displayed as based on the Category toString() method TODO Verify
-		for(Category categoryIn: CategoryModel.getInstance().getAllNondeletedCategories()){
-			comboBoxCategory.addItem(categoryIn);
-		}
-		
+		// TODO: Populate this with actual categories instead of this predefined list
+		final JComboBox<String> comboBoxCategory = new JComboBox<String>();
+		comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
+				"Not Important", "Even Less Important", "Party!"}));
 		eventPanel.add(comboBoxCategory, "cell 1 8,growx");
 		
 				
@@ -279,7 +270,12 @@ public class EventEditor extends JPanel {
         final ButtonGroup calGroup = new ButtonGroup();
         calGroup.add(rdbtnPersonal);
         calGroup.add(rdbtnTeam);
-
+        if(thisEvent.isTeamEvent()==false){
+        	rdbtnPersonal.setSelected(true);
+        }
+        else{
+        	rdbtnTeam.setSelected(true);
+        }
 		// Label the Participants text editor
 		final JLabel lblParticipants = new JLabel("Participants:");
 		eventPanel.add(lblParticipants, "cell 0 10,alignx trailing");
@@ -338,7 +334,13 @@ public class EventEditor extends JPanel {
 						descriptionPane.getText(), startDate, endDate, isTeamEvent,
 						new Category("Place", 5));
 				makeEvent.setId(EventModel.getInstance().getNextID());
-				
+				List<String> participants = new ArrayList<String>();
+				for(int i=0; i < listPartics.getModel().getSize(); i++) {
+					participants.add(listPartics.getModel().getElementAt(i));
+				}
+				if (participants.size() > 0) {
+					makeEvent.setUserIds(participants);
+				}
 				
 				// If the user creates an event similar in all fields but unique ID,
 				// then do not add it to the local model or the server.
@@ -355,7 +357,8 @@ public class EventEditor extends JPanel {
 				}
 
 				parent.remove(thisInstance);
-			}
+
+							}
 		}
 		
 		// Clicking Add will add a participant to the list below
@@ -390,6 +393,7 @@ public class EventEditor extends JPanel {
 		eventPanel.add(textFieldPartic, "cell 1 10 3 1,growx");
 		textFieldPartic.setColumns(10);
 		
+		
 		// Button to add a participant to the list, disabled until text is present
 		btnAddPartic = new JButton("Add");
 		eventPanel.add(btnAddPartic, "cell 4 10,growx");
@@ -403,10 +407,17 @@ public class EventEditor extends JPanel {
 		scrollPanePartics = new JScrollPane();
 		eventPanel.add(scrollPanePartics, "cell 1 11 3 1,grow");
 		
+		
 		// List of participants to add to the event
 		particsListModel = new DefaultListModel<String>();
 		listPartics = new JList<String>(particsListModel);
 		scrollPanePartics.setViewportView(listPartics);
+		if(thisEvent.getParticipants()==null)
+		{
+		}
+		else{
+			listPartics=(JList<String>) thisEvent.getParticipants();
+		}
 		
 		// Button to remove participants
 		btnRemovePartic = new JButton("Remove");

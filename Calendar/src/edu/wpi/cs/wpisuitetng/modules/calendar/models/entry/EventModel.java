@@ -16,7 +16,7 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerUponEventCreation;
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListener;
 
 /**List of Calendars pulled from the server
  * 
@@ -61,7 +61,7 @@ public class EventModel extends AbstractListModel<Event> {
 	public static EventModel getInstance(){
 		if(instance == null){
 			instance = new EventModel();
-			instance.addListDataListener( new RefreshListenerUponEventCreation() );
+			instance.addListDataListener( new RefreshListener() );
 		}
 		return instance;
 	}
@@ -180,7 +180,19 @@ public class EventModel extends AbstractListModel<Event> {
 	public Event getElementAt(int index) {
 		return events.get(events.size() - 1 - index);
 	}
-		
+	
+	/**
+	 * set an updated event in the model
+	 * @param e the updated event
+	 */
+	public void updateEvent( Event e ) {
+		for ( int i = 0; i < events.size(); i++ ) {
+			if ( e.getId() == events.get( i ).getId() ) {
+				events.set( i, e );
+			}
+		}
+	}
+	
 	/**
 	 * Returns the list of events
 	 * @return the requirements held within the event model. */
