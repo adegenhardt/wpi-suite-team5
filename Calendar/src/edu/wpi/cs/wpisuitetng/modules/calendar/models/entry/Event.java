@@ -80,6 +80,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 		// create empty list of userIds and add the creator
 		userIds = new ArrayList<String>();
+		
+		color = generateRandomColor();
 	}
 
 	/**
@@ -127,6 +129,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		// create empty list of userIds and add the creator
 		userIds = new ArrayList<String>();
 		userIds.add(creatorId);
+		
+		color = generateRandomColor();
 	}
 
 	/**
@@ -188,6 +192,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		// create empty list of userIds and add the creator
 		userIds = new ArrayList<String>();
 		userIds.add(creatorId);
+		
+		color = generateRandomColor();
 	}
 
 	/**
@@ -237,6 +243,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		// create empty list of userIds and add the creator
 		userIds = new ArrayList<String>();
 		userIds.add(creatorId);
+		
+		color = generateRandomColor();
 	}
 	
 	/**
@@ -263,6 +271,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		this.isTeamEvent = isTeamEvent;
 		this.setParticipants(participants);
 		
+		color = generateRandomColor();
 	}
 
 	// ---------------------------------------------------------
