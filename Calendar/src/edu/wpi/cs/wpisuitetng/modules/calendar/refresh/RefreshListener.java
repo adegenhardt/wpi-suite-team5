@@ -34,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
  public class RefreshListener implements ListDataListener {
 	@Override
 	public void intervalAdded(ListDataEvent e) {
+		System.out.println("made it to interval added");
 		CalendarSidebar.getInstance().populateTable();
 		CalendarSidebar.getInstance().populateCategoryDropDown();
 		DayView.getInstance().refreshEvents();
@@ -54,6 +55,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 
 	@Override
 	public void contentsChanged(ListDataEvent e) {
+		System.out.println("made it here");
 		CalendarSidebar.getInstance().populateTable();
 		CalendarSidebar.getInstance().populateCategoryDropDown();
 		DayView.getInstance().refreshEvents();
