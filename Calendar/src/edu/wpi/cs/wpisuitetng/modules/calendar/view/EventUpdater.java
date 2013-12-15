@@ -38,11 +38,12 @@ import javax.swing.DefaultComboBoxModel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.UpdateEventController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListener;
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
@@ -63,12 +64,11 @@ import javax.swing.event.DocumentListener;
 import java.awt.Component;
 import java.awt.BorderLayout;
 
-
 /**
  * @author Team Underscore
  * @version $Revision: 1.0$
  * 
- * Creates the event editor tab
+ *          Creates the event editor tab
  */
 @SuppressWarnings("serial")
 public class EventUpdater extends JPanel {
@@ -105,29 +105,36 @@ public class EventUpdater extends JPanel {
 
 	private final DefaultListModel<String> particsListModel;
 	private JButton btnDeleteEvent;
+	private JComboBox<Category> comboBoxCategory;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
-	 * @param _parent the parent pane
+	 * 
+	 * @param _parent
+	 *            the parent pane
 	 */
 	public EventUpdater(JTabbedPane _parent, final Event thisEvent) {
 
 		// Set the parent tabbed pane for this closable tab
 		// Set itself to be called later in the tabbed pane
-		parent = _parent; 
+		parent = _parent;
 		thisInstance = this;
 		setLayout(new BorderLayout(0, 0));
 
 		// Define a panel within a scrollpane
 		// Hacky fix to add a scrollbar to this tab
 		final JPanel eventPanel = new JPanel();
-		JScrollPane mainScroll = new JScrollPane(); 
+		JScrollPane mainScroll = new JScrollPane();
 		mainScroll.add(eventPanel);
 		mainScroll.setViewportView(eventPanel);
 		thisInstance.add(mainScroll);
 
 		// Set the layout
-		eventPanel.setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][][][]"));
+		eventPanel
+				.setLayout(new MigLayout(
+						"",
+						"[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]",
+						"[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][][][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -146,9 +153,11 @@ public class EventUpdater extends JPanel {
 		final JLabel lblDescription = new JLabel("Description:");
 		eventPanel.add(lblDescription, "cell 0 1,alignx trailing");
 
-		// The text editor should scroll vertically but not horizontally; it should not resize
+		// The text editor should scroll vertically but not horizontally; it
+		// should not resize
 		final JScrollPane scrollPaneDesc = new JScrollPane();
-		scrollPaneDesc.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneDesc
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		eventPanel.add(scrollPaneDesc, "cell 1 1 5 1,grow");
 		// Put the text editor into the scroll pane
 		descriptionPane = new JEditorPane();
@@ -162,35 +171,36 @@ public class EventUpdater extends JPanel {
 		// Set the Start and End time fields
 		final JLabel lblTime = new JLabel("Start Time:");
 		eventPanel.add(lblTime, "cell 0 2,alignx trailing");
-		
+
 		int[] startTimes = thisEvent.getStartDate().getTime();
 
 		// Create the ComboBoxes for time selection
 		comboBoxStartHour = new JComboBox<String>();
-		comboBoxStartHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
-				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+		comboBoxStartHour.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9",
+						"10", "11", "12" }));
 		eventPanel.add(comboBoxStartHour, "cell 1 2,growx");
-		comboBoxStartHour.setSelectedIndex(startTimes[0]-1);
+		comboBoxStartHour.setSelectedIndex(startTimes[0] - 1);
 
 		comboBoxStartMinutes = new JComboBox<String>();
-		comboBoxStartMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
+		comboBoxStartMinutes.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "00", "30" }));
 		eventPanel.add(comboBoxStartMinutes, "cell 2 2,growx");
 		if (startTimes[1] == 0) {
 			comboBoxStartMinutes.setSelectedIndex(0);
-		}
-		else {
+		} else {
 			comboBoxStartMinutes.setSelectedIndex(1);
 		}
 
 		comboBoxStartAMPM = new JComboBox<String>();
-		comboBoxStartAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
+		comboBoxStartAMPM.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "AM", "PM" }));
 		eventPanel.add(comboBoxStartAMPM, "cell 3 2,growx");
 		comboBoxStartAMPM.setSelectedIndex(thisEvent.getStartDate().getAMPM());
 
 		lblTimemsg = new JLabel("");
 
 		eventPanel.add(lblTimemsg, "cell 4 2, growx, span 3");
-
 
 		// Create the date picker
 		final JLabel lblSDate = new JLabel("Start Date:");
@@ -206,8 +216,10 @@ public class EventUpdater extends JPanel {
 		eventPanel.add(datePickerEndMonth, "cell 1 6 3 1,growx");
 
 		// Set the default dates to Today
-		datePickerStartMonth.setDate(thisEvent.getStartDate().convertDateInfoToDate());
-		datePickerEndMonth.setDate(thisEvent.getEndDate().convertDateInfoToDate());
+		datePickerStartMonth.setDate(thisEvent.getStartDate()
+				.convertDateInfoToDate());
+		datePickerEndMonth.setDate(thisEvent.getEndDate()
+				.convertDateInfoToDate());
 
 		datePickerStartMonth.getEditor().addFocusListener(new FocusAdapter() {
 			@Override
@@ -242,65 +254,66 @@ public class EventUpdater extends JPanel {
 		lblDuplicateEventmsg = new JLabel("");
 		lblDuplicateEventmsg.setForeground(Color.black);
 		eventPanel.add(lblDuplicateEventmsg, "cell 3 12,alignx center");
-		
-		
+
 		int[] endTimes = thisEvent.getEndDate().getTime();
 
 		// Create the combo boxes and labels for time selection
 		comboBoxEndHour = new JComboBox<String>();
-		comboBoxEndHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
-				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+		comboBoxEndHour
+				.setModel(new DefaultComboBoxModel<String>(new String[] { "1",
+						"2", "3", "4", "5", "6", "7", "8", "9", "10", "11",
+						"12" }));
 		eventPanel.add(comboBoxEndHour, "cell 1 5,growx");
-		comboBoxEndHour.setSelectedIndex(endTimes[0]-1);
+		comboBoxEndHour.setSelectedIndex(endTimes[0] - 1);
 
 		comboBoxEndMinutes = new JComboBox<String>();
-		comboBoxEndMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
+		comboBoxEndMinutes.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "00", "30" }));
 		eventPanel.add(comboBoxEndMinutes, "cell 2 5,growx");
 		if (endTimes[1] == 0) {
 			comboBoxEndMinutes.setSelectedIndex(0);
-		}
-		else {
+		} else {
 			comboBoxEndMinutes.setSelectedIndex(1);
 		}
 
 		comboBoxEndAMPM = new JComboBox<String>();
-		comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
+		comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {
+				"AM", "PM" }));
 		eventPanel.add(comboBoxEndAMPM, "cell 3 5,growx");
 		comboBoxEndAMPM.setSelectedIndex(thisEvent.getEndDate().getAMPM());
 
 		labelEDate = new JLabel("End Date:");
 		eventPanel.add(labelEDate, "cell 0 6,alignx trailing");
 
-
 		// Set the Category picker; will be populated by current categories
 		final JLabel lblCategory = new JLabel("Category:");
 		eventPanel.add(lblCategory, "cell 0 8,alignx trailing");
 
-		// TODO: Populate this with actual categories instead of this predefined list
-		final JComboBox<String> comboBoxCategory = new JComboBox<String>();
-		comboBoxCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Important",
-				"Not Important", "Even Less Important", "Party!"}));
+		comboBoxCategory = new JComboBox<Category>();
+		for (Category categoryIn : CategoryModel.getInstance()
+				.getAllNondeletedCategories()) {
+			comboBoxCategory.addItem(categoryIn);
+		}
 		eventPanel.add(comboBoxCategory, "cell 1 8,growx");
-
 
 		// Create Team/Personal calendar options and group them
 		rdbtnPersonal = new JRadioButton("Personal");
 
-		rdbtnPersonal.setSelected(!GlobalButtonVars.getInstance().isStateTeamView());
+		rdbtnPersonal.setSelected(!GlobalButtonVars.getInstance()
+				.isStateTeamView());
 		eventPanel.add(rdbtnPersonal, "cell 1 9");
 
 		rdbtnTeam = new JRadioButton("Team");
 		rdbtnTeam.setSelected(GlobalButtonVars.getInstance().isStateTeamView());
 		eventPanel.add(rdbtnTeam, "cell 3 9");
 
-		//Group the radio buttons.
+		// Group the radio buttons.
 		final ButtonGroup calGroup = new ButtonGroup();
 		calGroup.add(rdbtnPersonal);
 		calGroup.add(rdbtnTeam);
-		if(thisEvent.isTeamEvent()==false){
+		if (thisEvent.isTeamEvent() == false) {
 			rdbtnPersonal.setSelected(true);
-		}
-		else{
+		} else {
 			rdbtnTeam.setSelected(true);
 		}
 		// Label the Participants text editor
@@ -314,40 +327,42 @@ public class EventUpdater extends JPanel {
 		 * 
 		 * @author Team_
 		 * @version 1.0
-		 *
+		 * 
 		 */
-		class SubmitButtonListener implements ActionListener{
-			public void actionPerformed(ActionEvent e){
+		class SubmitButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
 				// Check for validity of input
 				if (!checkValid()) {
 					return;
 				}
 				// Parse the start time
-				final int startHalfHours = parseTime((String) comboBoxStartHour.getSelectedItem(),
+				final int startHalfHours = parseTime(
+						(String) comboBoxStartHour.getSelectedItem(),
 						(String) comboBoxStartMinutes.getSelectedItem(),
 						(String) comboBoxStartAMPM.getSelectedItem());
 
 				// TODO: Replace code with something using new data model
-				final Date start = (Date) datePickerStartMonth.getDate().clone();
-				final DateInfo startDate = new DateInfo(start.getYear() + 1900, start.getMonth(),
-						start.getDate() - 1, startHalfHours);
+				final Date start = (Date) datePickerStartMonth.getDate()
+						.clone();
+				final DateInfo startDate = new DateInfo(start.getYear() + 1900,
+						start.getMonth(), start.getDate() - 1, startHalfHours);
 
-				final int endHalfHours = parseTime((String) comboBoxEndHour.getSelectedItem(),
+				final int endHalfHours = parseTime(
+						(String) comboBoxEndHour.getSelectedItem(),
 						(String) comboBoxEndMinutes.getSelectedItem(),
 						(String) comboBoxEndAMPM.getSelectedItem());
 
 				// TODO: Replace code with something using new data model
 				final Date end = (Date) datePickerEndMonth.getDate().clone();
-				final DateInfo endDate = new DateInfo(end.getYear() + 1900, end.getMonth(),
-						end.getDate() - 1, endHalfHours);
+				final DateInfo endDate = new DateInfo(end.getYear() + 1900,
+						end.getMonth(), end.getDate() - 1, endHalfHours);
 
 				// Check whether this is a team or personal event
 				boolean isTeamEvent;
 				if (rdbtnPersonal.isSelected()) {
 					System.out.println("Personal event");
 					isTeamEvent = false;
-				}
-				else {
+				} else {
 					System.out.println("Team Event");
 					isTeamEvent = true;
 				}
@@ -358,12 +373,13 @@ public class EventUpdater extends JPanel {
 
 				// Create an event
 				final Event makeEvent = new Event(eventName.getText(),
-						descriptionPane.getText(), startDate, endDate, isTeamEvent,
-						new Category("Place", 5));
+						descriptionPane.getText(), startDate, endDate,
+						isTeamEvent, new Category("Test"));
 				makeEvent.setId(thisEvent.getId());
-				// If the user creates an event similar in all fields but unique ID,
+				// If the user creates an event similar in all fields but unique
+				// ID,
 				// then do not add it to the local model or the server.
-				UpdateEventController.getInstance().updateEvent(makeEvent);				
+				UpdateEventController.getInstance().updateEvent(makeEvent);
 				parent.remove(thisInstance);
 
 			}
@@ -374,10 +390,10 @@ public class EventUpdater extends JPanel {
 		 * 
 		 * @author Team_
 		 * @version 1.0
-		 *
+		 * 
 		 */
-		class ParticAddButtonListener implements ActionListener{
-			public void actionPerformed(ActionEvent e){
+		class ParticAddButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
 				particsListModel.addElement(textFieldPartic.getText());
 				textFieldPartic.setText(null);
 			}
@@ -388,10 +404,10 @@ public class EventUpdater extends JPanel {
 		 * 
 		 * @author Team_
 		 * @version 1.0
-		 *
+		 * 
 		 */
-		class ParticRemoveButtonListener implements ActionListener{
-			public void actionPerformed(ActionEvent e){
+		class ParticRemoveButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
 				particsListModel.removeElement(listPartics.getSelectedValue());
 			}
 		}
@@ -401,8 +417,8 @@ public class EventUpdater extends JPanel {
 		eventPanel.add(textFieldPartic, "cell 1 10 3 1,growx");
 		textFieldPartic.setColumns(10);
 
-
-		// Button to add a participant to the list, disabled until text is present
+		// Button to add a participant to the list, disabled until text is
+		// present
 		btnAddPartic = new JButton("Add");
 		eventPanel.add(btnAddPartic, "cell 4 10,growx");
 		btnAddPartic.setEnabled(false);
@@ -415,16 +431,13 @@ public class EventUpdater extends JPanel {
 		scrollPanePartics = new JScrollPane();
 		eventPanel.add(scrollPanePartics, "cell 1 11 3 1,grow");
 
-
 		// List of participants to add to the event
 		particsListModel = new DefaultListModel<String>();
 		listPartics = new JList<String>(particsListModel);
 		scrollPanePartics.setViewportView(listPartics);
-		if(thisEvent.getParticipants()==null)
-		{
-		}
-		else{
-			listPartics=(JList<String>) thisEvent.getParticipants();
+		if (thisEvent.getParticipants() == null) {
+		} else {
+			listPartics = (JList<String>) thisEvent.getParticipants();
 		}
 
 		// Button to remove participants
@@ -438,7 +451,7 @@ public class EventUpdater extends JPanel {
 		btnDeleteEvent = new JButton("Delete Event");
 		// TODO:
 		// If (editing this event){
-		//  eventPanel.add(btnDeleteEvent, "cell 1 14 3 1,growx");
+		// eventPanel.add(btnDeleteEvent, "cell 1 14 3 1,growx");
 		// }
 
 		// Button listeners
@@ -446,48 +459,49 @@ public class EventUpdater extends JPanel {
 		btnAddPartic.addActionListener(new ParticAddButtonListener());
 		btnRemovePartic.addActionListener(new ParticRemoveButtonListener());
 
+		// If the participants text field is not empty, allow the Add button to
+		// be pressed
+		// Uses a DocumentListener to check for changes, specifically to check
+		// if empty
+		textFieldPartic.getDocument().addDocumentListener(
+				new DocumentListener() {
+					public void changedUpdate(DocumentEvent e) {
+						enableAdd();
+					}
 
-		// If the participants text field is not empty, allow the Add button to be pressed
-		// Uses a DocumentListener to check for changes, specifically to check if empty
-		textFieldPartic.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				enableAdd();
-			}
-			public void removeUpdate(DocumentEvent e) {
-				enableAdd();
-			}
-			public void insertUpdate(DocumentEvent e) {
-				enableAdd();
-			}
+					public void removeUpdate(DocumentEvent e) {
+						enableAdd();
+					}
 
-			private void enableAdd(){
-				if ((textFieldPartic.getText().equals(""))){
-					btnAddPartic.setEnabled(false);
-				}
-				else btnAddPartic.setEnabled(true);
-			}
-		});
+					public void insertUpdate(DocumentEvent e) {
+						enableAdd();
+					}
 
+					private void enableAdd() {
+						if ((textFieldPartic.getText().equals(""))) {
+							btnAddPartic.setEnabled(false);
+						} else
+							btnAddPartic.setEnabled(true);
+					}
+				});
 
 	}
 
 	// Checks for valid input and displays messages next to
-	// TODO: Fields that may need correcting, right now only checks 
+	// TODO: Fields that may need correcting, right now only checks
 	// For blank fields,I'll add some more sophisticated checks
 	private boolean checkValid() {
 		boolean isValid = true;
 		if (eventName.getText().trim().length() == 0) {
 			lblEventnamemsg.setText("Enter event name");
 			isValid = false;
-		}
-		else {
+		} else {
 			lblEventnamemsg.setText("");
 		}
 		if (descriptionPane.getText().trim().length() == 0) {
 			lblDescmsg.setText("Enter a description");
-			isValid = false; 
-		}
-		else {
+			isValid = false;
+		} else {
 			lblDescmsg.setText("");
 		}
 		// This is a rather risky check, it should be ok for this
@@ -500,12 +514,12 @@ public class EventUpdater extends JPanel {
 				if (parseTime((String) comboBoxStartHour.getSelectedItem(),
 						(String) comboBoxStartMinutes.getSelectedItem(),
 						(String) comboBoxStartAMPM.getSelectedItem()) >= parseTime(
-								(String) comboBoxEndHour.getSelectedItem(),
-								(String) comboBoxEndMinutes.getSelectedItem(),
-								(String) comboBoxEndAMPM.getSelectedItem())) {
+						(String) comboBoxEndHour.getSelectedItem(),
+						(String) comboBoxEndMinutes.getSelectedItem(),
+						(String) comboBoxEndAMPM.getSelectedItem())) {
 					lblTimemsg.setForeground(Color.red);
 					lblTimemsg
-					.setText("Start time can't be after or equal to end time");
+							.setText("Start time can't be after or equal to end time");
 					isValid = false;
 				} else {
 					lblTimemsg.setText("");
@@ -522,12 +536,12 @@ public class EventUpdater extends JPanel {
 			if (datePickerStartMonth.getDate() == null) {
 				lblDatemsg.setForeground(Color.red);
 				lblDatemsg.setText("Invalid Date");
-				isValid = false; 
+				isValid = false;
 			}
 			if (datePickerEndMonth.getDate() == null) {
 				lblDateEndMsg.setForeground(Color.red);
 				lblDateEndMsg.setText("Invalid Date");
-				isValid = false; 
+				isValid = false;
 			}
 		}
 		return isValid;
@@ -538,13 +552,12 @@ public class EventUpdater extends JPanel {
 	private int parseTime(String hour, String minutes, String AMPM) {
 		int time;
 		if (AMPM.equals("AM")) {
-			time= 0;
+			time = 0;
+		} else {
+			time = 24;
 		}
-		else {
-			time = 24; 
-		}
-		if (Integer.parseInt(hour) == 12) {}
-		else {
+		if (Integer.parseInt(hour) == 12) {
+		} else {
 			time += 2 * Integer.parseInt(hour);
 		}
 		time += Integer.parseInt(minutes) / 30;

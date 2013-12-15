@@ -195,10 +195,6 @@ public class CalendarSidebar extends JPanel {
 		comboBoxCats = new JComboBox<Category>();
 		filtersCatsPanel.add(comboBoxCats, "cell 1 4 2 1,growx");
 		// adds categories to drop down.
-		for (Category categoryIn : CategoryModel.getInstance()
-				.getAllNondeletedCategories()) {
-			comboBoxCats.addItem(categoryIn);
-		}
 
 		// Create a button to Apply a Filter
 		final JButton btnApply = new JButton("Apply as Filter");
@@ -323,14 +319,6 @@ public class CalendarSidebar extends JPanel {
 					// TODO Verify this is correct model functions
 					AddCategoryController.getInstance()
 							.addCategory(newCategory);
-
-					// empties the drop down
-					comboBoxCats.removeAllItems();
-					// Update drop down list
-					for (Category categoryIn : CategoryModel.getInstance()
-							.getAllNondeletedCategories()) {
-						comboBoxCats.addItem(categoryIn);
-					}
 					// inform use of event creation
 					lblNewcatmsg.setText("Category " + newCategory.getName()
 							+ "Was Created");
@@ -398,7 +386,6 @@ public class CalendarSidebar extends JPanel {
 		});
 		// btnApply.addActionListener(new applyButtonListener());
 		// btnUnapply.addActionListener(new unapplyButtonListener());
-		populateTable();
 
 	}
 
@@ -439,22 +426,18 @@ public class CalendarSidebar extends JPanel {
 		// Get personal, team, or both views according to the state that was
 		// selected
 		// by the user upon using the Calendar module.
-
+		String userId = ConfigManager.getConfig().getUserName();
 		// View only those events that are personal.
 		if (GlobalButtonVars.getInstance().isStatePersonalView()) {
-			String userId = ConfigManager.getConfig().getUserName();
 			events = EventModel.getInstance().getPersonalEvents(userId);
 		}
-
 		// View only those events that are team.
-		if (GlobalButtonVars.getInstance().isStateTeamView()) {
-			String userId = ConfigManager.getConfig().getUserName();
+		else if (GlobalButtonVars.getInstance().isStateTeamView()) {
 			events = EventModel.getInstance().getTeamEvents(userId);
 		}
-
 		// View all events that are classified as being both team and personal.
-		if (GlobalButtonVars.getInstance().isStateBothView()) {
-			events = EventModel.getInstance().getAllEvents();
+		else if (GlobalButtonVars.getInstance().isStateBothView()) {
+			events = EventModel.getInstance().getUserEvents(userId);
 		}
 
 		// Inform the user via the console in the case that no state was
@@ -468,7 +451,7 @@ public class CalendarSidebar extends JPanel {
 		}
 
 		// checks to see if there are more events than rows, if so adds a new
-		// row
+		// row all in one go
 		while (events.size() > eventTable.getModel().getRowCount()) {
 			((DefaultTableModel) eventTable.getModel()).insertRow(numRows,
 					new Object[] { null, null, null, null });
@@ -544,8 +527,8 @@ public class CalendarSidebar extends JPanel {
 	}
 
 	/**
-	 * Overrides the paintComponent method to retrieve the events on the first
-	 * painting.
+	 * Overrides the paintComponent method to retrieve the events and categories
+	 * on the first painting.
 	 * 
 	 * @param g
 	 *            The component object to paint

@@ -31,37 +31,20 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
  * @version 1.0
  *
  */
- public class RefreshListener implements ListDataListener {
+ public class RefreshListenerCategories implements ListDataListener {
 	@Override
 	public void intervalAdded(ListDataEvent e) {
-		System.out.println("made it to interval added");
-		CalendarSidebar.getInstance().populateTable();
 		CalendarSidebar.getInstance().populateCategoryDropDown();
-		DayView.getInstance().refreshEvents();
-		YearViewCalendar.getInstance(null).refreshYear();
-		WeekView.getInstance().refreshEvents();
-		MonthView.getInstance().refreshEvents();
 	}
 
 	@Override
 	public void intervalRemoved(ListDataEvent e) {
-		CalendarSidebar.getInstance().populateTable();
 		CalendarSidebar.getInstance().populateCategoryDropDown();
-		DayView.getInstance().refreshEvents();
-		YearViewCalendar.getInstance(null).refreshYear();
-		WeekView.getInstance().refreshEvents();
-		MonthView.getInstance().refreshEvents();
 	}
 
 	@Override
 	public void contentsChanged(ListDataEvent e) {
-		System.out.println("made it here");
-		CalendarSidebar.getInstance().populateTable();
 		CalendarSidebar.getInstance().populateCategoryDropDown();
-		DayView.getInstance().refreshEvents();
-		YearViewCalendar.getInstance(null).refreshYear();
-		WeekView.getInstance().refreshEvents();
-		MonthView.getInstance().refreshEvents();
 	}
 	
 }

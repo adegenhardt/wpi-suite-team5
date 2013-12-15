@@ -20,7 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListener;
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerCategories;
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerUponEventCreation;
 
 import javax.swing.AbstractListModel;
@@ -70,7 +71,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	public static CategoryModel getInstance() {
 		if (instance == null) {
 			instance = new CategoryModel();
-			instance.addListDataListener(new RefreshListener());
+			instance.addListDataListener(new RefreshListenerCategories());
 		}
 		return instance;
 	}
