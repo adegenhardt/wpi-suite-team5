@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class UpdateEventRequestObserver implements RequestObserver {
 	
+	@SuppressWarnings("unused")
 	private final UpdateEventController controller;
 	
 	/**

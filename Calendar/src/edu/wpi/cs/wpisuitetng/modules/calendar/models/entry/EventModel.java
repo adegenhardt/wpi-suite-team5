@@ -41,6 +41,7 @@ public class EventModel extends AbstractListModel<Event> {
 	// TODO: Research if and how this is maintained between different instances of the program
 	private int nextID; // the next available ID number for the event
 						// that are added
+	
 	// the static object that allows the event model to be
 	private static EventModel instance = null;
 	

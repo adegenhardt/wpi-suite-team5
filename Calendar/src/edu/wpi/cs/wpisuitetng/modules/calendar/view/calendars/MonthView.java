@@ -24,15 +24,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.SortedSet;
-import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -451,6 +447,7 @@ public class MonthView extends JPanel {
 		refreshCalendar(currentMonth, currentYear);
 	}
 	
+	@SuppressWarnings("null")
 	private int dayClicked(int _x, int _y) {
 		for (int i = 0; i < tblCalendar.getRowCount(); i++) {
 			for (int k = 0; k < tblCalendar.getColumnCount(); k++) {

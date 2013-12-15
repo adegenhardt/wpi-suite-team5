@@ -19,9 +19,6 @@ import java.util.Date;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import static org.junit.Assert.*;
 
-
-import org.junit.Before;
-
 import org.junit.Test;
 
 /**
@@ -76,6 +73,7 @@ public class DateInfoTest {
 	 * third set of example of test data
 	 */
 	@Test
+	@SuppressWarnings("deprecation")
 	public void testDateToDateInfo(){
 		Date date1 = new Date(100, 5, 8);
 		date1.setHours(5);

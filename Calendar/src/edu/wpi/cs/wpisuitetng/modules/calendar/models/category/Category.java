@@ -251,9 +251,18 @@ public class Category extends AbstractModel {
 		if(obj == null){
 		}
 		else if( this.getClass() == obj.getClass()){
-			if(this.getName().equals(((Category) obj).getName()) ){
+			// Cast other object to Category
+			Category other = (Category) obj;
+			
+			// Check if name is null before comparing
+			if (this.getName() != null && other.getName() != null) {
+				if(this.getName().equals(other.getName()) ){
+					out = true;
+				}
+			} else if (this.getName() == null && other.getName() == null) {
 				out = true;
 			}
+
 		}
 		return out;
 				

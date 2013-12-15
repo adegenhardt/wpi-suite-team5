@@ -81,7 +81,7 @@ public class EventViewer extends JPanel {
 		add(lblInputCategory, "cell 1 7");
 		
 		// Label and create the Participants text editor
-		// TODO: This is a bit unintuitive; we should come up with a
+		// TODO: This is a bit un-intuitive; we should come up with a
 		// better way to do this
 		final JLabel lblParticipants = new JLabel("Participants:");
 		add(lblParticipants, "cell 0 9,alignx trailing");
@@ -91,6 +91,7 @@ public class EventViewer extends JPanel {
 
 	}
 	// Set listeners
+	@SuppressWarnings("unused")
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {

@@ -19,9 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerCategories;
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
 
 import javax.swing.AbstractListModel;
 
@@ -36,20 +34,16 @@ public class CategoryModel extends AbstractListModel<Category> {
 
 	private static final long serialVersionUID = 8555534911453497404L;
 
-	// ********************************************************************
-	// Construct the Calendar Model
-
 	/**
-	 * The list in which all the calendar data for a single project are
+	 * The list in which all the category data for a single project is
 	 * contained
 	 */
 	private final List<Category> categories;
 
-	// TODO: Research if and how this is maintained between different instances
-	// of the program
-	private int nextID; // the next available ID number for the calendar data
+	private int nextID; // the next available ID number for the category data
 						// that are added
-	// the static object that allows the calendar data model to be
+	
+	// the static object that allows the category data model to be globally accessible.
 	private static CategoryModel instance = null;
 
 	/**
@@ -91,9 +85,8 @@ public class CategoryModel extends AbstractListModel<Category> {
 	/**
 	 * Returns the Calendar Data with the given ID
 	 * 
-	 * @param id
-	 *            The ID number of the calendar data to be returned
-	 * 
+	 * @param id 
+	 * 			The ID number of the calendar data to be returned
 	 * 
 	 * @return the calendar data for the ID, or null if the data is not found.
 	 */
@@ -470,7 +463,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * builds a list of strings of the model's categories' names for nondeleteed
+	 * builds a list of strings of the model's categories' names for non-deleted
 	 * categories
 	 * 
 	 * @return

@@ -42,11 +42,8 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.UpdateEventController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.CalendarTab;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 
-import java.util.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
@@ -85,6 +82,7 @@ public class EventEditor extends JPanel {
 	private final JLabel lblDescmsg;
 	private final JLabel lblEventnamemsg;
 	private JLabel lblDuplicateEventmsg;
+	@SuppressWarnings("unused")
 	private JLabel lblSameNameEventmsg;
 	private final JLabel labelEDate;
 	private final JLabel lblDateEndMsg;
@@ -102,7 +100,9 @@ public class EventEditor extends JPanel {
 	private final JLabel lblParterror;
 
 	private final DefaultListModel<String> particsListModel;
+	@SuppressWarnings("unused")
 	private JButton btnDeleteEvent;
+	@SuppressWarnings("unused")
 	private static boolean isDuplicateEvent = false;
 
 	/**
@@ -317,6 +317,7 @@ public class EventEditor extends JPanel {
 				// TODO: Replace code with something using new data model
 				final Date start = (Date) datePickerStartMonth.getDate()
 						.clone();
+				@SuppressWarnings("deprecation")
 				final DateInfo startDate = new DateInfo(start.getYear() + 1900,
 						start.getMonth(), start.getDate() - 1, startHalfHours);
 
@@ -327,6 +328,7 @@ public class EventEditor extends JPanel {
 
 				// TODO: Replace code with something using new data model
 				final Date end = (Date) datePickerEndMonth.getDate().clone();
+				@SuppressWarnings("deprecation")
 				final DateInfo endDate = new DateInfo(end.getYear() + 1900,
 						end.getMonth(), end.getDate() - 1, endHalfHours);
 
@@ -347,7 +349,8 @@ public class EventEditor extends JPanel {
 				// Create an event
 				final Event makeEvent = new Event(eventName.getText(),
 						descriptionPane.getText(), startDate, endDate,
-						isTeamEvent, new Category("Test"));
+						isTeamEvent,
+						((Category) (comboBoxCategory.getSelectedItem())).getId() );
 				makeEvent.setId(EventModel.getInstance().getNextID());
 
 				// If the user creates an event similar in all fields but unique

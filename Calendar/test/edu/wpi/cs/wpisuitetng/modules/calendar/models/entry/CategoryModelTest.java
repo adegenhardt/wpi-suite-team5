@@ -22,7 +22,6 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockNetwork;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -56,6 +55,7 @@ public class CategoryModelTest {
 		
 		CategoryModel.getInstance().emptyModel();
 		
+		testCategory.setId( 0 );
 		testCategory.setDeleted( false );
 	}
 	
@@ -85,7 +85,7 @@ public class CategoryModelTest {
 	@Test
 	public void testGetCategory() {
 		CategoryModel.getInstance().addCategory( testCategory );
-		assertEquals( testCategory, CategoryModel.getInstance().getCategory( 1 ) );
+		assertEquals( testCategory, CategoryModel.getInstance().getCategory( 0 ) );
 	}
 	
 	/**
