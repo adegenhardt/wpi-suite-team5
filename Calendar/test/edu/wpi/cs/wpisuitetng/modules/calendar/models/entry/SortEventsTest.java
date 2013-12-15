@@ -25,7 +25,7 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 public class SortEventsTest {
@@ -63,9 +63,9 @@ public class SortEventsTest {
 	Event event9 = new Event("Hunt Vaults", null, time8, time1, cat2, true, 8,
 			"Maya");
 	Event event10 = new Event("Geronimo!", null, time8, time1, cat2, true, 9,
-			"The Doctor");	
-
-	ArrayList<Event> testList1 = new ArrayList<Event>();
+			"The Doctor");
+	
+	List<Event> testList1 = new ArrayList<Event>();
 	SortEvents s = new SortEvents();
 	
 	//Note to self: ArrayLists can only be initialized within a method.
@@ -77,14 +77,14 @@ public class SortEventsTest {
 	
 	@Test
 	public void testSameEvent(){
-		ArrayList<Event> l = new ArrayList<Event>();
+		List<Event> l = new ArrayList<Event>();
 		l.add(event1);
 		assertEquals(l, s.sortEventsByName(l));
 	}
 	
 	@Test
 	public void testMakeSureSortDetectionWorks(){
-		ArrayList<Event> sorted = new ArrayList<Event>();
+		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event1);
 		sorted.add(event2);
 		assertFalse(sorted.equals(s.sortEventsByName(testList1)));
@@ -92,10 +92,10 @@ public class SortEventsTest {
 	
 	@Test
 	public void testSimpleAlphabeticalSort(){
-		ArrayList<Event> toSort = new ArrayList<Event>();
+		List<Event> toSort = new ArrayList<Event>();
 		toSort.add(event4);
 		toSort.add(event3);
-		ArrayList<Event> sorted = new ArrayList<Event>();
+		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event3);
 		sorted.add(event4);
 		assertEquals(sorted, s.sortEventsByName(toSort));
@@ -103,13 +103,13 @@ public class SortEventsTest {
 	
 	@Test
 	public void testLargerAlphabeticalSort(){
-		ArrayList<Event> toSort = new ArrayList<Event>();
+		List<Event> toSort = new ArrayList<Event>();
 		toSort.add(event6);
 		toSort.add(event1);
 		toSort.add(event3);
 		toSort.add(event4);
 		toSort.add(event5);
-		ArrayList<Event> sorted = new ArrayList<Event>();
+		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event3);
 		sorted.add(event4);
 		sorted.add(event5);
@@ -120,10 +120,10 @@ public class SortEventsTest {
 	
 	@Test
 	public void testSortTwoEqualStartDates(){
-		ArrayList<Event> toSort = new ArrayList<Event>();
+		List<Event> toSort = new ArrayList<Event>();
 		toSort.add(event5);
 		toSort.add(event7);
-		ArrayList<Event> sorted = new ArrayList<Event>();
+		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event7);
 		sorted.add(event5);
 		assertEquals(sorted, s.sortEventsByDate(toSort));

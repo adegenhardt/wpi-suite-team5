@@ -43,6 +43,11 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.UpdateEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 
 import java.util.*;
@@ -66,7 +71,7 @@ import java.awt.BorderLayout;
  *          Creates the event editor tab
  */
 @SuppressWarnings("serial")
-public class EventEditor extends JPanel {
+public class EventUpdater extends JPanel {
 
 	private final JTextField eventName;
 	private final JEditorPane descriptionPane;
@@ -78,13 +83,11 @@ public class EventEditor extends JPanel {
 	private final JComboBox<String> comboBoxEndHour;
 	private final JComboBox<String> comboBoxEndMinutes;
 	private final JComboBox<String> comboBoxEndAMPM;
-	private JComboBox<Category> comboBoxCategory;
 
 	private final JLabel lblDatemsg;
 	private final JLabel lblDescmsg;
 	private final JLabel lblEventnamemsg;
 	private JLabel lblDuplicateEventmsg;
-	private JLabel lblSameNameEventmsg;
 	private final JLabel labelEDate;
 	private final JLabel lblDateEndMsg;
 	private final JLabel lblTimemsg;
@@ -96,13 +99,13 @@ public class EventEditor extends JPanel {
 	private final JTextField textFieldPartic;
 	private final JButton btnAddPartic;
 	private final JScrollPane scrollPanePartics;
-	private final JList<String> listPartics;
+	private JList<String> listPartics;
 	private final JButton btnRemovePartic;
 	private final JLabel lblParterror;
 
 	private final DefaultListModel<String> particsListModel;
 	private JButton btnDeleteEvent;
-	private static boolean isDuplicateEvent = false;
+	private JComboBox<Category> comboBoxCategory;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
@@ -110,7 +113,7 @@ public class EventEditor extends JPanel {
 	 * @param _parent
 	 *            the parent pane
 	 */
-	public EventEditor(JTabbedPane _parent) {
+	public EventUpdater(JTabbedPane _parent, final Event thisEvent) {
 
 		// Set the parent tabbed pane for this closable tab
 		// Set itself to be called later in the tabbed pane
@@ -140,6 +143,7 @@ public class EventEditor extends JPanel {
 		eventName = new JTextField();
 		eventPanel.add(eventName, "cell 1 0 5 1,growx,aligny center");
 		eventName.setColumns(10);
+		eventName.setText(thisEvent.getName());
 
 		lblEventnamemsg = new JLabel("");
 		lblEventnamemsg.setForeground(Color.red);
@@ -158,6 +162,7 @@ public class EventEditor extends JPanel {
 		// Put the text editor into the scroll pane
 		descriptionPane = new JEditorPane();
 		scrollPaneDesc.setViewportView(descriptionPane);
+		descriptionPane.setText(thisEvent.getDescription());
 
 		lblDescmsg = new JLabel("");
 		lblDescmsg.setForeground(Color.red);
@@ -167,22 +172,31 @@ public class EventEditor extends JPanel {
 		final JLabel lblTime = new JLabel("Start Time:");
 		eventPanel.add(lblTime, "cell 0 2,alignx trailing");
 
+		int[] startTimes = thisEvent.getStartDate().getTime();
+
 		// Create the ComboBoxes for time selection
 		comboBoxStartHour = new JComboBox<String>();
 		comboBoxStartHour.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9",
 						"10", "11", "12" }));
 		eventPanel.add(comboBoxStartHour, "cell 1 2,growx");
+		comboBoxStartHour.setSelectedIndex(startTimes[0] - 1);
 
 		comboBoxStartMinutes = new JComboBox<String>();
 		comboBoxStartMinutes.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "00", "30" }));
 		eventPanel.add(comboBoxStartMinutes, "cell 2 2,growx");
+		if (startTimes[1] == 0) {
+			comboBoxStartMinutes.setSelectedIndex(0);
+		} else {
+			comboBoxStartMinutes.setSelectedIndex(1);
+		}
 
 		comboBoxStartAMPM = new JComboBox<String>();
 		comboBoxStartAMPM.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "AM", "PM" }));
 		eventPanel.add(comboBoxStartAMPM, "cell 3 2,growx");
+		comboBoxStartAMPM.setSelectedIndex(thisEvent.getStartDate().getAMPM());
 
 		lblTimemsg = new JLabel("");
 
@@ -202,8 +216,10 @@ public class EventEditor extends JPanel {
 		eventPanel.add(datePickerEndMonth, "cell 1 6 3 1,growx");
 
 		// Set the default dates to Today
-		datePickerStartMonth.setDate(new Date());
-		datePickerEndMonth.setDate(new Date());
+		datePickerStartMonth.setDate(thisEvent.getStartDate()
+				.convertDateInfoToDate());
+		datePickerEndMonth.setDate(thisEvent.getEndDate()
+				.convertDateInfoToDate());
 
 		datePickerStartMonth.getEditor().addFocusListener(new FocusAdapter() {
 			@Override
@@ -239,6 +255,8 @@ public class EventEditor extends JPanel {
 		lblDuplicateEventmsg.setForeground(Color.black);
 		eventPanel.add(lblDuplicateEventmsg, "cell 3 12,alignx center");
 
+		int[] endTimes = thisEvent.getEndDate().getTime();
+
 		// Create the combo boxes and labels for time selection
 		comboBoxEndHour = new JComboBox<String>();
 		comboBoxEndHour
@@ -246,16 +264,23 @@ public class EventEditor extends JPanel {
 						"2", "3", "4", "5", "6", "7", "8", "9", "10", "11",
 						"12" }));
 		eventPanel.add(comboBoxEndHour, "cell 1 5,growx");
+		comboBoxEndHour.setSelectedIndex(endTimes[0] - 1);
 
 		comboBoxEndMinutes = new JComboBox<String>();
 		comboBoxEndMinutes.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "00", "30" }));
 		eventPanel.add(comboBoxEndMinutes, "cell 2 5,growx");
+		if (endTimes[1] == 0) {
+			comboBoxEndMinutes.setSelectedIndex(0);
+		} else {
+			comboBoxEndMinutes.setSelectedIndex(1);
+		}
 
 		comboBoxEndAMPM = new JComboBox<String>();
 		comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {
 				"AM", "PM" }));
 		eventPanel.add(comboBoxEndAMPM, "cell 3 5,growx");
+		comboBoxEndAMPM.setSelectedIndex(thisEvent.getEndDate().getAMPM());
 
 		labelEDate = new JLabel("End Date:");
 		eventPanel.add(labelEDate, "cell 0 6,alignx trailing");
@@ -269,7 +294,6 @@ public class EventEditor extends JPanel {
 				.getAllNondeletedCategories()) {
 			comboBoxCategory.addItem(categoryIn);
 		}
-
 		eventPanel.add(comboBoxCategory, "cell 1 8,growx");
 
 		// Create Team/Personal calendar options and group them
@@ -287,7 +311,11 @@ public class EventEditor extends JPanel {
 		final ButtonGroup calGroup = new ButtonGroup();
 		calGroup.add(rdbtnPersonal);
 		calGroup.add(rdbtnTeam);
-
+		if (thisEvent.isTeamEvent() == false) {
+			rdbtnPersonal.setSelected(true);
+		} else {
+			rdbtnTeam.setSelected(true);
+		}
 		// Label the Participants text editor
 		final JLabel lblParticipants = new JLabel("Participants:");
 		eventPanel.add(lblParticipants, "cell 0 10,alignx trailing");
@@ -347,59 +375,13 @@ public class EventEditor extends JPanel {
 				final Event makeEvent = new Event(eventName.getText(),
 						descriptionPane.getText(), startDate, endDate,
 						isTeamEvent, new Category("Test"));
-				makeEvent.setId(EventModel.getInstance().getNextID());
-
+				makeEvent.setId(thisEvent.getId());
 				// If the user creates an event similar in all fields but unique
 				// ID,
 				// then do not add it to the local model or the server.
-
-				if (EventModel.getInstance().similarEventFound(userId, makeEvent)) {
-					lblDuplicateEventmsg = new JLabel("Duplicate entered: event not created.");
-					lblDuplicateEventmsg.setForeground(Color.red);
-					eventPanel.add(lblDuplicateEventmsg, "cell 3 12,alignx center");
-					System.out.println("Duplicate entered: event not created.");
-					isDuplicateEvent = true;
-					
-					return;
-				}
-				
-				// If the user creates an event similar in name to any other event
-				// that is currently contained within the list of events that is maintained
-				// by the local EventModel, then provide the user with the ability to update
-				// the contents of the current event that has that name.
-				if (EventModel.getInstance().sameNameEventFound(userId, eventName.getText())) {
-					if (!isDuplicateEvent) {
-						// Ask the user if he or she would like to update the contents of the event with
-						// the corresponding name, add the event if it shares a similar name but different
-						// content (open the event creator with the same content again), 
-						// or exit out of the event creator.
-						lblSameNameEventmsg = new JLabel("Event with same name already exists: select an option.");
-						lblSameNameEventmsg.setForeground(Color.blue);
-						eventPanel.add(lblSameNameEventmsg, "cell 3 12,alignx center");
-						System.out.println("Event with same name already exists: select an option 1.");
-					}
-					if (isDuplicateEvent) {
-						// Ask the user if he or she would like to update the contents of the event with
-						// the corresponding name, add the event if it shares a similar name but different
-						// content (open the event creator with the same content again), 
-						// or exit out of the event creator. Delete the message shown for duplicates.
-						eventPanel.remove(lblDuplicateEventmsg);
-						lblSameNameEventmsg = new JLabel("Event with same name already exists: select an option.");
-						lblSameNameEventmsg.setForeground(Color.blue);
-						eventPanel.add(lblSameNameEventmsg, "cell 3 12,alignx center");
-						System.out.println("Event with same name already exists: select an option 2.");
-						repaint();
-						isDuplicateEvent = false;
-					}
-					
-					return;
-				}
-				
-				else {
-					AddEventController.getInstance().addEvent(makeEvent);
-				}
-
+				UpdateEventController.getInstance().updateEvent(makeEvent);
 				parent.remove(thisInstance);
+
 			}
 		}
 
@@ -453,6 +435,10 @@ public class EventEditor extends JPanel {
 		particsListModel = new DefaultListModel<String>();
 		listPartics = new JList<String>(particsListModel);
 		scrollPanePartics.setViewportView(listPartics);
+		if (thisEvent.getParticipants() == null) {
+		} else {
+			listPartics = (JList<String>) thisEvent.getParticipants();
+		}
 
 		// Button to remove participants
 		btnRemovePartic = new JButton("Remove");

@@ -98,13 +98,13 @@ public class MonthViewTable extends JTable {
 		
 		int year = monthView.getCurrentYear();
 		int month = monthView.getCurrentMonth();
-		if ( GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView ) {
+		if ( GlobalButtonVars.getInstance().isStateBothView()) {
 			events = EventModel.getInstance().getUserEvents(
 					ConfigManager.getConfig().getUserName(), year, month );
-		} else if ( GlobalButtonVars.isPersonalView ) {
+		} else if ( GlobalButtonVars.getInstance().isStatePersonalView()) {
 			events = EventModel.getInstance().getPersonalEvents(
 					ConfigManager.getConfig().getUserName(), year, month );
-		} else if ( GlobalButtonVars.isTeamView ) {
+		} else if ( GlobalButtonVars.getInstance().isStateTeamView()) {
 			events = EventModel.getInstance().getTeamEvents(
 					ConfigManager.getConfig().getUserName(), year, month );
 		}
@@ -153,7 +153,8 @@ public class MonthViewTable extends JTable {
 		final int ROW_HEIGHT = getRowHeight();	/* current height of the rows */
 		
 		/* height of each line within a row */
-		final int LINE_HEIGHT = g.getFontMetrics().getMaxAscent();
+		final int LINE_HEIGHT = g.getFontMetrics().getMaxAscent()
+				+ g.getFontMetrics().getMaxDescent();
 		
 		/* Size of the arrows to indicate continuous events */
 		final int ARROW_SIZE = g.getFontMetrics().stringWidth( "-> " );
@@ -243,8 +244,9 @@ public class MonthViewTable extends JTable {
 					row = ( j + FIRST_DAY - 1 ) / 7;
 					column = ( j + FIRST_DAY - 1 ) % 7;
 					
-					x = ( column * COLUMN_WIDTH );
-					y = ( ROW_HEIGHT * row ) + ( ( 1 + occupiedRow ) * LINE_HEIGHT );
+					x = getCellRect( row, column, true ).x;
+					y = getCellRect( row, column, true ).y
+							+ ( ( 1 + occupiedRow ) * LINE_HEIGHT );
 					
 					g.setColor( e.getColor() );
 					
@@ -253,21 +255,21 @@ public class MonthViewTable extends JTable {
 					g.setColor( textColor );
 					g.drawString( 	printString,
 									x + 1 + ARROW_SIZE,
-									y + LINE_HEIGHT );
+									y + g.getFontMetrics().getMaxAscent() );
 					
 					// If not first day, draw the left arrow
 					if ( ( j != lastOccupiedDate[ occupiedRow ] && j != startDay )
 							|| e.getStartDate().compareTo( START_OF_MONTH ) < 0 ) {
 						g.drawString( 	"<-",
 										x + 1,
-										y + LINE_HEIGHT );
+										y + + g.getFontMetrics().getMaxAscent() );
 					}
 					
 					// If not last day, draw the right arrow
 					if ( j != endDay || e.getEndDate().compareTo( END_OF_MONTH ) > 0 ) {
 						g.drawString( 	"->",
 										x + COLUMN_WIDTH - ARROW_SIZE,
-										y + LINE_HEIGHT );
+										y + g.getFontMetrics().getMaxAscent() );
 					}
 				}
 				
@@ -290,8 +292,10 @@ public class MonthViewTable extends JTable {
 				row = ( i + FIRST_DAY - 1 ) / 7;
 				column = ( i + FIRST_DAY - 1 ) % 7;
 				
-				x = ( column * COLUMN_WIDTH ) + 1;
-				y = ( ROW_HEIGHT * row ) + ( ( NUM_LINES + 2 ) * LINE_HEIGHT );
+				x = getCellRect( row, column, true ).x;
+				y = getCellRect( row, column, true ).y
+						+ ( ( NUM_LINES + 1 ) * LINE_HEIGHT )
+						+ g.getFontMetrics().getMaxAscent();
 				
 				g.drawString( "( " + numEventsRemaining[ i ] + " more)", x, y );
 				

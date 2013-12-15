@@ -59,6 +59,8 @@ public class YearViewCalendar extends JXMonthView {
 	
 	/**
 	 * Constructor for YearViewCalendar.
+	 * @param _parentTab
+	 * @return instance
 	 */
 	public static YearViewCalendar getInstance(JTabbedPane _parentTab) {
 		if (thisInstance == null) {
@@ -118,19 +120,22 @@ public class YearViewCalendar extends JXMonthView {
 	
 	private void updateEvents() {
 		DateInfo eventDay = new DateInfo(this.getCalendar());
-		if (GlobalButtonVars.getInstance().isPersonalView && GlobalButtonVars.getInstance().isTeamView) {
+		if (GlobalButtonVars.getInstance().isStateBothView()) {
 			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
 		}
-		else if (GlobalButtonVars.getInstance().isPersonalView) {
+		else if (GlobalButtonVars.getInstance().isStatePersonalView()) {
 			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
 
 		}
-		else if (GlobalButtonVars.getInstance().isTeamView) {
+		else if (GlobalButtonVars.getInstance().isStateTeamView()) {
 			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
 		}
 		events = SortEvents.sortEventsByDate(events);
 	}
 	
+	/**
+	 * refresh year
+	 */
 	public void refreshYear() {
 		this.setFlaggedDates((Date[]) null);
 		updateEvents();

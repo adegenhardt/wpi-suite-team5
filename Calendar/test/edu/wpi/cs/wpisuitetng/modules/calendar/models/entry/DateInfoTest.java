@@ -80,8 +80,8 @@ public class DateInfoTest {
 		Date date1 = new Date(100, 5, 8);
 		date1.setHours(5);
 		date1.setMinutes(45);
-		DateInfo dateInfoCompare = new DateInfo(2000,5,7,11);
-		DateInfo dateInfoTest = new DateInfo(-1,-1,-1,-1);
+		DateInfo dateInfoCompare = new DateInfo(2000, 5, 7, 11);
+		DateInfo dateInfoTest = new DateInfo(-1, -1, -1, -1);
 		dateInfoTest.convertToDateInfo(date1);
 		System.out.println(dateInfoTest.toString());
 		assertEquals(dateInfoCompare, dateInfoTest);

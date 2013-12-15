@@ -45,7 +45,10 @@ public class YearViewCalendarPanel extends JScrollPane {
 	
 	private JTabbedPane parentTab;
 	
-	//Constructor for YearViewCalendarPanel
+	/**
+	 * Constructor for YearViewCalendarPanel
+	 * @param _parentTab
+	 */
 	public YearViewCalendarPanel(JTabbedPane _parentTab)
 	{
 		parentTab = _parentTab;

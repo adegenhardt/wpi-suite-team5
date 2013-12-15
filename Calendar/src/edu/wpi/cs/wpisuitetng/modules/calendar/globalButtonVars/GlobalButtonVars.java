@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarSidebar;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 
@@ -28,9 +29,9 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
  */
 public class GlobalButtonVars  {
 	
-	public static boolean isTeamView = false;
-	public static boolean isPersonalView = true;
-	public static boolean triedOnce = false;
+	private static boolean isTeamView = false;
+	private static boolean isPersonalView = true;
+	private static boolean triedOnce = false;
 	private static GlobalButtonVars instance = null;
 	
 	/**
@@ -102,6 +103,7 @@ public class GlobalButtonVars  {
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
+		MonthView.getInstance().refreshEvents();
 		// Still missing the month view, waiting to jump into 
 		// Sam's branch/or when he finishes to add it
 	}
@@ -125,6 +127,7 @@ public class GlobalButtonVars  {
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
+		MonthView.getInstance().refreshEvents();
 		// Still missing the month view, waiting to jump into 
 		// Sam's branch/or when he finishes to add it
 	}
@@ -141,6 +144,7 @@ public class GlobalButtonVars  {
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
+		MonthView.getInstance().refreshEvents();
 		// Still missing the month view, waiting to jump into 
 		// Sam's branch/or when he finishes to add it
 	}
