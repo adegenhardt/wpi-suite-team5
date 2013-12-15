@@ -43,6 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.UpdateEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.CalendarTab;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 
 import java.util.*;
@@ -362,7 +363,7 @@ public class EventEditor extends JPanel {
 					
 					return;
 				}
-				
+				/*
 				// If the user creates an event similar in name to any other event
 				// that is currently contained within the list of events that is maintained
 				// by the local EventModel, then provide the user with the ability to update
@@ -393,13 +394,16 @@ public class EventEditor extends JPanel {
 					}
 					
 					return;
+					
 				}
+				*/
 				
 				else {
 					AddEventController.getInstance().addEvent(makeEvent);
 				}
-
+				
 				parent.remove(thisInstance);
+				
 			}
 		}
 

@@ -46,7 +46,7 @@ public class AddEventRequestObserver implements RequestObserver {
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		
-		// According to my understanding, other versions of requestobservers 
+		// According to my understanding, other versions of request observers 
 		
 		// Get the response to the given request
 		final ResponseModel response = iReq.getResponse();

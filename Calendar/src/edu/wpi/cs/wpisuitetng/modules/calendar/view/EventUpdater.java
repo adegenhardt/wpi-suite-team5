@@ -48,6 +48,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.CalendarTab;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 
 import java.util.*;
@@ -381,7 +382,7 @@ public class EventUpdater extends JPanel {
 				// then do not add it to the local model or the server.
 				UpdateEventController.getInstance().updateEvent(makeEvent);
 				parent.remove(thisInstance);
-
+				
 			}
 		}
 

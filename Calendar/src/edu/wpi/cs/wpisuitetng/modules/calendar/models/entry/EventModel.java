@@ -192,6 +192,7 @@ public class EventModel extends AbstractListModel<Event> {
 				events.set( i, e );
 			}
 		}
+		this.fireContentsChanged(this, 0, 0);
 	}
 	
 	/**

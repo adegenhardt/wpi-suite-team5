@@ -48,7 +48,7 @@ import java.awt.event.MouseMotionAdapter;
 @SuppressWarnings("serial")
 public class DayView extends JLayeredPane {
 
-	// Strings defining what to be displayed in the tooltip
+	// Strings defining what to be displayed in the tool-tip
 	// Useful for getting some nice spacing as well
 	private static final String NAME = "Name: ";
 	private static final String DESC = "Description: ";
