@@ -42,6 +42,8 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.UpdateEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.CalendarTab;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 
 import java.util.*;
@@ -77,11 +79,13 @@ public class EventEditor extends JPanel {
 	private final JComboBox<String> comboBoxEndHour;
 	private final JComboBox<String> comboBoxEndMinutes;
 	private final JComboBox<String> comboBoxEndAMPM;
+	private JComboBox<Category> comboBoxCategory;
 
 	private final JLabel lblDatemsg;
 	private final JLabel lblDescmsg;
 	private final JLabel lblEventnamemsg;
 	private JLabel lblDuplicateEventmsg;
+	private JLabel lblSameNameEventmsg;
 	private final JLabel labelEDate;
 	private final JLabel lblDateEndMsg;
 	private final JLabel lblTimemsg;
@@ -99,7 +103,7 @@ public class EventEditor extends JPanel {
 
 	private final DefaultListModel<String> particsListModel;
 	private JButton btnDeleteEvent;
-	private JComboBox<Category> comboBoxCategory;
+	private static boolean isDuplicateEvent = false;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
@@ -349,23 +353,57 @@ public class EventEditor extends JPanel {
 				// If the user creates an event similar in all fields but unique
 				// ID,
 				// then do not add it to the local model or the server.
-				if (EventModel.getInstance().similarEventFound(userId,
-						makeEvent)) {
-					lblDuplicateEventmsg = new JLabel(
-							"Duplicate event present: will not create.");
+
+				if (EventModel.getInstance().similarEventFound(userId, makeEvent)) {
+					lblDuplicateEventmsg = new JLabel("Duplicate entered: event not created.");
 					lblDuplicateEventmsg.setForeground(Color.red);
-					eventPanel.add(lblDuplicateEventmsg,
-							"cell 3 12,alignx center");
-					System.out
-							.println("Duplicate event present: will not create event.");
+					eventPanel.add(lblDuplicateEventmsg, "cell 3 12,alignx center");
+					System.out.println("Duplicate entered: event not created.");
+					isDuplicateEvent = true;
+					
 					return;
 				}
-
+				/*
+				// If the user creates an event similar in name to any other event
+				// that is currently contained within the list of events that is maintained
+				// by the local EventModel, then provide the user with the ability to update
+				// the contents of the current event that has that name.
+				if (EventModel.getInstance().sameNameEventFound(userId, eventName.getText())) {
+					if (!isDuplicateEvent) {
+						// Ask the user if he or she would like to update the contents of the event with
+						// the corresponding name, add the event if it shares a similar name but different
+						// content (open the event creator with the same content again), 
+						// or exit out of the event creator.
+						lblSameNameEventmsg = new JLabel("Event with same name already exists: select an option.");
+						lblSameNameEventmsg.setForeground(Color.blue);
+						eventPanel.add(lblSameNameEventmsg, "cell 3 12,alignx center");
+						System.out.println("Event with same name already exists: select an option 1.");
+					}
+					if (isDuplicateEvent) {
+						// Ask the user if he or she would like to update the contents of the event with
+						// the corresponding name, add the event if it shares a similar name but different
+						// content (open the event creator with the same content again), 
+						// or exit out of the event creator. Delete the message shown for duplicates.
+						eventPanel.remove(lblDuplicateEventmsg);
+						lblSameNameEventmsg = new JLabel("Event with same name already exists: select an option.");
+						lblSameNameEventmsg.setForeground(Color.blue);
+						eventPanel.add(lblSameNameEventmsg, "cell 3 12,alignx center");
+						System.out.println("Event with same name already exists: select an option 2.");
+						repaint();
+						isDuplicateEvent = false;
+					}
+					
+					return;
+					
+				}
+				*/
+				
 				else {
 					AddEventController.getInstance().addEvent(makeEvent);
 				}
-
+				
 				parent.remove(thisInstance);
+				
 			}
 		}
 
