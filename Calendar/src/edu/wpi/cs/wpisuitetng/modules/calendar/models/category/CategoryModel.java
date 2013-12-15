@@ -19,7 +19,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.category;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerUponEventCreation;
 
 import javax.swing.AbstractListModel;
 
@@ -67,6 +69,7 @@ public class CategoryModel extends AbstractListModel<Category>{
 	public static CategoryModel getInstance(){
 		if(instance == null){
 			instance = new CategoryModel();
+			instance.addListDataListener( new RefreshListenerUponEventCreation());
 		}
 		return instance;
 	}
@@ -91,15 +94,17 @@ public class CategoryModel extends AbstractListModel<Category>{
 	 * 			found. */
 	public Category getCategory(int id){
 		Category temp = null;
+		Category out = null;
 		// iterate through the calendar data in order to find the matching ID
 		// break the loop once the ID is found
 		for(int i = 0; i < categories.size(); i++){
 			temp = categories.get(i);
 			if(temp.getId() == id){
+				out = temp;
 				break;
 			}
 		}
-		return temp;
+		return out;
 	}
 	
 	
@@ -113,19 +118,18 @@ public class CategoryModel extends AbstractListModel<Category>{
 	 * 			found. */
 	public Category getCategory(String name){
 		Category temp = null;
+		Category out = null;
 		// iterate through the category in order to find the matching Name
 		// break the loop once the Name is found
 		for(int i = 0; i < categories.size(); i++){
 			temp = categories.get(i);
 			if(temp.getName().equals(name)){
+				out = temp;
 				break;
 			}
 		}
-		if(temp ==null){
-			//TODO add error for category of name is not in system
-			
-		}
-		return temp;
+		
+		return out;
 	}
 	
 	/**

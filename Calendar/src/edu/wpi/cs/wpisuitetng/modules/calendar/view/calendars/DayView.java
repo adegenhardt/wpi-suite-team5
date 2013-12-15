@@ -62,6 +62,8 @@ public class DayView extends JLayeredPane {
 	// Last listened mouse coordinates
 	private int lastX = 0;
 	private int lastY = 0;
+	
+	private static DayView thisInstance = null;
 
 	/**
 	 * Create the panel.
@@ -69,7 +71,14 @@ public class DayView extends JLayeredPane {
 	 * @param isWeek
 	 *            boolean
 	 */
-	public DayView() {
+	public static DayView getInstance() {
+		if (thisInstance == null) {
+			thisInstance = new DayView();
+		}
+		return thisInstance;
+	}
+	
+	private DayView() {
 
 		// Run these methods to create this view
 		initDay();
@@ -273,9 +282,17 @@ public class DayView extends JLayeredPane {
 		realDay = newDay;
 		dayTable.getTableHeader().getColumnModel().getColumn(1)
 				.setHeaderValue(this.getStringDay());
+		dayTable.setUpdated(false);
 		repaint();
 		colorCurrentDate();
+	}
+	/**
+	 * Repaint the view to refresh events being shown
+	 * 
+	 */
+	public void refreshEvents() {
 		dayTable.setUpdated(false);
+		repaint();
 	}
 
 	// Get the day in a nice string format declared

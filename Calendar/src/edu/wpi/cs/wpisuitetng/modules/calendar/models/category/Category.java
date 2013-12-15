@@ -239,7 +239,18 @@ public class Category extends AbstractModel {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		boolean out = false;
+		
+		if(obj == null){
+		}
+		else if( this.getClass() == obj.getClass()){
+			if(this.getName().equals(((Category) obj).getName()) ){
+				out = true;
+			}
+		}
+		return out;
+				
+		/*if (this == obj) {
 			return true;
 		}
 		if (obj == null) {
@@ -259,7 +270,7 @@ public class Category extends AbstractModel {
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
-		return true;
+		return true;*/
 	}
 
 	/**

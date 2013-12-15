@@ -46,7 +46,7 @@ public class WeekViewPanel extends JPanel {
 		// Create a panel for the buttons
 		buttonsPanel = new JPanel();
 		// Create the WeekView
-		weekView = new WeekView();
+		weekView = WeekView.getInstance();
 		
 		// Create navigation buttons for the Current, Previous, and Next weeks
 		currentDate = new JButton("Current Week");

@@ -16,8 +16,7 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-
-
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerUponEventCreation;
 
 /**List of Calendars pulled from the server
  * 
@@ -62,6 +61,7 @@ public class EventModel extends AbstractListModel<Event> {
 	public static EventModel getInstance(){
 		if(instance == null){
 			instance = new EventModel();
+			instance.addListDataListener( new RefreshListenerUponEventCreation() );
 		}
 		return instance;
 	}
@@ -410,6 +410,30 @@ public class EventModel extends AbstractListModel<Event> {
 		}
 		
 		return userEvents;
+		
+	}
+	
+	/**
+	 * Get all the events for the user that the user can access by year
+	 * @param userId The id of the user attempting to access the events
+	 * @param year the year to check
+	 * @return A list of all events the user has access to
+	 */
+	public List<Event> getUserEvents( String userId, int year) {
+		final List< Event > personalEvents = new ArrayList< Event >();
+		Event currentEvent;
+		
+		for ( int i = 0; i < events.size(); i++ ) {
+			
+			currentEvent = events.get( i );
+			if  ( !currentEvent.isDeleted() && 
+					currentEvent.hasAccess( userId ) &&
+					currentEvent.occursOnYear( year ) ) {
+				personalEvents.add( currentEvent );
+			}
+		}
+		
+		return personalEvents;
 		
 	}
 	

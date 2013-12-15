@@ -1080,7 +1080,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 * @param month the month to check (from 0-11)
 	 * @return a number from 28-31 representing the number of days in the month
 	 */
-	private int calculateNumDays( int year, int month ) {
+	public int calculateNumDays( int year, int month ) {
 		
 		// Check for months with 31 days
 		if ( month == 0 || month == 2 || month == 4 ||
