@@ -15,7 +15,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -37,13 +36,17 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
  */
 public class MonthViewTable extends JTable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private MonthView monthView;
 	private List< Event > events;		/* current day's events to display */
 	private boolean isUpdated;					/* whether or not the event list is updated */
 	
 	/**
 	 * Create a month view table using a defaultTableModel as a parameter
-	 * @param mtblCalendar The default tablemodel whose data will be used
+	 * @param mtblCalendar The default table model whose data will be used
 	 */
 	public MonthViewTable(DefaultTableModel mtblCalendar) {
 		super( mtblCalendar );
@@ -170,12 +173,12 @@ public class MonthViewTable extends JTable {
 		// The last occupied date in each row
 		int[] lastOccupiedDate = new int[ NUM_LINES ];
 		
-		// Set all rows to -1, ie: not yet occupied
+		// Set all rows to -1, i.e: not yet occupied
 		for ( int i = 0; i < NUM_LINES; i++ ) {
 			lastOccupiedDate[ i ] = -1;
 		}
 		
-		// Number of events remaining (ie: not displayed) on each day
+		// Number of events remaining (i.e: not displayed) on each day
 		int[] numEventsRemaining = new int[ NUM_DAYS ];
 		
 		// Clear number of non-displayed events
@@ -306,7 +309,7 @@ public class MonthViewTable extends JTable {
 	/**
 	 * Find the earliest open slot available between two days
 	 * @param startDay the earliest day to check
-	 * @param endDay the latest dday to check
+	 * @param endDay the latest day to check
 	 * @param lastOccupiedDate a list of integers corresponding to latest occupied days in a line
 	 * @return Either the row with the earliest open slot, or -1 if not found
 	 */

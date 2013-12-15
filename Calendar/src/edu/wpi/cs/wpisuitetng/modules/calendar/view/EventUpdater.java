@@ -40,18 +40,9 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.UpdateEventController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.CalendarTab;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 
-import java.util.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
@@ -105,6 +96,7 @@ public class EventUpdater extends JPanel {
 	private final JLabel lblParterror;
 
 	private final DefaultListModel<String> particsListModel;
+	@SuppressWarnings("unused")
 	private JButton btnDeleteEvent;
 	private JComboBox<Category> comboBoxCategory;
 
@@ -114,6 +106,7 @@ public class EventUpdater extends JPanel {
 	 * @param _parent
 	 *            the parent pane
 	 */
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	public EventUpdater(JTabbedPane _parent, final Event thisEvent) {
 
 		// Set the parent tabbed pane for this closable tab
@@ -370,6 +363,7 @@ public class EventUpdater extends JPanel {
 
 				// Retrieve the user name from Janeway's configuration storage
 				// and place it in the userId variable.
+				@SuppressWarnings("unused")
 				final String userId = ConfigManager.getConfig().getUserName();
 
 				// Create an event

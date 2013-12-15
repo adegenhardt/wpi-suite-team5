@@ -18,7 +18,6 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -38,7 +37,7 @@ public class DayViewTable extends JTable {
 	
 	private List< Event > events;		/* current day's events to display */
 	boolean isUpdated;					/* whether or not the event list is updated */
-	DayView dayView;					/* instance of dayview for updating current events */
+	DayView dayView;					/* instance of day view for updating current events */
 	
 	private List<EventRectangle> rectangles;   
 	
@@ -217,7 +216,7 @@ public class DayViewTable extends JTable {
 	
 	/**
 	 * Update the list of rectangles according to updated events
-	 * Important: rectangles and events should have a 1:1 correspondance
+	 * Important: rectangles and events should have a 1:1 correspondence
 	 * before entering this function
 	 */
 	public void updateRectangles() {
@@ -242,7 +241,7 @@ public class DayViewTable extends JTable {
 		int width;
 		int height;
 		
-		/* number of events already occuring in a given slot */
+		/* number of events already occurring in a given slot */
 		int numPriorEvents[] = new int[ 48 ];
 		final int PRIOR_EVENT_WIDTH = 8;	/* Number of pixels to reserve for each prior event */
 		

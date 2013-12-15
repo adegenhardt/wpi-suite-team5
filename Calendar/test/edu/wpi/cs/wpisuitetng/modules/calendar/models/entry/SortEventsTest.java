@@ -79,7 +79,7 @@ public class SortEventsTest {
 	public void testSameEvent(){
 		List<Event> l = new ArrayList<Event>();
 		l.add(event1);
-		assertEquals(l, s.sortEventsByName(l));
+		assertEquals(l, SortEvents.sortEventsByName(l));
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class SortEventsTest {
 		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event1);
 		sorted.add(event2);
-		assertFalse(sorted.equals(s.sortEventsByName(testList1)));
+		assertFalse(sorted.equals(SortEvents.sortEventsByName(testList1)));
 	}
 	
 	@Test
@@ -98,7 +98,7 @@ public class SortEventsTest {
 		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event3);
 		sorted.add(event4);
-		assertEquals(sorted, s.sortEventsByName(toSort));
+		assertEquals(sorted, SortEvents.sortEventsByName(toSort));
 	}
 	
 	@Test
@@ -115,7 +115,7 @@ public class SortEventsTest {
 		sorted.add(event5);
 		sorted.add(event6);
 		sorted.add(event1);
-		assertEquals(sorted, s.sortEventsByName(toSort));
+		assertEquals(sorted, SortEvents.sortEventsByName(toSort));
 	}
 	
 	@Test
@@ -126,7 +126,7 @@ public class SortEventsTest {
 		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event7);
 		sorted.add(event5);
-		assertEquals(sorted, s.sortEventsByDate(toSort));
+		assertEquals(sorted, SortEvents.sortEventsByDate(toSort));
 	}
 	
 	/*

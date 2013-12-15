@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class UpdateCategoryRequestObserver implements RequestObserver {
 
+	@SuppressWarnings("unused")
 	private final UpdateCategoryController controller;
 	
 	/**
@@ -48,6 +49,7 @@ public class UpdateCategoryRequestObserver implements RequestObserver {
 		final ResponseModel response = iReq.getResponse();
 		
 		// Parse the Event out of the response body
+		@SuppressWarnings("unused")
 		final Category category = Category.fromJson( response.getBody() );
 	}
 	
