@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.categoryobserver;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.UpdateCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -49,6 +50,11 @@ public class UpdateCategoryRequestObserver implements RequestObserver {
 		
 		// Parse the Event out of the response body
 		final Category category = Category.fromJson( response.getBody() );
+		
+		System.out.println( "Got category RESPONSE: " + category.getName() );
+		System.out.println( "Got category status RESPONSE: " + category.isDeleted() );
+		
+		CategoryModel.getInstance().updateCategory(category);
 	}
 	
 	/**

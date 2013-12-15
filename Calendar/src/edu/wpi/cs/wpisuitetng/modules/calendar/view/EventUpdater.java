@@ -377,6 +377,7 @@ public class EventUpdater extends JPanel {
 						descriptionPane.getText(), startDate, endDate,
 						isTeamEvent, new Category("Test"));
 				makeEvent.setId(thisEvent.getId());
+				makeEvent.setColor(thisEvent.getColor());
 				// If the user creates an event similar in all fields but unique
 				// ID,
 				// then do not add it to the local model or the server.

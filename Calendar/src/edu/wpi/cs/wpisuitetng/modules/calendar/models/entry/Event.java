@@ -1095,7 +1095,11 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	public boolean hasAccess(String userId) {
 		return userIds.contains(userId);
 	}
-	
+	/**
+	 * 
+	 * @param _projectId The given project name to be checked against
+	 * @return True if the project names are equal, false if otherwise
+	 */
 	public boolean hasTeamAccess(String _projectId) {
 		return projectId.equals(_projectId);
 	}

@@ -160,14 +160,16 @@ public class CalendarSidebar extends JPanel {
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneFilters.setViewportView(filtersCatsPanel);
 		filtersCatsPanel
-				.setLayout(new MigLayout("", "[][160px:160.00px:160px,grow][70px:70px:70px,grow]", "[35px:35px:35px][35px:35px:35px][][][][][][][][20px:20px:20px][]"));
+				.setLayout(new MigLayout("",
+						"[][160px:160.00px:160px,grow][70px:70px:70px,grow]",
+						"[35px:35px:35px][35px:35px:35px][][][][][][][][20px:20px:20px][]"));
 
 		JLabel lblList = new JLabel("Applied Filters:");
 		filtersCatsPanel.add(lblList, "cell 0 0,alignx right");
 
 		JScrollPane scrollPaneList = new JScrollPane();
 		filtersCatsPanel.add(scrollPaneList, "flowx,cell 1 0 2 2,grow");
-		
+
 		JButton btnUnapplyAll = new JButton("Unapply All");
 		filtersCatsPanel.add(btnUnapplyAll, "flowx,cell 1 3,growx");
 
@@ -302,12 +304,28 @@ public class CalendarSidebar extends JPanel {
 				 * if (newCategory.equals((CategoryModel.getInstance()
 				 * .getCategory(newCategory.getName() )))) {
 				 */
-				if ((CategoryModel.getInstance().getCategory(newCategory
-						.getName())) != null) {
+				Category existingCategory = CategoryModel.getInstance()
+						.getCategory(newCategory.getName());
+
+				if ((existingCategory != null && !existingCategory.isDeleted())) {
 
 					lblNewcatmsg.setText("Category Already Exists in System");
 				}
+/*
+				else if (existingCategory != null
+						&& existingCategory.isDeleted()) {
+					existingCategory.setDeleted(false);
+					UpdateCategoryController.getInstance().updateCategory(
+							existingCategory);
+					// inform use of event creation
+					lblNewcatmsg.setText("Category " + newCategory.getName()
+							+ "Was Created");
 
+					// clear category name text box
+					filterTextField.setText("");
+
+				}
+*/
 				// category does not exist. build, add to model, and inform user
 				/*
 				 * else if ((CategoryModel.getInstance().getCategory(newCategory
@@ -334,20 +352,12 @@ public class CalendarSidebar extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 
 				// Set Selected Category to isDeleted = true
-				Category toDelete = (Category) comboBoxCats.getSelectedItem();
+				Category toDeleteFrom = (Category) comboBoxCats.getSelectedItem();
+				Category toDelete = CategoryModel.getInstance().getCategory(toDeleteFrom.getId());
 				toDelete.setDeleted(true);
 
 				// Update model
 				UpdateCategoryController.getInstance().updateCategory(toDelete);
-
-				// replace this with this.populateCurrentCategories();
-				// empties the drop down
-				comboBoxCats.removeAllItems();
-				// Updates drop down list
-				for (Category categoryIn : CategoryModel.getInstance()
-						.getAllNondeletedCategories()) {
-					comboBoxCats.addItem(categoryIn);
-				}
 
 				// TODO check if removed category is active in filters
 				// if so, remove it, and retrigger paint
@@ -355,8 +365,6 @@ public class CalendarSidebar extends JPanel {
 			}
 
 		});
-		
-		
 
 		// Create a listener to remove all categories
 		btnUnapply.addActionListener(new ActionListener() {
@@ -394,11 +402,11 @@ public class CalendarSidebar extends JPanel {
 	// Populates the table of Events in the side bar
 
 	// TODO: Expand to work with Commitments once required
-	
+
 	/**
 	 * 
 	 */
-	public void populateCategoryDropDown(){
+	public void populateCategoryDropDown() {
 		comboBoxCats.removeAllItems();
 		// Updates drop down list
 		for (Category categoryIn : CategoryModel.getInstance()
@@ -406,6 +414,7 @@ public class CalendarSidebar extends JPanel {
 			comboBoxCats.addItem(categoryIn);
 		}
 	}
+
 	/**
 	 * Populates the table of Events in the side bar
 	 */

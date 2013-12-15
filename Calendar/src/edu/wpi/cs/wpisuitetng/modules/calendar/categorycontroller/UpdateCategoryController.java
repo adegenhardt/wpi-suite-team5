@@ -55,6 +55,8 @@ public class UpdateCategoryController {
 	 */
 	public void updateCategory(Category newCategory) 
 	{
+		System.out.println( "Got category SEND: " + newCategory.getName() );
+		System.out.println( "Got category status SEND: " + newCategory.isDeleted() );
 		final Request request = Network.getInstance().makeRequest( "calendar/category",
 				              HttpMethod.POST); // POST == update
 		request.setBody( newCategory.toJSON() ); // put the new Event in the body of the request

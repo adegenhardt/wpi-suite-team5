@@ -226,6 +226,19 @@ public class CategoryModel extends AbstractListModel<Category> {
 	public Category getElementAt(int index) {
 		return categories.get(categories.size() - 1 - index);
 	}
+	
+	/**
+	 * Set an updated category in the model
+	 * @param c the updated category
+	 */
+	public void updateCategory(Category c) {
+		for (int i = 0; i < categories.size(); i++) {
+			if (c.getId() == categories.get(i).getId()) {
+				categories.set(i, c);
+			}
+		}
+		this.fireContentsChanged(this, 0, 0);
+	}
 
 	/**
 	 * Returns the list of calendar data
@@ -247,6 +260,8 @@ public class CategoryModel extends AbstractListModel<Category> {
 		for (Category cat : this.getAllcategories()) {
 
 			if (!cat.isDeleted()) {
+				System.out.println( "Got category: " + cat.getName() );
+				System.out.println( "Got category status: " + cat.isDeleted() );
 				categories.add(cat);
 			}
 		}

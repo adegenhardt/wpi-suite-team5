@@ -47,6 +47,9 @@ public class Category extends AbstractModel {
 	public Category(String name, int id) {
 		this.name = name;
 		this.id = id;
+		isDeleted = false;
+		isTeamCat = true;
+		hasFilter = false;
 	}
 
 	/**
@@ -92,6 +95,8 @@ public class Category extends AbstractModel {
 																// configuration
 		this.isTeamCat = isTeamCat;
 		isDeleted = false;
+		isTeamCat = true;
+		hasFilter = false;
 	}
 
 	/**
@@ -118,7 +123,9 @@ public class Category extends AbstractModel {
 	 * Empty Category constructor used in the Entity Manager
 	 */
 	public Category() {
-
+		isDeleted = false;
+		isTeamCat = true;
+		hasFilter = false;
 	}
 
 	/**
@@ -201,10 +208,10 @@ public class Category extends AbstractModel {
 	/**
 	 * Set the "deleted" status of a category
 	 * 
-	 * @param isDeleted
+	 * @param deletedStatus
 	 */
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setDeleted(boolean deletedStatus) {
+		this.isDeleted = deletedStatus;
 	}
 
 	/**
@@ -367,6 +374,10 @@ public class Category extends AbstractModel {
 		// Descriptive Parameters
 
 		name = toCopyFrom.name;
+		
+		isDeleted = toCopyFrom.isDeleted();
+		isTeamCat = toCopyFrom.isTeamCat();
+		hasFilter = toCopyFrom.getHasFilter();
 	}
 
 	// ------------------------------------------------------------------------
