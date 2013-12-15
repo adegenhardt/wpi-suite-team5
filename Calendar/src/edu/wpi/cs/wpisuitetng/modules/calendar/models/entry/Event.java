@@ -44,6 +44,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	// Descriptive Parameters
 	private String name; // Name of Event
+	private String projectId; // Name of Project for this Event
 	private String description; // Description of Event
 	private List<String> participants; // Participants of the event
 
@@ -121,6 +122,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		//absoluteId = currentDateTime;
 		this.id = id;
 		this.creatorId = creatorId;
+		
+		projectId = ConfigManager.getConfig().getProjectName();
 
 		this.isTeamEvent = isTeamEvent;
 
@@ -180,6 +183,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 		this.id = id;// TODO auto generate unique
 		this.creatorId = creatorId;// TODO get from session
+		
+		projectId = ConfigManager.getConfig().getProjectName();
 
 		category = new Category(name, id);
 
@@ -229,6 +234,8 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		id = 0;// TODO auto generate unique
 		creatorId = ConfigManager.getConfig().getUserName();// gets user id
 												// from system configuration
+		
+		projectId = ConfigManager.getConfig().getProjectName();
 
 		this.category = category;
 
@@ -275,6 +282,13 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	public String getDescription() {
 		return description;
 	}
+	/**
+	 * 
+	 * @return The project name with which this event was created
+	 */
+	public String getProjectId() {
+		return projectId;
+	}
 
 	/**
 	 * 
@@ -311,6 +325,10 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 */
 	public void setCreatorId(String idUser) {
 		creatorId = idUser;
+	}
+	
+	public void setProjectId(String idProject) {
+		projectId = idProject;
 	}
 
 	/**
@@ -1067,6 +1085,10 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	@Override
 	public boolean hasAccess(String userId) {
 		return userIds.contains(userId);
+	}
+	
+	public boolean hasTeamAccess(String _projectId) {
+		return projectId.equals(_projectId);
 	}
 
 	
