@@ -520,4 +520,36 @@ public class EventModel extends AbstractListModel<Event> {
 		
 	}
 	
+	/**
+	 * Determine whether or not an event of the same name already exists in the list
+	 * maintained by the local model of event data.
+	 * 
+	 * @param userName The id of the user attempting to determine if any of their events
+	 * are the same in name as the one that they are intending to add (relevant to event updating).
+	 * 
+	 * @param eventName The name of the event that the user is attempting to add to the list
+	 * maintained by the local model of event data.
+	 * 
+	 * @return true or false depending on whether or not an event of the similar name already
+	 * is contained within the list that is maintained by the local model of event data.
+	 */
+	public boolean sameNameEventFound( String userName, String eventName ) {
+		Event currentEvent;
+		boolean isSameNameEventFound = false;
+		
+		// Loop through the list of events for the local event model and determine whether
+		// the name of the event being passed as input is the same as the name of any other
+		// event within the local model.
+		for ( int i = 0; i < events.size(); i++ ) {
+			currentEvent = events.get( i );
+			
+			// checking the names of events within the local model event list against the 
+			// input event name.
+			isSameNameEventFound = isSameNameEventFound || eventName.equals( currentEvent.getName() );
+		}
+		
+		return isSameNameEventFound;
+		
+	}
+	
 }
