@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Vector;
 
 /**
  * DateInfo is a form of storing time information. It contains a year, a month,
@@ -200,7 +201,7 @@ public class DateInfo {
 	 */
 	@Deprecated
 	public Date convertDateInfoToDate() {
-		final Date date = new Date(year - 1900, month, day);
+		final Date date = new Date(year - 1900, month, day + 1);
 		return date;
 	}
 
@@ -351,6 +352,44 @@ public class DateInfo {
 		
 		// If nothing has returned by now, then both are the same
 		return 0;
+	}
+	
+	/**
+	 * 
+	 * @return An array of times where the 0th position is the hour and the 1st position is the half hour
+	 */
+	public int[] getTime(){
+		int timeRemaining = halfHour;
+		int hours = 0;
+		int halfHours = 0;
+		while (timeRemaining > 1) {
+			timeRemaining -= 2;
+			hours++;
+		}
+		if (hours > 12) {
+			hours -= 12;
+		}
+		if (hours == 0) {
+			hours = 12;
+		}
+		if (timeRemaining == 1) {
+			halfHours = 30;
+		}
+		int[] returnArr = {hours, halfHours};
+		return returnArr;
+	}
+	
+	/**
+	 * 
+	 * @return An int representing whether it is in the AM or PM (0, 1)
+	 */
+	public int getAMPM() {
+		if (halfHour >= 24) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 	
 }

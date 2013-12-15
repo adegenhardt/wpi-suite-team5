@@ -162,20 +162,30 @@ public class EventUpdater extends JPanel {
 		// Set the Start and End time fields
 		final JLabel lblTime = new JLabel("Start Time:");
 		eventPanel.add(lblTime, "cell 0 2,alignx trailing");
+		
+		int[] startTimes = thisEvent.getStartDate().getTime();
 
 		// Create the ComboBoxes for time selection
 		comboBoxStartHour = new JComboBox<String>();
 		comboBoxStartHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
 				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
 		eventPanel.add(comboBoxStartHour, "cell 1 2,growx");
+		comboBoxStartHour.setSelectedIndex(startTimes[0]-1);
 
 		comboBoxStartMinutes = new JComboBox<String>();
 		comboBoxStartMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
 		eventPanel.add(comboBoxStartMinutes, "cell 2 2,growx");
+		if (startTimes[1] == 0) {
+			comboBoxStartMinutes.setSelectedIndex(0);
+		}
+		else {
+			comboBoxStartMinutes.setSelectedIndex(1);
+		}
 
 		comboBoxStartAMPM = new JComboBox<String>();
 		comboBoxStartAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
 		eventPanel.add(comboBoxStartAMPM, "cell 3 2,growx");
+		comboBoxStartAMPM.setSelectedIndex(thisEvent.getStartDate().getAMPM());
 
 		lblTimemsg = new JLabel("");
 
@@ -196,8 +206,8 @@ public class EventUpdater extends JPanel {
 		eventPanel.add(datePickerEndMonth, "cell 1 6 3 1,growx");
 
 		// Set the default dates to Today
-		datePickerStartMonth.setDate(new Date());
-		datePickerEndMonth.setDate(new Date());
+		datePickerStartMonth.setDate(thisEvent.getStartDate().convertDateInfoToDate());
+		datePickerEndMonth.setDate(thisEvent.getEndDate().convertDateInfoToDate());
 
 		datePickerStartMonth.getEditor().addFocusListener(new FocusAdapter() {
 			@Override
@@ -232,20 +242,31 @@ public class EventUpdater extends JPanel {
 		lblDuplicateEventmsg = new JLabel("");
 		lblDuplicateEventmsg.setForeground(Color.black);
 		eventPanel.add(lblDuplicateEventmsg, "cell 3 12,alignx center");
+		
+		
+		int[] endTimes = thisEvent.getEndDate().getTime();
 
 		// Create the combo boxes and labels for time selection
 		comboBoxEndHour = new JComboBox<String>();
 		comboBoxEndHour.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3",
 				"4", "5", "6", "7", "8", "9", "10", "11", "12"}));
 		eventPanel.add(comboBoxEndHour, "cell 1 5,growx");
+		comboBoxEndHour.setSelectedIndex(endTimes[0]-1);
 
 		comboBoxEndMinutes = new JComboBox<String>();
 		comboBoxEndMinutes.setModel(new DefaultComboBoxModel<String>(new String[] {"00", "30"}));
 		eventPanel.add(comboBoxEndMinutes, "cell 2 5,growx");
+		if (endTimes[1] == 0) {
+			comboBoxEndMinutes.setSelectedIndex(0);
+		}
+		else {
+			comboBoxEndMinutes.setSelectedIndex(1);
+		}
 
 		comboBoxEndAMPM = new JComboBox<String>();
 		comboBoxEndAMPM.setModel(new DefaultComboBoxModel<String>(new String[] {"AM", "PM"}));
 		eventPanel.add(comboBoxEndAMPM, "cell 3 5,growx");
+		comboBoxEndAMPM.setSelectedIndex(thisEvent.getEndDate().getAMPM());
 
 		labelEDate = new JLabel("End Date:");
 		eventPanel.add(labelEDate, "cell 0 6,alignx trailing");
