@@ -14,6 +14,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.Vector;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
@@ -73,6 +75,7 @@ public class DayView extends JLayeredPane {
 
 	/**
 	 * Create the panel
+	 * 
 	 * @return instance
 	 */
 	public static DayView getInstance() {
@@ -92,7 +95,7 @@ public class DayView extends JLayeredPane {
 		createBackground();
 		createTableProperties();
 		colorCurrentDate();
-		
+
 		// Setting the dismiss delay to max seems to be as close to
 		// Keeping the tool tip on for as long as the user desires
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
@@ -100,72 +103,77 @@ public class DayView extends JLayeredPane {
 		// Set to 0 for testing
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		// ReShowDelay is also something we can use if need be
-		
+
 		dayTable.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				EventRectangle thisTangle = dayTable.getRectangle(e.getX(), e.getY());
+				EventRectangle thisTangle = dayTable.getRectangle(e.getX(),
+						e.getY());
 				if (thisTangle == null) {
 					dayTable.setToolTipText(null);
 				} else {
-					dayTable.setToolTipText("<html>" + NAME
-							+ formatString(thisTangle.getEvent().getName(), 30) + "<br><br>"
+					dayTable.setToolTipText("<html>"
+							+ NAME
+							+ formatString(thisTangle.getEvent().getName(), 30)
+							+ "<br><br>"
 							+ DESC
-							+ formatString(thisTangle.getEvent().getDescription(), 30) + "<br><br>"
-							+ CATEGORY
-							+ thisTangle.getEvent().getCategory() + "<br><br>"
-							+ STIME
-							+ (thisTangle.getEvent().getStartDate()) + "<br><br>"
-							+ ETIME
+							+ formatString(thisTangle.getEvent()
+									.getDescription(), 30) + "<br><br>"
+							+ CATEGORY + thisTangle.getEvent().getCategory()
+							+ "<br><br>" + STIME
+							+ (thisTangle.getEvent().getStartDate())
+							+ "<br><br>" + ETIME
 							+ thisTangle.getEvent().getEndDate());
 				}
-				//lastX = e.getX();
-				//lastY = e.getY();
+				// lastX = e.getX();
+				// lastY = e.getY();
 			}
 		});
-		
+
 		dayTable.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent m) {
 				// TODO Auto-generated method stub
-				EventRectangle thisRectangle = dayTable.getRectangle(m.getX(),  m.getY());
-				if(thisRectangle == null){
+				EventRectangle thisRectangle = dayTable.getRectangle(m.getX(),
+						m.getY());
+				if (thisRectangle == null) {
 					System.out.println("no rectangle");
-				}
-				else{
+				} else {
 					System.out.println("a rectangle");
-					final EventUpdater eventTab = new EventUpdater(ClosableTabCreator.getInstance(null).getTabbedPane(), thisRectangle.getEvent());
-					ClosableTabCreator.getInstance(null).addClosableTab(eventTab, "Update Event");
+					final EventUpdater eventTab = new EventUpdater(
+							ClosableTabCreator.getInstance(null)
+									.getTabbedPane(), thisRectangle.getEvent());
+					ClosableTabCreator.getInstance(null).addClosableTab(
+							eventTab, "Update Event");
 				}
 			}
 		});
 	}
-			
 
 	// Create the table of DayView
 	private void createControls() {
@@ -381,19 +389,69 @@ public class DayView extends JLayeredPane {
 
 	// Helper method to format the strings within the tooltips
 	private String formatString(String str, int len) {
-		str = str.trim();
-		if (str.length() < len) {
-			return str;
+		String[] arrayStr = formatIntoArrays(str, len);
+		StringBuilder finalStr = new StringBuilder();
+		for (int i = 0; i < arrayStr.length; i++) {
+			finalStr.append(arrayStr[i] + "<br>");
 		}
-		if (str.substring(0, len).contains("<br>")) {
-			return str.substring(0, str.indexOf("<br>")).trim() + "<br><br>"
-					+ formatString(str.substring(str.indexOf("<br>") + 1), len);
+		return finalStr.toString();
+	}
+	
+	// Thanks programmers cookbook
+	// WordUtils may be a better idea 
+	private String[] formatIntoArrays(String text, int len) {
+		// return empty array for null text
+		if (text == null)
+			return new String[] {};
+
+		// return text if len is zero or less
+		if (len <= 0)
+			return new String[] { text };
+
+		// return text if less than length
+		if (text.length() <= len)
+			return new String[] { text };
+
+		char[] chars = text.toCharArray();
+		Vector lines = new Vector();
+		StringBuffer line = new StringBuffer();
+		StringBuffer word = new StringBuffer();
+
+		for (int i = 0; i < chars.length; i++) {
+			word.append(chars[i]);
+
+			if (chars[i] == ' ') {
+				if ((line.length() + word.length()) > len) {
+					lines.add(line.toString());
+					line.delete(0, line.length());
+				}
+
+				line.append(word);
+				word.delete(0, word.length());
+			}
 		}
-		int place = Math
-				.max(Math.max(str.lastIndexOf(" ", len),
-						str.lastIndexOf("\t", len)), str.lastIndexOf("-", len));
-		return str.substring(0, place).trim() + "<br>"
-				+ formatString(str.substring(place), len);
+
+		// handle any extra chars in current word
+		if (word.length() > 0) {
+			if ((line.length() + word.length()) > len) {
+				lines.add(line.toString());
+				line.delete(0, line.length());
+			}
+			line.append(word);
+		}
+
+		// handle extra line
+		if (line.length() > 0) {
+			lines.add(line.toString());
+		}
+
+		String[] ret = new String[lines.size()];
+		int c = 0; // counter
+		for (Enumeration e = lines.elements(); e.hasMoreElements(); c++) {
+			ret[c] = (String) e.nextElement();
+		}
+
+		return ret;
 	}
 
 	/**
