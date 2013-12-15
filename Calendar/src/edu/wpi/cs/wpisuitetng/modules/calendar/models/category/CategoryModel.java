@@ -22,7 +22,6 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerCategories;
 import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerUponEventCreation;
 
 import javax.swing.AbstractListModel;
 
