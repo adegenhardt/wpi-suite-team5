@@ -35,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 	@Override
 	public void intervalAdded(ListDataEvent e) {
 		CalendarSidebar.getInstance().populateTable();
-		//CalendarSidebar.getInstance().populateCurrentCategories();
+		CalendarSidebar.getInstance().populateCategoryDropDown();
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
@@ -45,6 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 	@Override
 	public void intervalRemoved(ListDataEvent e) {
 		CalendarSidebar.getInstance().populateTable();
+		CalendarSidebar.getInstance().populateCategoryDropDown();
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
@@ -54,6 +55,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 	@Override
 	public void contentsChanged(ListDataEvent e) {
 		CalendarSidebar.getInstance().populateTable();
+		CalendarSidebar.getInstance().populateCategoryDropDown();
 		DayView.getInstance().refreshEvents();
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();

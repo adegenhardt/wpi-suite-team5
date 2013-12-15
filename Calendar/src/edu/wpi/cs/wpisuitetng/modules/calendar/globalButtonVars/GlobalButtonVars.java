@@ -29,9 +29,9 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
  */
 public class GlobalButtonVars  {
 	
-	public static boolean isTeamView = false;
-	public static boolean isPersonalView = true;
-	public static boolean triedOnce = false;
+	private static boolean isTeamView = false;
+	private static boolean isPersonalView = true;
+	private static boolean triedOnce = false;
 	private static GlobalButtonVars instance = null;
 	
 	/**

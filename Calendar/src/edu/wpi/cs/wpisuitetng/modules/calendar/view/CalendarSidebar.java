@@ -64,6 +64,7 @@ public class CalendarSidebar extends JPanel {
 	private boolean initialized = false;
 
 	private static CalendarSidebar instance = null;
+	private JComboBox<Category> comboBoxCats;
 
 	/**
 	 * 
@@ -190,9 +191,7 @@ public class CalendarSidebar extends JPanel {
 		final JList<String> listFilters = new JList<String>();
 		scrollPaneList.setViewportView(listFilters);
 
-		// Create a combo box to hold the current list of categories
-		// TODO: Populate with info from database CHECK
-		final JComboBox<Category> comboBoxCats = new JComboBox<Category>();
+		comboBoxCats = new JComboBox<Category>();
 		filtersCatsPanel.add(comboBoxCats, "cell 1 4 2 1,growx");
 		// adds categories to drop down.
 		for (Category categoryIn : CategoryModel.getInstance()
@@ -368,14 +367,7 @@ public class CalendarSidebar extends JPanel {
 
 		});
 		
-		public void populateCategoryDropDown(){
-			comboBoxCats.removeAllItems();
-			// Updates drop down list
-			for (Category categoryIn : CategoryModel.getInstance()
-					.getAllNondeletedCategories()) {
-				comboBoxCats.addItem(categoryIn);
-			}
-		}
+		
 
 		// Create a listener to remove all categories
 		btnUnapply.addActionListener(new ActionListener() {
@@ -414,6 +406,18 @@ public class CalendarSidebar extends JPanel {
 	// Populates the table of Events in the side bar
 
 	// TODO: Expand to work with Commitments once required
+	
+	/**
+	 * 
+	 */
+	public void populateCategoryDropDown(){
+		comboBoxCats.removeAllItems();
+		// Updates drop down list
+		for (Category categoryIn : CategoryModel.getInstance()
+				.getAllNondeletedCategories()) {
+			comboBoxCats.addItem(categoryIn);
+		}
+	}
 	/**
 	 * Populates the table of Events in the side bar
 	 */

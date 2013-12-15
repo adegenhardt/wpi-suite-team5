@@ -98,13 +98,13 @@ public class MonthViewTable extends JTable {
 		
 		int year = monthView.getCurrentYear();
 		int month = monthView.getCurrentMonth();
-		if ( GlobalButtonVars.isPersonalView && GlobalButtonVars.isTeamView ) {
+		if ( GlobalButtonVars.getInstance().isStateBothView()) {
 			events = EventModel.getInstance().getUserEvents(
 					ConfigManager.getConfig().getUserName(), year, month );
-		} else if ( GlobalButtonVars.isPersonalView ) {
+		} else if ( GlobalButtonVars.getInstance().isStatePersonalView()) {
 			events = EventModel.getInstance().getPersonalEvents(
 					ConfigManager.getConfig().getUserName(), year, month );
-		} else if ( GlobalButtonVars.isTeamView ) {
+		} else if ( GlobalButtonVars.getInstance().isStateTeamView()) {
 			events = EventModel.getInstance().getTeamEvents(
 					ConfigManager.getConfig().getUserName(), year, month );
 		}
