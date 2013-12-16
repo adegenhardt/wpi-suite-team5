@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.DefaultListModel;
@@ -545,6 +546,20 @@ public class CalendarSidebar extends JPanel {
 	public void paintComponent(Graphics g) {
 		if (!initialized) {
 			try {
+				Timer timeEvent = new Timer(10000, new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						try {
+							GetEventController.getInstance().retrieveEvents();
+							System.out.println("Update Successful");
+						}
+						catch (Exception x) {
+							System.out.println("Connection Error");
+						}
+					}
+				});
+				timeEvent.setRepeats(true);
+				timeEvent.start();
 				GetEventController.getInstance().retrieveEvents();
 				GetCategoryController.getInstance().retrieveCategory();
 				initialized = true;

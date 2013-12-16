@@ -565,6 +565,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 		endDate = toCopyFrom.endDate;
 		categoryId =(toCopyFrom.categoryId);
 		userIds = toCopyFrom.userIds;
+		color = toCopyFrom.color;
 		
 		isTeamEvent = toCopyFrom.isTeamEvent;
 	}
