@@ -30,6 +30,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.Color;
 import java.awt.Component;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventUpdater;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 
@@ -116,7 +117,8 @@ public class WeekView extends JPanel {
 										+ formatString(thisTangle.getEvent()
 												.getDescription(), 30) + "<br>"
 												+ CATEGORY
-												+ thisTangle.getEvent().getCategory()
+												+ formatString(CategoryModel.getInstance().
+														getNameOfCatId(thisTangle.getEvent().getCategory()), 30)
 												+ "<br><br>" + STIME
 												+ (thisTangle.getEvent().getStartDate())
 												+ "<br><br>" + ETIME

@@ -111,7 +111,7 @@ public class Category extends AbstractModel {
 		creatorId = ConfigManager.getConfig().getUserName(); // gets user id
 																// from system
 																// configuration
-		this.isTeamCat = true;// all categories are avaliable to all users
+		this.isTeamCat = true;// all categories are available to all users
 		isDeleted = false;
 		this.hasFilter = false;
 	}

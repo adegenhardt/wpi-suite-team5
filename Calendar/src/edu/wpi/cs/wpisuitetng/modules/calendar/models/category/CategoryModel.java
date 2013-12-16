@@ -190,6 +190,35 @@ public class CategoryModel extends AbstractListModel<Category> {
 	// Getters for the calendar data
 
 	/**
+	 * Method that receives a category identification number as input
+	 * and returns either name of the category that is associated with
+	 * that particular identification number or a default name of
+	 * "No category selected" if there is no such identification number
+	 * that is present within the list of categories contained in the local
+	 * CategoryModel.
+	 * 
+	 * @param catId The identification number of a particular category.
+	 * 
+	 * @return the name of the category that has the associated ID number.
+	 */
+	public String getNameOfCatId( int catId ) {
+		
+		// Iterate over the entire list of categories contained within
+		// the local CategoryModel.
+		for ( int i = 0; i < categories.size(); i++ ) {
+			if ( categories.get( i ).getId() == catId && 
+					!categories.get( i ).isDeleted() ) {
+				return categories.get( i ).getName();
+			}
+		}
+		
+		// If the input category id does not correspond to the identification
+		// number of a category that is currently contained within the local
+		// CategoryModel, then provide the appropriate string.
+		return "No category selected";
+	}
+	
+	/**
 	 * Provides the number of elements in the list of calendar data for this
 	 * project. Elements are returned from the newest to the oldest.
 	 * 

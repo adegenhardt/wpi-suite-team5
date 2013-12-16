@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventUpdater;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 
@@ -119,7 +120,7 @@ public class DayView extends JLayeredPane {
 							+ DESC
 							+ formatString(thisTangle.getEvent()
 									.getDescription(), 30) + "<br>"
-							+ CATEGORY + thisTangle.getEvent().getCategory()
+							+ CATEGORY + formatString(CategoryModel.getInstance().getNameOfCatId(thisTangle.getEvent().getCategory()), 30)
 							+ "<br><br>" + STIME
 							+ (thisTangle.getEvent().getStartDate())
 							+ "<br><br>" + ETIME
