@@ -56,6 +56,8 @@ import javax.swing.event.DocumentListener;
 
 import java.awt.Component;
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Team Underscore
@@ -97,9 +99,8 @@ public class EventUpdater extends JPanel {
 	private final JLabel lblParterror;
 
 	private final DefaultListModel<String> particsListModel;
-	@SuppressWarnings("unused")
-	private JButton btnDeleteEvent;
 	private JComboBox<Category> comboBoxCategory;
+	private JButton btnDeleteEvent;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
@@ -244,6 +245,9 @@ public class EventUpdater extends JPanel {
 		lblDateEndMsg.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblDateEndMsg.setForeground(Color.BLACK);
 		eventPanel.add(lblDateEndMsg, "cell 4 6,alignx center");
+		
+		btnDeleteEvent = new JButton("Delete Event");
+		eventPanel.add(btnDeleteEvent, "flowx,cell 3 12");
 
 		// Set the duplicate label, will appear if a duplicate has been created.
 		lblDuplicateEventmsg = new JLabel("");
@@ -397,6 +401,24 @@ public class EventUpdater extends JPanel {
 				textFieldPartic.setText(null);
 			}
 		}
+		
+		// Create a listener for the Submit button
+				/**
+				 * 
+				 * @author Team_
+				 * @version 1.0
+				 * 
+				 */
+				class DeleteButtonListener implements ActionListener {
+					public void actionPerformed(ActionEvent e) {
+						final Event makeEvent = thisEvent;
+						makeEvent.setDeleted(true);
+						UpdateEventController.getInstance().updateEvent(makeEvent);
+						parent.setSelectedIndex(ClosableTabCreator.getInstance(null).getFocus());
+						parent.remove(thisInstance);
+						
+					}
+				}
 
 		// Clicking Remove will remove the selected participant from the list
 		/**
@@ -447,7 +469,6 @@ public class EventUpdater extends JPanel {
 		eventPanel.add(btnSubmit, "cell 1 12 2 1,growx");
 
 		// Button to delete this event
-		btnDeleteEvent = new JButton("Delete Event");
 		// TODO:
 		// If (editing this event){
 		// eventPanel.add(btnDeleteEvent, "cell 1 14 3 1,growx");
@@ -457,6 +478,7 @@ public class EventUpdater extends JPanel {
 		btnSubmit.addActionListener(new SubmitButtonListener());
 		btnAddPartic.addActionListener(new ParticAddButtonListener());
 		btnRemovePartic.addActionListener(new ParticRemoveButtonListener());
+		btnDeleteEvent.addActionListener(new DeleteButtonListener());
 
 		// If the participants text field is not empty, allow the Add button to
 		// be pressed
