@@ -183,7 +183,7 @@ public class CategoryEntityManager implements EntityManager<Category>{
 				
 		final Category existingCategory = (Category)oldCategories.get(0);
 
-		// copy values to old calendar and fill in our changeset appropriately
+		// copy values to old calendar and fill in our change-set appropriately
 		existingCategory.copyFrom( updatedCategory );
 		
 		if(!db.save(existingCategory, session.getProject())) {

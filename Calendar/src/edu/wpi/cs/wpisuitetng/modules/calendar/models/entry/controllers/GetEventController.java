@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarSidebar;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -90,6 +89,8 @@ public class GetEventController implements ActionListener {
 	public void receivedEvent(Event[] events) {
 		// Make sure the response was not null
 		if (events != null) {
+			// empty the model for updating
+			EventModel.getInstance().emptyModel();
 			// add the Event instances to the local model
 			EventModel.getInstance().addAllEvents(events);
 		}

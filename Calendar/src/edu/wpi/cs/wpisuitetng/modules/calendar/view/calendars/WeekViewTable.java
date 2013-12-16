@@ -38,16 +38,17 @@ public class WeekViewTable extends JTable {
 	
 
 	boolean isUpdated;					/* whether or not the event list is updated */
-	WeekView dayView;					/* instance of dayview for updating current events */
+	WeekView dayView;					/* instance of day view for updating current events */
 	
 	
-	private List[] eventsArray; 		/* This is a little dangerous, but I program in C with emacs I'll be fine */
-	private List[] rectanglesArray;
+	private List<Event>[] eventsArray; 	/* This is a little dangerous, but I program in C with emacs I'll be fine */
+	private List<EventRectangle>[] rectanglesArray;
 	
 	/**
 	 * 
 	 * @param defaultTableModel
 	 */
+	@SuppressWarnings("unchecked")
 	public WeekViewTable(DefaultTableModel defaultTableModel) {
 		super( defaultTableModel );
 		
@@ -58,8 +59,7 @@ public class WeekViewTable extends JTable {
 		eventsArray = new ArrayList[7];
 		rectanglesArray = new ArrayList[7];
 		
-		// Init the arrays, remind me to slap some casts everywhere
-		// Oh! Eclipse already alerts me to cast, noice.
+		// Initialize the arrays, remind me to slap some casts everywhere
 		for (int i=0; i < eventsArray.length; i++) {
 			eventsArray[i] = new ArrayList<Event>();
 			rectanglesArray[i] = new ArrayList<EventRectangle>();
@@ -246,7 +246,7 @@ public class WeekViewTable extends JTable {
 	
 	/**
 	 * Update the list of rectangles according to updated events
-	 * Important: rectangles and events should have a 1:1 correspondance
+	 * Important: rectangles and events should have a 1:1 correspondence
 	 * before entering this function
 	 * @param iOffset offset
 	 */
@@ -259,6 +259,7 @@ public class WeekViewTable extends JTable {
 		displayedDay.setHalfHour( 0 );
 		
 		// Offset for column to place the events on the appropriate day column
+		@SuppressWarnings("unused")
 		final int X_COLUMN_OFFSET = getColumnModel().getColumn(1).getWidth();
 		
 		final int X_OFFSET = getCellRect( 1, iOffset + 1, true ).x;
@@ -275,7 +276,7 @@ public class WeekViewTable extends JTable {
 		int width;
 		int height;
 		
-		/* number of events already occuring in a given slot */
+		/* number of events already occurring in a given slot */
 		int numPriorEvents[] = new int[ 48 ];
 		final int PRIOR_EVENT_WIDTH = 4;	/* Number of pixels to reserve for each prior event */
 		

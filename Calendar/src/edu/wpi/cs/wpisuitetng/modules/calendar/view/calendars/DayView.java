@@ -28,13 +28,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventEditor;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventUpdater;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
@@ -68,7 +67,9 @@ public class DayView extends JLayeredPane {
 	private final DateFormat dayFormat = new SimpleDateFormat("MMM/dd/yy");
 
 	// Last listened mouse coordinates
+	@SuppressWarnings("unused")
 	private int lastX = 0;
+	@SuppressWarnings("unused")
 	private int lastY = 0;
 
 	private static DayView thisInstance = null;
@@ -115,11 +116,11 @@ public class DayView extends JLayeredPane {
 					dayTable.setToolTipText("<html>"
 							+ NAME
 							+ formatString(thisTangle.getEvent().getName(), 30)
-							+ "<br><br>"
+							+ "<br>"
 							+ DESC
 							+ formatString(thisTangle.getEvent()
-									.getDescription(), 30) + "<br><br>"
-							+ CATEGORY + thisTangle.getEvent().getCategory()
+									.getDescription(), 30) + "<br>"
+							+ CATEGORY + formatString(CategoryModel.getInstance().getNameOfCatId(thisTangle.getEvent().getCategory()), 30)
 							+ "<br><br>" + STIME
 							+ (thisTangle.getEvent().getStartDate())
 							+ "<br><br>" + ETIME
@@ -263,6 +264,8 @@ public class DayView extends JLayeredPane {
 			}
 		});
 		dayScroll = new JScrollPane(dayTable);
+		
+		dayTable.scrollRectToVisible(dayTable.getCellRect(16, 1, true));
 
 	}
 
@@ -306,9 +309,7 @@ public class DayView extends JLayeredPane {
 	private void colorCurrentDate() {
 		final JTableHeader header = dayTable.getTableHeader();
 		// thisDay and displayDay get the respective integer day values
-		// So they can be compared because Calendar.equals is garbage
-		// Have to compare every individual value because
-		// CALENDAR IS COMPLETE GARBAGE -Johnny <3
+		// So they can be compared.
 		final int thisYear = currentDay.get(Calendar.YEAR);
 		final int displayYear = realDay.get(Calendar.YEAR);
 		final int thisDay = currentDay.get(Calendar.DAY_OF_YEAR);
@@ -322,7 +323,7 @@ public class DayView extends JLayeredPane {
 
 	private void initDay() {
 		currentDay = Calendar.getInstance();
-		// Set all hours/minutes/seconds/ms to zero (for comparisons)
+		// Set all hours/minutes/seconds/milliseconds to zero (for comparisons)
 		currentDay.set(Calendar.HOUR_OF_DAY, 0);
 		currentDay.set(Calendar.MINUTE, 0);
 		currentDay.set(Calendar.SECOND, 0);
@@ -387,7 +388,7 @@ public class DayView extends JLayeredPane {
 		refreshDay(currentDay);
 	}
 
-	// Helper method to format the strings within the tooltips
+	// Helper method to format the strings within the tool-tips
 	private String formatString(String str, int len) {
 		String[] arrayStr = formatIntoArrays(str, len);
 		StringBuilder finalStr = new StringBuilder();
@@ -397,14 +398,14 @@ public class DayView extends JLayeredPane {
 		return finalStr.toString();
 	}
 	
-	// Thanks programmers cookbook
+	// Thanks programmers cook book
 	// WordUtils may be a better idea 
 	private String[] formatIntoArrays(String text, int len) {
 		// return empty array for null text
 		if (text == null)
 			return new String[] {};
 
-		// return text if len is zero or less
+		// return text if length is zero or less
 		if (len <= 0)
 			return new String[] { text };
 
@@ -413,7 +414,7 @@ public class DayView extends JLayeredPane {
 			return new String[] { text };
 
 		char[] chars = text.toCharArray();
-		Vector lines = new Vector();
+		Vector<String> lines = new Vector<String>();
 		StringBuffer line = new StringBuffer();
 		StringBuffer word = new StringBuffer();
 
@@ -447,7 +448,7 @@ public class DayView extends JLayeredPane {
 
 		String[] ret = new String[lines.size()];
 		int c = 0; // counter
-		for (Enumeration e = lines.elements(); e.hasMoreElements(); c++) {
+		for (Enumeration<String> e = lines.elements(); e.hasMoreElements(); c++) {
 			ret[c] = (String) e.nextElement();
 		}
 

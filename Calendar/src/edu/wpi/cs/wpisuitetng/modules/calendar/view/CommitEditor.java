@@ -29,8 +29,10 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import org.jdesktop.swingx.JXDatePicker;
+
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
+
 import java.awt.Color;
 
 /**
@@ -123,6 +125,7 @@ public class CommitEditor extends JPanel {
 
 	}
 	// Set listeners
+	@SuppressWarnings("unused")
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {

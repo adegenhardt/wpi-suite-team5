@@ -13,7 +13,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Vector;
 
 /**
  * DateInfo is a form of storing time information. It contains a year, a month,
@@ -146,7 +145,7 @@ public class DateInfo {
 
 	/**
 	 * 
-	 * @param halfHour the DateInfo's halfhour from 0-47
+	 * @param halfHour the DateInfo's half-hour from 0-47
 	 */
 	public void setHalfHour(int halfHour) {
 		this.halfHour = halfHour;
@@ -154,7 +153,7 @@ public class DateInfo {
 
 	/**
 	 * Converts a Given DateInfo into a DateInfo of the parameters of the given
-	 * Java calendar Date Used to maintain compatability with an old version of
+	 * Java calendar Date Used to maintain compatibility with an old version of
 	 * the program
 	 * 
 	 * @param date
@@ -244,7 +243,7 @@ public class DateInfo {
 	}
 	
 	/**
-	 * Returns a Json-encoded String of this DateInfo
+	 * Returns a JSON-encoded String of this DateInfo
 	 */
 	@Override
 	public String toString() {
@@ -381,7 +380,7 @@ public class DateInfo {
 	
 	/**
 	 * 
-	 * @return An int representing whether it is in the AM or PM (0, 1)
+	 * @return An integer representing whether it is in the AM or PM (0, 1)
 	 */
 	public int getAMPM() {
 		if (halfHour >= 24) {

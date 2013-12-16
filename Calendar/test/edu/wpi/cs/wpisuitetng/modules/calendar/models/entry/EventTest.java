@@ -43,7 +43,7 @@ public class EventTest {
 	DateInfo startDate2 = new DateInfo( 2013, 5, 12, 2 );
 	DateInfo endDate2 = new DateInfo( 2013, 5, 12, 40 );
 	
-	Category testCategory = new Category( "name", 10 );
+	int testCategory = 10;
 	
 	/**
 	 * Set up event1 and 2 as well as the network
@@ -161,7 +161,7 @@ public class EventTest {
 	 */
 	@Test
 	public void testGetSetCategory() {
-		final Category newCategory = new Category( "newName", 3 );
+		final int newCategory = 3;
 		assertEquals( testCategory, event1.getCategory() );
 		assertNotSame( newCategory, event1.getCategory() );
 		event1.setCategory( newCategory );
@@ -338,7 +338,7 @@ public class EventTest {
 		testParticipants.add("Jesse");
 		testParticipants.add("Mike");
 		Event testEvent = new Event("Call Saul", "Better call Saul!", 
-				testStartDate, testEndDate, null, true, testParticipants);
+				testStartDate, testEndDate, -1, true, testParticipants);
 		assertEquals("Call Saul", testEvent.getName());
 		assertEquals("Better call Saul!", testEvent.getDescription());
 		assertEquals(new DateInfo(2013, 11, 10, 0), testEvent.getStartDate());

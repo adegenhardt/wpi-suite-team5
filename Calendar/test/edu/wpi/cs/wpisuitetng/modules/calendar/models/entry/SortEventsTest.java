@@ -32,8 +32,8 @@ public class SortEventsTest {
 	/**
 	 * Sample objects for test cases to draw from
 	 */
-	Category cat = new Category("test", 1, "JoeSchmoe", false, true);
-	Category cat2 = new Category("test2", 2, "BillChill", false, true);
+	int cat = 1;
+	int cat2 = 2;
 	DateInfo time1 = new DateInfo(2013, 12, 10, 24);
 	DateInfo time2 = new DateInfo(2013, 12, 10, 28);
 	DateInfo time3 = new DateInfo(2013, 12, 14, 30);
@@ -79,7 +79,7 @@ public class SortEventsTest {
 	public void testSameEvent(){
 		List<Event> l = new ArrayList<Event>();
 		l.add(event1);
-		assertEquals(l, s.sortEventsByName(l));
+		assertEquals(l, SortEvents.sortEventsByName(l));
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class SortEventsTest {
 		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event1);
 		sorted.add(event2);
-		assertFalse(sorted.equals(s.sortEventsByName(testList1)));
+		assertFalse(sorted.equals(SortEvents.sortEventsByName(testList1)));
 	}
 	
 	@Test
@@ -98,7 +98,7 @@ public class SortEventsTest {
 		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event3);
 		sorted.add(event4);
-		assertEquals(sorted, s.sortEventsByName(toSort));
+		assertEquals(sorted, SortEvents.sortEventsByName(toSort));
 	}
 	
 	@Test
@@ -115,7 +115,7 @@ public class SortEventsTest {
 		sorted.add(event5);
 		sorted.add(event6);
 		sorted.add(event1);
-		assertEquals(sorted, s.sortEventsByName(toSort));
+		assertEquals(sorted, SortEvents.sortEventsByName(toSort));
 	}
 	
 	@Test
@@ -126,7 +126,7 @@ public class SortEventsTest {
 		List<Event> sorted = new ArrayList<Event>();
 		sorted.add(event7);
 		sorted.add(event5);
-		assertEquals(sorted, s.sortEventsByDate(toSort));
+		assertEquals(sorted, SortEvents.sortEventsByDate(toSort));
 	}
 	
 	/*

@@ -47,6 +47,9 @@ public class Category extends AbstractModel {
 	public Category(String name, int id) {
 		this.name = name;
 		this.id = id;
+		isDeleted = false;
+		isTeamCat = true;
+		hasFilter = false;
 	}
 
 	/**
@@ -92,6 +95,8 @@ public class Category extends AbstractModel {
 																// configuration
 		this.isTeamCat = isTeamCat;
 		isDeleted = false;
+		isTeamCat = true;
+		hasFilter = false;
 	}
 
 	/**
@@ -106,7 +111,7 @@ public class Category extends AbstractModel {
 		creatorId = ConfigManager.getConfig().getUserName(); // gets user id
 																// from system
 																// configuration
-		this.isTeamCat = true;// all categories are avaliable to all users
+		this.isTeamCat = true;// all categories are available to all users
 		isDeleted = false;
 		this.hasFilter = false;
 	}
@@ -118,7 +123,9 @@ public class Category extends AbstractModel {
 	 * Empty Category constructor used in the Entity Manager
 	 */
 	public Category() {
-
+		isDeleted = false;
+		isTeamCat = true;
+		hasFilter = false;
 	}
 
 	/**
@@ -201,10 +208,10 @@ public class Category extends AbstractModel {
 	/**
 	 * Set the "deleted" status of a category
 	 * 
-	 * @param isDeleted
+	 * @param deletedStatus
 	 */
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setDeleted(boolean deletedStatus) {
+		this.isDeleted = deletedStatus;
 	}
 
 	/**
@@ -244,9 +251,18 @@ public class Category extends AbstractModel {
 		if(obj == null){
 		}
 		else if( this.getClass() == obj.getClass()){
-			if(this.getName().equals(((Category) obj).getName()) ){
+			// Cast other object to Category
+			Category other = (Category) obj;
+			
+			// Check if name is null before comparing
+			if (this.getName() != null && other.getName() != null) {
+				if(this.getName().equals(other.getName()) ){
+					out = true;
+				}
+			} else if (this.getName() == null && other.getName() == null) {
 				out = true;
 			}
+
 		}
 		return out;
 				
@@ -367,6 +383,10 @@ public class Category extends AbstractModel {
 		// Descriptive Parameters
 
 		name = toCopyFrom.name;
+		
+		isDeleted = toCopyFrom.isDeleted();
+		isTeamCat = toCopyFrom.isTeamCat();
+		hasFilter = toCopyFrom.getHasFilter();
 	}
 
 	// ------------------------------------------------------------------------

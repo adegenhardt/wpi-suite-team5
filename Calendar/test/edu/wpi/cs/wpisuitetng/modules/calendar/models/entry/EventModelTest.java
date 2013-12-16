@@ -19,6 +19,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockNetwork;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
@@ -39,7 +40,7 @@ public class EventModelTest {
 	DateInfo startDate2 = new DateInfo( 2013, 5, 12, 2 );
 	DateInfo endDate2 = new DateInfo( 2013, 5, 12, 40 );
 	
-	Category testCategory = new Category( "name", 10 );
+	int testCategory = 10;
 	
 	Event indEvent1 = new Event( "name1", "description1", startDate1,
 			endDate1, testCategory, false, 1, "111" );
@@ -63,6 +64,15 @@ public class EventModelTest {
 				new NetworkConfiguration("http://wpisuitetng"));
 		
 		EventModel.getInstance().emptyModel();
+		
+		// Set all events to current project
+		String projName = ConfigManager.getConfig().getProjectName();
+		
+		indEvent1.setProjectId( projName );
+		indEvent2.setProjectId( projName );
+		teamEventOdds.setProjectId( projName );
+		teamEventEvens.setProjectId( projName );
+		
 		
 		indEvent1.setDeleted( false );
 		indEvent2.setDeleted( false );

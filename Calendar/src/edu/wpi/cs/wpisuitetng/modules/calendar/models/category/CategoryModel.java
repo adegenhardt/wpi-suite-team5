@@ -19,10 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerCategories;
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerUponEventCreation;
 
 import javax.swing.AbstractListModel;
 
@@ -37,20 +34,16 @@ public class CategoryModel extends AbstractListModel<Category> {
 
 	private static final long serialVersionUID = 8555534911453497404L;
 
-	// ********************************************************************
-	// Construct the Calendar Model
-
 	/**
-	 * The list in which all the calendar data for a single project are
+	 * The list in which all the category data for a single project is
 	 * contained
 	 */
 	private final List<Category> categories;
 
-	// TODO: Research if and how this is maintained between different instances
-	// of the program
-	private int nextID; // the next available ID number for the calendar data
+	private int nextID; // the next available ID number for the category data
 						// that are added
-	// the static object that allows the calendar data model to be
+	
+	// the static object that allows the category data model to be globally accessible.
 	private static CategoryModel instance = null;
 
 	/**
@@ -92,9 +85,8 @@ public class CategoryModel extends AbstractListModel<Category> {
 	/**
 	 * Returns the Calendar Data with the given ID
 	 * 
-	 * @param id
-	 *            The ID number of the calendar data to be returned
-	 * 
+	 * @param id 
+	 * 			The ID number of the calendar data to be returned
 	 * 
 	 * @return the calendar data for the ID, or null if the data is not found.
 	 */
@@ -198,6 +190,35 @@ public class CategoryModel extends AbstractListModel<Category> {
 	// Getters for the calendar data
 
 	/**
+	 * Method that receives a category identification number as input
+	 * and returns either name of the category that is associated with
+	 * that particular identification number or a default name of
+	 * "No category selected" if there is no such identification number
+	 * that is present within the list of categories contained in the local
+	 * CategoryModel.
+	 * 
+	 * @param catId The identification number of a particular category.
+	 * 
+	 * @return the name of the category that has the associated ID number.
+	 */
+	public String getNameOfCatId( int catId ) {
+		
+		// Iterate over the entire list of categories contained within
+		// the local CategoryModel.
+		for ( int i = 0; i < categories.size(); i++ ) {
+			if ( categories.get( i ).getId() == catId && 
+					!categories.get( i ).isDeleted() ) {
+				return categories.get( i ).getName();
+			}
+		}
+		
+		// If the input category id does not correspond to the identification
+		// number of a category that is currently contained within the local
+		// CategoryModel, then provide the appropriate string.
+		return "No category selected";
+	}
+	
+	/**
 	 * Provides the number of elements in the list of calendar data for this
 	 * project. Elements are returned from the newest to the oldest.
 	 * 
@@ -227,6 +248,19 @@ public class CategoryModel extends AbstractListModel<Category> {
 	public Category getElementAt(int index) {
 		return categories.get(categories.size() - 1 - index);
 	}
+	
+	/**
+	 * Set an updated category in the model
+	 * @param c the updated category
+	 */
+	public void updateCategory(Category c) {
+		for (int i = 0; i < categories.size(); i++) {
+			if (c.getId() == categories.get(i).getId()) {
+				categories.set(i, c);
+			}
+		}
+		this.fireContentsChanged(this, 0, 0);
+	}
 
 	/**
 	 * Returns the list of calendar data
@@ -248,6 +282,8 @@ public class CategoryModel extends AbstractListModel<Category> {
 		for (Category cat : this.getAllcategories()) {
 
 			if (!cat.isDeleted()) {
+				System.out.println( "Got category: " + cat.getName() );
+				System.out.println( "Got category status: " + cat.isDeleted() );
 				categories.add(cat);
 			}
 		}
@@ -456,7 +492,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * builds a list of strings of the model's categories' names for nondeleteed
+	 * builds a list of strings of the model's categories' names for non-deleted
 	 * categories
 	 * 
 	 * @return

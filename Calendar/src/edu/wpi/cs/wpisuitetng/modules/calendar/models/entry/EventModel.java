@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
 
 /**List of Calendars pulled from the server
@@ -40,6 +41,7 @@ public class EventModel extends AbstractListModel<Event> {
 	// TODO: Research if and how this is maintained between different instances of the program
 	private int nextID; // the next available ID number for the event
 						// that are added
+	
 	// the static object that allows the event model to be
 	private static EventModel instance = null;
 	
@@ -129,7 +131,7 @@ public class EventModel extends AbstractListModel<Event> {
 			iterator.next();
 			iterator.remove();
 		}
-		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
+		// this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
 	}
 	
 	/**
@@ -217,7 +219,7 @@ public class EventModel extends AbstractListModel<Event> {
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
 					currentEvent.isTeamEvent() &&
-					currentEvent.hasAccess( userName ) &&
+					currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ) &&
 					currentEvent.occursOnYear( year ) ) {
 				teamEvents.add( currentEvent );
 			}
@@ -241,7 +243,7 @@ public class EventModel extends AbstractListModel<Event> {
 			currentEvent = events.get( i );
 			if ( !currentEvent.isDeleted() &&
 					currentEvent.isTeamEvent() &&
-					currentEvent.hasAccess( userName ) ) {
+					currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ) ) {
 				teamEvents.add( currentEvent );
 			}
 		}
@@ -266,7 +268,7 @@ public class EventModel extends AbstractListModel<Event> {
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
 					currentEvent.isTeamEvent() &&
-					currentEvent.hasAccess( userName ) &&
+					currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ) &&
 					currentEvent.occursOnMonth( year, month ) ) {
 				teamEvents.add( currentEvent );
 			}
@@ -293,7 +295,7 @@ public class EventModel extends AbstractListModel<Event> {
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
 					currentEvent.isTeamEvent() &&
-					currentEvent.hasAccess( userName ) &&
+					currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ) &&
 					currentEvent.occursOnDate( year, month, day ) ) {
 				teamEvents.add( currentEvent );
 			}
@@ -439,8 +441,7 @@ public class EventModel extends AbstractListModel<Event> {
 		for ( int i = 0; i < events.size(); i++ ) {
 			
 			currentEvent = events.get( i );
-			if ( !currentEvent.isDeleted() &&
-					currentEvent.hasAccess( userName ) ) {
+			if ( !currentEvent.isDeleted() && (currentEvent.hasAccess( userName ) || (currentEvent.isTeamEvent && currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ))) ) {
 				personalEvents.add( currentEvent );
 			}
 		}
@@ -463,7 +464,7 @@ public class EventModel extends AbstractListModel<Event> {
 			
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
-					currentEvent.hasAccess( userId ) &&
+					(currentEvent.hasAccess( userId ) || (currentEvent.isTeamEvent && currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ))) &&
 					currentEvent.occursOnYear( year ) ) {
 				personalEvents.add( currentEvent );
 			}
@@ -489,7 +490,7 @@ public class EventModel extends AbstractListModel<Event> {
 			
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() &&
-					currentEvent.hasAccess( userName ) &&
+					(currentEvent.hasAccess( userName ) || (currentEvent.isTeamEvent && currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ))) &&
 					currentEvent.occursOnMonth( year, month ) ) {
 				userEvents.add( currentEvent );
 			}
@@ -516,7 +517,7 @@ public class EventModel extends AbstractListModel<Event> {
 			
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() &&
-					currentEvent.hasAccess( userName ) &&
+					(currentEvent.hasAccess( userName ) || (currentEvent.isTeamEvent && currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ))) &&
 					currentEvent.occursOnDate( year, month, day ) ) {
 				userEvents.add( currentEvent );
 			}
