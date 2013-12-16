@@ -41,6 +41,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.UpdateEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 
 import java.awt.Color;
@@ -377,6 +378,7 @@ public class EventUpdater extends JPanel {
 				// ID,
 				// then do not add it to the local model or the server.
 				UpdateEventController.getInstance().updateEvent(makeEvent);
+				parent.setSelectedIndex(ClosableTabCreator.getInstance(null).getFocus());
 				parent.remove(thisInstance);
 				
 			}

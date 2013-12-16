@@ -42,6 +42,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.AddEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 
 import java.awt.Color;
@@ -404,7 +405,7 @@ public class EventEditor extends JPanel {
 				else {
 					AddEventController.getInstance().addEvent(makeEvent);
 				}
-				
+				parent.setSelectedIndex(ClosableTabCreator.getInstance(null).getFocus());
 				parent.remove(thisInstance);
 				
 			}

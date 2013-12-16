@@ -111,10 +111,10 @@ public class WeekView extends JPanel {
 								+ NAME
 								+ formatString(thisTangle.getEvent().getName(),
 										30)
-										+ "<br><br>"
+										+ "<br>"
 										+ DESC
 										+ formatString(thisTangle.getEvent()
-												.getDescription(), 30) + "<br><br>"
+												.getDescription(), 30) + "<br>"
 												+ CATEGORY
 												+ thisTangle.getEvent().getCategory()
 												+ "<br><br>" + STIME
@@ -301,6 +301,8 @@ public class WeekView extends JPanel {
 		dayTable.setAutoCreateColumnsFromModel(false);
 		// Make this panel scrollable
 		dayScroll = new JScrollPane(dayTable);
+		
+		dayTable.scrollRectToVisible(dayTable.getCellRect(16, 1, true));
 
 	}
 

@@ -19,6 +19,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -34,6 +37,7 @@ import javax.swing.JTabbedPane;
 public class ClosableTabCreator {
 
 	private final JTabbedPane tabbedPane;
+	private int lastFocus;
 	
 	private static ClosableTabCreator tabCreatorInstance = null;
 	
@@ -54,6 +58,28 @@ public class ClosableTabCreator {
 	 */
 	private ClosableTabCreator(JTabbedPane _tabbedPane) {
 		tabbedPane = _tabbedPane;
+		tabbedPane.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (tabbedPane.getSelectedIndex() < 4) {
+					lastFocus = tabbedPane.getSelectedIndex();
+				}
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
+			
+		});
 	}
 
 	/**
@@ -61,6 +87,9 @@ public class ClosableTabCreator {
 	 * @param title
 	 */
 	public void addClosableTab(final JComponent c, final String title) {
+		// Set the last focused tab to be opened after closing
+		tabbedPane.getSelectedIndex();
+		
 		// Add the tab to the pane without any label
 		tabbedPane.addTab(null, c);
 		final int pos = tabbedPane.indexOfComponent(c);
@@ -109,6 +138,7 @@ public class ClosableTabCreator {
 				// The component parameter must be declared "final" so that it
 				// can be
 				// referenced in the anonymous listener class like this.
+				tabbedPane.setSelectedIndex(lastFocus);
 				tabbedPane.remove(c);
 			}
 		};
@@ -123,5 +153,12 @@ public class ClosableTabCreator {
 	 */
 	public JTabbedPane getTabbedPane() {
 		return tabbedPane;
+	}
+	/**
+	 * 
+	 * @return the last tab being viewed
+	 */
+	public int getFocus() {
+		return lastFocus; 
 	}
 }
