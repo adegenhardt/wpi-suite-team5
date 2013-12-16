@@ -49,7 +49,7 @@ public class FilterEvents {
 					//Check if the current event matches the current category
 					//If so, adds the event to the filteredEvents list
 					//Otherwise, ignores the event and continues iterating
-					if (events.get(i).getCategory() == cats.get(j)){
+					if (events.get(i).getCategory() == cats.get(j).getId()){
 						filteredEvents.add(events.get(i));
 					}
 				}

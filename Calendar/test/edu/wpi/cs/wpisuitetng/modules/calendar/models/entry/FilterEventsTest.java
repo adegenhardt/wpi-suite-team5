@@ -49,15 +49,15 @@ public class FilterEventsTest {
 	DateInfo time4 = new DateInfo(2001, 0 ,0, 23);
 	
 	//Create sample events for use throughout the test cases
-	Event event1 = new Event("Rescue Zelda", null, time1, time2, important,
+	Event event1 = new Event("Rescue Zelda", null, time1, time2, 0,
 			true, 0, "Link");
-	Event event2 = new Event("Conquer the world", null, time3, time4, important,
+	Event event2 = new Event("Conquer the world", null, time3, time4, 0,
 			true, 1, "Genghis Khan");
-	Event event3 = new Event("Unimportant", null, time1, time2, party, false, 2,
+	Event event3 = new Event("Unimportant", null, time1, time2, 1, false, 2,
 			"guy");
-	Event event4 = new Event("Mincraft LAN Party", null, time1, time2, games,
+	Event event4 = new Event("Mincraft LAN Party", null, time1, time2, 2,
 			false, 3, "Nathan");
-	Event event5 = new Event("Meh", null, time3, time4, blah, false, 4,
+	Event event5 = new Event("Meh", null, time3, time4, 3, false, 4,
 			"Marvin");
 	
 	@Before
