@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventUpdater;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
@@ -49,6 +50,8 @@ public class DayView extends JLayeredPane {
 
 	// Strings defining what to be displayed in the tool-tip
 	// Useful for getting some nice spacing as well
+	private static final String PROJECT = "Project: ";
+	private static final String USERNAME = "Username: ";
 	private static final String NAME = "Name: ";
 	private static final String DESC = "Description: ";
 	private static final String CATEGORY = "Category: ";
@@ -114,6 +117,12 @@ public class DayView extends JLayeredPane {
 					dayTable.setToolTipText(null);
 				} else {
 					dayTable.setToolTipText("<html>"
+							+ PROJECT
+							+ formatString(ConfigManager.getConfig().getProjectName(), 30)
+							+ "<br>"
+							+ USERNAME
+							+ formatString(ConfigManager.getConfig().getUserName(), 30)
+							+ "<br>"
 							+ NAME
 							+ formatString(thisTangle.getEvent().getName(), 30)
 							+ "<br>"

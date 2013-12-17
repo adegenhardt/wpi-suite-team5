@@ -303,9 +303,7 @@ public class EventUpdater extends JPanel {
 		
 		// Make the default selected category during event update equal to category
 		// that was previously selected for the event that is currently being updated.
-		if ( CategoryModel.getInstance().
-				getCategory(thisEvent.getCategory()).
-				getName().equals("No selected category.") ) {
+		if ( thisEvent.getCategory() == -1 ) {
 			comboBoxCategory.setSelectedItem( noCat );
 		}
 		else {
