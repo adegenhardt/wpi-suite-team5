@@ -313,10 +313,6 @@ public class CalendarSidebar extends JPanel {
 					AddCategoryController.getInstance()
 							.addCategory(newCategory);
 
-					// inform use of event creation
-					lblNewcatmsg.setText("Category " + newCategory.getName()
-							+ "Was Created");
-
 					// Clear the text box for category name.
 					filterTextField.setText("");
 				}
@@ -424,6 +420,7 @@ public class CalendarSidebar extends JPanel {
 				.getAllNondeletedCategories()) {
 			comboBoxCats.addItem(categoryIn);
 		}
+		
 	}
 
 	/**
