@@ -36,6 +36,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.BoxLayout;
@@ -385,6 +386,14 @@ public class MonthView extends JPanel {
 				currentMonth -= 1;
 			}
 			refreshCalendar(currentMonth, currentYear);
+			if (currentMonth == realMonth && currentYear == realYear) {
+				labelPanel.setOpaque(true);
+				labelPanel.repaint();
+			}
+			else {
+				labelPanel.setOpaque(false);
+				labelPanel.repaint();
+			}
 		}
 	}
 
@@ -404,6 +413,14 @@ public class MonthView extends JPanel {
 				currentMonth += 1;
 			}
 			refreshCalendar(currentMonth, currentYear);
+			if (currentMonth == realMonth && currentYear == realYear) {
+				labelPanel.setOpaque(true);
+				labelPanel.repaint();
+			}
+			else {
+				labelPanel.setOpaque(false);
+				labelPanel.repaint();
+			}
 		}
 	}
 
@@ -421,6 +438,14 @@ public class MonthView extends JPanel {
 			}
 			
 			refreshCalendar(currentMonth, currentYear);
+			if (currentMonth == realMonth && currentYear == realYear) {
+				labelPanel.setOpaque(true);
+				labelPanel.repaint();
+			}
+			else {
+				labelPanel.setOpaque(false);
+				labelPanel.repaint();
+			}
 		}
 	}
 	
@@ -436,6 +461,14 @@ public class MonthView extends JPanel {
 				currentMonth = realMonth;
 				currentYear = realYear;
 				refreshCalendar(realMonth, realYear);
+				if (currentMonth == realMonth && currentYear == realYear) {
+					labelPanel.setOpaque(true);
+					labelPanel.repaint();
+				}
+				else {
+					labelPanel.setOpaque(false);
+					labelPanel.repaint();
+				}
 			}
 		}
 	}

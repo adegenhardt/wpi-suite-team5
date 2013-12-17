@@ -75,6 +75,11 @@ public class CalendarSidebar extends JPanel {
 	 * The static singleton instance of the CalendarSidebar.
 	 */
 	private static CalendarSidebar instance = null;
+	private JButton btnApply;
+	private JButton btnDelete;
+	private JButton btnCatCreate;
+	private JButton btnUnapplyAll;
+	private JButton btnUnapply;
 
 	/**
 	 * @return the instance of the CalendarSidebar singleton.
@@ -161,14 +166,10 @@ public class CalendarSidebar extends JPanel {
 		JScrollPane scrollPaneList = new JScrollPane();
 		filtersCatsPanel.add(scrollPaneList, "flowx,cell 1 0 2 2,grow");
 
-		final JButton btnUnapplyAll = new JButton("Unapply All");
+		btnUnapplyAll = new JButton("Unapply All");
 		filtersCatsPanel.add(btnUnapplyAll, "flowx,cell 1 3,growx");
 
-		// CFFLAG
-		// Category Filter Elements-----------------------------------------
-		// Button to unapply a Filter
-		// TODO Add listener add functionality
-		final JButton btnUnapply = new JButton("Unapply Selected");
+		btnUnapply = new JButton("Unapply Selected");
 
 		filtersCatsPanel.add(btnUnapply, "cell 1 2,growx");
 		// filtersCatsPanel.add(btnUnapply, "cell 1 2 1 2,growx,aligny top");
@@ -194,12 +195,10 @@ public class CalendarSidebar extends JPanel {
 		filtersCatsPanel.add(comboBoxCats, "cell 1 4 2 1,growx");
 		// adds categories to drop down.
 
-		// Create a button to apply a filter.
-		final JButton btnApply = new JButton("Apply as Filter");
+		btnApply = new JButton("Apply as Filter");
 		filtersCatsPanel.add(btnApply, "cell 1 5,growx");
 
-		// Button to delete a category
-		JButton btnDelete = new JButton("Delete Category");
+		btnDelete = new JButton("Delete Category");
 		filtersCatsPanel.add(btnDelete, "cell 1 6,growx");
 
 		// Label for new category
@@ -211,8 +210,7 @@ public class CalendarSidebar extends JPanel {
 		filtersCatsPanel.add(filterTextField, "cell 1 8 2 1,growx");
 		filterTextField.setColumns(10);
 
-		// Button for submitting changes to a Category.
-		final JButton btnCatCreate = new JButton("Add Category");
+		btnCatCreate = new JButton("Add Category");
 		filtersCatsPanel.add(btnCatCreate, "cell 1 9,growx,aligny center");
 		btnCatCreate.setEnabled(false);
 
@@ -635,6 +633,14 @@ public class CalendarSidebar extends JPanel {
 		for (Category categoryIn : CategoryModel.getInstance()
 				.getAllNondeletedCategories()) {
 			comboBoxCats.addItem(categoryIn);
+		}
+		if (CategoryModel.getInstance().getAllNondeletedCategoriesAsFilters().size() == 0){
+			btnUnapply.setEnabled(false);
+			btnUnapplyAll.setEnabled(false);
+		}
+		else {
+			btnUnapply.setEnabled(true);
+			btnUnapplyAll.setEnabled(true);
 		}
 
 	}
