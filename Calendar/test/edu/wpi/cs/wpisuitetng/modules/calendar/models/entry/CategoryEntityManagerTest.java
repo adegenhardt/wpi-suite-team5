@@ -13,6 +13,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashSet;
 
 import org.junit.Before;
@@ -204,6 +206,10 @@ public class CategoryEntityManagerTest {
 			manager.update(defaultSession, category3.toJSON());
 		}
 		catch (BadRequestException e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exceptionDetails = sw.toString();
+			System.out.println(exceptionDetails);
 			assertTrue(true);
 		}
 	}
@@ -232,6 +238,10 @@ public class CategoryEntityManagerTest {
 		manager.advancedGet(adminSession, testString);
 		}
 		catch (NotImplementedException e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exceptionDetails = sw.toString();
+			System.out.println(exceptionDetails);
 			assertTrue(true);
 		}
 	}
@@ -248,6 +258,10 @@ public class CategoryEntityManagerTest {
 		manager.advancedPut(adminSession, testString1, testString2);
 		}
 		catch (NotImplementedException e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exceptionDetails = sw.toString();
+			System.out.println(exceptionDetails);
 			assertTrue(true);
 		}
 	}
@@ -263,6 +277,10 @@ public class CategoryEntityManagerTest {
 		manager.advancedPost(adminSession, testString, testString);
 		}
 		catch (NotImplementedException e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exceptionDetails = sw.toString();
+			System.out.println(exceptionDetails);
 			assertTrue(true);
 		}
 	}

@@ -28,7 +28,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockData;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 /**
  * Testing for various aspects of EventEntityManager
