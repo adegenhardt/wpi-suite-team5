@@ -27,7 +27,9 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 
@@ -152,7 +154,8 @@ public class DayViewTable extends JTable {
 		else if (GlobalButtonVars.getInstance().isTeamView()) {
 			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
 		}
-		//TODO CFFLAG add filter by category filters
+		events = FilterEvents.filterEventsByCategory(events, CategoryModel.getInstance()
+				.getAllNondeletedCategoriesAsFilters());
 		events = SortEvents.sortEventsByDate(events);
 	}
 	

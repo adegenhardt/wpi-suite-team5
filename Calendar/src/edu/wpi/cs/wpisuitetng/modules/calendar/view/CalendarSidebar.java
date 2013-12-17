@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -32,6 +33,8 @@ import javax.swing.DefaultListModel;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -487,7 +490,8 @@ public class CalendarSidebar extends JPanel {
 				if (j == 0) {
 					try {
 						eventTable.setValueAt(events.get(i).getName(), i, j);
-					} catch (IndexOutOfBoundsException e) {
+					} 
+					catch (IndexOutOfBoundsException e) {
 					}
 				}
 
@@ -513,7 +517,7 @@ public class CalendarSidebar extends JPanel {
 					try {
 						eventTable.setValueAt(events.get(i).getEndDate(), i, j);
 					} catch (IndexOutOfBoundsException e) {
-					}
+						}
 				}
 
 				// Populate the fourth column of the table of upcoming events in
@@ -561,6 +565,7 @@ public class CalendarSidebar extends JPanel {
 				GetCategoryController.getInstance().retrieveCategory();
 				initialized = true;
 			} catch (Exception e) {
+				System.out.println("Caught Exception");
 			}
 		}
 		super.paintComponent(g);
@@ -604,5 +609,7 @@ public class CalendarSidebar extends JPanel {
 	public void setCommitmentTable(JTable commitmentTable) {
 		this.commitmentTable = commitmentTable;
 	}
+	
+	
 
 }

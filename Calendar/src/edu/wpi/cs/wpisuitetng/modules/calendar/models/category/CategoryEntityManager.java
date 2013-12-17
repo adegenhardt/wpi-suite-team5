@@ -81,7 +81,7 @@ public class CategoryEntityManager implements EntityManager<Category>{
 			categories = db.retrieve( Category.class, "id",
 					intId, s.getProject()).toArray(new Category[0] );
 		} catch (WPISuiteException e) {
-			e.printStackTrace();
+			System.out.println("Caught WPISuiteException");
 		}
 		if( categories.length < 1 || categories[0] == null) {
 			throw new NotFoundException( "Unable to find any categories" );

@@ -248,6 +248,9 @@ public class Category extends AbstractModel {
 	public boolean equals(Object obj) {
 		boolean out = false;
 		
+		if(this == obj) {
+			return true;
+		}
 		if(obj == null){
 		}
 		else if( this.getClass() == obj.getClass()){

@@ -291,6 +291,26 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
+	 * Returns the list of categories that aren't deleted and will be applied
+	 * as filters.
+	 * 
+	 * @return the requirements held within the calendar data model.
+	 */
+	public List<Category> getAllNondeletedCategoriesAsFilters() {
+		List<Category> categories = new ArrayList<Category>();
+
+		for (Category cat : this.getAllcategories()) {
+
+			if (!cat.isDeleted() && cat.getHasFilter()) {
+				System.out.println( "Got category: " + cat.getName() );
+				System.out.println( "Got category status: " + cat.isDeleted() );
+				categories.add(cat);
+			}
+		}
+		return categories;
+	}
+	
+	/**
 	 * Returns the list of calendar data
 	 * 
 	 * @return the requirements held within the calendar data model.

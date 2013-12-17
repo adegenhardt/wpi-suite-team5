@@ -128,7 +128,6 @@ public class CategoryTest {
 		assertTrue( category.getName().equals( "name" ) );
 		assertEquals( category.isTeamCat(), false );
 		assertEquals( category.getId(), 5 );
-		assertTrue( category instanceof Category );
 	}
 	
 	/**
@@ -142,7 +141,6 @@ public class CategoryTest {
 		assertTrue( category.getName().equals( "Norman" ) );
 		assertEquals( category.isTeamCat(), true );
 		assertEquals( category.getId(), 0 );
-		assertTrue( category instanceof Category );
 	}
 	
 	/**

@@ -31,6 +31,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
