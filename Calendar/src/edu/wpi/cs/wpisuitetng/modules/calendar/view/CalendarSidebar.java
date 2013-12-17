@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -607,5 +608,7 @@ public class CalendarSidebar extends JPanel {
 	public void setCommitmentTable(JTable commitmentTable) {
 		this.commitmentTable = commitmentTable;
 	}
+	
+	
 
 }
