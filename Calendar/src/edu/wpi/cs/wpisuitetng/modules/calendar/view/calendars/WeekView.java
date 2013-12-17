@@ -40,6 +40,8 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * @author Team Underscore
@@ -447,6 +449,11 @@ public class WeekView extends JPanel {
 		try {
 			return weekCalendar[i];
 		} catch (IndexOutOfBoundsException e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exceptionDetails = sw.toString();
+			System.out.println(exceptionDetails);
+
 			return null;
 		}
 	}
@@ -511,7 +518,7 @@ public class WeekView extends JPanel {
 		String[] ret = new String[lines.size()];
 		int c = 0; // counter
 		for (Enumeration<String> e = lines.elements(); e.hasMoreElements(); c++) {
-			ret[c] = (String) e.nextElement();
+			ret[c] = e.nextElement();
 		}
 
 		return ret;

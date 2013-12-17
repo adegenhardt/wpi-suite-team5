@@ -33,6 +33,8 @@ import javax.swing.DefaultListModel;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -491,7 +493,10 @@ public class CalendarSidebar extends JPanel {
 				if (j == 0) {
 					try {
 						eventTable.setValueAt(events.get(i).getName(), i, j);
-					} catch (IndexOutOfBoundsException e) {
+					} 
+					catch (IndexOutOfBoundsException e) {
+						System.out.println("Caught IndexOutOfBoundsException");
+						throw new IndexOutOfBoundsException();
 					}
 				}
 
@@ -505,6 +510,8 @@ public class CalendarSidebar extends JPanel {
 						eventTable.setValueAt(events.get(i).getStartDate(), i,
 								j);
 					} catch (IndexOutOfBoundsException e) {
+						System.out.println("Caught IndexOutOfBoundsException");
+						throw new IndexOutOfBoundsException();
 					}
 				}
 
@@ -517,6 +524,8 @@ public class CalendarSidebar extends JPanel {
 					try {
 						eventTable.setValueAt(events.get(i).getEndDate(), i, j);
 					} catch (IndexOutOfBoundsException e) {
+						System.out.println("Caught IndexOutOfBoundsException");
+						throw new IndexOutOfBoundsException();
 					}
 				}
 
@@ -530,6 +539,8 @@ public class CalendarSidebar extends JPanel {
 						eventTable.setValueAt(events.get(i).getDescription(),
 								i, j);
 					} catch (IndexOutOfBoundsException e) {
+						System.out.println("Caught IndexOutOfBoundsException");
+						throw new IndexOutOfBoundsException();
 					}
 				}
 			}
@@ -555,6 +566,10 @@ public class CalendarSidebar extends JPanel {
 							System.out.println("Update Successful");
 						}
 						catch (Exception x) {
+							StringWriter sw = new StringWriter();
+							x.printStackTrace(new PrintWriter(sw));
+							String exceptionDetails = sw.toString();
+							System.out.println(exceptionDetails);
 							System.out.println("Connection Error");
 						}
 					}
@@ -565,6 +580,8 @@ public class CalendarSidebar extends JPanel {
 				GetCategoryController.getInstance().retrieveCategory();
 				initialized = true;
 			} catch (Exception e) {
+				System.out.println("Caught Exception");
+				throw new RuntimeException(e);
 			}
 		}
 		super.paintComponent(g);

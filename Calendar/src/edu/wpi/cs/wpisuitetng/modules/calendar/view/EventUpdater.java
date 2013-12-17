@@ -31,6 +31,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
@@ -310,7 +312,7 @@ public class EventUpdater extends JPanel {
 		final ButtonGroup calGroup = new ButtonGroup();
 		calGroup.add(rdbtnPersonal);
 		calGroup.add(rdbtnTeam);
-		if (thisEvent.isTeamEvent() == false) {
+		if (!thisEvent.isTeamEvent()) {
 			rdbtnPersonal.setSelected(true);
 		} else {
 			rdbtnTeam.setSelected(true);
@@ -554,6 +556,10 @@ public class EventUpdater extends JPanel {
 				lblTimemsg.setText("");
 			}
 		} catch (NullPointerException e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exceptionDetails = sw.toString();
+			System.out.println(exceptionDetails);
 			if (datePickerStartMonth.getDate() == null) {
 				lblDatemsg.setForeground(Color.red);
 				lblDatemsg.setText("Invalid Date");

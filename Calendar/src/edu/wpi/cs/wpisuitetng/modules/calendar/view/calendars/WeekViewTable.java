@@ -87,7 +87,7 @@ public class WeekViewTable extends JTable {
 				}
 
 				for (int i = 0; i < eventsArray[k].size(); i++) {
-					rectanglesArray[k].add(new EventRectangle((Event) eventsArray[k].get(i)));
+					rectanglesArray[k].add(new EventRectangle(eventsArray[k].get(i)));
 				}
 			}
 			
@@ -106,7 +106,7 @@ public class WeekViewTable extends JTable {
 	private void paintRectangles(Graphics g) {
 		for (int k = 0; k < rectanglesArray.length; k++) {
 			for (int i = 0; i < rectanglesArray[k].size(); i++) {
-				paintEventRectangle(g, (EventRectangle) rectanglesArray[k].get(i), k);
+				paintEventRectangle(g, rectanglesArray[k].get(i), k);
 			}
 		}
 	}
@@ -296,7 +296,7 @@ public class WeekViewTable extends JTable {
 		EventRectangle r;
 		int startHour;
 		for ( int i = 0; i < eventsArray[iOffset].size(); i++ ) {
-			e = (Event) eventsArray[iOffset].get( i );
+			e = eventsArray[iOffset].get( i );
 			
 			startDate = e.getStartDate();
 			endDate = e.getEndDate();
@@ -316,8 +316,8 @@ public class WeekViewTable extends JTable {
 			numEventsInRow = 1;
 			for ( int j = i + 1; j < eventsArray[iOffset].size(); j++ ) {
 				// check if date has same start time, or begins before the current day
-				if (((Event) eventsArray[iOffset].get( j )).getStartDate().equals( startDate ) ||
-						((Event) eventsArray[iOffset].get( j )).getStartDate().compareTo( displayedDay ) < 0 ) {
+				if ((eventsArray[iOffset].get( j )).getStartDate().equals( startDate ) ||
+						(eventsArray[iOffset].get( j )).getStartDate().compareTo( displayedDay ) < 0 ) {
 					numEventsInRow++;
 				} else {		// since events are sorted, break
 								// at the first different start time
@@ -345,8 +345,8 @@ public class WeekViewTable extends JTable {
 			
 			// draw all events in row
 			for ( int j = 0; j < numEventsInRow; j++ ) {
-				e = (Event) eventsArray[iOffset].get( i + j );
-				r = (EventRectangle) rectanglesArray[iOffset].get( i + j );
+				e = eventsArray[iOffset].get( i + j );
+				r = rectanglesArray[iOffset].get( i + j );
 				
 				endDate = e.getEndDate();
 				
@@ -534,8 +534,8 @@ public class WeekViewTable extends JTable {
 	 */
 	public EventRectangle getRectangle(int _x, int _y, int _day) {
 		for (int i=rectanglesArray[_day].size()-1; i >= 0; i--) {
-			if (((EventRectangle) rectanglesArray[_day].get(i)).isAtPoint(_x, _y)) {
-				return (EventRectangle) rectanglesArray[_day].get(i);
+			if ((rectanglesArray[_day].get(i)).isAtPoint(_x, _y)) {
+				return rectanglesArray[_day].get(i);
 			}
 		}
 		return null;

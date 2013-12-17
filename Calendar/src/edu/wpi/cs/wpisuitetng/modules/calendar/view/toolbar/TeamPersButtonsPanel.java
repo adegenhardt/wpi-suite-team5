@@ -79,9 +79,9 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 	}
 
 	/**
-	 * Create the panel
+	 * Create the panel 
 	 */
-	public TeamPersButtonsPanel(){
+	public TeamPersButtonsPanel() {
 		super("");
 		
 		// Set the text
@@ -110,7 +110,10 @@ public class TeamPersButtonsPanel extends ToolbarGroupView{
 		    final Image imgB = ImageIO.read(getClass().getResource("both_calendars.png"));
 		    displayBothButton.setIcon(new ImageIcon(imgB));
 		    
-		} catch (IOException ex) {}
+		} catch (IOException ex) {
+			System.out.println("Caught IOException");
+			ex.printStackTrace();
+		}
 		
 		// Set these buttons visible by default
 		displayTeamButton.setVisible(true);

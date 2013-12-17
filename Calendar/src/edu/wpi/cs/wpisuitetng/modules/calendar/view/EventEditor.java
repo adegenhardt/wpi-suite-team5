@@ -31,6 +31,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
@@ -555,6 +557,10 @@ public class EventEditor extends JPanel {
 				lblTimemsg.setText("");
 			}
 		} catch (NullPointerException e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exceptionDetails = sw.toString();
+			System.out.println(exceptionDetails);
 			if (datePickerStartMonth.getDate() == null) {
 				lblDatemsg.setForeground(Color.red);
 				lblDatemsg.setText("Invalid Date");
