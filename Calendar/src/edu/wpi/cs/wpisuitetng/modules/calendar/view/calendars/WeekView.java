@@ -130,7 +130,7 @@ public class WeekView extends JPanel {
 												+ CATEGORY
 												+ formatString(CategoryModel.getInstance().
 														getNameOfCatId(thisTangle.getEvent().getCategory()), 30)
-												+ "<br><br>" + STIME
+												+ "<br>" + STIME
 												+ (thisTangle.getEvent().getStartDate())
 												+ "<br><br>" + ETIME
 												+ thisTangle.getEvent().getEndDate());
