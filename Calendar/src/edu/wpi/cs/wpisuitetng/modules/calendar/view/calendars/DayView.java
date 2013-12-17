@@ -130,45 +130,30 @@ public class DayView extends JLayeredPane {
 							+ formatString(thisTangle.getEvent()
 									.getDescription(), 30) + "<br>"
 							+ CATEGORY + formatString(CategoryModel.getInstance().getNameOfCatId(thisTangle.getEvent().getCategory()), 30)
-							+ "<br><br>" + STIME
+							+ "<br>" + STIME
 							+ (thisTangle.getEvent().getStartDate())
 							+ "<br><br>" + ETIME
 							+ thisTangle.getEvent().getEndDate());
 				}
-				// lastX = e.getX();
-				// lastY = e.getY();
 			}
 		});
 
 		dayTable.addMouseListener(new MouseListener() {
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseReleased(MouseEvent e) {}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mousePressed(MouseEvent e) {}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseExited(MouseEvent e) {}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseEntered(MouseEvent e) {}
 
 			@Override
 			public void mouseClicked(MouseEvent m) {
-				// TODO Auto-generated method stub
 				EventRectangle thisRectangle = dayTable.getRectangle(m.getX(),
 						m.getY());
 				if (thisRectangle == null) {
