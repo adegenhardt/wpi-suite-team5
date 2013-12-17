@@ -273,6 +273,9 @@ public class EventEditor extends JPanel {
 				.getAllNondeletedCategories()) {
 			comboBoxCategory.addItem(categoryIn);
 		}
+		String userId = ConfigManager.getConfig().getUserName();
+		Category noCat = new Category( "No selected category.", -1, userId, false, false);
+		comboBoxCategory.addItem(noCat);
 
 		eventPanel.add(comboBoxCategory, "cell 1 8,growx");
 
