@@ -45,6 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.AddCategoryCon
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.UpdateCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
@@ -254,6 +255,7 @@ public class CalendarSidebar extends JPanel {
 				appliedFiltersListModel.addElement((String) comboBoxCats
 						.getSelectedItem());
 				// Disable the Unapply buttons if the list is empty
+				/*
 				if (appliedFiltersListModel.isEmpty()){
 					btnUnapply.setEnabled(false);
 					btnUnapplyAll.setEnabled(false);
@@ -262,6 +264,7 @@ public class CalendarSidebar extends JPanel {
 					btnUnapply.setEnabled(true);
 					btnUnapplyAll.setEnabled(true);
 				}
+				*/
 			}
 		}
 
@@ -272,6 +275,7 @@ public class CalendarSidebar extends JPanel {
 				appliedFiltersListModel.removeElement(listFilters
 						.getSelectedValue());
 				// Disable the Unapply buttons if the list is empty
+				/*
 				if (appliedFiltersListModel.isEmpty()){
 					btnUnapply.setEnabled(false);
 					btnUnapplyAll.setEnabled(false);
@@ -280,6 +284,7 @@ public class CalendarSidebar extends JPanel {
 					btnUnapply.setEnabled(true);
 					btnUnapplyAll.setEnabled(true);
 				}
+				*/
 			}
 		}
 
@@ -293,6 +298,7 @@ public class CalendarSidebar extends JPanel {
 				appliedFiltersListModel.removeElement(listFilters
 						.getSelectedValue());
 				// Disable the Unapply buttons if the list is empty
+				/*
 				if (appliedFiltersListModel.isEmpty()){
 					btnUnapply.setEnabled(false);
 					btnUnapplyAll.setEnabled(false);
@@ -301,6 +307,7 @@ public class CalendarSidebar extends JPanel {
 					btnUnapply.setEnabled(true);
 					btnUnapplyAll.setEnabled(true);
 				}
+				*/
 			}
 		}
 		
@@ -638,6 +645,9 @@ public class CalendarSidebar extends JPanel {
 		else if (GlobalButtonVars.getInstance().isStateBothView()) {
 			events = EventModel.getInstance().getUserEvents(userId);
 		}
+		
+		events = FilterEvents.filterEventsByCategory(events, CategoryModel
+				.getInstance().getAllNondeletedCategoriesAsFilters());
 
 		// Inform the user via the console in the case that no state was
 		// selected. This should never happen, but if it does, this is the
