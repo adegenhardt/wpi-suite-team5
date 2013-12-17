@@ -495,8 +495,6 @@ public class CalendarSidebar extends JPanel {
 						eventTable.setValueAt(events.get(i).getName(), i, j);
 					} 
 					catch (IndexOutOfBoundsException e) {
-						System.out.println("Caught IndexOutOfBoundsException");
-						throw new IndexOutOfBoundsException();
 					}
 				}
 
@@ -510,8 +508,6 @@ public class CalendarSidebar extends JPanel {
 						eventTable.setValueAt(events.get(i).getStartDate(), i,
 								j);
 					} catch (IndexOutOfBoundsException e) {
-						System.out.println("Caught IndexOutOfBoundsException");
-						throw new IndexOutOfBoundsException();
 					}
 				}
 
@@ -524,9 +520,7 @@ public class CalendarSidebar extends JPanel {
 					try {
 						eventTable.setValueAt(events.get(i).getEndDate(), i, j);
 					} catch (IndexOutOfBoundsException e) {
-						System.out.println("Caught IndexOutOfBoundsException");
-						throw new IndexOutOfBoundsException();
-					}
+						}
 				}
 
 				// Populate the fourth column of the table of upcoming events in
@@ -539,8 +533,6 @@ public class CalendarSidebar extends JPanel {
 						eventTable.setValueAt(events.get(i).getDescription(),
 								i, j);
 					} catch (IndexOutOfBoundsException e) {
-						System.out.println("Caught IndexOutOfBoundsException");
-						throw new IndexOutOfBoundsException();
 					}
 				}
 			}
@@ -566,10 +558,6 @@ public class CalendarSidebar extends JPanel {
 							System.out.println("Update Successful");
 						}
 						catch (Exception x) {
-							StringWriter sw = new StringWriter();
-							x.printStackTrace(new PrintWriter(sw));
-							String exceptionDetails = sw.toString();
-							System.out.println(exceptionDetails);
 							System.out.println("Connection Error");
 						}
 					}
@@ -581,7 +569,6 @@ public class CalendarSidebar extends JPanel {
 				initialized = true;
 			} catch (Exception e) {
 				System.out.println("Caught Exception");
-				throw new RuntimeException(e);
 			}
 		}
 		super.paintComponent(g);
