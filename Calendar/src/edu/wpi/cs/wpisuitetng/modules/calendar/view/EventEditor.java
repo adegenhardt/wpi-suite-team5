@@ -367,21 +367,12 @@ public class EventEditor extends JPanel {
 							noCat.getId());
 					makeEvent.setId(EventModel.getInstance().getNextID());
 					
-					if (EventModel.getInstance().similarEventFound(userId, makeEvent)) {
-						lblDuplicateEventmsg = new JLabel("Duplicate entered: event not created.");
-						lblDuplicateEventmsg.setForeground(Color.red);
-						eventPanel.add(lblDuplicateEventmsg, "cell 3 12,alignx center");
-						System.out.println("Duplicate entered: event not created.");
-						isDuplicateEvent = true;
-						
-						return;
-					}
-					
-					else {
-						AddEventController.getInstance().addEvent(makeEvent);
-					}
+					// Now add the user-created event to the local EventModel and server.
+					AddEventController.getInstance().addEvent(makeEvent);
 					parent.setSelectedIndex(ClosableTabCreator.getInstance(null).getFocus());
 					parent.remove(thisInstance);
+					
+					return;
 				}
 				
 				// If the user does enter a category or has had one selected for them by
@@ -405,40 +396,6 @@ public class EventEditor extends JPanel {
 					
 					return;
 				}
-				/*
-				// If the user creates an event similar in name to any other event
-				// that is currently contained within the list of events that is maintained
-				// by the local EventModel, then provide the user with the ability to update
-				// the contents of the current event that has that name.
-				if (EventModel.getInstance().sameNameEventFound(userId, eventName.getText())) {
-					if (!isDuplicateEvent) {
-						// Ask the user if he or she would like to update the contents of the event with
-						// the corresponding name, add the event if it shares a similar name but different
-						// content (open the event creator with the same content again), 
-						// or exit out of the event creator.
-						lblSameNameEventmsg = new JLabel("Event with same name already exists: select an option.");
-						lblSameNameEventmsg.setForeground(Color.blue);
-						eventPanel.add(lblSameNameEventmsg, "cell 3 12,alignx center");
-						System.out.println("Event with same name already exists: select an option 1.");
-					}
-					if (isDuplicateEvent) {
-						// Ask the user if he or she would like to update the contents of the event with
-						// the corresponding name, add the event if it shares a similar name but different
-						// content (open the event creator with the same content again), 
-						// or exit out of the event creator. Delete the message shown for duplicates.
-						eventPanel.remove(lblDuplicateEventmsg);
-						lblSameNameEventmsg = new JLabel("Event with same name already exists: select an option.");
-						lblSameNameEventmsg.setForeground(Color.blue);
-						eventPanel.add(lblSameNameEventmsg, "cell 3 12,alignx center");
-						System.out.println("Event with same name already exists: select an option 2.");
-						repaint();
-						isDuplicateEvent = false;
-					}
-					
-					return;
-					
-				}
-				*/
 				
 				else {
 					AddEventController.getInstance().addEvent(makeEvent);
