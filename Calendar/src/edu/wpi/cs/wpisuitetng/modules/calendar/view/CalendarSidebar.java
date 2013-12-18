@@ -24,7 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
+
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -33,9 +33,9 @@ import javax.swing.DefaultListModel;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+
+
+
 import java.util.List;
 
 import javax.swing.JComboBox;

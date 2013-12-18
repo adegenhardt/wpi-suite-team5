@@ -18,12 +18,10 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.models.entry;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
