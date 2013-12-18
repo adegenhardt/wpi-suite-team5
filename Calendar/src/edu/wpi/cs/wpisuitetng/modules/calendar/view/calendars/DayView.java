@@ -449,7 +449,7 @@ public class DayView extends JLayeredPane {
 		String[] ret = new String[lines.size()];
 		int c = 0; // counter
 		for (Enumeration<String> e = lines.elements(); e.hasMoreElements(); c++) {
-			ret[c] = (String) e.nextElement();
+			ret[c] = e.nextElement();
 		}
 
 		return ret;

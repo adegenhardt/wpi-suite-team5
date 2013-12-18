@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -33,6 +34,8 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -47,6 +50,10 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.GetEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 
 /**
  * @author Team Underscore
@@ -341,7 +348,11 @@ public class CalendarSidebar extends JPanel {
 				UpdateCategoryController.getInstance().updateCategory(toDelete);
 				// TODO check if removed category is active in filters
 				// if so, remove it, and re-trigger paint
-
+				CalendarSidebar.getInstance().populateTable();
+				DayView.getInstance().refreshEvents();
+				YearViewCalendar.getInstance(null).refreshYear();
+				WeekView.getInstance().refreshEvents();
+				MonthView.getInstance().refreshEvents();
 			}
 
 		});
@@ -371,35 +382,18 @@ public class CalendarSidebar extends JPanel {
 					lblNewcatmsg.setText("Category " + toAddFilter.getName()
 							+ " Is Now A Filter");
 				}
-				// add category to window
-				/*
-				 * if(!appliedFiltersListModel.contains(toAddFilter.getName())
-				 * ){
-				 * 
-				 * 
-				 * appliedFiltersListModel.addElement(toAddFilter.getName());//TODO
-				 * have pull from this convert list of strings to list of
-				 * categories
-				 * 
-				 * }
-				 */
-				// category is already in the windo
+				
+				// category is already in the window
 				else {
 					// inform user
 					lblNewcatmsg.setText("Category " + toAddFilter.getName()
 							+ " Is Already A Filter");
 				}
-				// Inform user
-
-				/*
-				 * appliedFiltersListModel.removeElement(listFilters
-				 * .getSelectedValue());
-				 */
-				// particsListModel.removeElement(listPartics.getSelectedValue());
-
-				// model.add element
-				// model remove
-				//
+				CalendarSidebar.getInstance().populateTable();
+				DayView.getInstance().refreshEvents();
+				YearViewCalendar.getInstance(null).refreshYear();
+				WeekView.getInstance().refreshEvents();
+				MonthView.getInstance().refreshEvents();
 				// TODO add selected category to Applied FIlters text window
 				// TODO set selected category hasFilter to true
 				// TODO update model
@@ -433,6 +427,11 @@ public class CalendarSidebar extends JPanel {
 					lblNewcatmsg.setText("Category " + toRemoveFilter.getName()
 							+ " Is Not A Filter");
 				}
+				CalendarSidebar.getInstance().populateTable();
+				DayView.getInstance().refreshEvents();
+				YearViewCalendar.getInstance(null).refreshYear();
+				WeekView.getInstance().refreshEvents();
+				MonthView.getInstance().refreshEvents();
 			}
 		});
 
@@ -444,6 +443,11 @@ public class CalendarSidebar extends JPanel {
 						CategoryModel.getInstance().setAllCategoriesNonFilter();
 						//inform user
 							lblNewcatmsg.setText("All Categories Are No Longer FIlters");
+							CalendarSidebar.getInstance().populateTable();
+							DayView.getInstance().refreshEvents();
+							YearViewCalendar.getInstance(null).refreshYear();
+							WeekView.getInstance().refreshEvents();
+							MonthView.getInstance().refreshEvents();
 					}
 				});
 		
@@ -509,8 +513,8 @@ public class CalendarSidebar extends JPanel {
 	public void populateFiltersWindow() {
 		// get all categories that are filters
 		List<Category> displayCategories = new ArrayList<Category>();
-		// TODO incommented displayCategories =
-		// CategoryModel.getInstance().getAllNondeleteCategoriesAsFilters();
+		// TODO in commented displayCategories =
+		CategoryModel.getInstance().getAllNondeletedCategoriesAsFilters();
 		// remove all elements from the
 		appliedFiltersListModel.removeAllElements();
 		// rebuild list of elements
@@ -596,7 +600,10 @@ public class CalendarSidebar extends JPanel {
 				if (j == 0) {
 					try {
 						eventTable.setValueAt(events.get(i).getName(), i, j);
-					} catch (IndexOutOfBoundsException e) {
+					} 
+					catch (IndexOutOfBoundsException e) {
+						System.out.println("Caught IndexOutOfBoundsException");
+						throw new IndexOutOfBoundsException();
 					}
 				}
 
@@ -610,6 +617,8 @@ public class CalendarSidebar extends JPanel {
 						eventTable.setValueAt(events.get(i).getStartDate(), i,
 								j);
 					} catch (IndexOutOfBoundsException e) {
+						System.out.println("Caught IndexOutOfBoundsException");
+						throw new IndexOutOfBoundsException();
 					}
 				}
 
@@ -622,6 +631,8 @@ public class CalendarSidebar extends JPanel {
 					try {
 						eventTable.setValueAt(events.get(i).getEndDate(), i, j);
 					} catch (IndexOutOfBoundsException e) {
+						System.out.println("Caught IndexOutOfBoundsException");
+						throw new IndexOutOfBoundsException();
 					}
 				}
 
@@ -635,6 +646,8 @@ public class CalendarSidebar extends JPanel {
 						eventTable.setValueAt(events.get(i).getDescription(),
 								i, j);
 					} catch (IndexOutOfBoundsException e) {
+						System.out.println("Caught IndexOutOfBoundsException");
+						throw new IndexOutOfBoundsException();
 					}
 				}
 			}
@@ -658,7 +671,10 @@ public class CalendarSidebar extends JPanel {
 						try {
 							GetEventController.getInstance().retrieveEvents();
 							System.out.println("Update Successful");
+
 						} catch (Exception x) {
+
+
 							System.out.println("Connection Error");
 						}
 					}
@@ -669,6 +685,8 @@ public class CalendarSidebar extends JPanel {
 				GetCategoryController.getInstance().retrieveCategory();
 				initialized = true;
 			} catch (Exception e) {
+				System.out.println("Caught Exception");
+				throw new RuntimeException(e);
 			}
 		}
 		super.paintComponent(g);
@@ -712,5 +730,7 @@ public class CalendarSidebar extends JPanel {
 	public void setCommitmentTable(JTable commitmentTable) {
 		this.commitmentTable = commitmentTable;
 	}
+	
+	
 
 }

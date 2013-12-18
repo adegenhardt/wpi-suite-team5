@@ -70,7 +70,7 @@ public class EventButtonsPanel extends ToolbarGroupView{
 	/**
 	 * Constructor for EventButtonsPanel.
 	 */
-	public EventButtonsPanel(){
+	public EventButtonsPanel() {
 		super("");
 		// Create two buttons
 		createEventButton = new JButton("<html>Create <br/>Event</html>");
@@ -91,7 +91,10 @@ public class EventButtonsPanel extends ToolbarGroupView{
 		    final Image imgC = ImageIO.read(getClass().getResource("new_commit.png"));
 		    createCommitButton.setIcon(new ImageIcon(imgC));
 		    
-		} catch (IOException ex) {}
+		} catch (IOException ex) {
+			System.out.println("Caight IOException");
+			ex.printStackTrace();
+		}
 		
 		// Make sure these buttons are visible by default
 		createEventButton.setVisible(true);
