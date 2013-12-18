@@ -449,11 +449,6 @@ public class WeekView extends JPanel {
 		try {
 			return weekCalendar[i];
 		} catch (IndexOutOfBoundsException e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			String exceptionDetails = sw.toString();
-			System.out.println(exceptionDetails);
-
 			return null;
 		}
 	}

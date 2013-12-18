@@ -306,6 +306,8 @@ public class EventEditor extends JPanel {
 		 * 
 		 */
 		class SubmitButtonListener implements ActionListener {
+			private Event makeEvent;
+
 			public void actionPerformed(ActionEvent e) {
 				// Check for validity of input
 				if (!checkValid()) {
@@ -350,12 +352,43 @@ public class EventEditor extends JPanel {
 				final String userId = ConfigManager.getConfig().getUserName();
 
 				// Create an event
+				
+				// If the user not does enter a category and there are none present
+				// in the drop down box for categories.
+				if ( CategoryModel.getInstance().getAllNondeletedCategories().isEmpty() ) {
+					Category noCat = new Category( "No selected category.", -1, 
+							userId, false, false );
+					final Event makeEvent = new Event(eventName.getText(),
+							descriptionPane.getText(), startDate, endDate,
+							isTeamEvent,
+							noCat.getId());
+					makeEvent.setId(EventModel.getInstance().getNextID());
+					
+					if (EventModel.getInstance().similarEventFound(userId, makeEvent)) {
+						lblDuplicateEventmsg = new JLabel("Duplicate entered: event not created.");
+						lblDuplicateEventmsg.setForeground(Color.red);
+						eventPanel.add(lblDuplicateEventmsg, "cell 3 12,alignx center");
+						System.out.println("Duplicate entered: event not created.");
+						isDuplicateEvent = true;
+						
+						return;
+					}
+					
+					else {
+						AddEventController.getInstance().addEvent(makeEvent);
+					}
+					parent.setSelectedIndex(ClosableTabCreator.getInstance(null).getFocus());
+					parent.remove(thisInstance);
+				}
+				
+				// If the user does enter a category or has had one selected for them by
+				// default.
 				final Event makeEvent = new Event(eventName.getText(),
 						descriptionPane.getText(), startDate, endDate,
 						isTeamEvent,
 						((Category) (comboBoxCategory.getSelectedItem())).getId() );
 				makeEvent.setId(EventModel.getInstance().getNextID());
-
+				
 				// If the user creates an event similar in all fields but unique
 				// ID,
 				// then do not add it to the local model or the server.
@@ -557,10 +590,6 @@ public class EventEditor extends JPanel {
 				lblTimemsg.setText("");
 			}
 		} catch (NullPointerException e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			String exceptionDetails = sw.toString();
-			System.out.println(exceptionDetails);
 			if (datePickerStartMonth.getDate() == null) {
 				lblDatemsg.setForeground(Color.red);
 				lblDatemsg.setText("Invalid Date");

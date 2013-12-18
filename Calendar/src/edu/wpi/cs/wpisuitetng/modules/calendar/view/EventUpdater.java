@@ -556,10 +556,6 @@ public class EventUpdater extends JPanel {
 				lblTimemsg.setText("");
 			}
 		} catch (NullPointerException e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			String exceptionDetails = sw.toString();
-			System.out.println(exceptionDetails);
 			if (datePickerStartMonth.getDate() == null) {
 				lblDatemsg.setForeground(Color.red);
 				lblDatemsg.setText("Invalid Date");

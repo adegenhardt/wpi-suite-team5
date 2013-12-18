@@ -103,6 +103,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				break;
 			}
 		}
+		this.fireContentsChanged(this, 0, 0);
 		return out;
 	}
 
@@ -132,7 +133,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				}
 			}
 		}
-
+		this.fireContentsChanged(this, 0, 0);
 		return out;
 	}
 
@@ -151,6 +152,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				break;
 			}
 		}
+		this.fireContentsChanged(this, 0, 0);
 	}
 
 	/**
@@ -212,6 +214,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 					&& !categories.get(i).isDeleted()) {
 				return categories.get(i).getName();
 			}
+			
 		}
 
 		// If the input category id does not correspond to the identification
@@ -272,6 +275,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * @return the requirements held within the calendar data model.
 	 */
 	public List<Category> getAllcategories() {
+		//this.fireContentsChanged(this, 0, 0);
 		return categories;
 	}
 
@@ -291,6 +295,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				categories.add(cat);
 			}
 		}
+		this.fireContentsChanged(this, 0, 0);
 		return categories;
 	}
 
@@ -311,6 +316,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				categories.add(cat);
 			}
 		}
+		
 		return categories;
 	}
 	
@@ -328,6 +334,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				categories.add(cat);
 			}
 		}
+		
 		return categories;
 	}
 
@@ -349,7 +356,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				teamCategories.add(currentCategory);
 			}
 		}
-
+		
 		return teamCategories;
 
 	}
@@ -373,7 +380,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				personalCategories.add(currentCategory);
 			}
 		}
-
+		
 		return personalCategories;
 
 	}
@@ -496,7 +503,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				userCategories.add(currentCategory);
 			}
 		}
-
+		
 		return userCategories;
 
 	}
@@ -512,6 +519,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 		for (Category cat : this.getAllcategories()) {
 			categoryNames.add(cat.getName());
 		}
+		
 		return categoryNames;
 	}
 
@@ -529,6 +537,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 				categoryNames.add(cat.getName());
 			}
 		}
+		
 		return categoryNames;
 	}
 
@@ -545,6 +554,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 		for (String categoryName : categoryNames) {
 			categories.add(this.getCategory(categoryName));
 		}
+		this.fireContentsChanged(this, 0, 0);
 		return categories;
 	}
 
@@ -554,11 +564,12 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * @return the requirements held within the calendar data model.
 	 */
 	public void setAllCategoriesNonFilter() {
-		List<Category> categories = this.getAllcategories();
+		List<Category> categories = this.getAllNondeletedCategoriesAsFilters();
 
 		for (Category cat : categories) {
 			cat.setHasFilter(false);
 			UpdateCategoryController.getInstance().updateCategory(cat);
 		}
+		this.fireContentsChanged(this, 0, 0);
 	}
 }
