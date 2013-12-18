@@ -32,6 +32,7 @@ import javax.swing.DefaultListModel;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -162,7 +163,8 @@ public class CalendarSidebar extends JPanel {
 		// Button to unapply a Filter
 		// TODO Add listener add functionality
 		final JButton btnUnapply = new JButton("Unapply Selected");
-		filtersCatsPanel.add(btnUnapply, "cell 1 2 1 2,growx,aligny top");
+		filtersCatsPanel.add(btnUnapply, "cell 1 2,growx");
+		//filtersCatsPanel.add(btnUnapply, "cell 1 2 1 2,growx,aligny top");
 
 		JLabel lblCurrentCategories = new JLabel("Current Categories:");
 		filtersCatsPanel.add(lblCurrentCategories, "cell 0 4,alignx trailing");
@@ -173,6 +175,7 @@ public class CalendarSidebar extends JPanel {
 		filtersCatsPanel.add(lblNewcatmsg, "cell 1 10");
 
 		// Creation of a list of current filters.
+		// contains the list of active category filters
 		appliedFiltersListModel = new DefaultListModel<String>();
 		final JList<String> listFilters = new JList<String>();
 		scrollPaneList.setViewportView(listFilters);
@@ -255,7 +258,7 @@ public class CalendarSidebar extends JPanel {
 						.getSelectedValue());
 			}
 		}
-
+		// cfflag
 		// Create a listener to add a new category
 		btnCatCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -296,8 +299,7 @@ public class CalendarSidebar extends JPanel {
 				 * lblNewcatmsg.setText("Category " + newCategory.getName() +
 				 * "Was Created");
 				 * 
-				 * <<<<<<< HEAD // clear category name text box
-				 * filterTextField.setText("");
+				 * // clear category name text box filterTextField.setText("");
 				 * 
 				 * }
 				 */
@@ -315,7 +317,7 @@ public class CalendarSidebar extends JPanel {
 
 					// inform use of event creation
 					lblNewcatmsg.setText("Category " + newCategory.getName()
-							+ "Was Created");
+							+ " Was Created");
 
 					// Clear the text box for category name.
 					filterTextField.setText("");
@@ -323,6 +325,7 @@ public class CalendarSidebar extends JPanel {
 			}
 		});
 
+		// cfflag
 		// Create a listener to delete selected category
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -343,24 +346,60 @@ public class CalendarSidebar extends JPanel {
 
 		});
 
-		// Create a listener to remove all categories
-		btnUnapply.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				// TODO Set all of the categories in Applied Filters window
-				// hasFilter = false
-				// TODO remove all categories from Applied FIlters text window
-
-				// TODO rerun all view paints with new list of categories in
-				// Applied Filters Text Window
-
-			}
-		});
-
+		// cfflag
 		// Create a listener to apply a category filter to the system's views
 		btnApply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
+				// get category
+				Category toAddFilter = (Category) comboBoxCats
+						.getSelectedItem();
+
+				// does have filter
+				if (toAddFilter.getHasFilter()) {
+					lblNewcatmsg.setText("Category " + toAddFilter.getName()
+							+ " Is Already A Filter");
+				}
+
+				else if (!toAddFilter.getHasFilter()) {
+					// set has filter to true
+					toAddFilter.setHasFilter(true);
+					// update model triggers TODO opulateFIlters
+					UpdateCategoryController.getInstance().updateCategory(
+							toAddFilter);
+					// inform user
+					lblNewcatmsg.setText("Category " + toAddFilter.getName()
+							+ " Is Now A Filter");
+				}
+				// add category to window
+				/*
+				 * if(!appliedFiltersListModel.contains(toAddFilter.getName())
+				 * ){
+				 * 
+				 * 
+				 * appliedFiltersListModel.addElement(toAddFilter.getName());//TODO
+				 * have pull from this convert list of strings to list of
+				 * categories
+				 * 
+				 * }
+				 */
+				// category is already in the windo
+				else {
+					// inform user
+					lblNewcatmsg.setText("Category " + toAddFilter.getName()
+							+ " Is Already A Filter");
+				}
+				// Inform user
+
+				/*
+				 * appliedFiltersListModel.removeElement(listFilters
+				 * .getSelectedValue());
+				 */
+				// particsListModel.removeElement(listPartics.getSelectedValue());
+
+				// model.add element
+				// model remove
+				//
 				// TODO add selected category to Applied FIlters text window
 				// TODO set selected category hasFilter to true
 				// TODO update model
@@ -369,6 +408,45 @@ public class CalendarSidebar extends JPanel {
 
 			}
 		});
+
+		// cfflag
+		// Create a listener to remove selected category
+		btnUnapply.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// get category from drop down
+				Category toRemoveFilter = (Category) comboBoxCats
+						.getSelectedItem();
+
+				// does have filter
+				if (toRemoveFilter.getHasFilter()) {
+					toRemoveFilter.setHasFilter(false);
+
+					// Update model
+					UpdateCategoryController.getInstance().updateCategory(
+							toRemoveFilter);
+
+					lblNewcatmsg.setText("Category " + toRemoveFilter.getName()
+							+ " Is Nolonger A Filter");
+				}
+
+				else if (!toRemoveFilter.getHasFilter()) {
+					lblNewcatmsg.setText("Category " + toRemoveFilter.getName()
+							+ " Is Not A Filter");
+				}
+			}
+		});
+
+		// cfflag
+				// Create a listener to remove all filters
+				btnUnapplyAll.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						//set all categories to not have filters
+						CategoryModel.getInstance().setAllCategoriesNonFilter();
+						//inform user
+							lblNewcatmsg.setText("All Categories Are No Longer FIlters");
+					}
+				});
+		
 		// btnApply.addActionListener(new applyButtonListener());
 		// btnUnapply.addActionListener(new unapplyButtonListener());
 
@@ -412,6 +490,8 @@ public class CalendarSidebar extends JPanel {
 	/*********************************************************************************/
 
 	// TODO: Expand to work with Commitments once required
+
+	// cfflag
 	/**
 	 * Populate the category drop down menu that is contained within the
 	 * CalendarSidebar split pane.
@@ -424,6 +504,32 @@ public class CalendarSidebar extends JPanel {
 				.getAllNondeletedCategories()) {
 			comboBoxCats.addItem(categoryIn);
 		}
+	}
+
+	public void populateFiltersWindow() {
+		// get all categories that are filters
+		List<Category> displayCategories = new ArrayList<Category>();
+		// TODO incommented displayCategories =
+		// CategoryModel.getInstance().getAllNondeleteCategoriesAsFilters();
+		// remove all elements from the
+		appliedFiltersListModel.removeAllElements();
+		// rebuild list of elements
+		for (Category displayCategory : displayCategories) {
+			appliedFiltersListModel.addElement(displayCategory.getName());// TODO
+																			// have
+																			// pull
+																			// from
+																			// this
+																			// convert
+																			// list
+																			// of
+																			// strings
+																			// to
+																			// list
+																			// of
+																			// categories
+		}
+
 	}
 
 	/**
@@ -552,8 +658,7 @@ public class CalendarSidebar extends JPanel {
 						try {
 							GetEventController.getInstance().retrieveEvents();
 							System.out.println("Update Successful");
-						}
-						catch (Exception x) {
+						} catch (Exception x) {
 							System.out.println("Connection Error");
 						}
 					}

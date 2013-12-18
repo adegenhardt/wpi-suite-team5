@@ -31,16 +31,19 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarSidebar;
 	@Override
 	public void intervalAdded(ListDataEvent e) {
 		CalendarSidebar.getInstance().populateCategoryDropDown();
+		CalendarSidebar.getInstance().populateFiltersWindow();
 	}
 
 	@Override
 	public void intervalRemoved(ListDataEvent e) {
 		CalendarSidebar.getInstance().populateCategoryDropDown();
+		CalendarSidebar.getInstance().populateFiltersWindow();
 	}
 
 	@Override
 	public void contentsChanged(ListDataEvent e) {
-		CalendarSidebar.getInstance().populateCategoryDropDown();
+		CalendarSidebar.getInstance().populateFiltersWindow();
+		CalendarSidebar.getInstance().populateFiltersWindow();
 	}
 	
 }

@@ -130,6 +130,7 @@ public class YearViewCalendar extends JXMonthView {
 		else if (GlobalButtonVars.getInstance().isStateTeamView()) {
 			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
 		}
+		//TODO CFFLAG
 		events = SortEvents.sortEventsByDate(events);
 	}
 	

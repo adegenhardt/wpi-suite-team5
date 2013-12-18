@@ -111,6 +111,7 @@ public class MonthViewTable extends JTable {
 			events = EventModel.getInstance().getTeamEvents(
 					ConfigManager.getConfig().getUserName(), year, month );
 		}
+		//TODO CFFLAGS
 		events = SortEvents.sortEventsByDate( events );
 		
 	}
