@@ -180,8 +180,8 @@ public class DateInfo {
 	 * @return Calendar object
 	 */
 	public Calendar dateInfoToCalendar() {
-		Calendar cal = new GregorianCalendar();
-		int hourOfDay = ((halfHour / 2));
+		final Calendar cal = new GregorianCalendar();
+		final int hourOfDay = ((halfHour / 2));
 		int minute = 0;
 		if (halfHour % 2 != 0) {
 			minute = 30;
@@ -247,14 +247,14 @@ public class DateInfo {
 	 */
 	@Override
 	public String toString() {
-		String theYear = "" + year;
-		int theMonthI = month + 1;
+		final String theYear = "" + year;
+		final int theMonthI = month + 1;
 		// Initialize a blank Month string
 		String theMonthS = "";
 		// Assign an MM Month String depending on the value
 		// of the month int.
 		theMonthS += theMonthI;
-		String theDay = "" + (day + 1);
+		final String theDay = "" + (day + 1);
 		// Deliver a time depending on the halfHour int
 		int iTime = 0;
 		String sTime = "";
@@ -271,17 +271,17 @@ public class DateInfo {
 			sTime = "" + iTime;
 			
 			if (theTime == 0){
-				sTime = sTime + ":00";
+				sTime += ":00";
 			}
 			else{
-				sTime = sTime + ":30";
+				sTime += ":30";
 			}
 			
-			sTime = sTime + " PM";
+			sTime += " PM";
 		}
 		else{
 			
-			int tempTime = iTime;
+			final int tempTime = iTime;
 			
 			// If midnight...
 			if ( iTime == 0 ) {
@@ -291,17 +291,17 @@ public class DateInfo {
 			sTime = "" + iTime;
 			
 			if (theTime == 0){
-				sTime = sTime + ":00";
+				sTime += ":00";
 			}
 			else{
-				sTime = sTime + ":30";
+				sTime += ":30";
 			}
 			
 			if (tempTime == 12) {
-				sTime = sTime + " PM";
+				sTime += " PM";
 			}
 			else {
-				sTime = sTime + " AM";
+				sTime += " AM";
 			}
 		}
 		// Collect all the info gathered above into a single string
@@ -355,7 +355,8 @@ public class DateInfo {
 	
 	/**
 	 * 
-	 * @return An array of times where the 0th position is the hour and the 1st position is the half hour
+	 * @return An array of times where the 0th position is the hour and the 1st position is the 
+	 * half hour
 	 */
 	public int[] getTime(){
 		int timeRemaining = halfHour;
@@ -374,7 +375,7 @@ public class DateInfo {
 		if (timeRemaining == 1) {
 			halfHours = 30;
 		}
-		int[] returnArr = {hours, halfHours};
+		final int[] returnArr = {hours, halfHours};
 		return returnArr;
 	}
 	

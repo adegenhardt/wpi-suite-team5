@@ -125,8 +125,9 @@ public class WeekView extends JPanel {
 										+ formatString(thisTangle.getEvent()
 												.getDescription(), 30) + "<br>"
 												+ CATEGORY
-												+ formatString(CategoryModel.getInstance().
-														getNameOfCatId(thisTangle.getEvent().getCategory()), 30)
+												+ formatString(CategoryModel.getInstance()
+														.getNameOfCatId(thisTangle.getEvent()
+																.getCategory()), 30)
 												+ "<br>" + STIME
 												+ (thisTangle.getEvent().getStartDate())
 												+ "<br><br>" + ETIME
@@ -174,8 +175,10 @@ public class WeekView extends JPanel {
 					}
 					else{
 						System.out.println("a rectangle");
-						final EventUpdater eventTab = new EventUpdater(ClosableTabCreator.getInstance(null).getTabbedPane(), thisRectangle.getEvent());
-						ClosableTabCreator.getInstance(null).addClosableTab(eventTab, "Update Event");
+						final EventUpdater eventTab = new EventUpdater(ClosableTabCreator
+								.getInstance(null).getTabbedPane(), thisRectangle.getEvent());
+						ClosableTabCreator.getInstance(null).addClosableTab(eventTab, 
+								"Update Event");
 					}
 				}
 			}
@@ -330,7 +333,7 @@ public class WeekView extends JPanel {
 	}
 
 	private void createTableProperties() {
-		// Resizing allowed, no reorder
+		// Resizing allowed no reorder
 		dayTable.getTableHeader().setResizingAllowed(true);
 		dayTable.getTableHeader().setReorderingAllowed(false);
 
@@ -460,8 +463,8 @@ public class WeekView extends JPanel {
 	}
 
 	private String formatString(String str, int len) {
-		String[] arrayStr = formatIntoArrays(str, len);
-		StringBuilder finalStr = new StringBuilder();
+		final String[] arrayStr = formatIntoArrays(str, len);
+		final StringBuilder finalStr = new StringBuilder();
 		for (int i = 0; i < arrayStr.length; i++) {
 			finalStr.append(arrayStr[i] + "<br>");
 		}
@@ -472,21 +475,24 @@ public class WeekView extends JPanel {
 	// Though might look into using WordUtils
 	private String[] formatIntoArrays(String text, int len) {
 		// return empty array for null text
-		if (text == null)
+		if (text == null){
 			return new String[] {};
+		}
 
 		// return text if length is zero or less
-		if (len <= 0)
+		if (len <= 0){
 			return new String[] { text };
+		}
 
 		// return text if less than length
-		if (text.length() <= len)
+		if (text.length() <= len){
 			return new String[] { text };
+		}
 
-		char[] chars = text.toCharArray();
-		Vector<String> lines = new Vector<String>();
-		StringBuffer line = new StringBuffer();
-		StringBuffer word = new StringBuffer();
+		final char[] chars = text.toCharArray();
+		final Vector<String> lines = new Vector<String>();
+		final StringBuffer line = new StringBuffer();
+		final StringBuffer word = new StringBuffer();
 
 		for (int i = 0; i < chars.length; i++) {
 			word.append(chars[i]);
@@ -516,15 +522,20 @@ public class WeekView extends JPanel {
 			lines.add(line.toString());
 		}
 
-		String[] ret = new String[lines.size()];
+		final String[] ret = new String[lines.size()];
 		int c = 0; // counter
-		for (Enumeration<String> e = lines.elements(); e.hasMoreElements(); c++) {
+		for (final Enumeration<String> e = lines.elements(); e.hasMoreElements(); c++) {
 			ret[c] = e.nextElement();
 		}
 
 		return ret;
 	}
 
+	/**
+	 * 
+	 * @author Team _
+	 *
+	 */
 	class ResizeListener implements ComponentListener {
 		public void componentHidden(ComponentEvent e) {
 		}

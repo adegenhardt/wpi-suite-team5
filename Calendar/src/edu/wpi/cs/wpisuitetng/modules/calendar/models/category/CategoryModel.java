@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.UpdateCategoryController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerCategories;
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.CategoryRefreshListener;
 
 import javax.swing.AbstractListModel;
 
@@ -65,7 +65,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	public static CategoryModel getInstance() {
 		if (instance == null) {
 			instance = new CategoryModel();
-			instance.addListDataListener(new RefreshListenerCategories());
+			instance.addListDataListener(new CategoryRefreshListener());
 		}
 		return instance;
 	}
@@ -275,7 +275,6 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * @return the requirements held within the calendar data model.
 	 */
 	public List<Category> getAllcategories() {
-		//this.fireContentsChanged(this, 0, 0);
 		return categories;
 	}
 
@@ -285,7 +284,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * @return the requirements held within the calendar data model.
 	 */
 	public List<Category> getAllNondeletedCategories() {
-		List<Category> categories = new ArrayList<Category>();
+		final List<Category> categories = new ArrayList<Category>();
 
 		for (Category cat : this.getAllcategories()) {
 
@@ -306,7 +305,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * @return the requirements held within the calendar data model.
 	 */
 	public List<Category> getAllNondeletedCategoriesAsFilters() {
-		List<Category> categories = new ArrayList<Category>();
+		final List<Category> categories = new ArrayList<Category>();
 
 		for (Category cat : this.getAllcategories()) {
 
@@ -326,7 +325,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * @return the requirements held within the calendar data model.
 	 */
 	public List<Category> getAllNonfilterCategories() {
-		List<Category> categories = new ArrayList<Category>();
+		final List<Category> categories = new ArrayList<Category>();
 
 		for (Category cat : this.getAllcategories()) {
 
@@ -385,105 +384,6 @@ public class CategoryModel extends AbstractListModel<Category> {
 
 	}
 
-	// /**
-	// * Get all the categories for the team that the user can access
-	// * @param userId The id of the user attempting to access the categories
-	// * @param year the year to check
-	// * @param month the month to check (0-11)
-	// * @return A list of all categories the user has access to
-	// */
-	// public List<Category> getTeamCategories( String userId, int year, int
-	// month ) {
-	// final List< Category > teamCategories = new ArrayList< Category >();
-	// Category currentCategory;
-
-	// for ( int i = 0; i < categories.size(); i++ ) {
-
-	// currentCategory = categories.get( i );
-	// if ( !currentCategory.isDeleted() &&
-	// currentCategory.isTeamCat()) {
-	// teamCategories.add( currentCategory );
-	// }
-	// }
-
-	// return teamCategories;
-
-	// }
-
-	// /**
-	// * Get all the categories for the team that the user can access
-	// * @param userId The id of the user attempting to access the categories
-	// * @param year the year to check
-	// * @param month the month to check (0-11)
-	// * @param day the day to check (0-30, depending on month)
-	// * @return A list of all categories the user has access to
-	// */
-	// public List<Category> getTeamCategories( String userId, int year, int
-	// month, int day ) {
-	// final List< Category > teamCategories = new ArrayList< Category >();
-	// Category currentCategory;
-
-	// for ( int i = 0; i < categories.size(); i++ ) {
-
-	// currentCategory = categories.get( i );
-	// if ( !currentCategory.isDeleted() &&
-	// currentCategory.isTeamCat()) {
-	// teamCategories.add( currentCategory );
-	// }
-	// }
-
-	// return teamCategories;
-
-	// }
-
-	// /**
-	// * Get all the categories for the user that the user can access
-	// * This includes both team and individual categories
-	// * @param userId The id of the user attempting to access the categories
-	// * @param year the year to check
-	// * @return A list of all categories the user has access to
-	// */
-	// public List<Category> getuserCategories( String userId, int year ) {
-	// final List< Category > userCategories = new ArrayList< Category >();
-	// Category currentCategory;
-
-	// for ( int i = 0; i < categories.size(); i++ ) {
-
-	// currentCategory = categories.get( i );
-	// if ( !currentCategory.isDeleted()) {
-	// userCategories.add( currentCategory );
-	// }
-	// }
-
-	// return userCategories;
-
-	// }
-
-	// /**
-	// * Get all the categories for the user that the user can access
-	// * This includes both team and individual categories
-	// * @param userId The id of the user attempting to access the categories
-	// * @param year the year to check
-	// * @param month the month to check (0-11)
-	// * @return A list of all categories the user has access to
-	// */
-	// public List<Category> getuserCategories( String userId, int year, int
-	// month ) {
-	// final List< Category > userCategories = new ArrayList< Category >();
-	// Category currentCategory;
-
-	// for ( int i = 0; i < categories.size(); i++ ) {
-
-	// currentCategory = categories.get( i );
-	// if ( !currentCategory.isDeleted()) {
-	// userCategories.add( currentCategory );
-	// }
-	// }
-
-	// return userCategories;
-
-	// }
-
 	/**
 	 * Get all the categories for the user that the user can access This
 	 * includes both team and individual categories
@@ -511,10 +411,10 @@ public class CategoryModel extends AbstractListModel<Category> {
 	/**
 	 * builds a list of strings of the model's categories' names
 	 * 
-	 * @return
+	 * @return Returns a list of categories
 	 */
 	public List<String> getAllCategoryNames() {
-		List<String> categoryNames = new ArrayList<String>();
+		final List<String> categoryNames = new ArrayList<String>();
 
 		for (Category cat : this.getAllcategories()) {
 			categoryNames.add(cat.getName());
@@ -527,10 +427,10 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * builds a list of strings of the model's categories' names for non-deleted
 	 * categories
 	 * 
-	 * @return
+	 * @return returns a list of categories
 	 */
 	public List<String> getAllNondeletedCategoryNames() {
-		List<String> categoryNames = new ArrayList<String>();
+		final List<String> categoryNames = new ArrayList<String>();
 
 		for (Category cat : this.getAllcategories()) {
 			if (!cat.isDeleted()) {
@@ -545,11 +445,12 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * Builds A list of categories based on the list of category names given
 	 * 
 	 * @param categoryNames
-	 * @return
+	 * 
+	 * @return returns a list of categories
 	 */
 	public List<Category> getCategoriesFromListOfNames(
 			List<String> categoryNames) {
-		List<Category> categories = new ArrayList<Category>();
+		final List<Category> categories = new ArrayList<Category>();
 
 		for (String categoryName : categoryNames) {
 			categories.add(this.getCategory(categoryName));
@@ -564,7 +465,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * @return the requirements held within the calendar data model.
 	 */
 	public void setAllCategoriesNonFilter() {
-		List<Category> categories = this.getAllNondeletedCategoriesAsFilters();
+		final List<Category> categories = this.getAllNondeletedCategoriesAsFilters();
 
 		for (Category cat : categories) {
 			cat.setHasFilter(false);

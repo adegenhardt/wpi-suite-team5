@@ -65,7 +65,7 @@ public class GetCategoryController implements ActionListener {
 		final Request request = 
 				Network.getInstance().makeRequest(
 						"calendar/category", 
-						HttpMethod.GET); // GET == read
+						HttpMethod.GET); // GET is read
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); // send the request
 	}
@@ -77,7 +77,7 @@ public class GetCategoryController implements ActionListener {
 		final Request request = 
 				Network.getInstance().makeRequest(
 						"calendar/category", //"calendar/calendardata", //
-						HttpMethod.GET); // GET == read
+						HttpMethod.GET); // GET is read
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); // send the request
 	}

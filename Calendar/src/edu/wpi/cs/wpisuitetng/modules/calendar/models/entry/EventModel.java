@@ -17,7 +17,7 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.RefreshListenerEvents;
+import edu.wpi.cs.wpisuitetng.modules.calendar.refresh.EventRefreshListener;
 
 /**List of Calendars pulled from the server
  * 
@@ -31,20 +31,20 @@ public class EventModel extends AbstractListModel<Event> {
 
 	// ********************************************************************
 	// Construct the Calendar Model
-	
+
 	/**
 	 * The list in which all the events for a single project
 	 * are contained
 	 */
 	private final List<Event> events;
-	
+
 	// TODO: Research if and how this is maintained between different instances of the program
 	private int nextID; // the next available ID number for the event
-						// that are added
-	
+	// that are added
+
 	// the static object that allows the event model to be
 	private static EventModel instance = null;
-	
+
 	/**
 	 * Constructs an empty list of events
 	 * Sets a default ID of 0 to the event
@@ -53,21 +53,21 @@ public class EventModel extends AbstractListModel<Event> {
 		events = new ArrayList<Event>();
 		nextID = 0;
 	}
-	
+
 	// **********************************************************************
 	// Manipulate events
-	
+
 	/**
 	 * @return the instance of the event model singleton
 	 */
 	public static EventModel getInstance(){
 		if(instance == null){
 			instance = new EventModel();
-			instance.addListDataListener( new RefreshListenerEvents() );
+			instance.addListDataListener( new EventRefreshListener() );
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * Adds a single calendar datum to the data of the project
 	 * 
@@ -76,16 +76,16 @@ public class EventModel extends AbstractListModel<Event> {
 	 */
 	public void addEvent(Event newEvent){
 		events.add(newEvent);
-		
+
 		this.fireIntervalAdded(this, 0, 0);
 	}
-	
+
 	/**
 	 * Returns the Calendar Data with the given ID
 	 * 
 	 * @param id The ID number of the event to be returned
 	 * 
-	
+
 	 * @return the event for the ID, or null if the data is not
 	 * 			found. */
 	public Event getEvent(int id){
@@ -101,7 +101,7 @@ public class EventModel extends AbstractListModel<Event> {
 		}
 		return temp;
 	}
-	
+
 	/**
 	 * Removes the event with the given ID
 	 * 
@@ -117,7 +117,7 @@ public class EventModel extends AbstractListModel<Event> {
 			}
 		}
 	}
-		
+
 	/**
 	 * Removes all the event from a model
 	 * Each event is removed individually
@@ -131,9 +131,8 @@ public class EventModel extends AbstractListModel<Event> {
 			iterator.next();
 			iterator.remove();
 		}
-		// this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
 	}
-	
+
 	/**
 	 * Adds the given array of events to the list
 	 * @param events the array of data to add
@@ -149,10 +148,10 @@ public class EventModel extends AbstractListModel<Event> {
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 	}
-	
+
 	// ******************************************************************
 	// Getters for the events
-	
+
 	/**
 	 * Provides the number of elements in the list of events for 
 	 * this project. Elements are returned from the newest to the oldest.
@@ -162,7 +161,7 @@ public class EventModel extends AbstractListModel<Event> {
 	public int getSize() {
 		return events.size();
 	}
-	
+
 	/**
 	 * Provides the next ID number the should be used for the next 
 	 * event generated.
@@ -183,7 +182,7 @@ public class EventModel extends AbstractListModel<Event> {
 	public Event getElementAt(int index) {
 		return events.get(events.size() - 1 - index);
 	}
-	
+
 	/**
 	 * set an updated event in the model
 	 * @param e the updated event
@@ -196,14 +195,14 @@ public class EventModel extends AbstractListModel<Event> {
 		}
 		this.fireContentsChanged(this, 0, 0);
 	}
-	
+
 	/**
 	 * Returns the list of events
 	 * @return the requirements held within the event model. */
 	public List<Event> getAllEvents() {
 		return events;
 	}
-	
+
 	/**
 	 * Get all the events for the team that the user can access
 	 * @param userName The id of the user attempting to access the events
@@ -213,9 +212,9 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getTeamEvents( String userName, int year) {
 		final List< Event > teamEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
 					currentEvent.isTeamEvent() &&
@@ -224,11 +223,11 @@ public class EventModel extends AbstractListModel<Event> {
 				teamEvents.add( currentEvent );
 			}
 		}
-		
+
 		return teamEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the events for the team that the user can access
 	 * @param userName The id of the user attempting to access the events.
@@ -237,9 +236,9 @@ public class EventModel extends AbstractListModel<Event> {
 	public List< Event > getTeamEvents( String userName ) {
 		final List< Event > teamEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if ( !currentEvent.isDeleted() &&
 					currentEvent.isTeamEvent() &&
@@ -247,11 +246,11 @@ public class EventModel extends AbstractListModel<Event> {
 				teamEvents.add( currentEvent );
 			}
 		}
-		
+
 		return teamEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the events for the team that the user can access
 	 * @param userName The id of the user attempting to access the events
@@ -262,9 +261,9 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getTeamEvents( String userName, int year, int month) {
 		final List< Event > teamEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
 					currentEvent.isTeamEvent() &&
@@ -273,11 +272,11 @@ public class EventModel extends AbstractListModel<Event> {
 				teamEvents.add( currentEvent );
 			}
 		}
-		
+
 		return teamEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the events for the team that the user can access
 	 * @param userName The id of the user attempting to access the events
@@ -289,9 +288,9 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getTeamEvents( String userName, int year, int month, int day) {
 		final List< Event > teamEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
 					currentEvent.isTeamEvent() &&
@@ -300,11 +299,11 @@ public class EventModel extends AbstractListModel<Event> {
 				teamEvents.add( currentEvent );
 			}
 		}
-		
+
 		return teamEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the personal events that the user can access
 	 * @param userName The id of the user attempting to access the events
@@ -313,9 +312,9 @@ public class EventModel extends AbstractListModel<Event> {
 	public List< Event > getPersonalEvents( String userName ) {
 		final List< Event > personalEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if ( !currentEvent.isDeleted() &&
 					!currentEvent.isTeamEvent() &&
@@ -323,11 +322,11 @@ public class EventModel extends AbstractListModel<Event> {
 				personalEvents.add( currentEvent );
 			}
 		}
-		
+
 		return personalEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the personal events that the user can access
 	 * @param userId The id of the user attempting to access the events
@@ -337,9 +336,9 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getPersonalEvents( String userId, int year) {
 		final List< Event > personalEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
 					!currentEvent.isTeamEvent() &&
@@ -348,11 +347,11 @@ public class EventModel extends AbstractListModel<Event> {
 				personalEvents.add( currentEvent );
 			}
 		}
-		
+
 		return personalEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the personal events that the user can access
 	 * @param userId The id of the user attempting to access the events
@@ -363,9 +362,9 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getPersonalEvents( String userId, int year, int month) {
 		final List< Event > personalEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
 					!currentEvent.isTeamEvent() &&
@@ -387,9 +386,9 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getPersonalEvents( String userId, int year, int month, int day) {
 		final List< Event > personalEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
 					!currentEvent.isTeamEvent() &&
@@ -398,12 +397,12 @@ public class EventModel extends AbstractListModel<Event> {
 				personalEvents.add( currentEvent );
 			}
 		}
-		
+
 		return personalEvents;
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Get all the events for the user that the user can access
 	 * This includes both team and individual events
@@ -414,9 +413,9 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getAllEvents( String userName, int year) {
 		final List< Event > userEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() &&
 					currentEvent.hasAccess( userName ) &&
@@ -424,11 +423,11 @@ public class EventModel extends AbstractListModel<Event> {
 				userEvents.add( currentEvent );
 			}
 		}
-		
+
 		return userEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the user events that the user can access
 	 * @param userName The id of the user attempting to access the events
@@ -437,19 +436,21 @@ public class EventModel extends AbstractListModel<Event> {
 	public List< Event > getUserEvents( String userName ) {
 		final List< Event > personalEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
-			if ( !currentEvent.isDeleted() && (currentEvent.hasAccess( userName ) || (currentEvent.isTeamEvent && currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ))) ) {
+			if ( !currentEvent.isDeleted() && (currentEvent.hasAccess( userName ) || 
+					(currentEvent.isTeamEvent && currentEvent.hasTeamAccess(
+							ConfigManager.getConfig().getProjectName() ))) ) {
 				personalEvents.add( currentEvent );
 			}
 		}
-		
+
 		return personalEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the events for the user that the user can access by year
 	 * @param userId The id of the user attempting to access the events
@@ -459,21 +460,22 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getUserEvents( String userId, int year) {
 		final List< Event > personalEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() && 
-					(currentEvent.hasAccess( userId ) || (currentEvent.isTeamEvent && currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ))) &&
-					currentEvent.occursOnYear( year ) ) {
+					(currentEvent.hasAccess( userId ) || (currentEvent.isTeamEvent && 
+							currentEvent.hasTeamAccess(ConfigManager.getConfig().getProjectName())
+							)) && currentEvent.occursOnYear( year ) ) {
 				personalEvents.add( currentEvent );
 			}
 		}
-		
+
 		return personalEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the events for the user that the user can access
 	 * This includes both team and individual events
@@ -485,21 +487,22 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getUserEvents( String userName, int year, int month) {
 		final List< Event > userEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() &&
-					(currentEvent.hasAccess( userName ) || (currentEvent.isTeamEvent && currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ))) &&
-					currentEvent.occursOnMonth( year, month ) ) {
+					(currentEvent.hasAccess( userName ) || (currentEvent.isTeamEvent && 
+							currentEvent.hasTeamAccess(ConfigManager.getConfig().getProjectName())
+							)) && currentEvent.occursOnMonth( year, month ) ) {
 				userEvents.add( currentEvent );
 			}
 		}
-		
+
 		return userEvents;
-		
+
 	}
-	
+
 	/**
 	 * Get all the events for the user that the user can access
 	 * This includes both team and individual events
@@ -512,21 +515,22 @@ public class EventModel extends AbstractListModel<Event> {
 	public List<Event> getUserEvents( String userName, int year, int month, int day) {
 		final List< Event > userEvents = new ArrayList< Event >();
 		Event currentEvent;
-		
+
 		for ( int i = 0; i < events.size(); i++ ) {
-			
+
 			currentEvent = events.get( i );
 			if  ( !currentEvent.isDeleted() &&
-					(currentEvent.hasAccess( userName ) || (currentEvent.isTeamEvent && currentEvent.hasTeamAccess( ConfigManager.getConfig().getProjectName() ))) &&
-					currentEvent.occursOnDate( year, month, day ) ) {
+					(currentEvent.hasAccess( userName ) || (currentEvent.isTeamEvent &&
+							currentEvent.hasTeamAccess(ConfigManager.getConfig().getProjectName())
+							)) && currentEvent.occursOnDate( year, month, day ) ) {
 				userEvents.add( currentEvent );
 			}
 		}
-		
+
 		return userEvents;
-		
+
 	}
-	
+
 	/**
 	 * Determine whether one event is already contained in the list maintained
 	 * by the local model of event data.
@@ -542,21 +546,21 @@ public class EventModel extends AbstractListModel<Event> {
 	public boolean similarEventFound( String userName, Event event ) {
 		Event currentEvent;
 		boolean isEventFound = false;
-		
+
 		// Loop through the list of events for the local model and determine whether
 		// the event being passed as input is the same as any event within the local
 		// model.
 		for ( int i = 0; i < events.size(); i++ ) {
 			currentEvent = events.get( i );
-			
+
 			// checking the fields of each local model event against the input event
 			isEventFound = isEventFound || event.everythingEquivalentButUniqueID( currentEvent );
 		}
-		
+
 		return isEventFound;
-		
+
 	}
-	
+
 	/**
 	 * Determine whether or not an event of the same name already exists in the list
 	 * maintained by the local model of event data.
@@ -573,20 +577,21 @@ public class EventModel extends AbstractListModel<Event> {
 	public boolean sameNameEventFound( String userName, String eventName ) {
 		Event currentEvent;
 		boolean isSameNameEventFound = false;
-		
+
 		// Loop through the list of events for the local event model and determine whether
 		// the name of the event being passed as input is the same as the name of any other
 		// event within the local model.
 		for ( int i = 0; i < events.size(); i++ ) {
 			currentEvent = events.get( i );
-			
+
 			// checking the names of events within the local model event list against the 
 			// input event name.
-			isSameNameEventFound = isSameNameEventFound || eventName.equals( currentEvent.getName() );
+			isSameNameEventFound = isSameNameEventFound || 
+					eventName.equals(currentEvent.getName());
 		}
-		
+
 		return isSameNameEventFound;
-		
+
 	}
-	
+
 }

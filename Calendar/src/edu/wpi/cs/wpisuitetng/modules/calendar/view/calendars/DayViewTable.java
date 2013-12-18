@@ -27,21 +27,26 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.EventFilter;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.EventSorter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 
+/**
+ * 
+ * @author Team _
+ * 
+ * @version $Revision: 1.0 $
+ */
 public class DayViewTable extends JTable {
 	
 	private static final long serialVersionUID = -4325747905323115241L;
+	private List<Event> events;	// current day's events to display
+	boolean isUpdated; // whether or not the event list is updated
+	DayView dayView; // instance of day view for updating current events
 	
-	private List< Event > events;		/* current day's events to display */
-	boolean isUpdated;					/* whether or not the event list is updated */
-	DayView dayView;					/* instance of day view for updating current events */
-	
-	private List<EventRectangle> rectangles;   
+	private final List<EventRectangle> rectangles;   
 	
 	/**
 	 * @param defaultTableModel
@@ -96,8 +101,8 @@ public class DayViewTable extends JTable {
 	 * @param s the Original unedited string
 	 * @param metric the statistics of the font being used
 	 * @param maxWidth the maximum width allowed in pixels
-	 * @return the trimmed string
-	 */
+	
+	 * @return the trimmed string */
 	public String trimString( String s, FontMetrics metric, int maxWidth ) {
 		
 		// If string already fits, return it
@@ -143,20 +148,27 @@ public class DayViewTable extends JTable {
 	 * Update the stored events by retrieving and sorting them
 	 */
 	public void updateEvents() {
-		DateInfo eventDay = new DateInfo(dayView.getRealDay());
-		if (GlobalButtonVars.getInstance().isPersonalView() && GlobalButtonVars.getInstance().isTeamView()) {
-			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
+		final DateInfo eventDay = new DateInfo(dayView.getRealDay());
+		if (GlobalButtonVars.getInstance().isPersonalView() && 
+				GlobalButtonVars.getInstance().isTeamView()) {
+			events = EventModel.getInstance().getUserEvents(
+					ConfigManager.getConfig().getUserName(), eventDay.getYear(), 
+					eventDay.getMonth(), eventDay.getDay());
 		}
 		else if (GlobalButtonVars.getInstance().isPersonalView()) {
-			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
+			events = EventModel.getInstance().getPersonalEvents(
+					ConfigManager.getConfig().getUserName(), eventDay.getYear(), 
+					eventDay.getMonth(), eventDay.getDay());
 
 		}
 		else if (GlobalButtonVars.getInstance().isTeamView()) {
-			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear(), eventDay.getMonth(), eventDay.getDay());
+			events = EventModel.getInstance().getTeamEvents(
+					ConfigManager.getConfig().getUserName(), eventDay.getYear(), 
+					eventDay.getMonth(), eventDay.getDay());
 		}
-		events = FilterEvents.filterEventsByCategory(events, CategoryModel.getInstance()
+		events = EventFilter.filterEventsByCategory(events, CategoryModel.getInstance()
 				.getAllNondeletedCategoriesAsFilters());
-		events = SortEvents.sortEventsByDate(events);
+		events = EventSorter.sortEventsByDate(events);
 	}
 	
 	/**
@@ -167,19 +179,19 @@ public class DayViewTable extends JTable {
 	void paintEventRectangle( Graphics g, EventRectangle rect ) {
 		
 		// Convert Calendar to DateInfo
-		DateInfo displayedDay = new DateInfo( dayView.getRealDay() );
+		final DateInfo displayedDay = new DateInfo( dayView.getRealDay() );
 		
-		final int CURVE_SIZE = 16;			/* Size of curves for rounded rectangles */
+		final int CURVE_SIZE = 16; // Size of curves for rounded rectangles
 		
-		int stringHeight;		/* height of string being printed */
-		String printString;		/* string to print for Event */
-		Color textColor;		/* color to print text for an event */
+		final int stringHeight; // height of string being printed
+		String printString; // string to print for Event
+		final Color textColor; // color to print text for an event
 		
-		Event e = rect.getEvent();
-		int x = rect.getX();
-		int y = rect.getY();
-		int width = rect.getWidth();
-		int height = rect.getHeight();
+		final Event e = rect.getEvent();
+		final int x = rect.getX();
+		final int y = rect.getY();
+		final int width = rect.getWidth();
+		final int height = rect.getHeight();
 		
 		// draw the event rectangle
 		g.setColor( e.getColor() );
@@ -225,7 +237,7 @@ public class DayViewTable extends JTable {
 	public void updateRectangles() {
 		
 		// Convert Calendar to DateInfo
-		DateInfo displayedDay = new DateInfo( dayView.getRealDay() );
+		final DateInfo displayedDay = new DateInfo( dayView.getRealDay() );
 		
 		// Set the half-hour field to 0 to signify the beginning of the day
 		displayedDay.setHalfHour( 0 );
@@ -245,8 +257,8 @@ public class DayViewTable extends JTable {
 		int height;
 		
 		/* number of events already occurring in a given slot */
-		int numPriorEvents[] = new int[ 48 ];
-		final int PRIOR_EVENT_WIDTH = 8;	/* Number of pixels to reserve for each prior event */
+		final int[] numPriorEvents = new int[48];
+		final int PRIOR_EVENT_WIDTH = 8; // Number of pixels to reserve for each prior event
 		
 		
 		// Set number of prior events to 0 for all slots
@@ -254,10 +266,10 @@ public class DayViewTable extends JTable {
 			numPriorEvents[ i ] = 0;
 		}
 		
-		Event e;			/* the current event */
+		Event e;// the current event
 		DateInfo startDate;
 		DateInfo endDate;
-		int numEventsInRow; 	/* Number of events in current row */
+		int numEventsInRow; // Number of events in current row
 		EventRectangle r;
 		int startHour;
 		for ( int i = 0; i < events.size(); i++ ) {
@@ -347,15 +359,15 @@ public class DayViewTable extends JTable {
 	/**
 	 * Determines whether or not the index of a cell is visible
 	 * @param rowIndex the index of the cell in question
-	 * @return true if the cell is visible, false otherwise
-	 */
+	
+	 * @return true if the cell is visible, false otherwise */
 	public boolean isCellVisible(int rowIndex) {
 		if (!(getParent() instanceof JViewport)) {
 			return false;
 		}
-		JViewport viewport = (JViewport) getParent();
-		Rectangle rect = getCellRect(rowIndex, 1, true);
-		Point pt = viewport.getViewPosition();
+		final JViewport viewport = (JViewport) getParent();
+		final Rectangle rect = getCellRect(rowIndex, 1, true);
+		final Point pt = viewport.getViewPosition();
 		rect.setLocation(rect.x - pt.x, rect.y - pt.y);
 		return new Rectangle(viewport.getExtentSize()).contains(rect);
 	}
@@ -373,10 +385,10 @@ public class DayViewTable extends JTable {
 	 * 
 	 * @param _x
 	 * @param _y
-	 * @return rectangle
-	 */
+	
+	 * @return rectangle */
 	public EventRectangle getRectangle(int _x, int _y) {
-		for (int i=rectangles.size()-1; i >= 0; i--) {
+		for (int i=rectangles.size() - 1; i >= 0; i--) {
 			if (rectangles.get(i).isAtPoint(_x, _y)) {
 				return rectangles.get(i);
 			}

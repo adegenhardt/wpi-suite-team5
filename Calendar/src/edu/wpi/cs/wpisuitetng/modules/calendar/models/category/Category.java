@@ -111,9 +111,9 @@ public class Category extends AbstractModel {
 		creatorId = ConfigManager.getConfig().getUserName(); // gets user id
 																// from system
 																// configuration
-		this.isTeamCat = true;// all categories are available to all users
+		isTeamCat = true;// all categories are available to all users
 		isDeleted = false;
-		this.hasFilter = false;
+		hasFilter = false;
 	}
 
 	// ------------------------------------------------------------------------
@@ -211,7 +211,7 @@ public class Category extends AbstractModel {
 	 * @param deletedStatus
 	 */
 	public void setDeleted(boolean deletedStatus) {
-		this.isDeleted = deletedStatus;
+		isDeleted = deletedStatus;
 	}
 
 	/**
@@ -254,14 +254,14 @@ public class Category extends AbstractModel {
 		}
 		else if( this.getClass() == obj.getClass()){
 			// Cast other object to Category
-			Category other = (Category) obj;
+			final Category other = (Category) obj;
 			
 			// Check if name is null before comparing
-			if (this.getName() != null && other.getName() != null) {
-				if(this.getName().equals(other.getName()) ){
+			if (name != null && other.getName() != null) {
+				if(name.equals(other.getName()) ){
 					out = true;
 				}
-			} else if (this.getName() == null && other.getName() == null) {
+			} else if (name == null && other.getName() == null) {
 				out = true;
 			}
 

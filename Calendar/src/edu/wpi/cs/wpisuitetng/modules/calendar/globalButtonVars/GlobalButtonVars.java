@@ -49,7 +49,7 @@ public class GlobalButtonVars  {
 			instance = new GlobalButtonVars();
 		}
 		return instance;
-	}	
+	}
 	
 	/**
 	 * Method that indicates whether or not the current view state

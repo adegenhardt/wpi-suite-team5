@@ -51,14 +51,9 @@ public class ToolbarView extends DefaultToolbarView {
 		eventPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				final EventEditor eventTab = new EventEditor(ClosableTabCreator.getInstance(null).getTabbedPane());
-				// TODO:
-				// If (editing tab){
-				// 	tabCreator.addClosableTab(eventTab, "Edit Event");
-				// }
-				// else {
+				final EventEditor eventTab = new EventEditor(ClosableTabCreator.getInstance(null)
+						.getTabbedPane());
 				ClosableTabCreator.getInstance(null).addClosableTab(eventTab, "Create Event");
-				// }
 			}
 		});
 
@@ -87,7 +82,7 @@ public class ToolbarView extends DefaultToolbarView {
 					GlobalButtonVars.getInstance().setPersonalView();
 				}
 				if (state == ItemEvent.SELECTED && !GlobalButtonVars.getInstance().isTriedOnce()) {
-					GlobalButtonVars.getInstance().setTriedOnce(true);	
+					GlobalButtonVars.getInstance().setTriedOnce(true);
 				}
 			}});
 		

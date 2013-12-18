@@ -54,7 +54,7 @@ public class AddEventController  {
 	 */
 	public void addEvent( Event newEvent ) 
 	{
-		// PUT == create
+		// PUT is create
 		final Request request = 
 				Network.getInstance().makeRequest(
 						"calendar/event", 

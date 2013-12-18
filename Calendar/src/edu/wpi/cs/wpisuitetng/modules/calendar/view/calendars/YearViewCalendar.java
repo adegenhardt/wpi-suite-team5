@@ -30,8 +30,8 @@ import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.EventFilter;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.EventSorter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
@@ -56,7 +56,7 @@ public class YearViewCalendar extends JXMonthView {
 	private static final int DAY_TAB = 3; 
 	private ActionListener calendarListener;
 	private List<Event> events;
-	private JTabbedPane parentTab;
+	private final JTabbedPane parentTab;
 	
 	private static YearViewCalendar thisInstance = null;
 	
@@ -104,7 +104,7 @@ public class YearViewCalendar extends JXMonthView {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				try {
-					Date startDate = thisInstance.getDayAtLocation(e.getX(), e.getY());
+					final Date startDate = thisInstance.getDayAtLocation(e.getX(), e.getY());
 					thisInstance.setSelectionInterval(startDate, startDate);
 				}
 				catch (Exception x) {}
@@ -116,7 +116,7 @@ public class YearViewCalendar extends JXMonthView {
 	
 	private void selected() {
 		final SortedSet<Date> ds = this.getSelection();
-		Calendar selectDay = Calendar.getInstance();
+		final Calendar selectDay = Calendar.getInstance();
 		selectDay.setTime(ds.first());
         selectDay.set(Calendar.HOUR_OF_DAY, 0);
         selectDay.set(Calendar.MINUTE, 0);
@@ -134,24 +134,25 @@ public class YearViewCalendar extends JXMonthView {
 	}
 	
 	private void updateEvents() {
-		DateInfo eventDay = new DateInfo(this.getCalendar());
+		final DateInfo eventDay = new DateInfo(this.getCalendar());
 		if (GlobalButtonVars.getInstance().isStateBothView()) {
-			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
+			events = EventModel.getInstance().getUserEvents(ConfigManager.getConfig()
+					.getUserName(), eventDay.getYear());
 		}
 		else if (GlobalButtonVars.getInstance().isStatePersonalView()) {
-			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
+			events = EventModel.getInstance().getPersonalEvents(ConfigManager.getConfig()
+					.getUserName(), eventDay.getYear());
 
 		}
 		else if (GlobalButtonVars.getInstance().isStateTeamView()) {
-			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig().getUserName(), eventDay.getYear());
+			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig()
+					.getUserName(), eventDay.getYear());
 		}
 
-		//TODO CFFLAG
-
-		events = FilterEvents.filterEventsByCategory(events, CategoryModel
+		events = EventFilter.filterEventsByCategory(events, CategoryModel
 				.getInstance().getAllNondeletedCategoriesAsFilters());
 
-		events = SortEvents.sortEventsByDate(events);
+		events = EventSorter.sortEventsByDate(events);
 	}
 	
 	/**
@@ -160,7 +161,7 @@ public class YearViewCalendar extends JXMonthView {
 	public void refreshYear() {
 		this.setFlaggedDates((Date[]) null);
 		updateEvents();
-		List<Date> eventLongs = new ArrayList<Date>();
+		final List<Date> eventLongs = new ArrayList<Date>();
 		for (int i = 0; i < events.size(); i++) {
 			Calendar startDate = events.get(i).getStartDate().dateInfoToCalendar();
 			Calendar endDate = events.get(i).getEndDate().dateInfoToCalendar();
@@ -180,7 +181,7 @@ public class YearViewCalendar extends JXMonthView {
 			}
 			// Discount the last day as it ends at 11:59PM, technically.
 			if (events.get(i).getEndDate().getHalfHour() == 0) {
-				eventLongs.remove(eventLongs.size()-1);
+				eventLongs.remove(eventLongs.size() - 1);
 			}
 		}
 		for (int k = 0; k < eventLongs.size(); k++) {

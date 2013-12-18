@@ -62,7 +62,7 @@ public class GetEventController implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this Event
 		final Request request = Network.getInstance().makeRequest(
-				"calendar/event", HttpMethod.GET); // GET == read
+				"calendar/event", HttpMethod.GET); // GET is read
 		request.addObserver(observer); // add an observer to process the
 		// response
 		request.send(); // send the request
@@ -73,7 +73,7 @@ public class GetEventController implements ActionListener {
 	 */
 	public void retrieveEvents() {
 		final Request request = Network.getInstance().makeRequest(
-				"calendar/event", HttpMethod.GET); // GET == read
+				"calendar/event", HttpMethod.GET); // GET is read
 		request.addObserver(observer); // add an observer to process the
 		// response
 		request.send(); // send the request

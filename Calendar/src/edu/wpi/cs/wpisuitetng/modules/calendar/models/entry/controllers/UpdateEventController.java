@@ -56,7 +56,7 @@ public class UpdateEventController {
 	public void updateEvent(Event newEvent) 
 	{
 		final Request request = Network.getInstance().makeRequest( "calendar/event",
-				              HttpMethod.POST); // POST == update
+				              HttpMethod.POST); // POST is update
 		request.setBody( newEvent.toJSON() ); // put the new Event in the body of the request
 		request.addObserver( observer ); // add an observer to process the response
 		request.send(); 

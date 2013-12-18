@@ -47,7 +47,7 @@ public class ClosableTabCreator {
 	 * @return instance
 	 */
 	public static ClosableTabCreator getInstance(JTabbedPane _tabbedPane){
-		if(tabCreatorInstance==null){
+		if(tabCreatorInstance == null){
 			tabCreatorInstance = new ClosableTabCreator(_tabbedPane);
 		}
 		return tabCreatorInstance;

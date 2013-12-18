@@ -24,8 +24,8 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.EventFilter;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.EventSorter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
@@ -43,8 +43,8 @@ public class MonthViewTable extends JTable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private MonthView monthView;
-	private List< Event > events;		/* current day's events to display */
-	private boolean isUpdated;					/* whether or not the event list is updated */
+	private List< Event > events; /* current day's events to display */
+	private boolean isUpdated; /* whether or not the event list is updated */
 	
 	/**
 	 * Create a month view table using a defaultTableModel as a parameter
@@ -89,7 +89,7 @@ public class MonthViewTable extends JTable {
 		super.paintComponent( g );
 		
 		if ( !isUpdated ) {
-			updateEvents();	
+			updateEvents();
 			isUpdated = true;
 		}
 
@@ -101,8 +101,8 @@ public class MonthViewTable extends JTable {
 	 */
 	private void updateEvents() {
 		
-		int year = monthView.getCurrentYear();
-		int month = monthView.getCurrentMonth();
+		final int year = monthView.getCurrentYear();
+		final int month = monthView.getCurrentMonth();
 		if ( GlobalButtonVars.getInstance().isStateBothView()) {
 			events = EventModel.getInstance().getUserEvents(
 					ConfigManager.getConfig().getUserName(), year, month );
@@ -114,12 +114,10 @@ public class MonthViewTable extends JTable {
 					ConfigManager.getConfig().getUserName(), year, month );
 		}
 
-		//TODO CFFLAGS
-
-		events = FilterEvents.filterEventsByCategory(events, CategoryModel.getInstance()
+		events = EventFilter.filterEventsByCategory(events, CategoryModel.getInstance()
 				.getAllNondeletedCategoriesAsFilters());
 
-		events = SortEvents.sortEventsByDate( events );
+		events = EventSorter.sortEventsByDate( events );
 		
 	}
 
@@ -159,9 +157,10 @@ public class MonthViewTable extends JTable {
 				NUM_DAYS - 1,
 				48 );
 		
-		final int COLUMN_WIDTH = getColumnModel().
-				getColumn( 0 ).getWidth();		/* current width of the column */
-		final int ROW_HEIGHT = getRowHeight();	/* current height of the rows */
+		// current width of the column
+		final int COLUMN_WIDTH = getColumnModel().getColumn( 0 ).getWidth();
+		// current height of the rows
+		final int ROW_HEIGHT = getRowHeight();
 		
 		/* height of each line within a row */
 		final int LINE_HEIGHT = g.getFontMetrics().getMaxAscent()
@@ -179,7 +178,7 @@ public class MonthViewTable extends JTable {
 				- 2;
 		
 		// The last occupied date in each row
-		int[] lastOccupiedDate = new int[ NUM_LINES ];
+		final int[] lastOccupiedDate = new int[ NUM_LINES ];
 		
 		// Set all rows to -1, i.e: not yet occupied
 		for ( int i = 0; i < NUM_LINES; i++ ) {
@@ -187,17 +186,17 @@ public class MonthViewTable extends JTable {
 		}
 		
 		// Number of events remaining (i.e: not displayed) on each day
-		int[] numEventsRemaining = new int[ NUM_DAYS ];
+		final int[] numEventsRemaining = new int[ NUM_DAYS ];
 		
 		// Clear number of non-displayed events
 		for ( int i = 0; i < NUM_DAYS; i++ ) {
 			numEventsRemaining[ i ] = 0;
 		}
 		
-		int occupiedRow;	/* Row occupied by current event */
-		Event e;				/* Current event */
-		int startDay;			/* Day within month to start drawing */
-		int endDay;				/* Day within month to stop drawing */
+		int occupiedRow; /* Row occupied by current event */
+		Event e; /* Current event */
+		int startDay; /* Day within month to start drawing */
+		int endDay; /* Day within month to stop drawing */
 		for ( int i = 0; i < events.size(); i++ ) {
 			e = events.get( i );
 			occupiedRow = -1;
@@ -242,7 +241,7 @@ public class MonthViewTable extends JTable {
 				int column;
 				int x;
 				int y;
-				String printString = trimString( e.getName(), g.getFontMetrics(), MAX_STRING_WIDTH );
+				String printString = trimString(e.getName(), g.getFontMetrics(), MAX_STRING_WIDTH);
 				
 				// Determine and set text color
 				Color textColor = new Color( Math.max( e.getColor().getRed() - 120, 0 ),
@@ -264,22 +263,18 @@ public class MonthViewTable extends JTable {
 					g.fillRect( x, y, COLUMN_WIDTH - 1, LINE_HEIGHT );
 					
 					g.setColor( textColor );
-					g.drawString( 	printString,
-									x + 1 + ARROW_SIZE,
+					g.drawString(printString, x + 1 + ARROW_SIZE,
 									y + g.getFontMetrics().getMaxAscent() );
 					
 					// If not first day, draw the left arrow
 					if ( ( j != lastOccupiedDate[ occupiedRow ] && j != startDay )
 							|| e.getStartDate().compareTo( START_OF_MONTH ) < 0 ) {
-						g.drawString( 	"<-",
-										x + 1,
-										y + + g.getFontMetrics().getMaxAscent() );
+						g.drawString("<-", x + 1, y + + g.getFontMetrics().getMaxAscent() );
 					}
 					
 					// If not last day, draw the right arrow
 					if ( j != endDay || e.getEndDate().compareTo( END_OF_MONTH ) > 0 ) {
-						g.drawString( 	"->",
-										x + COLUMN_WIDTH - ARROW_SIZE,
+						g.drawString("->", x + COLUMN_WIDTH - ARROW_SIZE,
 										y + g.getFontMetrics().getMaxAscent() );
 					}
 				}
@@ -323,7 +318,7 @@ public class MonthViewTable extends JTable {
 	 */
 	public int findEarliestOpenLine( int startDay, int endDay, int[] lastOccupiedDate ) {
 		
-		int earliestOpenLine = -1;		// default to -1
+		int earliestOpenLine = -1; // default to -1
 		for ( int i = 0; i < lastOccupiedDate.length; i++ ) {
 			
 			// if any slot is free before the start day, return it immediately

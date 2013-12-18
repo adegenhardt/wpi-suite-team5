@@ -22,15 +22,21 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 
 
-public class FilterEvents {
+/**
+ * 
+ * @author Team _
+ * 
+ * @version $Revision: 1.0 $
+ */
+public class EventFilter {
 	/**
 	 * When given a list of events and a list of categories, filters the events
 	 * so that only events whose categories matches the input categories are
 	 * returned.
 	 * @param events A list of events to be filtered
 	 * @param cats A list of categories by which the events are filtered
-	 * @return The filtered list of events
-	 */
+	
+	 * @return The filtered list of events */
 	public static List<Event> filterEventsByCategory(List<Event> events,
 			List<Category> cats){
 		//If there is an empty event list, return the list right away
@@ -43,7 +49,7 @@ public class FilterEvents {
 		} else {
 			//If both the category list and the event list have contents,
 			//we apply the filters as necessary
-			ArrayList<Event> filteredEvents = new ArrayList<Event>();
+			final List<Event> filteredEvents = new ArrayList<Event>();
 			for(int i = 0; i < events.size(); i++){
 				for(int j = 0; j < cats.size(); j++){
 					//Check if the current event matches the current category
@@ -57,5 +63,5 @@ public class FilterEvents {
 			//Return the list of events that match the filters
 			return filteredEvents;
 		}
-	}	 
+	}
 }

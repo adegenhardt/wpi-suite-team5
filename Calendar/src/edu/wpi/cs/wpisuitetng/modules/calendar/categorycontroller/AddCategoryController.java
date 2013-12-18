@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class AddCategoryController {
 	
 	private static AddCategoryController instance = null;
-	private AddCategoryRequestObserver observer /*= null*/;
+	private final AddCategoryRequestObserver observer /*= null*/;
 	
 	/**
 	 * Construct an AddCategoryController for the given model

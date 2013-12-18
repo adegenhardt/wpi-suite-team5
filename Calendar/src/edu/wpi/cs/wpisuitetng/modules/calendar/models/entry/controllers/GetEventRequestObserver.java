@@ -35,7 +35,8 @@ public class GetEventRequestObserver implements RequestObserver {
 	/**
 	 * Parse the Events out of the response body and pass them to the controller
 	 * 
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(
+	 * 			edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
@@ -47,7 +48,8 @@ public class GetEventRequestObserver implements RequestObserver {
 	}
 
 	/**
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(
+	 * 			edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
@@ -57,7 +59,8 @@ public class GetEventRequestObserver implements RequestObserver {
 	/**
 	 * Put an error Event in the Calendar Panel if the request fails.
 	 * 
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(
+	 * 			edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {

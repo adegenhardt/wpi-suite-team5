@@ -103,9 +103,9 @@ public class MonthView extends JPanel {
 		tblCalendar.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				Integer day = new Integer(dayClicked(arg0.getX(), arg0.getY()));
+				final Integer day = new Integer(dayClicked(arg0.getX(), arg0.getY()));
 				if (day != null) {
-					Calendar selectDay = Calendar.getInstance();
+					final Calendar selectDay = Calendar.getInstance();
 					selectDay.set(Calendar.YEAR, currentYear);
 					selectDay.set(Calendar.MONTH, currentMonth);
 					selectDay.set(Calendar.DATE, day);
@@ -281,7 +281,9 @@ public class MonthView extends JPanel {
 		if (month == 11 && year >= realYear + 100) {
 			btnNext.setEnabled(false);
 		} // Too late
-		lblMonth.setText(months[month] + " " + String.valueOf(year)); // Refresh the month label (at the top)
+		
+		// Refresh the month label (at the top)
+		lblMonth.setText(months[month] + " " + String.valueOf(year)); 
 		// Re-align label with calendar
 		// Select the correct year in the combo box
 		cmbYear.setSelectedItem(String.valueOf(year)); 
@@ -309,12 +311,12 @@ public class MonthView extends JPanel {
 		}
 
 		// Apply renderer
-		tblCalendarRenderer renderer = new tblCalendarRenderer();
+		final tblCalendarRenderer renderer = new tblCalendarRenderer();
 		renderer.setHorizontalAlignment( SwingConstants.CENTER );
 		renderer.setVerticalAlignment( SwingConstants.TOP );
 		
 		tblCalendar.setDefaultRenderer(tblCalendar.getColumnClass(0), renderer );
-		tblCalendar.setUpdated( false );	/* notify the table that it needs to update */
+		tblCalendar.setUpdated( false ); // notify the table that it needs to update
 	}
 
 	/**

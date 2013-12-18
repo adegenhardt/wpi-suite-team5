@@ -28,23 +28,29 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
-import edu.wpi.cs.wpisuitetng.modules.calendar.models.SortEvents;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.EventFilter;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.EventSorter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
 
+/**
+ * 
+ * @author Team _
+ *
+ * @version $Revision: 1.0 $
+ */
 public class WeekViewTable extends JTable {
 	
 	private static final long serialVersionUID = -4325747905323115241L;
 	
 
-	boolean isUpdated;					/* whether or not the event list is updated */
-	WeekView dayView;					/* instance of day view for updating current events */
+	boolean isUpdated; /* whether or not the event list is updated */
+	WeekView dayView; /* instance of day view for updating current events */
 	
 	
-	private List<Event>[] eventsArray; 	/* This is a little dangerous, but I program in C with emacs I'll be fine */
-	private List<EventRectangle>[] rectanglesArray;
+	private final List<Event>[] eventsArray;
+	private final List<EventRectangle>[] rectanglesArray;
 	
 	/**
 	 * 
@@ -55,8 +61,6 @@ public class WeekViewTable extends JTable {
 		super( defaultTableModel );
 		
 		isUpdated = false;
-		
-		// rectangles = new ArrayList< EventRectangle >();
 		
 		eventsArray = new ArrayList[7];
 		rectanglesArray = new ArrayList[7];
@@ -116,8 +120,8 @@ public class WeekViewTable extends JTable {
 	 * @param s the Original unedited string
 	 * @param metric the statistics of the font being used
 	 * @param maxWidth the maximum width allowed in pixels
-	 * @return the trimmed string
-	 */
+	
+	 * @return the trimmed string */
 	public String trimString( String s, FontMetrics metric, int maxWidth ) {
 		
 		// If string already fits, return it
@@ -145,8 +149,8 @@ public class WeekViewTable extends JTable {
 	
 	/**
 	 * @param i The day of the week (0/Sunday - 6/Saturday)
-	 * @return the day's events
-	 */
+	
+	 * @return the day's events */
 	public List<Event> getEvents(int i) {
 		return eventsArray[i];
 	}
@@ -165,7 +169,8 @@ public class WeekViewTable extends JTable {
 	public void updateEvents() {
 		for (int i = 0; i < 7; i++) {
 			DateInfo eventDay = new DateInfo(dayView.getCalendarDay(i));
-			if (GlobalButtonVars.getInstance().isPersonalView() && GlobalButtonVars.getInstance().isTeamView()) {
+			if (GlobalButtonVars.getInstance().isPersonalView() && 
+					GlobalButtonVars.getInstance().isTeamView()) {
 				eventsArray[i] = EventModel.getInstance().getUserEvents(
 						ConfigManager.getConfig().getUserName(),
 						eventDay.getYear(), eventDay.getMonth(),
@@ -182,9 +187,10 @@ public class WeekViewTable extends JTable {
 						eventDay.getYear(), eventDay.getMonth(),
 						eventDay.getDay());
 			}
-			eventsArray[i] = FilterEvents.filterEventsByCategory(eventsArray[i], CategoryModel.getInstance()
+			eventsArray[i] = EventFilter.filterEventsByCategory(
+					eventsArray[i], CategoryModel.getInstance()
 					.getAllNondeletedCategoriesAsFilters());
-			eventsArray[i] = SortEvents.sortEventsByDate(eventsArray[i]);
+			eventsArray[i] = EventSorter.sortEventsByDate(eventsArray[i]);
 		}
 	}
 	
@@ -197,19 +203,19 @@ public class WeekViewTable extends JTable {
 	void paintEventRectangle( Graphics g, EventRectangle rect, int iOffset ) {
 		
 		// Convert Calendar to DateInfo
-		DateInfo displayedDay = new DateInfo( dayView.getCalendarDay(iOffset) );
+		final DateInfo displayedDay = new DateInfo( dayView.getCalendarDay(iOffset) );
 		
-		final int CURVE_SIZE = 16;			/* Size of curves for rounded rectangles */
+		final int CURVE_SIZE = 16; /* Size of curves for rounded rectangles */
 		
-		int stringHeight;		/* height of string being printed */
-		String printString;		/* string to print for Event */
-		Color textColor;		/* color to print text for an event */
+		final int stringHeight; /* height of string being printed */
+		String printString; /* string to print for Event */
+		final Color textColor; /* color to print text for an event */
 		
-		Event e = rect.getEvent();
-		int x = rect.getX();
-		int y = rect.getY();
-		int width = rect.getWidth();
-		int height = rect.getHeight();
+		final Event e = rect.getEvent();
+		final int x = rect.getX();
+		final int y = rect.getY();
+		final int width = rect.getWidth();
+		final int height = rect.getHeight();
 		
 		// draw the event rectangle
 		g.setColor( e.getColor() );
@@ -256,7 +262,7 @@ public class WeekViewTable extends JTable {
 	public void updateRectangles(int iOffset) {
 		
 		// Convert Calendar to DateInfo
-		DateInfo displayedDay = new DateInfo( dayView.getCalendarDay(iOffset) );
+		final DateInfo displayedDay = new DateInfo( dayView.getCalendarDay(iOffset) );
 		
 		// Set the half-hour field to 0 to signify the beginning of the day
 		displayedDay.setHalfHour( 0 );
@@ -280,8 +286,8 @@ public class WeekViewTable extends JTable {
 		int height;
 		
 		/* number of events already occurring in a given slot */
-		int numPriorEvents[] = new int[ 48 ];
-		final int PRIOR_EVENT_WIDTH = 4;	/* Number of pixels to reserve for each prior event */
+		final int[] numPriorEvents = new int[ 48 ];
+		final int PRIOR_EVENT_WIDTH = 4; /* Number of pixels to reserve for each prior event */
 		
 		
 		// Set number of prior events to 0 for all slots
@@ -289,10 +295,10 @@ public class WeekViewTable extends JTable {
 			numPriorEvents[ i ] = 0;
 		}
 		
-		Event e;			/* the current event */
+		Event e; /* the current event */
 		DateInfo startDate;
 		DateInfo endDate;
-		int numEventsInRow; 	/* Number of events in current row */
+		int numEventsInRow; /* Number of events in current row */
 		EventRectangle r;
 		int startHour;
 		for ( int i = 0; i < eventsArray[iOffset].size(); i++ ) {
@@ -317,7 +323,7 @@ public class WeekViewTable extends JTable {
 			for ( int j = i + 1; j < eventsArray[iOffset].size(); j++ ) {
 				// check if date has same start time, or begins before the current day
 				if ((eventsArray[iOffset].get( j )).getStartDate().equals( startDate ) ||
-						(eventsArray[iOffset].get( j )).getStartDate().compareTo( displayedDay ) < 0 ) {
+						(eventsArray[iOffset].get(j)).getStartDate().compareTo(displayedDay) < 0){
 					numEventsInRow++;
 				} else {		// since events are sorted, break
 								// at the first different start time
@@ -381,64 +387,64 @@ public class WeekViewTable extends JTable {
 	
 	/**
 	 * Generate sample events for testing
-	 * @return list of sample events
-	 */
+	
+	 * @return list of sample events */
 	public List<Event> generateSampleEvents() {
-		List<Event> sampleEvents = new ArrayList<Event>();
+		final List<Event> sampleEvents = new ArrayList<Event>();
 		
 		// For testing, create start times based on the current date
-		Calendar cal = Calendar.getInstance();
-		DateInfo time0 = new DateInfo( cal.get( Calendar.YEAR ),
+		final Calendar cal = Calendar.getInstance();
+		final DateInfo time0 = new DateInfo( cal.get( Calendar.YEAR ),
 											cal.get( Calendar.MONTH ),
 											cal.get( Calendar.DATE ) - 1,
 											0 );
 		
-		DateInfo time2 = new DateInfo( cal.get( Calendar.YEAR ),
+		final DateInfo time2 = new DateInfo( cal.get( Calendar.YEAR ),
 				cal.get( Calendar.MONTH ),
 				cal.get( Calendar.DATE ) - 1,
 				2 );
 		
-		DateInfo time4 = new DateInfo( cal.get( Calendar.YEAR ),
+		final DateInfo time4 = new DateInfo( cal.get( Calendar.YEAR ),
 				cal.get( Calendar.MONTH ),
 				cal.get( Calendar.DATE ) - 1,
 				4 );
 		
-		DateInfo time6 = new DateInfo( cal.get( Calendar.YEAR ),
+		final DateInfo time6 = new DateInfo( cal.get( Calendar.YEAR ),
 				cal.get( Calendar.MONTH ),
 				cal.get( Calendar.DATE ) - 1,
 				6 );
 		
-		DateInfo time7 = new DateInfo( cal.get( Calendar.YEAR ),
+		final DateInfo time7 = new DateInfo( cal.get( Calendar.YEAR ),
 				cal.get( Calendar.MONTH ),
 				cal.get( Calendar.DATE ) - 1,
 				7 );
 		
-		DateInfo time8 = new DateInfo( cal.get( Calendar.YEAR ),
+		final DateInfo time8 = new DateInfo( cal.get( Calendar.YEAR ),
 				cal.get( Calendar.MONTH ),
 				cal.get( Calendar.DATE ) - 1,
 				8 );
 		
-		DateInfo time10 = new DateInfo( cal.get( Calendar.YEAR ),
+		final DateInfo time10 = new DateInfo( cal.get( Calendar.YEAR ),
 				cal.get( Calendar.MONTH ),
 				cal.get( Calendar.DATE ) - 1,
 				10 );
 		
-		DateInfo time12 = new DateInfo( cal.get( Calendar.YEAR ),
+		final DateInfo time12 = new DateInfo( cal.get( Calendar.YEAR ),
 				cal.get( Calendar.MONTH ),
 				cal.get( Calendar.DATE ) - 1,
 				12 );
 		
-		DateInfo time13 = new DateInfo( cal.get( Calendar.YEAR ),
+		final DateInfo time13 = new DateInfo( cal.get( Calendar.YEAR ),
 				cal.get( Calendar.MONTH ),
 				cal.get( Calendar.DATE ) - 1,
 				13 );
 		
-		DateInfo time18 = new DateInfo( cal.get( Calendar.YEAR ),
+		final DateInfo time18 = new DateInfo( cal.get( Calendar.YEAR ),
 				cal.get( Calendar.MONTH ),
 				cal.get( Calendar.DATE ) - 1,
 				18 );
 		
-		Event e1 = new Event();
+		final Event e1 = new Event();
 		e1.setName( "event 1 - aka the incredibly long name to test my trimmming capability;" +
 				"It keeps going on and on without any rhyme or reason. Oh why won't it stop?" +
 				"Who knows? Probably the elders, but they're so old. I guess we'll never know." );
@@ -446,43 +452,47 @@ public class WeekViewTable extends JTable {
 		e1.setStartDate( time0 );
 		e1.setEndDate( time12 );
 		
-		Event e2 = new Event();
+		final Event e2 = new Event();
 		e2.setName( "event 2" );
 		e2.setDescription("This is event 2, things happen at this time");
 		e2.setStartDate( time2 );
 		e2.setEndDate( time7 );
 		
-		Event e3 = new Event();
+		final Event e3 = new Event();
 		e3.setName( "event 3" );
-		e3.setDescription("I don't want to make this meeting, I have made this event to make sure I miss it.");
+		e3.setDescription("I don't want to make this meeting, "
+				+ "I have made this event to make sure I miss it.");
 		e3.setStartDate( time2 );
 		e3.setEndDate( time7 );
 		
-		Event e4 = new Event();
+		final Event e4 = new Event();
 		e4.setName( "event 4" );
 		e4.setDescription("The fourth thing I need to attend today, I enjoy this one");
 		e4.setStartDate( time4 );
 		e4.setEndDate( time6 );
 		
-		Event e5 = new Event();
+		final Event e5 = new Event();
 		e5.setName( "event 5" );
-		e5.setDescription("Let's try a really long description this time. Never know when I need something to wrap around something, and it would be a shame when that moment happens if I didn't take the time to think this would happen.");
+		e5.setDescription("Let's try a really long description this time. "
+				+ "Never know when I need something to wrap around something, "
+				+ "and it would be a shame when that moment happens if I didn't take the time to "
+				+ "think this would happen.");
 		e5.setStartDate( time7 );
 		e5.setEndDate( time18 );
 		
-		Event e6 = new Event();
+		final Event e6 = new Event();
 		e6.setName( "event 6" );
 		e6.setDescription("The sixth event, how descriptive.");
 		e6.setStartDate( time7 );
 		e6.setEndDate( time12 );
 		
-		Event e7 = new Event();
+		final Event e7 = new Event();
 		e7.setName( "event 7" );
 		e7.setDescription("Lucky number 7th event.");
 		e7.setStartDate( time7 );
 		e7.setEndDate( time8 );
 		
-		Event e8 = new Event();
+		final Event e8 = new Event();
 		e8.setName( "event 8" );
 		e8.setDescription("Eight is gr8");
 		e8.setStartDate( time10 );
@@ -503,15 +513,15 @@ public class WeekViewTable extends JTable {
 	/**
 	 * Determines whether or not the index of a cell is visible
 	 * @param rowIndex the index of the cell in question
-	 * @return true if the cell is visible, false otherwise
-	 */
+	
+	 * @return true if the cell is visible, false otherwise */
 	public boolean isCellVisible(int rowIndex) {
 		if (!(getParent() instanceof JViewport)) {
 			return false;
 		}
-		JViewport viewport = (JViewport) getParent();
-		Rectangle rect = getCellRect(rowIndex, 1, true);
-		Point pt = viewport.getViewPosition();
+		final JViewport viewport = (JViewport) getParent();
+		final Rectangle rect = getCellRect(rowIndex, 1, true);
+		final Point pt = viewport.getViewPosition();
 		rect.setLocation(rect.x - pt.x, rect.y - pt.y);
 		return new Rectangle(viewport.getExtentSize()).contains(rect);
 	}
@@ -530,10 +540,10 @@ public class WeekViewTable extends JTable {
 	 * @param _x
 	 * @param _y
 	 * @param _day
-	 * @return rectangle
-	 */
+	
+	 * @return rectangle */
 	public EventRectangle getRectangle(int _x, int _y, int _day) {
-		for (int i=rectanglesArray[_day].size()-1; i >= 0; i--) {
+		for (int i=rectanglesArray[_day].size() - 1; i >= 0; i--) {
 			if ((rectanglesArray[_day].get(i)).isAtPoint(_x, _y)) {
 				return rectanglesArray[_day].get(i);
 			}

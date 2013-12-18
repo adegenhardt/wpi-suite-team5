@@ -43,7 +43,7 @@ public class YearViewCalendarPanel extends JScrollPane {
 	private final JButton prevYear;
 	private final JButton year;
 	
-	private JTabbedPane parentTab;
+	private final JTabbedPane parentTab;
 	
 	/**
 	 * Constructor for YearViewCalendarPanel

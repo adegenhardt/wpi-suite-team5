@@ -86,7 +86,7 @@ public class EventUpdater extends JPanel {
 	private final JLabel lblDatemsg;
 	private final JLabel lblDescmsg;
 	private final JLabel lblEventnamemsg;
-	private JLabel lblDuplicateEventmsg;
+	private final JLabel lblDuplicateEventmsg;
 	private final JLabel labelEDate;
 	private final JLabel lblDateEndMsg;
 	private final JLabel lblTimemsg;
@@ -103,14 +103,16 @@ public class EventUpdater extends JPanel {
 	private final JLabel lblParterror;
 
 	private final DefaultListModel<String> particsListModel;
-	private JComboBox<Category> comboBoxCategory;
-	private JButton btnDeleteEvent;
+	private final JComboBox<Category> comboBoxCategory;
+	private final JButton btnDeleteEvent;
 
 	/**
 	 * Create the panel. Created using WindowBuilder
 	 * 
 	 * @param _parent
 	 *            the parent pane
+	 * @param thisEvent
+	 * 			  the event
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	public EventUpdater(JTabbedPane _parent, final Event thisEvent) {
@@ -124,14 +126,17 @@ public class EventUpdater extends JPanel {
 		// Define a panel within a scrollpane
 		// Hacky fix to add a scrollbar to this tab
 		final JPanel eventPanel = new JPanel();
-		JScrollPane mainScroll = new JScrollPane();
+		final JScrollPane mainScroll = new JScrollPane();
 		mainScroll.add(eventPanel);
 		mainScroll.setViewportView(eventPanel);
 		thisInstance.add(mainScroll);
 
 		// Set the layout
 		eventPanel
-				.setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][][][]"));
+				.setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px]"
+						+ "[60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px]"
+								+ "[125px:125:150px][][][][][][][][40.00][]"
+								+ "[125px:125px:125px,grow][][][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -169,7 +174,7 @@ public class EventUpdater extends JPanel {
 		final JLabel lblTime = new JLabel("Start Time:");
 		eventPanel.add(lblTime, "cell 0 2,alignx trailing");
 
-		int[] startTimes = thisEvent.getStartDate().getTime();
+		final int[] startTimes = thisEvent.getStartDate().getTime();
 
 		// Create the ComboBoxes for time selection
 		comboBoxStartHour = new JComboBox<String>();
@@ -256,7 +261,7 @@ public class EventUpdater extends JPanel {
 		lblDuplicateEventmsg.setForeground(Color.black);
 		eventPanel.add(lblDuplicateEventmsg, "cell 3 12,alignx center");
 
-		int[] endTimes = thisEvent.getEndDate().getTime();
+		final int[] endTimes = thisEvent.getEndDate().getTime();
 
 		// Create the combo boxes and labels for time selection
 		comboBoxEndHour = new JComboBox<String>();
@@ -295,8 +300,8 @@ public class EventUpdater extends JPanel {
 				.getAllNondeletedCategories()) {
 			comboBoxCategory.addItem(categoryIn);
 		}
-		String userId = ConfigManager.getConfig().getUserName();
-		Category noCat = new Category( "No selected category.", -1, userId, false, false);
+		final String userId = ConfigManager.getConfig().getUserName();
+		final Category noCat = new Category( "No selected category.", -1, userId, false, false);
 		comboBoxCategory.addItem(noCat);
 		
 		// Make the default selected category during event update equal to category
@@ -513,8 +518,9 @@ public class EventUpdater extends JPanel {
 					private void enableAdd() {
 						if ((textFieldPartic.getText().equals(""))) {
 							btnAddPartic.setEnabled(false);
-						} else
+						} else{
 							btnAddPartic.setEnabled(true);
+						}
 					}
 				});
 

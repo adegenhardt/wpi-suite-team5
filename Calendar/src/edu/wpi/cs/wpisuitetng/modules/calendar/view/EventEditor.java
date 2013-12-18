@@ -79,7 +79,7 @@ public class EventEditor extends JPanel {
 	private final JComboBox<String> comboBoxEndHour;
 	private final JComboBox<String> comboBoxEndMinutes;
 	private final JComboBox<String> comboBoxEndAMPM;
-	private JComboBox<Category> comboBoxCategory;
+	private final JComboBox<Category> comboBoxCategory;
 
 	private final JLabel lblDatemsg;
 	private final JLabel lblDescmsg;
@@ -104,7 +104,7 @@ public class EventEditor extends JPanel {
 
 	private final DefaultListModel<String> particsListModel;
 	@SuppressWarnings("unused")
-	private JButton btnDeleteEvent;
+	private final JButton btnDeleteEvent;
 	@SuppressWarnings("unused")
 	private static boolean isDuplicateEvent = false;
 
@@ -125,14 +125,17 @@ public class EventEditor extends JPanel {
 		// Define a panel within a scrollpane
 		// Hacky fix to add a scrollbar to this tab
 		final JPanel eventPanel = new JPanel();
-		JScrollPane mainScroll = new JScrollPane();
+		final JScrollPane mainScroll = new JScrollPane();
 		mainScroll.add(eventPanel);
 		mainScroll.setViewportView(eventPanel);
 		thisInstance.add(mainScroll);
 
 		// Set the layout
 		eventPanel
-				.setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][][][]"));
+				.setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px]"
+						+ "[60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px]"
+								+ "[125px:125:150px][][][][][][][][40.00][]"
+								+ "[125px:125px:125px,grow][][][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -270,8 +273,8 @@ public class EventEditor extends JPanel {
 				.getAllNondeletedCategories()) {
 			comboBoxCategory.addItem(categoryIn);
 		}
-		String userId = ConfigManager.getConfig().getUserName();
-		Category noCat = new Category( "No selected category.", -1, userId, false, false);
+		final String userId = ConfigManager.getConfig().getUserName();
+		final Category noCat = new Category( "No selected category.", -1, userId, false, false);
 		comboBoxCategory.addItem(noCat);
 
 		eventPanel.add(comboBoxCategory, "cell 1 8,growx");
@@ -294,7 +297,6 @@ public class EventEditor extends JPanel {
 
 		// Label the Participants text editor
 		final JLabel lblParticipants = new JLabel("Participants:");
-		//eventPanel.add(lblParticipants, "cell 0 10,alignx trailing");
 
 		final JButton btnSubmit = new JButton("Submit");
 
@@ -356,7 +358,7 @@ public class EventEditor extends JPanel {
 				// If the user not does enter a category and there are none present
 				// in the drop down box for categories.
 				if ( CategoryModel.getInstance().getAllNondeletedCategories().isEmpty() ) {
-					Category noCat = new Category( "No selected category.", -1, 
+					final Category noCat = new Category( "No selected category.", -1, 
 							userId, false, false );
 					final Event makeEvent = new Event(eventName.getText(),
 							descriptionPane.getText(), startDate, endDate,
@@ -432,22 +434,18 @@ public class EventEditor extends JPanel {
 
 		// Text field to enter a participant to add
 		textFieldPartic = new JTextField();
-		//eventPanel.add(textFieldPartic, "cell 1 10 3 1,growx");
 		textFieldPartic.setColumns(10);
 
 		// Button to add a participant to the list, disabled until text is
 		// present
 		btnAddPartic = new JButton("Add");
-		//eventPanel.add(btnAddPartic, "cell 4 10,growx");
 		btnAddPartic.setEnabled(false);
 
 		// Error label for adding participants
 		lblParterror = new JLabel("");
-		//eventPanel.add(lblParterror, "cell 5 10");
 
 		// Scroll pane for participants list
 		scrollPanePartics = new JScrollPane();
-		//eventPanel.add(scrollPanePartics, "cell 1 11 3 1,grow");
 
 		// List of participants to add to the event
 		particsListModel = new DefaultListModel<String>();
@@ -456,17 +454,12 @@ public class EventEditor extends JPanel {
 
 		// Button to remove participants
 		btnRemovePartic = new JButton("Remove");
-		//eventPanel.add(btnRemovePartic, "cell 4 11,growx,aligny top");
 
 		// Button to submit changes
 		eventPanel.add(btnSubmit, "cell 1 10 2 1,growx");
 
 		// Button to delete this event
 		btnDeleteEvent = new JButton("Delete Event");
-		// TODO:
-		// If (editing this event){
-		// eventPanel.add(btnDeleteEvent, "cell 1 14 3 1,growx");
-		// }
 
 		// Button listeners
 		btnSubmit.addActionListener(new SubmitButtonListener());
@@ -494,8 +487,9 @@ public class EventEditor extends JPanel {
 					private void enableAdd() {
 						if ((textFieldPartic.getText().equals(""))) {
 							btnAddPartic.setEnabled(false);
-						} else
+						} else{
 							btnAddPartic.setEnabled(true);
+						}
 					}
 				});
 
