@@ -371,7 +371,7 @@ public class CalendarSidebar extends JPanel {
 								catEdit);
 
 						lblNewcatmsg.setText("Category " + catEdit.getName()
-								+ " Is Nolonger A Filter");
+								+ " Is No Longer A Filter");
 					}
 
 					// does not have filter
@@ -797,23 +797,10 @@ public class CalendarSidebar extends JPanel {
 	public void paintComponent(Graphics g) {
 		if (!initialized) {
 			try {
-				Timer timeEvent = new Timer(10000, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try {
-							GetEventController.getInstance().retrieveEvents();
-						}
-						catch (Exception x) {
-						}
-					}
-				});
-				timeEvent.setRepeats(true);
-				timeEvent.start();
 				GetEventController.getInstance().retrieveEvents();
 				GetCategoryController.getInstance().retrieveCategory();
 				initialized = true;
 			} catch (Exception e) {
-				System.out.println("Caught Exception");
 			}
 		}
 		super.paintComponent(g);

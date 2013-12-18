@@ -89,21 +89,8 @@ public class GetEventController implements ActionListener {
 	public void receivedEvent(Event[] events) {
 		// Make sure the response was not null
 		if (events != null) {
-			if(events.length==0)
-			{
-			}
-			else if(events[0].getName().length()==0)
-			{
-			}
-			else{
-				System.out.println(events.length);
-				System.out.println(events.toString());
-				System.out.println(events[0].getName());
-				// empty the model for updating
-				EventModel.getInstance().emptyModel();
-				// add the Event instances to the local model
-				EventModel.getInstance().addAllEvents(events);
-			}
+			// add the Event instances to the local model
+			EventModel.getInstance().addAllEvents(events);
 		}
 	}
 }
