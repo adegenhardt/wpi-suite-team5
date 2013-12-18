@@ -132,10 +132,7 @@ public class EventEditor extends JPanel {
 
 		// Set the layout
 		eventPanel
-				.setLayout(new MigLayout(
-						"",
-						"[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]",
-						"[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][][][]"));
+				.setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px][60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px][125px:125:150px][][][][][][][][40.00][][125px:125px:125px,grow][][][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -297,7 +294,7 @@ public class EventEditor extends JPanel {
 
 		// Label the Participants text editor
 		final JLabel lblParticipants = new JLabel("Participants:");
-		eventPanel.add(lblParticipants, "cell 0 10,alignx trailing");
+		//eventPanel.add(lblParticipants, "cell 0 10,alignx trailing");
 
 		final JButton btnSubmit = new JButton("Submit");
 
@@ -435,22 +432,22 @@ public class EventEditor extends JPanel {
 
 		// Text field to enter a participant to add
 		textFieldPartic = new JTextField();
-		eventPanel.add(textFieldPartic, "cell 1 10 3 1,growx");
+		//eventPanel.add(textFieldPartic, "cell 1 10 3 1,growx");
 		textFieldPartic.setColumns(10);
 
 		// Button to add a participant to the list, disabled until text is
 		// present
 		btnAddPartic = new JButton("Add");
-		eventPanel.add(btnAddPartic, "cell 4 10,growx");
+		//eventPanel.add(btnAddPartic, "cell 4 10,growx");
 		btnAddPartic.setEnabled(false);
 
 		// Error label for adding participants
 		lblParterror = new JLabel("");
-		eventPanel.add(lblParterror, "cell 5 10");
+		//eventPanel.add(lblParterror, "cell 5 10");
 
 		// Scroll pane for participants list
 		scrollPanePartics = new JScrollPane();
-		eventPanel.add(scrollPanePartics, "cell 1 11 3 1,grow");
+		//eventPanel.add(scrollPanePartics, "cell 1 11 3 1,grow");
 
 		// List of participants to add to the event
 		particsListModel = new DefaultListModel<String>();
@@ -459,10 +456,10 @@ public class EventEditor extends JPanel {
 
 		// Button to remove participants
 		btnRemovePartic = new JButton("Remove");
-		eventPanel.add(btnRemovePartic, "cell 4 11,growx,aligny top");
+		//eventPanel.add(btnRemovePartic, "cell 4 11,growx,aligny top");
 
 		// Button to submit changes
-		eventPanel.add(btnSubmit, "cell 1 12 2 1,growx");
+		eventPanel.add(btnSubmit, "cell 1 10 2 1,growx");
 
 		// Button to delete this event
 		btnDeleteEvent = new JButton("Delete Event");

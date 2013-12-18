@@ -87,7 +87,7 @@ public class GetEventController implements ActionListener {
 	 *            array of Event instances received from the server
 	 */
 	public void receivedEvent(Event[] events) {
-		// Make sure the response was not null
+		// Make sure the response was not null 
 		if (events != null) {
 			// add the Event instances to the local model
 			EventModel.getInstance().addAllEvents(events);

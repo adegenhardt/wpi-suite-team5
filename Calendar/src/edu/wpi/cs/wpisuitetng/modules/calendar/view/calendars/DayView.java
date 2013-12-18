@@ -117,9 +117,6 @@ public class DayView extends JLayeredPane {
 					dayTable.setToolTipText(null);
 				} else {
 					dayTable.setToolTipText("<html>"
-							+ PROJECT
-							+ formatString(ConfigManager.getConfig().getProjectName(), 30)
-							+ "<br>"
 							+ USERNAME
 							+ formatString(ConfigManager.getConfig().getUserName(), 30)
 							+ "<br>"
