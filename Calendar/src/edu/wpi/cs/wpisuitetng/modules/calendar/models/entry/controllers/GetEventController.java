@@ -64,7 +64,7 @@ public class GetEventController implements ActionListener {
 		final Request request = Network.getInstance().makeRequest(
 				"calendar/event", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the
-										// response
+		// response
 		request.send(); // send the request
 	}
 
@@ -75,7 +75,7 @@ public class GetEventController implements ActionListener {
 		final Request request = Network.getInstance().makeRequest(
 				"calendar/event", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the
-										// response
+		// response
 		request.send(); // send the request
 	}
 
@@ -89,10 +89,21 @@ public class GetEventController implements ActionListener {
 	public void receivedEvent(Event[] events) {
 		// Make sure the response was not null
 		if (events != null) {
-			// empty the model for updating
-			EventModel.getInstance().emptyModel();
-			// add the Event instances to the local model
-			EventModel.getInstance().addAllEvents(events);
+			if(events.length==0)
+			{
+			}
+			else if(events[0].getName().length()==0)
+			{
+			}
+			else{
+				System.out.println(events.length);
+				System.out.println(events.toString());
+				System.out.println(events[0].getName());
+				// empty the model for updating
+				EventModel.getInstance().emptyModel();
+				// add the Event instances to the local model
+				EventModel.getInstance().addAllEvents(events);
+			}
 		}
 	}
 }

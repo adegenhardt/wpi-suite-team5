@@ -555,10 +555,8 @@ public class CalendarSidebar extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						try {
 							GetEventController.getInstance().retrieveEvents();
-							System.out.println("Update Successful");
 						}
 						catch (Exception x) {
-							System.out.println("Connection Error");
 						}
 					}
 				});
