@@ -152,9 +152,7 @@ public class CalendarSidebar extends JPanel {
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneFilters.setViewportView(filtersCatsPanel);
 		filtersCatsPanel
-				.setLayout(new MigLayout("",
-						"[][160px:160.00px:160px,grow][70px:70px:70px,grow]",
-						"[35px:35px:35px][35px:35px:35px][][][][][][][][20px:20px:20px][]"));
+				.setLayout(new MigLayout("", "[][160px:160.00px:160px,grow][70px:70px:70px,grow]", "[35px:35px:35px][35px:35px:35px][][][][][][][][20px:20px:20px][]"));
 
 		JLabel lblList = new JLabel("Applied Filters:");
 		filtersCatsPanel.add(lblList, "cell 0 0,alignx right");
@@ -162,7 +160,7 @@ public class CalendarSidebar extends JPanel {
 		JScrollPane scrollPaneList = new JScrollPane();
 		filtersCatsPanel.add(scrollPaneList, "flowx,cell 1 0 2 2,grow");
 
-		JButton btnUnapplyAll = new JButton("Unapply All");
+		final JButton btnUnapplyAll = new JButton("Unapply All");
 		filtersCatsPanel.add(btnUnapplyAll, "flowx,cell 1 3,growx");
 
 		// CFFLAG
@@ -170,8 +168,11 @@ public class CalendarSidebar extends JPanel {
 		// Button to unapply a Filter
 		// TODO Add listener add functionality
 		final JButton btnUnapply = new JButton("Unapply Selected");
+
 		filtersCatsPanel.add(btnUnapply, "cell 1 2,growx");
 		// filtersCatsPanel.add(btnUnapply, "cell 1 2 1 2,growx,aligny top");
+
+				
 
 		JLabel lblCurrentCategories = new JLabel("Current Categories:");
 		filtersCatsPanel.add(lblCurrentCategories, "cell 0 4,alignx trailing");
@@ -195,7 +196,6 @@ public class CalendarSidebar extends JPanel {
 		// Create a button to apply a filter.
 		final JButton btnApply = new JButton("Apply as Filter");
 		filtersCatsPanel.add(btnApply, "cell 1 5,growx");
-		// Apply listeners
 
 		// Button to delete a category
 		JButton btnDelete = new JButton("Delete Category");
@@ -249,24 +249,66 @@ public class CalendarSidebar extends JPanel {
 		// Initialize
 		// Clicking Apply will add a category to the applied filters
 		// TODO: DATABASE FUNCTIONALITY
-		@SuppressWarnings("unused")
 		class applyButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				appliedFiltersListModel.addElement((String) comboBoxCats
 						.getSelectedItem());
+				// Disable the Unapply buttons if the list is empty
+				if (appliedFiltersListModel.isEmpty()){
+					btnUnapply.setEnabled(false);
+					btnUnapplyAll.setEnabled(false);
+				}
+				else {
+					btnUnapply.setEnabled(true);
+					btnUnapplyAll.setEnabled(true);
+				}
 			}
 		}
 
 		// Clicking the unapply button will unapply the filter
 		// TODO: DATABASE FUNCTIONALITY
-		@SuppressWarnings("unused")
 		class unapplyButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				appliedFiltersListModel.removeElement(listFilters
 						.getSelectedValue());
+				// Disable the Unapply buttons if the list is empty
+				if (appliedFiltersListModel.isEmpty()){
+					btnUnapply.setEnabled(false);
+					btnUnapplyAll.setEnabled(false);
+				}
+				else {
+					btnUnapply.setEnabled(true);
+					btnUnapplyAll.setEnabled(true);
+				}
 			}
 		}
+
 		// cfflag
+
+
+		// Clicking the unapply all button will unapply all filters
+		// TODO: DATABASE FUNCTIONALITY
+		class unapplyAllButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				appliedFiltersListModel.removeElement(listFilters
+						.getSelectedValue());
+				// Disable the Unapply buttons if the list is empty
+				if (appliedFiltersListModel.isEmpty()){
+					btnUnapply.setEnabled(false);
+					btnUnapplyAll.setEnabled(false);
+				}
+				else {
+					btnUnapply.setEnabled(true);
+					btnUnapplyAll.setEnabled(true);
+				}
+			}
+		}
+		
+		btnApply.addActionListener(new applyButtonListener());
+		btnUnapply.addActionListener(new unapplyButtonListener());
+		btnUnapplyAll.addActionListener(new unapplyAllButtonListener());
+
+
 		// Create a listener to add a new category
 		btnCatCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
