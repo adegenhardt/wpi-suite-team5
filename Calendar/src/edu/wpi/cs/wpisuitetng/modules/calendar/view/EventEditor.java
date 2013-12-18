@@ -31,8 +31,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+
+
 import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
@@ -273,6 +273,9 @@ public class EventEditor extends JPanel {
 				.getAllNondeletedCategories()) {
 			comboBoxCategory.addItem(categoryIn);
 		}
+		String userId = ConfigManager.getConfig().getUserName();
+		Category noCat = new Category( "No selected category.", -1, userId, false, false);
+		comboBoxCategory.addItem(noCat);
 
 		eventPanel.add(comboBoxCategory, "cell 1 8,growx");
 
@@ -306,6 +309,8 @@ public class EventEditor extends JPanel {
 		 * 
 		 */
 		class SubmitButtonListener implements ActionListener {
+			private Event makeEvent;
+
 			public void actionPerformed(ActionEvent e) {
 				// Check for validity of input
 				if (!checkValid()) {
@@ -350,12 +355,34 @@ public class EventEditor extends JPanel {
 				final String userId = ConfigManager.getConfig().getUserName();
 
 				// Create an event
+				
+				// If the user not does enter a category and there are none present
+				// in the drop down box for categories.
+				if ( CategoryModel.getInstance().getAllNondeletedCategories().isEmpty() ) {
+					Category noCat = new Category( "No selected category.", -1, 
+							userId, false, false );
+					final Event makeEvent = new Event(eventName.getText(),
+							descriptionPane.getText(), startDate, endDate,
+							isTeamEvent,
+							noCat.getId());
+					makeEvent.setId(EventModel.getInstance().getNextID());
+					
+					// Now add the user-created event to the local EventModel and server.
+					AddEventController.getInstance().addEvent(makeEvent);
+					parent.setSelectedIndex(ClosableTabCreator.getInstance(null).getFocus());
+					parent.remove(thisInstance);
+					
+					return;
+				}
+				
+				// If the user does enter a category or has had one selected for them by
+				// default.
 				final Event makeEvent = new Event(eventName.getText(),
 						descriptionPane.getText(), startDate, endDate,
 						isTeamEvent,
 						((Category) (comboBoxCategory.getSelectedItem())).getId() );
 				makeEvent.setId(EventModel.getInstance().getNextID());
-
+				
 				// If the user creates an event similar in all fields but unique
 				// ID,
 				// then do not add it to the local model or the server.
@@ -369,40 +396,6 @@ public class EventEditor extends JPanel {
 					
 					return;
 				}
-				/*
-				// If the user creates an event similar in name to any other event
-				// that is currently contained within the list of events that is maintained
-				// by the local EventModel, then provide the user with the ability to update
-				// the contents of the current event that has that name.
-				if (EventModel.getInstance().sameNameEventFound(userId, eventName.getText())) {
-					if (!isDuplicateEvent) {
-						// Ask the user if he or she would like to update the contents of the event with
-						// the corresponding name, add the event if it shares a similar name but different
-						// content (open the event creator with the same content again), 
-						// or exit out of the event creator.
-						lblSameNameEventmsg = new JLabel("Event with same name already exists: select an option.");
-						lblSameNameEventmsg.setForeground(Color.blue);
-						eventPanel.add(lblSameNameEventmsg, "cell 3 12,alignx center");
-						System.out.println("Event with same name already exists: select an option 1.");
-					}
-					if (isDuplicateEvent) {
-						// Ask the user if he or she would like to update the contents of the event with
-						// the corresponding name, add the event if it shares a similar name but different
-						// content (open the event creator with the same content again), 
-						// or exit out of the event creator. Delete the message shown for duplicates.
-						eventPanel.remove(lblDuplicateEventmsg);
-						lblSameNameEventmsg = new JLabel("Event with same name already exists: select an option.");
-						lblSameNameEventmsg.setForeground(Color.blue);
-						eventPanel.add(lblSameNameEventmsg, "cell 3 12,alignx center");
-						System.out.println("Event with same name already exists: select an option 2.");
-						repaint();
-						isDuplicateEvent = false;
-					}
-					
-					return;
-					
-				}
-				*/
 				
 				else {
 					AddEventController.getInstance().addEvent(makeEvent);

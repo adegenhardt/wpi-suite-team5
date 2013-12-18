@@ -34,10 +34,10 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 public class CategoryModelTest {
 
-	Category testCategory = new Category( "name", 10 );
-	Category testCategory1 = new Category( "A", 11 );
-	Category testCategory2 = new Category( "B", 12 );
-	Category testCategory3 = new Category( "C", 13 );
+	Category testCategory = new Category( "name", 10, "Beta4", false, false );
+	Category testCategory1 = new Category( "A", 11, "Beta5", false, false );
+	Category testCategory2 = new Category( "B", 12, "Beta6", false, false );
+	Category testCategory3 = new Category( "C", 13, "Beta7", false, false );
 	
 	Category testCategory4 = new Category( "Alpha", 17, "Beta", false, true );
 	Category testCategory5 = new Category( "Alpha1", 18, "Beta1", false, true );
@@ -157,8 +157,10 @@ public class CategoryModelTest {
 		CategoryModel.getInstance().addCategory( testCategory7 );
 		
 		String userId = ConfigManager.getConfig().getUserName();
-		
-		assertEquals( CategoryModel.getInstance().getTeamCategories( userId ).size(), 4 );
+		// As of right now Categories instantiated with only a name
+		// Will result in a team category being true, so they are 
+		// All team categories
+		assertEquals( 4, CategoryModel.getInstance().getTeamCategories( userId ).size() );
 		assertTrue( CategoryModel.getInstance().getTeamCategories( userId ).contains(testCategory4) && 
 				CategoryModel.getInstance().getTeamCategories( userId ).contains( testCategory5 ) &&
 				CategoryModel.getInstance().getTeamCategories( userId ).contains( testCategory6 ) &&
@@ -213,8 +215,10 @@ public class CategoryModelTest {
 		CategoryModel.getInstance().addCategory( testCategory7 );
 		
 		String userId = ConfigManager.getConfig().getUserName();
-		
-		assertEquals( CategoryModel.getInstance().getPersonalCategories( userId ).size(), 4 );
+		// As of right now Categories instantiated with only a name
+		// Will result in a team category being true, so they are 
+		// All team categories
+		assertEquals( 4, CategoryModel.getInstance().getPersonalCategories( userId ).size() );
 		assertTrue( !CategoryModel.getInstance().getPersonalCategories( userId ).contains(testCategory4) && 
 				!CategoryModel.getInstance().getPersonalCategories( userId ).contains( testCategory5 ) &&
 				!CategoryModel.getInstance().getPersonalCategories( userId ).contains( testCategory6 ) &&

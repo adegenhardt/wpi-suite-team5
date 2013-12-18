@@ -205,9 +205,11 @@ public class MonthView extends JPanel {
 		navPanel.add(btnNext);
 		// Set the various panels and labels
 		labelPanel = new JPanel();
-		buttonPanel.add(labelPanel);
 		buttonPanel.add(navPanel);
+		buttonPanel.add(labelPanel);
 		lblMonth = new JLabel("January", javax.swing.SwingConstants.CENTER);
+		lblMonth.setOpaque(false);
+		labelPanel.setBackground(new Color(138, 173, 209));
 		labelPanel.add(lblMonth);
 		lblMonth.setMinimumSize(mlabelDim);
 		lblMonth.setPreferredSize(mlabelDim);
@@ -279,10 +281,8 @@ public class MonthView extends JPanel {
 		if (month == 11 && year >= realYear + 100) {
 			btnNext.setEnabled(false);
 		} // Too late
-		lblMonth.setText(months[month]); // Refresh the month label (at the top)
-
+		lblMonth.setText(months[month] + " " + String.valueOf(year)); // Refresh the month label (at the top)
 		// Re-align label with calendar
-		lblMonth.setBounds(160 - lblMonth.getPreferredSize().width / 2, 25, 180, 25); 
 		// Select the correct year in the combo box
 		cmbYear.setSelectedItem(String.valueOf(year)); 
 
@@ -334,14 +334,14 @@ public class MonthView extends JPanel {
 			// For now I think this should work in place of event listeners
 			// an if statement checking if selected should work in theory
 			setBackground(Color.white);
-			if (rowFocus == row && colFocus == column) {
-				setBackground(Color.orange);
-			}
 			if (value != null) {
 				if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth 
 						&& currentYear == realYear) { // Today
 					setBackground(new Color(138, 173, 209));
 				}
+			}
+			if (rowFocus == row && colFocus == column) {
+				setBackground(new Color(218, 226, 236));
 			}
 			setBorder(null);
 			setForeground(Color.black);
@@ -385,6 +385,14 @@ public class MonthView extends JPanel {
 				currentMonth -= 1;
 			}
 			refreshCalendar(currentMonth, currentYear);
+			if (currentMonth == realMonth && currentYear == realYear) {
+				labelPanel.setOpaque(true);
+				labelPanel.repaint();
+			}
+			else {
+				labelPanel.setOpaque(false);
+				labelPanel.repaint();
+			}
 		}
 	}
 
@@ -404,6 +412,14 @@ public class MonthView extends JPanel {
 				currentMonth += 1;
 			}
 			refreshCalendar(currentMonth, currentYear);
+			if (currentMonth == realMonth && currentYear == realYear) {
+				labelPanel.setOpaque(true);
+				labelPanel.repaint();
+			}
+			else {
+				labelPanel.setOpaque(false);
+				labelPanel.repaint();
+			}
 		}
 	}
 
@@ -421,6 +437,14 @@ public class MonthView extends JPanel {
 			}
 			
 			refreshCalendar(currentMonth, currentYear);
+			if (currentMonth == realMonth && currentYear == realYear) {
+				labelPanel.setOpaque(true);
+				labelPanel.repaint();
+			}
+			else {
+				labelPanel.setOpaque(false);
+				labelPanel.repaint();
+			}
 		}
 	}
 	
@@ -436,6 +460,14 @@ public class MonthView extends JPanel {
 				currentMonth = realMonth;
 				currentYear = realYear;
 				refreshCalendar(realMonth, realYear);
+				if (currentMonth == realMonth && currentYear == realYear) {
+					labelPanel.setOpaque(true);
+					labelPanel.repaint();
+				}
+				else {
+					labelPanel.setOpaque(false);
+					labelPanel.repaint();
+				}
 			}
 		}
 	}

@@ -31,8 +31,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+
+
 import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
@@ -42,6 +42,8 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
+
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.controllers.UpdateEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
@@ -58,8 +60,8 @@ import javax.swing.event.DocumentListener;
 
 import java.awt.Component;
 import java.awt.BorderLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
+
 
 /**
  * @author Team Underscore
@@ -295,6 +297,20 @@ public class EventUpdater extends JPanel {
 				.getAllNondeletedCategories()) {
 			comboBoxCategory.addItem(categoryIn);
 		}
+		String userId = ConfigManager.getConfig().getUserName();
+		Category noCat = new Category( "No selected category.", -1, userId, false, false);
+		comboBoxCategory.addItem(noCat);
+		
+		// Make the default selected category during event update equal to category
+		// that was previously selected for the event that is currently being updated.
+		if ( thisEvent.getCategory() == -1 ) {
+			comboBoxCategory.setSelectedItem( noCat );
+		}
+		else {
+		comboBoxCategory.setSelectedItem( CategoryModel.getInstance().getCategory(
+				thisEvent.getCategory()) );
+		}
+		
 		eventPanel.add(comboBoxCategory, "cell 1 8,growx");
 
 		// Create Team/Personal calendar options and group them

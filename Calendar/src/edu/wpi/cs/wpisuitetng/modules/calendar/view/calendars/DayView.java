@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventUpdater;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
@@ -49,6 +50,8 @@ public class DayView extends JLayeredPane {
 
 	// Strings defining what to be displayed in the tool-tip
 	// Useful for getting some nice spacing as well
+	private static final String PROJECT = "Project: ";
+	private static final String USERNAME = "Username: ";
 	private static final String NAME = "Name: ";
 	private static final String DESC = "Description: ";
 	private static final String CATEGORY = "Category: ";
@@ -114,6 +117,12 @@ public class DayView extends JLayeredPane {
 					dayTable.setToolTipText(null);
 				} else {
 					dayTable.setToolTipText("<html>"
+							+ PROJECT
+							+ formatString(ConfigManager.getConfig().getProjectName(), 30)
+							+ "<br>"
+							+ USERNAME
+							+ formatString(ConfigManager.getConfig().getUserName(), 30)
+							+ "<br>"
 							+ NAME
 							+ formatString(thisTangle.getEvent().getName(), 30)
 							+ "<br>"
@@ -121,45 +130,30 @@ public class DayView extends JLayeredPane {
 							+ formatString(thisTangle.getEvent()
 									.getDescription(), 30) + "<br>"
 							+ CATEGORY + formatString(CategoryModel.getInstance().getNameOfCatId(thisTangle.getEvent().getCategory()), 30)
-							+ "<br><br>" + STIME
+							+ "<br>" + STIME
 							+ (thisTangle.getEvent().getStartDate())
 							+ "<br><br>" + ETIME
 							+ thisTangle.getEvent().getEndDate());
 				}
-				// lastX = e.getX();
-				// lastY = e.getY();
 			}
 		});
 
 		dayTable.addMouseListener(new MouseListener() {
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseReleased(MouseEvent e) {}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mousePressed(MouseEvent e) {}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseExited(MouseEvent e) {}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseEntered(MouseEvent e) {}
 
 			@Override
 			public void mouseClicked(MouseEvent m) {
-				// TODO Auto-generated method stub
 				EventRectangle thisRectangle = dayTable.getRectangle(m.getX(),
 						m.getY());
 				if (thisRectangle == null) {
