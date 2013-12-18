@@ -45,6 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.AddCategoryCon
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.GetCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.categorycontroller.UpdateCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.globalButtonVars.GlobalButtonVars;
+import edu.wpi.cs.wpisuitetng.modules.calendar.models.FilterEvents;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.CategoryModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.Event;
@@ -251,11 +252,41 @@ public class CalendarSidebar extends JPanel {
 		// TODO: DATABASE FUNCTIONALITY
 		class applyButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
-				appliedFiltersListModel.addElement((String) comboBoxCats
-						.getSelectedItem());
+				// get category
+				Category toAddFilter2 = (Category) comboBoxCats
+						.getSelectedItem();
+				Category toAddFilter = CategoryModel.getInstance().getCategory(
+						toAddFilter2.getId());
+				
+
+				if (!toAddFilter.getHasFilter()) {
+					// set has filter to true
+					toAddFilter.setHasFilter(true);
+					// update model triggers TODO opulateFIlters
+					UpdateCategoryController.getInstance().updateCategory(
+							toAddFilter);
+					// inform user
+					lblNewcatmsg.setText("Category " + toAddFilter.getName()
+							+ " Is Now A Filter");
+				}
+
+				// category is already in the window
+				else {
+					// inform user
+					lblNewcatmsg.setText("Category " + toAddFilter.getName()
+							+ " Is Already A Filter");
+					
+				}
+				CalendarSidebar.getInstance().populateTable();
+				DayView.getInstance().refreshEvents();
+				YearViewCalendar.getInstance(null).refreshYear();
+				WeekView.getInstance().refreshEvents();
+				MonthView.getInstance().refreshEvents();
 				// Disable the Unapply buttons if the list is empty
+
 				//TODO have this run off of size of categories list with hasFilter = true
-				if (appliedFiltersListModel.isEmpty()){
+
+				if (CategoryModel.getInstance().getAllNondeletedCategoriesAsFilters().size() == 0){
 					btnUnapply.setEnabled(false);
 					btnUnapplyAll.setEnabled(false);
 				}
@@ -263,6 +294,8 @@ public class CalendarSidebar extends JPanel {
 					btnUnapply.setEnabled(true);
 					btnUnapplyAll.setEnabled(true);
 				}
+				
+				
 			}
 		}
 
@@ -270,8 +303,9 @@ public class CalendarSidebar extends JPanel {
 		
 
 		// cfflag
+		//potentialy redundant
 				// Create a listener to apply a category filter to the system's views
-				btnApply.addActionListener(new ActionListener() {
+				/*btnApply.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
 						// get category
@@ -279,11 +313,7 @@ public class CalendarSidebar extends JPanel {
 								.getSelectedItem();
 						Category toAddFilter = CategoryModel.getInstance().getCategory(
 								toAddFilter2.getId());
-						// does have filter
-						/*if (toAddFilter.getHasFilter()) {
-							lblNewcatmsg.setText("Category " + toAddFilter.getName()
-									+ " Is Already A Filter");
-						}*/
+						
 
 						if (!toAddFilter.getHasFilter()) {
 							// set has filter to true
@@ -309,7 +339,7 @@ public class CalendarSidebar extends JPanel {
 						WeekView.getInstance().refreshEvents();
 						MonthView.getInstance().refreshEvents();
 											}
-				});
+				});*/
 		
 		//----------------------------------------------------------------------------
 		//UNAPPLY
@@ -317,10 +347,53 @@ public class CalendarSidebar extends JPanel {
 		// TODO: DATABASE FUNCTIONALITY
 		class unapplyButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
-				appliedFiltersListModel.removeElement(listFilters
-						.getSelectedValue());
+				// get strings from window
+				List<String> toRemoveFilters = listFilters
+						.getSelectedValuesList();
+				// convert strings to categories
+				List<Category> categoriesToRemove = CategoryModel.getInstance()
+						.getCategoriesFromListOfNames(toRemoveFilters);
+
+				// get category from drop down
+				/*
+				 * Category toRemoveFilter = (Category) comboBoxCats
+				 * .getSelectedItem();
+				 */
+
+				// for all categories
+				for (Category catEdit : categoriesToRemove) {
+
+					// does have filter
+					if (catEdit.getHasFilter()) {
+						// remove filter
+						catEdit.setHasFilter(false);
+
+						// Update model
+						UpdateCategoryController.getInstance().updateCategory(
+								catEdit);
+
+						lblNewcatmsg.setText("Category " + catEdit.getName()
+								+ " Is Nolonger A Filter");
+					}
+					
+					// does not have filter
+					else if (!catEdit.getHasFilter()) {
+						lblNewcatmsg.setText("Category " + catEdit.getName()
+								+ " Is Not A Filter");
+						System.out.println("a3");
+					}
+				}
+
+				CalendarSidebar.getInstance().populateTable();
+				DayView.getInstance().refreshEvents();
+				YearViewCalendar.getInstance(null).refreshYear();
+				WeekView.getInstance().refreshEvents();
+				MonthView.getInstance().refreshEvents();
+				
+				
 				// Disable the Unapply buttons if the list is empty
-				if (appliedFiltersListModel.isEmpty()){
+				
+				if (CategoryModel.getInstance().getAllNondeletedCategoriesAsFilters().size() == 0){
 					btnUnapply.setEnabled(false);
 					btnUnapplyAll.setEnabled(false);
 				}
@@ -328,6 +401,7 @@ public class CalendarSidebar extends JPanel {
 					btnUnapply.setEnabled(true);
 					btnUnapplyAll.setEnabled(true);
 				}
+				
 			}
 		}
 
@@ -336,7 +410,8 @@ public class CalendarSidebar extends JPanel {
 		
 		// cfflag
 				// Create a listener to remove selected category
-				btnUnapply.addActionListener(new ActionListener() {
+				//potentialy redundant
+		/*btnUnapply.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						// get strings from window
 						List<String> toRemoveFilters = listFilters
@@ -350,7 +425,7 @@ public class CalendarSidebar extends JPanel {
 						 * Category toRemoveFilter = (Category) comboBoxCats
 						 * .getSelectedItem();
 						 */
-
+/*
 						// for all categories
 						for (Category catEdit : categoriesToRemove) {
 
@@ -381,19 +456,28 @@ public class CalendarSidebar extends JPanel {
 						WeekView.getInstance().refreshEvents();
 						MonthView.getInstance().refreshEvents();
 					}
-				});
+				});*/
 		//----------------------------------------------------------------------------
 		// cfflag
 
 //UNAPPLY ALL
 		// Clicking the unapply all button will unapply all filters
-		// TODO: DATABASE FUNCTIONALITY
+		// TODO: DATABASE FUNCTIONALITY  
 		class unapplyAllButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
-				appliedFiltersListModel.removeElement(listFilters
-						.getSelectedValue());
+				// set all categories to not have filters
+				CategoryModel.getInstance().setAllCategoriesNonFilter();
+				// inform user
+				lblNewcatmsg.setText("All Categories Are No Longer FIlters");
+
+				CalendarSidebar.getInstance().populateTable();
+				DayView.getInstance().refreshEvents();
+				YearViewCalendar.getInstance(null).refreshYear();
+				WeekView.getInstance().refreshEvents();
+				MonthView.getInstance().refreshEvents();
 				// Disable the Unapply buttons if the list is empty
-				if (appliedFiltersListModel.isEmpty()){
+				
+				if (CategoryModel.getInstance().getAllNondeletedCategoriesAsFilters().size() == 0){
 					btnUnapply.setEnabled(false);
 					btnUnapplyAll.setEnabled(false);
 				}
@@ -401,6 +485,7 @@ public class CalendarSidebar extends JPanel {
 					btnUnapply.setEnabled(true);
 					btnUnapplyAll.setEnabled(true);
 				}
+			
 			}
 		}
 		
@@ -408,7 +493,7 @@ public class CalendarSidebar extends JPanel {
 
 		// cfflag
 		// Create a listener to remove all filters
-		btnUnapplyAll.addActionListener(new ActionListener() {
+		/*btnUnapplyAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// set all categories to not have filters
 				CategoryModel.getInstance().setAllCategoriesNonFilter();
@@ -421,7 +506,7 @@ public class CalendarSidebar extends JPanel {
 				WeekView.getInstance().refreshEvents();
 				MonthView.getInstance().refreshEvents();
 			}
-		});
+		});*/
 		
 //----------------------------------------------------------------------------
 	//CREATE CATEGORY
@@ -617,6 +702,9 @@ public class CalendarSidebar extends JPanel {
 		else if (GlobalButtonVars.getInstance().isStateBothView()) {
 			events = EventModel.getInstance().getUserEvents(userId);
 		}
+		
+		events = FilterEvents.filterEventsByCategory(events, CategoryModel
+				.getInstance().getAllNondeletedCategoriesAsFilters());
 
 		// Inform the user via the console in the case that no state was
 		// selected. This should never happen, but if it does, this is the

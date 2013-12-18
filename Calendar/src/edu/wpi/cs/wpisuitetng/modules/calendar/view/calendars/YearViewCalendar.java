@@ -14,6 +14,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -98,6 +100,17 @@ public class YearViewCalendar extends JXMonthView {
 			}
 		};
 		
+		this.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				try {
+					Date startDate = thisInstance.getDayAtLocation(e.getX(), e.getY());
+					thisInstance.setSelectionInterval(startDate, startDate);
+				}
+				catch (Exception x) {}
+			}
+		});
+		
 		this.addActionListener(calendarListener);
 	}
 	
@@ -162,10 +175,12 @@ public class YearViewCalendar extends JXMonthView {
 			Long startLong = startDate.getTimeInMillis();
 			Long endLong = endDate.getTimeInMillis();
 			while (startLong <= endLong) {
-				// TODO: Figure out a way to discount marking days
-				// That end at 12:00AM
 				eventLongs.add(new Date(startLong));
 				startLong += ONE_DAY;
+			}
+			// Discount the last day as it ends at 11:59PM, technically.
+			if (events.get(i).getEndDate().getHalfHour() == 0) {
+				eventLongs.remove(eventLongs.size()-1);
 			}
 		}
 		for (int k = 0; k < eventLongs.size(); k++) {
