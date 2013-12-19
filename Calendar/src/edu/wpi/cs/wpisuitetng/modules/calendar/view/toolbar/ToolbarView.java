@@ -17,10 +17,14 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs.ClosableTabCreator;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CommitEditor;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventEditor;
 
+import java.awt.Desktop;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.ButtonGroup;
 
@@ -28,7 +32,7 @@ import javax.swing.ButtonGroup;
  * @author Team Underscore
  * @version $Revision: 1.0$
  * 
- * Creates the toolbar view
+ *          Creates the toolbar view
  */
 @SuppressWarnings("serial")
 public class ToolbarView extends DefaultToolbarView {
@@ -38,22 +42,23 @@ public class ToolbarView extends DefaultToolbarView {
 
 	private final EventButtonsPanel eventPanel = new EventButtonsPanel();
 	private final TeamPersButtonsPanel teamPanel = new TeamPersButtonsPanel();
+	private final HelpButtonsPanel helpPanel = new HelpButtonsPanel();
 
-	
 	/**
 	 * Construct this view and all components in it.
+	 * 
 	 * @param _tabCreator
 	 */
 	public ToolbarView() {
-	
 
 		// Create listeners for the Event and Commitment buttons
 		eventPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				final EventEditor eventTab = new EventEditor(ClosableTabCreator.getInstance(null)
-						.getTabbedPane());
-				ClosableTabCreator.getInstance(null).addClosableTab(eventTab, "Create Event");
+				final EventEditor eventTab = new EventEditor(ClosableTabCreator
+						.getInstance(null).getTabbedPane());
+				ClosableTabCreator.getInstance(null).addClosableTab(eventTab,
+						"Create Event");
 			}
 		});
 
@@ -61,7 +66,8 @@ public class ToolbarView extends DefaultToolbarView {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				final CommitEditor commitTab = new CommitEditor();
-				ClosableTabCreator.getInstance(null).addClosableTab(commitTab, "Create Commitment");
+				ClosableTabCreator.getInstance(null).addClosableTab(commitTab,
+						"Create Commitment");
 			}
 		});
 
@@ -75,35 +81,63 @@ public class ToolbarView extends DefaultToolbarView {
 		toggleGroup.add(teamPanel.getDisplayBothButton());
 
 		// Create item listeners for each Calendar view button
-		teamPanel.getDisplayPersonalButton().addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent itemEvent) {
-				final int state = itemEvent.getStateChange();
-				if (state == ItemEvent.SELECTED && GlobalButtonVars.getInstance().isTriedOnce()) {
-					GlobalButtonVars.getInstance().setPersonalView();
-				}
-				if (state == ItemEvent.SELECTED && !GlobalButtonVars.getInstance().isTriedOnce()) {
-					GlobalButtonVars.getInstance().setTriedOnce(true);
-				}
-			}});
-		
+		teamPanel.getDisplayPersonalButton().addItemListener(
+				new ItemListener() {
+					public void itemStateChanged(ItemEvent itemEvent) {
+						final int state = itemEvent.getStateChange();
+						if (state == ItemEvent.SELECTED
+								&& GlobalButtonVars.getInstance().isTriedOnce()) {
+							GlobalButtonVars.getInstance().setPersonalView();
+						}
+						if (state == ItemEvent.SELECTED
+								&& !GlobalButtonVars.getInstance()
+										.isTriedOnce()) {
+							GlobalButtonVars.getInstance().setTriedOnce(true);
+						}
+					}
+				});
+
 		teamPanel.getDisplayTeamButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				final int state = itemEvent.getStateChange();
 				if (state == ItemEvent.SELECTED) {
 					GlobalButtonVars.getInstance().setTeamView();
 				}
-			}});
-		
+			}
+		});
+
 		teamPanel.getDisplayBothButton().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				final int state = itemEvent.getStateChange();
 				if (state == ItemEvent.SELECTED) {
 					GlobalButtonVars.getInstance().setBothView();
 				}
-			}});
-		
+			}
+		});
+
 		this.addGroup(teamPanel);
 		teamPanel.getDisplayPersonalButton().setSelected(true);
+
+		helpPanel.getCreateEventButton().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String url = "https://github.com/adegenhardt/wpi-suite-team5/wiki/Calendar-Module";
+
+				if (Desktop.isDesktopSupported()) {
+					Desktop desktop = Desktop.getDesktop();
+					try {
+						desktop.browse(new URI(url));
+					} catch (IOException | URISyntaxException e) {}
+				} else {
+					Runtime runtime = Runtime.getRuntime();
+					try {
+						runtime.exec("xdg-open " + url);
+					} catch (IOException e) {}
+				}
+			}
+		});
+
+		this.addGroup(helpPanel);
 
 		// Prevent this toolbar from being moved
 		setFloatable(false);
@@ -115,19 +149,23 @@ public class ToolbarView extends DefaultToolbarView {
 	}
 
 	// Getters
-	public EventButtonsPanel getEventButton(){
+	public EventButtonsPanel getEventButton() {
 		return eventPanel;
 	}
-	public EventButtonsPanel getCommitButton(){
+
+	public EventButtonsPanel getCommitButton() {
 		return eventPanel;
 	}
-	public TeamPersButtonsPanel getTeamButton(){
+
+	public TeamPersButtonsPanel getTeamButton() {
 		return teamPanel;
 	}
-	public TeamPersButtonsPanel getPersonalButton(){
+
+	public TeamPersButtonsPanel getPersonalButton() {
 		return teamPanel;
 	}
-	public TeamPersButtonsPanel getBothButton(){
+
+	public TeamPersButtonsPanel getBothButton() {
 		return teamPanel;
 	}
 

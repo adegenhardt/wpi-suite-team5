@@ -13,11 +13,11 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.tabs;
 
 import javax.swing.JTabbedPane;
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.DayViewPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekViewPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendarPanel;
+
 
 /**
  * @author Team Underscore
