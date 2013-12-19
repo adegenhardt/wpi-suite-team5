@@ -32,7 +32,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
-
 import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
@@ -131,11 +130,11 @@ public class EventEditor extends JPanel {
 		thisInstance.add(mainScroll);
 
 		// Set the layout
-		eventPanel
-				.setLayout(new MigLayout("", "[114px][50px:125.00:50px,grow][50px:60.00:50px]"
-						+ "[60px:75.00px:60px][][150px:150.00:150px,grow][]", "[50.00px]"
-								+ "[125px:125:150px][][][][][][][][40.00][]"
-								+ "[125px:125px:125px,grow][][][]"));
+		eventPanel.setLayout(new MigLayout("",
+				"[114px][50px:125.00:50px,grow][50px:60.00:50px]"
+						+ "[60px:75.00px:60px][][150px:150.00:150px,grow][]",
+				"[50.00px]" + "[125px:125:150px][][][][][][][][40.00][]"
+						+ "[125px:125px:125px,grow][][][]"));
 
 		// Set the Event label and text editor (single line)
 		final JLabel lblEventName = new JLabel("Event Name:");
@@ -267,14 +266,16 @@ public class EventEditor extends JPanel {
 		// Set the Category picker; will be populated by current categories
 		final JLabel lblCategory = new JLabel("Category:");
 		eventPanel.add(lblCategory, "cell 0 8,alignx trailing");
-
+		// Populate by current categories
 		comboBoxCategory = new JComboBox<Category>();
 		for (Category categoryIn : CategoryModel.getInstance()
 				.getAllNondeletedCategories()) {
 			comboBoxCategory.addItem(categoryIn);
 		}
 		final String userId = ConfigManager.getConfig().getUserName();
-		final Category noCat = new Category( "No selected category.", -1, userId, false, false);
+		//Build option for user to select No selected category as a Category option
+		final Category noCat = new Category("No selected category.", -1,
+				userId, false, false);
 		comboBoxCategory.addItem(noCat);
 
 		eventPanel.add(comboBoxCategory, "cell 1 8,growx");
@@ -321,7 +322,7 @@ public class EventEditor extends JPanel {
 						(String) comboBoxStartMinutes.getSelectedItem(),
 						(String) comboBoxStartAMPM.getSelectedItem());
 
-				// TODO: Replace code with something using new data model
+				
 				final Date start = (Date) datePickerStartMonth.getDate()
 						.clone();
 				@SuppressWarnings("deprecation")
@@ -333,7 +334,7 @@ public class EventEditor extends JPanel {
 						(String) comboBoxEndMinutes.getSelectedItem(),
 						(String) comboBoxEndAMPM.getSelectedItem());
 
-				// TODO: Replace code with something using new data model
+				
 				final Date end = (Date) datePickerEndMonth.getDate().clone();
 				@SuppressWarnings("deprecation")
 				final DateInfo endDate = new DateInfo(end.getYear() + 1900,
@@ -354,54 +355,63 @@ public class EventEditor extends JPanel {
 				final String userId = ConfigManager.getConfig().getUserName();
 
 				// Create an event
-				
-				// If the user not does enter a category and there are none present
+
+				// If the user not does enter a category and there are none
+				// present
 				// in the drop down box for categories.
-				if ( CategoryModel.getInstance().getAllNondeletedCategories().isEmpty() ) {
-					final Category noCat = new Category( "No selected category.", -1, 
-							userId, false, false );
+				if (CategoryModel.getInstance().getAllNondeletedCategories()
+						.isEmpty()) {
+					final Category noCat = new Category(
+							"No selected category.", -1, userId, false, false);
 					final Event makeEvent = new Event(eventName.getText(),
 							descriptionPane.getText(), startDate, endDate,
-							isTeamEvent,
-							noCat.getId());
+							isTeamEvent, noCat.getId());
 					makeEvent.setId(EventModel.getInstance().getNextID());
-					
-					// Now add the user-created event to the local EventModel and server.
+
+					// Now add the user-created event to the local EventModel
+					// and server.
 					AddEventController.getInstance().addEvent(makeEvent);
-					parent.setSelectedIndex(ClosableTabCreator.getInstance(null).getFocus());
+					parent.setSelectedIndex(ClosableTabCreator
+							.getInstance(null).getFocus());
 					parent.remove(thisInstance);
-					
+
 					return;
 				}
-				
-				// If the user does enter a category or has had one selected for them by
+
+				// If the user does enter a category or has had one selected for
+				// them by
 				// default.
 				final Event makeEvent = new Event(eventName.getText(),
 						descriptionPane.getText(), startDate, endDate,
 						isTeamEvent,
-						((Category) (comboBoxCategory.getSelectedItem())).getId() );
+						((Category) (comboBoxCategory.getSelectedItem()))
+								.getId());
 				makeEvent.setId(EventModel.getInstance().getNextID());
-				
+
 				// If the user creates an event similar in all fields but unique
 				// ID,
 				// then do not add it to the local model or the server.
 
-				if (EventModel.getInstance().similarEventFound(userId, makeEvent)) {
-					lblDuplicateEventmsg = new JLabel("Duplicate entered: event not created.");
+				if (EventModel.getInstance().similarEventFound(userId,
+						makeEvent)) {
+					lblDuplicateEventmsg = new JLabel(
+							"Duplicate entered: event not created.");
 					lblDuplicateEventmsg.setForeground(Color.red);
-					eventPanel.add(lblDuplicateEventmsg, "cell 3 12,alignx center");
+					eventPanel.add(lblDuplicateEventmsg,
+							"cell 3 12,alignx center");
 					System.out.println("Duplicate entered: event not created.");
 					isDuplicateEvent = true;
-					
+
 					return;
 				}
-				
+
 				else {
 					AddEventController.getInstance().addEvent(makeEvent);
 				}
-				parent.setSelectedIndex(ClosableTabCreator.getInstance(null).getFocus());
+				parent.setSelectedIndex(ClosableTabCreator.getInstance(null)
+						.getFocus());
 				parent.remove(thisInstance);
-				
+
 			}
 		}
 
@@ -487,7 +497,7 @@ public class EventEditor extends JPanel {
 					private void enableAdd() {
 						if ((textFieldPartic.getText().equals(""))) {
 							btnAddPartic.setEnabled(false);
-						} else{
+						} else {
 							btnAddPartic.setEnabled(true);
 						}
 					}
@@ -496,8 +506,7 @@ public class EventEditor extends JPanel {
 	}
 
 	// Checks for valid input and displays messages next to
-	// TODO: Fields that may need correcting, right now only checks
-	// For blank fields,I'll add some more sophisticated checks
+	
 	private boolean checkValid() {
 		boolean isValid = true;
 		if (eventName.getText().trim().length() == 0) {

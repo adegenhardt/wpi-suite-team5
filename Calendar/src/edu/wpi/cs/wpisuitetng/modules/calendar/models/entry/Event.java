@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.DateInfo;
 import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 /**
- * Event class: Users can add, modify, and remove events
+ * Event Data Structure class: Users can add, modify, and remove events
  * from their calendar(s)
  * @author Team Underscore
  * @version $Revision: 1.0 $
@@ -56,8 +56,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 
 	private Color color;		// The color to draw the event on the calendar views
 	
-	// TODO Either a projectId field is needed or we need to be certain that we
-	// are only retrieving from the current project's section of the database
+	
 
 	/**
 	 * Default event constructor that sets invalid values to all fields
@@ -184,7 +183,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	}
 
 	/**
-	 * FOR REAL USE CONSTRUCTOR (REQUIRES CATEGORY)System Implemented
+	 * FOR FUNCTIONALITY USE CONSTRUCTOR (REQUIRES CATEGORY)System Implemented
 	 * Constructor for Event. Gets and sets the project and user Id fields based
 	 * on system's current project and user. absoluteId is generated as unique
 	 * int at creation To be used in User Event creation
@@ -646,6 +645,9 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	}
 
 	// Error checking
+	/**
+	 * checks for equality between objects
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		
@@ -827,7 +829,7 @@ public class Event extends AbstractModel implements ICalendarEntry {
 	 *            the userID to be added
 	 */
 	public void addUserId(String newId) {
-		// TODO how to enforce that these are actual user IDS for sending out
+		
 		// invites
 		if (isTeamEvent()) {
 			userIds.add(newId);

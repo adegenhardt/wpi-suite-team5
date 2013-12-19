@@ -81,8 +81,7 @@ public class EventViewer extends JPanel {
 		add(lblInputCategory, "cell 1 7");
 		
 		// Label and create the Participants text editor
-		// TODO: This is a bit un-intuitive; we should come up with a
-		// better way to do this
+		
 		final JLabel lblParticipants = new JLabel("Participants:");
 		add(lblParticipants, "cell 0 9,alignx trailing");
 		

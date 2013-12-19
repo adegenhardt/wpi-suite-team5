@@ -30,7 +30,7 @@ public class EventModel extends AbstractListModel<Event> {
 	private static final long serialVersionUID = 8998701695357104361L;
 
 	// ********************************************************************
-	// Construct the Calendar Model
+	// Construct the Event Model
 
 	/**
 	 * The list in which all the events for a single project
@@ -38,7 +38,7 @@ public class EventModel extends AbstractListModel<Event> {
 	 */
 	private final List<Event> events;
 
-	// TODO: Research if and how this is maintained between different instances of the program
+	
 	private int nextID; // the next available ID number for the event
 	// that are added
 
@@ -69,7 +69,7 @@ public class EventModel extends AbstractListModel<Event> {
 	}
 
 	/**
-	 * Adds a single calendar datum to the data of the project
+	 * Adds a single Event to the data of the project
 	 * 
 	 * @param newEvent The calendar datum to be added to the list
 	 * 						of events in the project
@@ -81,7 +81,7 @@ public class EventModel extends AbstractListModel<Event> {
 	}
 
 	/**
-	 * Returns the Calendar Data with the given ID
+	 * Returns the Event with the given ID
 	 * 
 	 * @param id The ID number of the event to be returned
 	 * 
@@ -90,16 +90,15 @@ public class EventModel extends AbstractListModel<Event> {
 	 * 			found. */
 	public Event getEvent(int id){
 		Event temp = null;
-		//TODO analyze for if returning las event in list if event is not found
-		// iterate through the events in order to find the matching ID
-		// break the loop once the ID is found
+		Event out = null;
 		for(int i = 0; i < events.size(); i++){
 			temp = events.get(i);
 			if(temp.getId() == id){
+				out = temp;
 				break;
 			}
 		}
-		return temp;
+		return out;
 	}
 
 	/**

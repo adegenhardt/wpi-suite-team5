@@ -43,10 +43,10 @@ public class GetCategoryRequestObserver implements RequestObserver {
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Convert the JSON array of Categories to a Category object array
-		final Category[] calendarData = Category.fromJsonArray(iReq.getResponse().getBody());
+		final Category[] categoryRe = Category.fromJsonArray(iReq.getResponse().getBody());
 		
 		// Pass these Categories to the controller
-		controller.receivedCategory( calendarData );
+		controller.receivedCategory( categoryRe );
 	}
 	
 	/**

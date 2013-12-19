@@ -17,70 +17,69 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.WeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendars.YearViewCalendar;
 
-
 /**
- * This class is used primarily to monitor the current view state of the GUI
- * and update the view within GUI components when the view state is changed
- * to different classifications of view.
+ * This class is used to monitor the current view state of the GUI and update
+ * the view within GUI components when the view state is changed to different
+ * classifications of view.
  * 
  * @author Team Underscore
  * @version 1.0
- *
+ * 
  */
-public class GlobalButtonVars  {
-	
+public class GlobalButtonVars {
+
 	private static boolean isTeamView = false;
 	private static boolean isPersonalView = true;
 	private static boolean triedOnce = false;
 	private static GlobalButtonVars instance = null;
-	
+
 	/**
 	 * A private constructor for the GlobalButtonVars class that is used
-	 * primarily for constructing the singleton instance of the GlobalButtonVars class.
+	 * primarily for constructing the singleton instance of the GlobalButtonVars
+	 * class.
 	 */
-	private GlobalButtonVars(){
+	private GlobalButtonVars() {
 	}
-	
+
 	/**
 	 * @return the instance of the GlobalButtonVars singleton
 	 */
-	public static GlobalButtonVars getInstance(){
-		if(instance == null){
+	public static GlobalButtonVars getInstance() {
+		if (instance == null) {
 			instance = new GlobalButtonVars();
 		}
 		return instance;
 	}
-	
+
 	/**
-	 * Method that indicates whether or not the current view state
-	 * is classified as a "team" view.
+	 * Method that indicates whether or not the current view state is classified
+	 * as a "team" view.
 	 * 
 	 * @return whether or not the current view state is team.
 	 */
-	public boolean isStateTeamView(){
+	public boolean isStateTeamView() {
 		return isTeamView() && !isPersonalView();
-		
+
 	}
-	
+
 	/**
-	 * Method that indicates whether or not the current view state
-	 * is classified as a "personal" view.
+	 * Method that indicates whether or not the current view state is classified
+	 * as a "personal" view.
 	 * 
 	 * @return whether or not the current view state is personal.
 	 */
-	public boolean isStatePersonalView(){
+	public boolean isStatePersonalView() {
 		return !isTeamView() && isPersonalView();
-		
+
 	}
-	
+
 	/**
-	 * Method that indicates whether or not the current view state
-	 * is classified as both personal and team.
+	 * Method that indicates whether or not the current view state is classified
+	 * as both personal and team.
 	 * 
-	 * @return whether or not the current view state is both personal
-	 * and team.
+	 * @return whether or not the current view state is both personal and team.
 	 */
-	public boolean isStateBothView(){
+	public boolean isStateBothView() {
 		return isTeamView() && isPersonalView();
 	}
 
@@ -92,9 +91,9 @@ public class GlobalButtonVars  {
 	}
 
 	/**
-	 * Method that sets the current view state to personal and populates
-	 * all of the the current views within the GUI according to what contents
-	 * should appear in them when the view state is changed to personal.
+	 * Method that sets the current view state to personal and populates all of
+	 * the the current views within the GUI according to what contents should
+	 * appear in them when the view state is changed to personal.
 	 */
 	public void setPersonalView() {
 		isPersonalView = true;
@@ -104,7 +103,7 @@ public class GlobalButtonVars  {
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
 		MonthView.getInstance().refreshEvents();
-		// Still missing the month view, waiting to jump into 
+		// Still missing the month view, waiting to jump into
 		// Sam's branch/or when he finishes to add it
 	}
 
@@ -116,9 +115,9 @@ public class GlobalButtonVars  {
 	}
 
 	/**
-	 * Method that sets the current view state to team and populates
-	 * all of the the current views within the GUI according to what contents
-	 * should appear in them when the view state is changed to team.
+	 * Method that sets the current view state to team and populates all of the
+	 * the current views within the GUI according to what contents should appear
+	 * in them when the view state is changed to team.
 	 */
 	public void setTeamView() {
 		isPersonalView = false;
@@ -128,14 +127,15 @@ public class GlobalButtonVars  {
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
 		MonthView.getInstance().refreshEvents();
-		// Still missing the month view, waiting to jump into 
+		// Still missing the month view, waiting to jump into
 		// Sam's branch/or when he finishes to add it
 	}
-	
+
 	/**
-	 * Method that sets the current view state to both team and personal and populates
-	 * all of the the current views within the GUI according to what contents
-	 * should appear in them when the view state is changed to being both team and personal.
+	 * Method that sets the current view state to both team and personal and
+	 * populates all of the the current views within the GUI according to what
+	 * contents should appear in them when the view state is changed to being
+	 * both team and personal.
 	 */
 	public void setBothView() {
 		isPersonalView = true;
@@ -145,25 +145,28 @@ public class GlobalButtonVars  {
 		YearViewCalendar.getInstance(null).refreshYear();
 		WeekView.getInstance().refreshEvents();
 		MonthView.getInstance().refreshEvents();
-		// Still missing the month view, waiting to jump into 
+		// Still missing the month view, waiting to jump into
 		// Sam's branch/or when he finishes to add it
 	}
 
 	/**
-	 * @param once sets the value of the boolean triedOnce which monitors whether or not
-	 * the initial population of the local models from the server has occurred.
+	 * @param once
+	 *            sets the value of the boolean triedOnce which monitors whether
+	 *            or not the initial population of the local models from the
+	 *            server has occurred.
 	 */
 	public void setTriedOnce(boolean once) {
 		triedOnce = once;
 	}
 
 	/**
-	 * Method that determines whether or not the first server draw has been triggered.
+	 * Method that determines whether or not the first server draw has been
+	 * triggered.
 	 * 
 	 * @return whether or not the first draw from the server has been triggered.
 	 */
 	public boolean isTriedOnce() {
 		return triedOnce;
 	}
-	
+
 }

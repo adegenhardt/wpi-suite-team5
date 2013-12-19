@@ -347,6 +347,5 @@ public class EventTest {
 		assertEquals("Mike", testEvent.getAParticipant(2));
 	}
 	
-	// TODO: Write tests to check the out-of-range exceptions
-	// for occursOnMonth and Day
+	
 }

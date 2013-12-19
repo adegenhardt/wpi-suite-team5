@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
  * @author Team Underscore
  * @version $Revision: 1.0$
  * 
- * MonthViewTable handles displaying the Calendar and all evnets on it
+ * MonthViewTable handles creating and displaying the Month Calendar and all events on it
  */
 public class MonthViewTable extends JTable {
 
@@ -113,7 +113,7 @@ public class MonthViewTable extends JTable {
 			events = EventModel.getInstance().getTeamEvents(
 					ConfigManager.getConfig().getUserName(), year, month );
 		}
-
+		//Filter View's events by applied filters
 		events = EventFilter.filterEventsByCategory(events, CategoryModel.getInstance()
 				.getAllNondeletedCategoriesAsFilters());
 

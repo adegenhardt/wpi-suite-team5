@@ -30,14 +30,16 @@ public class Category extends AbstractModel {
 	/** The unique identification number **/
 	private int id;
 
-	private String creatorId;
-	private boolean isDeleted;
-	private boolean isTeamCat;
+	private String creatorId; // username of creator
+	private boolean isDeleted; // ID of if object is to be considered deleted
+	private boolean isTeamCat; // is category team or personal based (defeatured
+								// in system, all categories are shared
+								// throughout)
 
-	private boolean hasFilter;
+	private boolean hasFilter; //ID for if the category is being applied as a filter
 
 	/**
-	 * Constructor for a category object.
+	 * Test Constructor for a category object.
 	 * 
 	 * @param name
 	 *            a string that represent the category type.
@@ -53,6 +55,7 @@ public class Category extends AbstractModel {
 	}
 
 	/**
+	 * FULL SPECIFICATION TEST CONSTRUCTOR
 	 * New, more full constructor more the category object.(for testing) Adds
 	 * creatorID, team status, and deleted values to the category.
 	 * 
@@ -79,7 +82,7 @@ public class Category extends AbstractModel {
 	}
 
 	/**
-	 * Constructor for a category object.
+	 * TEST Constructor for a category object.
 	 * 
 	 * @param name
 	 *            a string that represent the category type.
@@ -100,7 +103,7 @@ public class Category extends AbstractModel {
 	}
 
 	/**
-	 * (FOR ACTUAL USE) Constructor for a category object.
+	 * FOR FUNCTIONALITY USE Constructor for a category object.
 	 * 
 	 * @param name
 	 *            a string that represent the category type.
@@ -247,18 +250,17 @@ public class Category extends AbstractModel {
 	@Override
 	public boolean equals(Object obj) {
 		boolean out = false;
-		if(this == obj) {
+		if (this == obj) {
 			return true;
 		}
-		if(obj == null){
-		}
-		else if( this.getClass() == obj.getClass()){
+		if (obj == null) {
+		} else if (this.getClass() == obj.getClass()) {
 			// Cast other object to Category
 			final Category other = (Category) obj;
-			
+
 			// Check if name is null before comparing
 			if (name != null && other.getName() != null) {
-				if(name.equals(other.getName()) ){
+				if (name.equals(other.getName())) {
 					out = true;
 				}
 			} else if (name == null && other.getName() == null) {
@@ -363,7 +365,7 @@ public class Category extends AbstractModel {
 		// Descriptive Parameters
 
 		name = toCopyFrom.name;
-		
+
 		isDeleted = toCopyFrom.isDeleted();
 		isTeamCat = toCopyFrom.isTeamCat();
 		hasFilter = toCopyFrom.getHasFilter();
