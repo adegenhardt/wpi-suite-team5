@@ -150,7 +150,7 @@ public class CategoryEntityManagerTest {
 	}
 	
 	/**
-	 * Ensures the deletion of all calendar data functions properly
+	 * Ensures the deletion of all categories functions properly
 	 * @throws WPISuiteException 
 	 */
 	@Test

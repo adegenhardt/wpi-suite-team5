@@ -294,13 +294,14 @@ public class EventUpdater extends JPanel {
 		// Set the Category picker; will be populated by current categories
 		final JLabel lblCategory = new JLabel("Category:");
 		eventPanel.add(lblCategory, "cell 0 8,alignx trailing");
-
+//Populate by current categories
 		comboBoxCategory = new JComboBox<Category>();
 		for (Category categoryIn : CategoryModel.getInstance()
 				.getAllNondeletedCategories()) {
 			comboBoxCategory.addItem(categoryIn);
 		}
 		final String userId = ConfigManager.getConfig().getUserName();
+		//Build option for user to select No selected category as a Category option
 		final Category noCat = new Category( "No selected category.", -1, userId, false, false);
 		comboBoxCategory.addItem(noCat);
 		
@@ -361,7 +362,7 @@ public class EventUpdater extends JPanel {
 						(String) comboBoxStartMinutes.getSelectedItem(),
 						(String) comboBoxStartAMPM.getSelectedItem());
 
-				// TODO: Replace code with something using new data model
+				
 				final Date start = (Date) datePickerStartMonth.getDate()
 						.clone();
 				final DateInfo startDate = new DateInfo(start.getYear() + 1900,
@@ -372,7 +373,7 @@ public class EventUpdater extends JPanel {
 						(String) comboBoxEndMinutes.getSelectedItem(),
 						(String) comboBoxEndAMPM.getSelectedItem());
 
-				// TODO: Replace code with something using new data model
+				
 				final Date end = (Date) datePickerEndMonth.getDate().clone();
 				final DateInfo endDate = new DateInfo(end.getYear() + 1900,
 						end.getMonth(), end.getDate() - 1, endHalfHours);
@@ -527,8 +528,7 @@ public class EventUpdater extends JPanel {
 	}
 
 	// Checks for valid input and displays messages next to
-	// TODO: Fields that may need correcting, right now only checks
-	// For blank fields,I'll add some more sophisticated checks
+	
 	private boolean checkValid() {
 		boolean isValid = true;
 		if (eventName.getText().trim().length() == 0) {

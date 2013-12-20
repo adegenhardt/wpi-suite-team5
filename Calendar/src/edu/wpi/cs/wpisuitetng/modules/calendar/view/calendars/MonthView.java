@@ -289,7 +289,7 @@ public class MonthView extends JPanel {
 		cmbYear.setSelectedItem(String.valueOf(year)); 
 
 		// Clear table
-		// TODO: THIS NEEDS MODIFICATION TO SUPPORT BUTTON CELLS IN THE CALENDAR 
+		
 		// MAKE CHANGES HERE TO REMOVE BUTTONS 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
@@ -303,7 +303,7 @@ public class MonthView extends JPanel {
 		som = cal.get(java.util.Calendar.DAY_OF_WEEK);
 
 		// Draw calendar
-		// TODO: THIS NEEDS MODIFICATION TO ADD BUTTONS TO THE CALENDAR 
+		
 		for (int i = 1; i <= nod; i++) {
 			int row = new Integer((i + som - 2) / 7);
 			int column = (i + som - 2) % 7;

@@ -92,7 +92,7 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	/**
 	 * Retrieves all Event from the database
 	 * @param s the session
-	 * @return array of all stored calendar data
+	 * @return array of all stored category
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
 	 */
 	@Override
@@ -127,7 +127,7 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	/**
 	 * Deletes a category from the database
 	 * @param s the session
-	 * @param id the id of the calendar data to delete
+	 * @param id the id of the category to delete
 	 * @return true if the deletion was successful
 	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String) */
@@ -151,7 +151,7 @@ public class CategoryEntityManager implements EntityManager<Category>{
 	
 	/**
 	 * Returns the number of category instances in the database
-	 * @return number of calendar data instances stored
+	 * @return number of category instances stored
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count() */
 	@Override
 	public int Count() {

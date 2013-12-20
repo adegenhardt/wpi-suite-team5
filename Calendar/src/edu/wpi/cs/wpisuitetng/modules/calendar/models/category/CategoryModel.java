@@ -48,8 +48,8 @@ public class CategoryModel extends AbstractListModel<Category> {
 	private static CategoryModel instance = null;
 
 	/**
-	 * Constructs an empty list of calendar data Sets a default ID of 0 to the
-	 * calendar data
+	 * Constructs an empty list of category Sets a default ID of 0 to the
+	 * category
 	 */
 	private CategoryModel() {
 		categories = new ArrayList<Category>();
@@ -57,10 +57,10 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	// **********************************************************************
-	// Manipulate calendar data
+	// Manipulate category
 
 	/**
-	 * @return the instance of the calendar data model singleton
+	 * @return the instance of the category model singleton
 	 */
 	public static CategoryModel getInstance() {
 		if (instance == null) {
@@ -71,10 +71,10 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * Adds a single calendar datum to the data of the project
+	 * Adds a single category to the data of the project
 	 * 
 	 * @param newCategory
-	 *            The calendar datum to be added to the list of calendar data in
+	 *            The category to be added to the list of category in
 	 *            the project
 	 */
 	public void addCategory(Category newCategory) {
@@ -84,17 +84,17 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * Returns the Calendar Data with the given ID
+	 * Returns the category with the given ID
 	 * 
 	 * @param id
-	 *            The ID number of the calendar data to be returned
+	 *            The ID number of the category to be returned
 	 * 
-	 * @return the calendar data for the ID, or null if the data is not found.
+	 * @return the category for the ID, or null if the data is not found.
 	 */
 	public Category getCategory(int id) {
 		Category temp = null;
 		Category out = null;
-		// iterate through the calendar data in order to find the matching ID
+		// iterate through the categories in order to find the matching ID
 		// break the loop once the ID is found
 		for (int i = 0; i < categories.size(); i++) {
 			temp = categories.get(i);
@@ -108,7 +108,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * Returns the Calendar Data with the given Name
+	 * Returns the category with the given Name
 	 * 
 	 * @param name
 	 *            The name string of the category to be returned
@@ -138,13 +138,13 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * Removes the calendar data with the given ID
+	 * Removes the category with the given ID
 	 * 
 	 * @param removeID
-	 *            The ID number of the cldr data to be removed
+	 *            The ID number of the category to be removed
 	 */
 	public void removeCategory(int removeID) {
-		// iterate through the calendar data to find the given ID
+		// iterate through the categoriesto find the given ID
 		// break the loop once that element has been found and removed
 		for (int i = 0; i < categories.size(); i++) {
 			if (categories.get(i).getId() == removeID) {
@@ -172,7 +172,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * Adds the given array of calendar data to the list
+	 * Adds the given array of categories to the list
 	 * 
 	 * @param categories
 	 *            the array of data to add
@@ -190,7 +190,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	// ******************************************************************
-	// Getters for the calendar data
+	// Getters for the category model
 
 	/**
 	 * Method that receives a category identification number as input and
@@ -224,17 +224,17 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * Provides the number of elements in the list of calendar data for this
+	 * Provides the number of elements in the list of category for this
 	 * project. Elements are returned from the newest to the oldest.
 	 * 
-	 * @return the number of calendar data in the project
+	 * @return the number of categories in the project
 	 */
 	public int getSize() {
 		return categories.size();
 	}
 
 	/**
-	 * Provides the next ID number the should be used for the next calendar data
+	 * Provides the next ID number the should be used for the next category
 	 * generated.
 	 * 
 	 * @return the next avail. ID number
@@ -244,11 +244,11 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * Takes in an index and find the calendar data in the list for the project.
+	 * Takes in an index and find the category in the list for the project.
 	 * 
 	 * @param index
-	 *            The index of the calendar data to be returned
-	 * @return the calendar data associated with the given index
+	 *            The index of the category to be returned
+	 * @return the category associated with the given index
 	 */
 	public Category getElementAt(int index) {
 		return categories.get(categories.size() - 1 - index);
@@ -270,18 +270,18 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 
 	/**
-	 * Returns the list of calendar data
+	 * Returns the list of category
 	 * 
-	 * @return the requirements held within the calendar data model.
+	 * @return the requirements held within the category model.
 	 */
 	public List<Category> getAllcategories() {
 		return categories;
 	}
 
 	/**
-	 * Returns the list of calendar data
+	 * Returns the list of category
 	 * 
-	 * @return the requirements held within the calendar data model.
+	 * @return the requirements held within the category model.
 	 */
 	public List<Category> getAllNondeletedCategories() {
 		final List<Category> categories = new ArrayList<Category>();
@@ -302,7 +302,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	 * Returns the list of categories that aren't deleted and will be applied
 	 * as filters.
 	 * 
-	 * @return the requirements held within the calendar data model.
+	 * @return the requirements held within the category model.
 	 */
 	public List<Category> getAllNondeletedCategoriesAsFilters() {
 		final List<Category> categories = new ArrayList<Category>();
@@ -320,9 +320,9 @@ public class CategoryModel extends AbstractListModel<Category> {
 	}
 	
 	/**
-	 * Returns the list of calendar data
+	 * Returns the list of category
 	 * 
-	 * @return the requirements held within the calendar data model.
+	 * @return the requirements held within the category model.
 	 */
 	public List<Category> getAllNonfilterCategories() {
 		final List<Category> categories = new ArrayList<Category>();
@@ -462,7 +462,7 @@ public class CategoryModel extends AbstractListModel<Category> {
 	/**
 	 * Sets all categories hasFilter to false
 	 * 
-	 * @return the requirements held within the calendar data model.
+	 * @return the requirements held within the category model.
 	 */
 	public void setAllCategoriesNonFilter() {
 		final List<Category> categories = this.getAllNondeletedCategoriesAsFilters();

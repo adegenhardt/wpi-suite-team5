@@ -26,7 +26,10 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.category.Category;
 
 /**
  * @author Team Underscore
- * @version $Revision: 1.0 $
+ * @version $Revision: 1.0 $ Data Structure for commitments. Contains the needed
+ *          parameters and functions for creating and working with commitments
+ *          NOTE: Unused in system. Database interaction features are not
+ *          implemented
  */
 
 public class Commitment extends AbstractModel implements ICalendarEntry {
@@ -36,11 +39,11 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	private String creatorId; // id of creating user
 	private boolean isDeleted; // object is deleted from user view
 	boolean isTeamCommitment; /*
-								 * Whether or not the Commitment is a team
-								 * Commitment
-								 */
-	private final Calendar absoluteId;
-	
+							 * Whether or not the Commitment is a team
+							 * Commitment
+							 */
+	private final Calendar absoluteId; // creation date ID
+
 	// Descriptive Parameters
 	private String name; // Name of Commitment
 	private String description; // Description of Commitment
@@ -50,7 +53,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	private DateInfo dueDate; // StartDate of Commitment
 	private Category category; // Category describing the Commitment
 	private List<String> userIds; // userIds of users to participate in
-										// Commitment
+									// Commitment
 
 	/**
 	 * Default Commitment constructor that sets invalid values to all fields
@@ -83,19 +86,19 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 * @param description
 	 *            String description of Commitment
 	 * @param startDate
-	 *            DateInfo dateInfo parameter for holding date Commitment
-	 *            starts
+	 *            DateInfo dateInfo parameter for holding date Commitment starts
 	 * @param endDate
 	 *            DateInfo dateInfo parameter for holding date Commitment ends
 	 * @param category
 	 *            List<Category> list of categories commitment is part of
 	 * @param id
 	 *            The id of the Commitment
-	
+	 * 
 	 * @param creatorId
-	 *            String id of User that the Commitment is Linked to (either
-	 *            by creation or by personal calendar)
-	 * @param isTeamCommitment boolean
+	 *            String id of User that the Commitment is Linked to (either by
+	 *            creation or by personal calendar)
+	 * @param isTeamCommitment
+	 *            boolean
 	 */
 	public Commitment(String name, String description, DateInfo startDate,
 			DateInfo endDate, Category category, boolean isTeamCommitment,
@@ -135,21 +138,20 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 * @param description
 	 *            String description of Commitment
 	 * @param startDate
-	 *            DateInfo dateInfo parameter for holding date Commitment
-	 *            starts
+	 *            DateInfo dateInfo parameter for holding date Commitment starts
 	 * @param endDate
 	 *            DateInfo dateInfo parameter for holding date Commitment ends
 	 * @param id
 	 *            The id of the Commitment
-	
+	 * 
 	 * @param creatorId
-	 *            String id of User that the Commitment is Linked to (either
-	 *            by creation or by personal calendar)
-	 * @param isTeamCommitment boolean
+	 *            String id of User that the Commitment is Linked to (either by
+	 *            creation or by personal calendar)
+	 * @param isTeamCommitment
+	 *            boolean
 	 */
 	public Commitment(String name, String description, DateInfo startDate,
-			DateInfo endDate, boolean isTeamCommitment, int id,
-			String creatorId) {
+			DateInfo endDate, boolean isTeamCommitment, int id, String creatorId) {
 
 		isDeleted = false;
 
@@ -160,7 +162,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 
 		final Calendar currentDateTime = Calendar.getInstance();
 		absoluteId = currentDateTime;
-		
+
 		this.id = id;// TODO auto generate unique
 		this.creatorId = creatorId;// TODO get from session
 
@@ -174,11 +176,10 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	}
 
 	/**
-	 * FOR REAL USE CONSTRUCTOR (REQUIRES CATEGORY)System Implemented
-	 * Constructor for Commitment. Gets and sets the project and user Id
-	 * fields based on system's current project and user. absoluteId is
-	 * generated as unique int at creation To be used in User Commitment
-	 * creation
+	 * FOR FUNCTIONALITY CONSTRUCTOR (REQUIRES CATEGORY)System Implemented
+	 * Constructor for Commitment. Gets and sets the project and user Id fields
+	 * based on system's current project and user. absoluteId is generated as
+	 * unique int at creation To be used in User Commitment creation
 	 * 
 	 * 
 	 * 
@@ -187,15 +188,16 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 * @param description
 	 *            String description of Commitment
 	 * @param startDate
-	 *            DateInfo dateInfo parameter for holding date Commitment
-	 *            starts
+	 *            DateInfo dateInfo parameter for holding date Commitment starts
 	 * @param endDate
 	 *            DateInfo dateInfo parameter for holding date Commitment ends
-	
-	
-	
-	 * @param isTeamCommitment boolean
-	 * @param category Category
+	 * 
+	 * 
+	 * 
+	 * @param isTeamCommitment
+	 *            boolean
+	 * @param category
+	 *            Category
 	 */
 	public Commitment(String name, String description, DateInfo startDate,
 			DateInfo endDate, boolean isTeamCommitment, Category category) {
@@ -324,8 +326,8 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	/**
 	 * 
 	 * @param isTeamCommitment
-	 *            true if the Commitment is a team Commitment, false if it's
-	 *            an individual Commitment
+	 *            true if the Commitment is a team Commitment, false if it's an
+	 *            individual Commitment
 	 */
 	public void setTeamCommitment(boolean isTeamCommitment) {
 		this.isTeamCommitment = isTeamCommitment;
@@ -413,8 +415,8 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	}
 
 	/**
-	 * Returns an instance of Commitment constructed using the given
-	 * Commitment encoded as a JSON string.
+	 * Returns an instance of Commitment constructed using the given Commitment
+	 * encoded as a JSON string.
 	 * 
 	 * @param json
 	 *            JSON-encoded Commitment to deserialize
@@ -422,16 +424,16 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 * 
 	 * 
 	 * 
-	
-	 * @return the Commitment contained in the given JSON */
+	 * 
+	 * @return the Commitment contained in the given JSON
+	 */
 	public static Commitment fromJson(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Commitment.class);
 	}
 
 	/**
-	 * Returns an array of Commitment parsed from the given JSON-encoded
-	 * string.
+	 * Returns an array of Commitment parsed from the given JSON-encoded string.
 	 * 
 	 * @param json
 	 *            string containing a JSON-encoded array of Commitment
@@ -439,16 +441,16 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	 * 
 	 * 
 	 * 
-	
-	 * @return an array of Commitment deserialized from the given JSON string */
+	 * 
+	 * @return an array of Commitment deserialized from the given JSON string
+	 */
 	public static Commitment[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Commitment[].class);
 	}
 
 	/**
-	 * Copies all of the values from the given Commitment to this
-	 * Commitment.
+	 * Copies all of the values from the given Commitment to this Commitment.
 	 * 
 	 * @param toCopyFrom
 	 *            the Commitment to copy from.
@@ -508,7 +510,9 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -585,8 +589,7 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	}
 
 	/**
-	 * Add a user to the collection of users that are involved in an
-	 * Commitment
+	 * Add a user to the collection of users that are involved in an Commitment
 	 * 
 	 * @param newId
 	 *            the userID to be added
@@ -641,12 +644,14 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 	private Calendar getAbsoluteId() {
 		return absoluteId;
 	}
-	
+
 	/**
-	 * @return the Commitment's absoluteId in a string of format:yyyy/MM/dd HH:mm:ss
+	 * @return the Commitment's absoluteId in a string of format:yyyy/MM/dd
+	 *         HH:mm:ss
 	 */
-	public String getAbsoluteIdStringFormat(){
-		final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	public String getAbsoluteIdStringFormat() {
+		final DateFormat dateFormat = new SimpleDateFormat(
+				"yyyy/MM/dd HH:mm:ss");
 		return dateFormat.format(absoluteId.getTime());
 	}
 
@@ -706,12 +711,13 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 			return false;
 		}
 	}
+
 	/**
 	 * states if an Commitment has the same absoluteId as the given Commitment
 	 * 
 	 * @param CommitmentCompare
 	 *            Commitment to compare absoluteId of with
-	
+	 * 
 	 * @return boolean
 	 */
 	public boolean isSameAbsoluteId(Commitment CommitmentCompare) {
@@ -722,13 +728,13 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 		return out;
 	}
 
-	
 	/**
 	 * states if an Commitment has the same absoluteId as the given absoluteId
 	 * 
-	
-	
-	 * @param absoluteIdCompare Calendar
+	 * 
+	 * 
+	 * @param absoluteIdCompare
+	 *            Calendar
 	 * @return boolean
 	 */
 	public boolean isSameAbsoluteId(Calendar absoluteIdCompare) {
@@ -738,37 +744,40 @@ public class Commitment extends AbstractModel implements ICalendarEntry {
 		}
 		return out;
 	}
+
 	/**
-	 * determines if given Commitment belongs to the current janeway session's user
+	 * determines if given Commitment belongs to the current janeway session's
+	 * user
+	 * 
 	 * @return boolean
 	 */
-		public boolean isActiveUserCommitment(){
-			boolean out = false;
-			if(creatorId.equals(ConfigManager.getConfig().getUserName()) ) {
-				out = true;
-			}
-			
-			return out;
+	public boolean isActiveUserCommitment() {
+		boolean out = false;
+		if (creatorId.equals(ConfigManager.getConfig().getUserName())) {
+			out = true;
 		}
-	
-		/**
-		 * determines if given Commitment belongs to the given user's userId
-		
-		 * @param userCheck String
-		 * @return boolean */
-			public boolean isUserCommitment(String userCheck){
-				boolean out = false;
-				if(creatorId.equals(userCheck) ) {
-					out = true;
-				}
-				
-				return out;
-			}
-		
-		/**
-		
+
+		return out;
+	}
+
 	/**
-	 * Determines whether or not a user has access to this Commitment
+	 * determines if given Commitment belongs to the given user's userId
+	 * 
+	 * @param userCheck
+	 *            String
+	 * @return boolean
+	 */
+	public boolean isUserCommitment(String userCheck) {
+		boolean out = false;
+		if (creatorId.equals(userCheck)) {
+			out = true;
+		}
+
+		return out;
+	}
+
+	/**
+	 * /** Determines whether or not a user has access to this Commitment
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.models.entry#hasAccess(String
 	 *      userId )

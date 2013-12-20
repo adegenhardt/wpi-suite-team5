@@ -39,6 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
  * @author Team _
  *
  * @version $Revision: 1.0 $
+ * WeekViewTable manages the application of building events for display in the WeekView window
  */
 public class WeekViewTable extends JTable {
 	
@@ -187,6 +188,7 @@ public class WeekViewTable extends JTable {
 						eventDay.getYear(), eventDay.getMonth(),
 						eventDay.getDay());
 			}
+			//Filter View's events by applied filters
 			eventsArray[i] = EventFilter.filterEventsByCategory(
 					eventsArray[i], CategoryModel.getInstance()
 					.getAllNondeletedCategoriesAsFilters());
@@ -246,8 +248,7 @@ public class WeekViewTable extends JTable {
 				g.getFontMetrics(),
 				width );
 		
-		// TODO: Have some way of displaying when an event continues
-		// into the next day
+		
 		
 		g.drawString( printString, x + 2, y + stringHeight );
 		

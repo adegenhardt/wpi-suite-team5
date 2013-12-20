@@ -16,29 +16,20 @@ import java.util.GregorianCalendar;
 
 /**
  * DateInfo is a form of storing time information. It contains a year, a month,
- * a day, and a half hour from 0-47
+ * a day, and a half hour.
  * 
  * @author Team Underscore
  * @version $Revision: 1.0 $
  */
 public class DateInfo {
-
-
 	// Format:
 	// Year - absolute value
-	// Month - 0 = January 11 = December
-	// Day - apparently Samson has been using 0 base, so we have to check what
-	// has been used and set everything to a conformed method//absolute (starts
-	// at 1 to max number of given month)
-	// HalfHour - 0 based (0 to 47)
 	private int year;
-	// month is 0-based
+	// Month - 0 = January to 11 = December
 	private int month;
-	// day is 0-based
-
-
+	// Day - O based 0 = day 1 to last day -1 = last day of month
 	private int day;
-	// half-hour is 0-based
+	// HalfHour - 0 based (0 to 47)
 	private int halfHour;
 
 	/**
@@ -61,7 +52,7 @@ public class DateInfo {
 	}
 
 	/**
-	 * Construct a DateInfo object from a Calendar
+	 * Construct a DateInfo object from a Calendar Object
 	 * @param cal
 	 */
 	public DateInfo( Calendar cal ) {
@@ -73,7 +64,7 @@ public class DateInfo {
 	}
 	
 	/**
-	 * Construct a DateInfo from the Java Date class
+	 * Construct a DateInfo from a Java Date class Object
 	 * 
 	 * @param date
 	 *            An instance of Date with required information
@@ -160,7 +151,6 @@ public class DateInfo {
 	 *            The date in its original format
 	 * 
 	 */
-	// DOES NOW WORK
 	@SuppressWarnings("deprecation")
 	public void convertToDateInfo(Date date) {
 		final int yearN = date.getYear() + 1900;
@@ -306,7 +296,6 @@ public class DateInfo {
 		}
 		// Collect all the info gathered above into a single string
 		// and return it
-
 		final String theDateInfo = "" + sTime + ", " + theMonthS + "/" + theDay + "/" + theYear;
 
 		return theDateInfo;

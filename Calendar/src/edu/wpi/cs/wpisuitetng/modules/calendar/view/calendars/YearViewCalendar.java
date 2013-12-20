@@ -40,15 +40,13 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.models.entry.EventModel;
  * @author Team Underscore
  * @version $Revision: 1.0$
  * 
- * Creates the calendar for the Year View calendar tab
+ * YearhViewTable handles creating and displaying the YearCalendar and all events on it
+ *
  */
 @SuppressWarnings("serial")
 public class YearViewCalendar extends JXMonthView {
 	
-	/* TODO: Don't know how, but possibly distinguish Events 
-	 * and Commitments marked as different colors
-	 * Read up on this, but it seems like its a hidden incomplete feature as of now
-	 * I found the renderer to do so, not entirely sure how to use it may add later */
+	
 	
 	// Milliseconds for day in Calendar class
 	private static final long ONE_DAY = 86400000;
@@ -148,6 +146,7 @@ public class YearViewCalendar extends JXMonthView {
 			events = EventModel.getInstance().getTeamEvents(ConfigManager.getConfig()
 					.getUserName(), eventDay.getYear());
 		}
+		//Filter View's events by applied filters
 
 		events = EventFilter.filterEventsByCategory(events, CategoryModel
 				.getInstance().getAllNondeletedCategoriesAsFilters());
